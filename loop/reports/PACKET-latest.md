@@ -22,7 +22,7 @@ Step 0002 remains ABANDONED: HARNESS_INFRASTRUCTURE_FAILURE: duplicate model-aut
 
 Step 0005 remains REVERT: HARNESS_POLICY_FALSE_REVERT: research actionability / enhancer resolution mismatch. Product retry charged: False.
 
-Stop reason: Actionability hotfix verified by unit tests; isolated full dry-run precedes authorized recovery.
+Stop reason: Actionability hotfix and full dry-run passed; authorized exact-patch recovery is starting in a new step.
 
 - Which integrated change most likely violates an invariant?
 - Which research verdict is weakest?
