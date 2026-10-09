@@ -1,0 +1,87 @@
+{
+  "step": 1,
+  "item": "L00",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Advisory gate passed on attempt 1. All 209 test IDs and outcomes match the baseline; product code is unchanged. Full-gate acceptance awaits controller verification of G14.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0001-L00.md:104 — Only the L00 verification report changed."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "loop/reports/STEP-0001-L00.md:146 — Frozen loop tests pass and baseline equality is verified; full-gate acceptance remains pending because advisory skips G14."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0001-L00.md:142 — Protected artifacts and all 30 harness files remain unchanged.",
+        "loop/reports/STEP-0001-L00.md:84 — Existing H1/L01 DONE records agree and were preserved."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0001-L00.md:132 — Frozen loop tests and isolated approval both exit 0; existing negative tests are documented at line 138.",
+        "loop/reports/STEP-0001-L00.md:104 — The sealed verification-only scope excludes new tests; no assertions or CLI behavior changed."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0001-L00.md:124 — All 209 unique IDs and outcomes match exactly, with no missing or additional IDs.",
+        "loop/reports/STEP-0001-L00.md:142 — All 16 protected hashes match after execution; G14 is explicitly UNKNOWN at line 134."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0001-L00.md:136 — The report is the only Git-visible change; the sealed Plan remains unchanged."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "B1",
+      "dimension": "intention",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "loop/reports/STEP-0001-L00.md:147",
+      "description": "Full-gate acceptance is not yet established: advisory skips G14 and no authoritative gate_r1.json exists.",
+      "required_fix": "The controller must run the frozen authoritative gate and retain a passing result including G14 before accepting L00."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "loop/tests pass.",
+      "lazy_pass": "Trust historical results or allow a zero-test run.",
+      "present_in_diff": false,
+      "evidence": "loop/reports/STEP-0001-L00.md:132 — Fresh frozen suite exits 0; loop/gates.py:347 rejects zero-test execution."
+    },
+    {
+      "criterion": "The gate passes on unchanged product code.",
+      "lazy_pass": "Treat advisory's skipped G14 as a full-gate pass.",
+      "present_in_diff": false,
+      "evidence": "loop/reports/STEP-0001-L00.md:134 — G14 remains UNKNOWN and B1 remains open; post-run checks confirm unchanged product code."
+    },
+    {
+      "criterion": "baseline.json matches a fresh test run.",
+      "lazy_pass": "Compare only passing counts or rewrite the baseline.",
+      "present_in_diff": false,
+      "evidence": "loop/reports/STEP-0001-L00.md:124 — Complete membership, duplicates, outcomes and counts were compared against both unchanged baseline files."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "FULL_GATE_PENDING",
+    "Codex version discovery emitted a PATH-alias permission warning but exited 0 with the baseline version.",
+    ""
+  ]
+}

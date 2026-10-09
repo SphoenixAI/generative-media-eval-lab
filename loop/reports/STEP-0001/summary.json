@@ -1,0 +1,33 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 0,
+    "intention": -2,
+    "production_quality": 0,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "INTEGRATE",
+  "flags": [
+    "Evaluation used supplied execution evidence and independent read-only comparisons; product and loop test suites were not rerun.",
+    "Original advisory stdout, elapsed-time measurement, and fresh version-probe logs are not included in this folder; their historical execution details could not be independently reproduced."
+  ],
+  "gate": true,
+  "item": "L00",
+  "passed": 209,
+  "research": {
+    "CONFIRMED": 1
+  },
+  "rounds": 1,
+  "rule": "R6",
+  "scores": {
+    "accuracy": 4,
+    "intention": 4,
+    "production_quality": 4,
+    "relation": 4,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 1
+}
