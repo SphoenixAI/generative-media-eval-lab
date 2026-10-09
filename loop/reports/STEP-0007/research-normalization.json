@@ -1,0 +1,163 @@
+{
+  "canonical_sha256": "3c6210dd8a82c68ba7e1d6db36995602271384799843969d20e7711884f4585a",
+  "raw_sha256": "8f280ec40f279246c0eed41116bb21ec5c4cfde7391c6f82e1c3df6157099aa9",
+  "unresolved_proposals": [],
+  "view_claims": [
+    {
+      "claim": "RFC 8785 requires recursive object-key sorting by unsigned UTF-16 code units while preserving array order.",
+      "id": "R0007-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 8785 emits no insignificant whitespace and encodes canonical output as UTF-8.",
+      "id": "R0007-C002",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 8785 preserves Unicode string data without normalization and rejects duplicate object names and lone surrogates.",
+      "id": "R0007-C003",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 8785 uses short escapes for backspace, tab, newline, form feed and carriage return, lowercase hexadecimal escapes for other ASCII controls, and escapes quotation marks and backslashes.",
+      "id": "R0007-C004",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 8785 bases number serialization on ECMAScript binary64 behavior, rejects NaN and Infinity, and serializes negative zero as zero.",
+      "id": "R0007-C005",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 7493 states that a receiver cannot be expected to treat integers outside the inclusive range [-9007199254740991, 9007199254740991] as exact values.",
+      "id": "R0007-C006",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SHA-256 as specified in FIPS 180-4 produces a 256-bit message digest.",
+      "id": "R0007-C007",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "A fixed 256-bit digest cannot be injective over more than 2^256 distinct messages, so SHA-256 cannot guarantee a different digest for every possible value change.",
+      "id": "R0007-C008",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python 3.12's standard library provides hashlib.sha256 for hashing bytes and hexdigest for hexadecimal digest output.",
+      "id": "R0007-C009",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python's json decoder accepts repeated object names and non-finite constants by default, and provides object_pairs_hook, parse_float and parse_constant hooks for stricter decoding.",
+      "id": "R0007-C010",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Pydantic v2 model_copy(update=...) does not validate update values before creating the copied model.",
+      "id": "R0007-C011",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SQLite allows only one simultaneous write transaction, and BEGIN IMMEDIATE starts one immediately or can fail when another connection already holds a write transaction.",
+      "id": "R0007-C012",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SQLite's URI mode=ro opens a database for read-only access and does not create a missing database.",
+      "id": "R0007-C013",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "A local content digest, local clock reading and declared Git commit/remote pair do not independently prove authorship, generation order or externally witnessed existence at the recorded time.",
+      "id": "R0007-C014",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 8785 requires recursive object-key ordering by unsigned UTF-16 code units while preserving array order; the test's section 3.2.3 vector matches the published vector.",
+      "id": "R0007-C015",
+      "location": "tree/loop/reports/STEP-0007-L03.md:38; tree/tests/test_canonical_json.py:32",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RFC 8785 removes insignificant whitespace and encodes canonical output as UTF-8.",
+      "id": "R0007-C016",
+      "location": "tree/loop/reports/STEP-0007-L03.md:40; tree/src/eval_lab/canonical_json.py:1",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RFC 8785 preserves Unicode without normalization and rejects duplicate object names and lone surrogates.",
+      "id": "R0007-C017",
+      "location": "tree/loop/reports/STEP-0007-L03.md:42; tree/docs/intent-seals.md:14",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RFC 8785 requires the stated short control escapes, lowercase hexadecimal escapes for remaining ASCII controls, and quotation-mark/backslash escaping.",
+      "id": "R0007-C018",
+      "location": "tree/loop/reports/STEP-0007-L03.md:44; tree/src/eval_lab/canonical_json.py:55",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RFC 8785 uses ECMAScript binary64 number serialization, rejects NaN and Infinity, and serializes negative zero as zero.",
+      "id": "R0007-C019",
+      "location": "tree/loop/reports/STEP-0007-L03.md:46; tree/docs/intent-seals.md:19",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RFC 7493 identifies the inclusive integer range [-9007199254740991, 9007199254740991] for interoperable exact integer treatment.",
+      "id": "R0007-C020",
+      "location": "tree/loop/reports/STEP-0007-L03.md:50; tree/docs/intent-seals.md:13",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SHA-256 as specified in FIPS 180-4 produces a 256-bit message digest.",
+      "id": "R0007-C021",
+      "location": "tree/loop/reports/STEP-0007-L03.md:54",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Python 3.12 provides hashlib.sha256 for byte hashing and hexdigest for hexadecimal output.",
+      "id": "R0007-C022",
+      "location": "tree/loop/reports/STEP-0007-L03.md:60",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Python's default JSON decoder accepts repeated names and non-finite constants, and supports object_pairs_hook, parse_float and parse_constant for stricter decoding.",
+      "id": "R0007-C023",
+      "location": "tree/loop/reports/STEP-0007-L03.md:64; tree/src/eval_lab/canonical_json.py:37",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Pydantic v2 model_copy(update=...) does not validate update values.",
+      "id": "R0007-C024",
+      "location": "tree/loop/reports/STEP-0007-L03.md:68; tree/src/eval_lab/persistence.py:231",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE acquires the write transaction immediately or can fail when another writer holds it.",
+      "id": "R0007-C025",
+      "location": "tree/loop/reports/STEP-0007-L03.md:72; tree/src/eval_lab/persistence.py:244",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SQLite URI mode=ro opens a database read-only and does not create a missing database.",
+      "id": "R0007-C026",
+      "location": "tree/loop/reports/STEP-0007-L03.md:76; tree/src/eval_lab/seals.py:125",
+      "origin": "evaluator"
+    }
+  ]
+}

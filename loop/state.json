@@ -39,12 +39,16 @@
       "retries": 1,
       "status": "DONE"
     },
+    "L03": {
+      "retries": 0,
+      "status": "DONE"
+    },
     "L07": {
       "retries": 0,
       "status": "DONE"
     }
   },
-  "last_integrated_test_count": 460,
+  "last_integrated_test_count": 548,
   "steps": [
     {
       "auto_approved": [],
@@ -262,6 +266,47 @@
         "scope": 4
       },
       "step": 6
+    },
+    {
+      "auto_approved": [
+        "P0007-1"
+      ],
+      "calibration": {
+        "accuracy": 0,
+        "intention": 2,
+        "production_quality": 2,
+        "relation": 2,
+        "relevance": 0,
+        "scope": 0
+      },
+      "decision": "INTEGRATE",
+      "flags": [
+        "HOME_PATH",
+        "HOME_PATH: The private step report contains local absolute paths.",
+        "MINOR: tree/src/eval_lab/seals.py:135 validates unrelated rows before path filtering. Unknown IDs and unrelated paths can report INTEGRITY_FAILURE due to an unrelated corrupt seal. This round-1 minor issue remains.",
+        "PUBLIC_PROSE",
+        "PUBLIC_PROSE: tree/docs/intent-seals.md adds public documentation.",
+        "RESEARCH_PENDING: Outside sources were not accessed under the folder-only restriction. The report's research confirmations and release claims remain untrusted source assertions.",
+        "VALIDATION_LIMITATION: 45 canonicalization cases ran through an assertion adapter, not pytest. Verification and snapshot probes executed actual extracted functions with mocked boundaries. Full model, persistence, media and CLI tests were not rerun."
+      ],
+      "gate": true,
+      "item": "L03",
+      "passed": 548,
+      "research": {
+        "CONFIRMED": 25,
+        "UNVERIFIABLE": 1
+      },
+      "rounds": 2,
+      "rule": "R6",
+      "scores": {
+        "accuracy": 4,
+        "intention": 3,
+        "production_quality": 4,
+        "relation": 4,
+        "relevance": 4,
+        "scope": 4
+      },
+      "step": 7
     }
   ]
 }

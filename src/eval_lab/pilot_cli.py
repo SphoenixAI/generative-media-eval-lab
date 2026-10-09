@@ -10,6 +10,8 @@ from .domain import Value
 from .media import MediaError, MediaTools, within
 from .pilot import PilotWorkspace, TEMPLATES, INPUT_TYPES, read_human_form
 from .pilot_domain import PILOT_TYPES, PilotDataset
+from .seals import seal_intent, verify_seal
+from sqlalchemy.exc import SQLAlchemyError
 
 
 def parser():
@@ -17,6 +19,12 @@ def parser():
     p.add_argument("--root",type=Path,default=Path("pilot-local"),help="Private local workspace; defaults to ./pilot-local")
     p.add_argument("--author",default="Sphoenix",help="Human authorship declaration; not authenticated identity")
     sub=p.add_subparsers(dest="command",required=True)
+    seal=sub.add_parser("seal-intent", help="Append a private local intent seal", description="Seal a complete human-authored IntentSpecV2 FILE using RFC 8785 with integer literals only (safe integer range). Imports exact input; never edits it. Local time and declared Git metadata do not prove generation chronology.")
+    seal.add_argument("file", type=Path, metavar="FILE")
+    seal.add_argument("--git-commit", help="Declared full lowercase commit hash; requires --git-remote")
+    seal.add_argument("--git-remote", help="Declared remote URL; requires --git-commit; no remote access")
+    verify=sub.add_parser("verify-seal", help="Verify local seal integrity", description="Perform read-only verification by exact seal ID or original intent FILE path (all its seals against one captured source result). Missing evidence is UNKNOWN; corruption is INTEGRITY_FAILURE. Both exit nonzero; integrity is not a quality verdict.")
+    verify.add_argument("target", metavar="ID|FILE")
     sub.add_parser("doctor")
     sc=sub.add_parser("schema"); sc.add_argument("--output",type=Path)
     dr=sub.add_parser("draft"); dr.add_argument("kind",choices=TEMPLATES); dr.add_argument("--output",type=Path,required=True)
@@ -41,8 +49,8 @@ def parser():
     start=sub.add_parser("start"); start.add_argument("clip")
     for cmd in ("pause","resume","finish"):
         sp=sub.add_parser(cmd); sp.add_argument("session")
-    snap=sub.add_parser("snapshot", description="Freeze private records, including checksum-linked intent binding history and pinned dependencies.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
-    exp=sub.add_parser("export-snapshot", description="Export a frozen private snapshot with its pinned binding history.", help="Export frozen private snapshot records"); exp.add_argument("id"); exp.add_argument("--output",type=Path)
+    snap=sub.add_parser("snapshot", description="Freeze private records, including checksum-linked intent binding history, pinned dependencies and seals for those exact intent revisions.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
+    exp=sub.add_parser("export-snapshot", description="Export a frozen private snapshot with its pinned binding history and retained seal events.", help="Export frozen private snapshot records"); exp.add_argument("id"); exp.add_argument("--output",type=Path)
     return p
 
 
@@ -63,7 +71,13 @@ def main(argv=None):
     args=parser().parse_args(argv)
     workspace=None
     try:
-        if args.command=="doctor":
+        if args.command=="verify-seal":
+            result=verify_seal(args.root,args.target)
+            print(json.dumps(result,indent=2,sort_keys=True))
+            return 0 if result["status"]=="VERIFIED" else 2
+        elif args.command=="seal-intent":
+            result=seal_intent(args.root,args.file,git_commit=args.git_commit,git_remote=args.git_remote)
+        elif args.command=="doctor":
             tools=MediaTools()
             result={"tools":{name:identity.model_dump() for name,identity in tools.identities.items()},"local_video_only":True,"automated_media_judging":False}
         elif args.command=="schema":
@@ -113,7 +127,7 @@ def main(argv=None):
             print(json.dumps({"written":str(args.output.resolve()),"command":args.command}))
         else: print(json.dumps(result,indent=2,sort_keys=True,allow_nan=False))
         return 0
-    except (ValueError,KeyError,OSError,subprocess.SubprocessError) as exc:
+    except (ValueError,KeyError,OSError,subprocess.SubprocessError,SQLAlchemyError) as exc:
         print(json.dumps({"error":str(exc),"quality_verdict":"UNKNOWN","no_automatic_judgment":True}),file=sys.stderr)
         return 2
     finally:

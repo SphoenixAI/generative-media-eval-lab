@@ -359,6 +359,13 @@ class PilotWorkspace:
             item=self.repo.get(ref)
             seen[ref]=item
             roots.extend(refs_in(item))
+        # Seal events point back to intents; include only exact pins in this closure.
+        for seal in self.repo.all("SealRecord"):
+            if seal.intent.ref not in seen:
+                continue
+            if seen[seal.intent.ref].digest != seal.intent.sha256:
+                raise ValueError("seal intent pin mismatch")
+            seen[seal.ref] = seal
         ordered=sorted(seen,key=lambda r:(r.kind,r.id,r.revision))
         snapshot=PilotSnapshot(id=id,dataset=dataset.ref,records=tuple(PinnedArtifact(ref=r,sha256=seen[r].digest) for r in ordered))
         self.repo.put(snapshot)

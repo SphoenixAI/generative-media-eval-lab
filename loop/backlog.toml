@@ -544,3 +544,20 @@ authorized_dependencies = false
 probes = ["Inspect repeated evaluator blocking_findings.id, prior_findings.ref and enhancement resolutions.ref across rounds."]
 acceptance = ["Repeated finding labels cannot collapse distinct findings or satisfy two findings with one resolution.", "Round-two statuses and resolutions bind unambiguously to harness-assigned finding identities.", "Unknown and duplicate response references cannot overwrite another response silently."]
 rationale = "loopctl.decision currently uses sets keyed by evaluator finding IDs and dictionaries keyed by prior-finding and resolution references. Reused model labels could collapse distinct findings or overwrite a response. Correctness requires a cross-round identity contract; it is outside the bounded research-ID hotfix. Proposal IDs are already harness-generated."
+
+[[item]]
+id = "P0007-1"
+title = "Qualify the unsupported test-vector matching assertion"
+rationale = "The RFC establishes the reference vector, but the permitted inputs contain no local vector for comparison. Mark the assertion unverified until the relevant test excerpt supplies that evidence."
+priority = "P2"
+approval = "AUTO_APPROVED"
+size = "S"
+risk = "LOW"
+category = "validation"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["The RFC establishes the reference vector, but the permitted inputs contain no local vector for comparison. Mark the assertion unverified until the relevant test excerpt supplies that evidence."]

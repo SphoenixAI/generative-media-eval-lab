@@ -1,0 +1,20 @@
+{
+  "resolutions": [
+    {
+      "ref": "L03-R1-F01",
+      "action": "FIXED",
+      "evidence": "Verification caches one digest or failure per recorded source path. Six regressions cover interleaved rewrites and symlink replacements with valid, missing, and invalid sources."
+    },
+    {
+      "ref": "L03-R1-F02",
+      "action": "FIXED",
+      "evidence": "Private snapshots now include relevant seals with exact digest pins. Regression verifies predecessor inclusion, unrelated-revision exclusion, complete payload retention, and unchanged earlier CLI exports. Final advisory gate passed: 548 tests, 821/900 changed lines. Authoritative G14 remains pending."
+    },
+    {
+      "ref": "R0007-C015",
+      "action": "FIXED",
+      "evidence": "Compared tests/test_canonical_json.py:32-42 directly with [RFC 8785 §3.2.3](https://www.rfc-editor.org/rfc/rfc8785.html#section-3.2.3): all seven pairs and expected ordering match. Added comparison evidence to STEP-0007-L03.md; unchanged vector tests pass. No incorrect Plan claim was established; sealed Plan remains unchanged.\n"
+    }
+  ],
+  "amendments": []
+}

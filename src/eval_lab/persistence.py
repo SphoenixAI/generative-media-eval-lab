@@ -11,7 +11,7 @@ from sqlalchemy.pool import StaticPool
 from .domain import ARTIFACT_TYPES, Artifact, Ref, Value, Evidence, HumanRating, AgentAssessment, EvaluationRound, PairwiseRating, ModelRun, EvaluatorVersion, HypothesisGraph, Hypothesis, RelationClaim, EvaluationCase
 from . import pilot_domain  # register additive Pilot 0 types without altering v1 snapshots
 from .domain import CompetingSet
-from . import intent_v2
+from . import intent_v2, seals
 
 metadata = MetaData()
 artifacts = Table("artifacts", metadata,
@@ -213,7 +213,7 @@ class Repository:
 
     @staticmethod
     def _validate_intent_admission(conn, item):
-        if not isinstance(item, (intent_v2.IntentSpecV2, intent_v2.IntentBinding)):
+        if not isinstance(item, (intent_v2.IntentSpecV2, intent_v2.IntentBinding, seals.SealRecord)):
             return
         def get(ref):
             row = conn.execute(select(artifacts).where(Repository.key(ref))).mappings().one()
