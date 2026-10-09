@@ -537,7 +537,7 @@ class Runner:
 def dry_run(root, args):
     """Run actual gates and Git operations against disposable local-only repositories."""
     with tempfile.TemporaryDirectory(prefix='eval-loop-dry-') as temporary:
-        base = Path(temporary)
+        base = Path(temporary).resolve()
         bare, wt, main = base / 'remote.git', base / 'Content Evaluator - loop', base / 'Content Evaluator'
         command(['git', 'clone', '--bare', '--no-local', str(root), str(bare)], base)
         command(['git', 'clone', str(bare), str(wt)], base)
