@@ -1,0 +1,12 @@
+{
+  "checkpoint": "H2",
+  "status": "APPROVED",
+  "authorized_at": "2026-10-09T02:44:05.945586+00:00",
+  "authorization": "run continuous mode and h2",
+  "mode": "continuous",
+  "max_steps": 12,
+  "until_local": "07:30",
+  "timezone": "America/Los_Angeles",
+  "branch": "loop/integration",
+  "main_merge_authorized": false
+}

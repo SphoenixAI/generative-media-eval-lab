@@ -18,4 +18,4 @@ Revert rate: 0/1 steps.
 - Which research verdict is weakest?
 - What should be deferred?
 
-Stop reason: H2 reached. Continuous mode has not started; awaiting Sphoenix's "run".
+H2 approved by Sphoenix. Continuous-mode launch authorized: at most 12 steps, with a 07:30 local cutoff and the existing stop conditions.
