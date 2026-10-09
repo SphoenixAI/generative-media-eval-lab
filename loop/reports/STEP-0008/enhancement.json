@@ -1,0 +1,20 @@
+{
+  "resolutions": [
+    {
+      "ref": "L04-R1-F01",
+      "action": "FIXED",
+      "evidence": "generation.py restores JSON arrays at all three field boundaries while retaining copied-model revalidation. Tests verify nested and empty arrays through construction, repository admission, reopening and CLI JSON input."
+    },
+    {
+      "ref": "L04-R1-F02",
+      "action": "FIXED",
+      "evidence": "Successor bindings retain the established origin, plan and registration anchors. Tests pass for both cross-origin alias directions, PROMPT_ONLY eligibility, nonpromotion, immutable origins, partial-context recovery and frozen snapshots."
+    },
+    {
+      "ref": "R0008-C012",
+      "action": "FIXED",
+      "evidence": "Reproduced tuple rejection on Pydantic 2.13.5 and added recursive array normalization without changing dependencies. All 638 product tests and blocking advisory gates pass; G14 is skipped in advisory mode. Evidence and hashes are recorded in loop/reports/STEP-0008-L04.md."
+    }
+  ],
+  "amendments": []
+}

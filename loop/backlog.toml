@@ -561,3 +561,20 @@ authorized_test_changes = []
 authorized_dependencies = false
 probes = []
 acceptance = ["The RFC establishes the reference vector, but the permitted inputs contain no local vector for comparison. Mark the assertion unverified until the relevant test excerpt supplies that evidence."]
+
+[[item]]
+id = "P0008-1"
+title = "Normalize unpacked arrays before JsonValue validation"
+rationale = "The version-tagged dependency source confirms the rejection underlying L04-R1-F01. Normalize tuples recursively at the reported boundary and verify nested and empty array cases so valid JSON-array content can reach generation."
+priority = "P2"
+approval = "PROPOSED"
+size = "S"
+risk = "LOW"
+category = "bugfix"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["The version-tagged dependency source confirms the rejection underlying L04-R1-F01. Normalize tuples recursively at the reported boundary and verify nested and empty array cases so valid JSON-array content can reach generation."]

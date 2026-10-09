@@ -43,6 +43,10 @@
       "retries": 0,
       "status": "DONE"
     },
+    "L04": {
+      "retries": 1,
+      "status": "PENDING"
+    },
     "L07": {
       "retries": 0,
       "status": "DONE"
@@ -307,6 +311,42 @@
         "scope": 4
       },
       "step": 7
+    },
+    {
+      "auto_approved": [],
+      "calibration": {
+        "accuracy": 2,
+        "intention": 2,
+        "production_quality": 2,
+        "relation": 2,
+        "relevance": 0,
+        "scope": 0
+      },
+      "decision": "REVERT",
+      "flags": [
+        "INVARIANT_AUDIT: checked I1-I16. No demonstrated violation: no real human judgments are authored; UNKNOWN remains separate; append-only guards and provenance nonpromotion remain; protected artifacts, evaluation logic, confidence arithmetic, dependencies, baseline tests and public serializers are unchanged. All DEFERRED items were checked. Historical Git actions cannot be independently established from this folder.",
+        "PUBLIC_PROSE",
+        "PUBLIC_PROSE: generation-plans.md and pilot0.md changed.",
+        "RESEARCH_BOUNDARY: outside claims were extracted without accessing material outside the evaluator folder.",
+        "RUNTIME_TESTS_NOT_EXECUTED: available Python lacks pydantic, sqlalchemy and pytest. Supplied passing gate results remain builder-provided evidence."
+      ],
+      "gate": true,
+      "item": "L04",
+      "passed": 638,
+      "research": {
+        "CONFIRMED": 12
+      },
+      "rounds": 2,
+      "rule": "R3",
+      "scores": {
+        "accuracy": 4,
+        "intention": 2,
+        "production_quality": 2,
+        "relation": 4,
+        "relevance": 4,
+        "scope": 4
+      },
+      "step": 8
     }
   ]
 }

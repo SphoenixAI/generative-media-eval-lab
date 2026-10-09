@@ -1,0 +1,76 @@
+{
+  "claims": [
+    {
+      "claim": "Pydantic v2's model_copy(update=...) creates a copied model without validating the supplied update values.",
+      "id": "R0008-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction, and BEGIN IMMEDIATE requests a write transaction immediately and may fail with SQLITE_BUSY when another writer is active.",
+      "id": "R0008-C002",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "A SQLite trigger can terminate an UPDATE or DELETE statement with RAISE(ABORT, message), returning a constraint error.",
+      "id": "R0008-C003",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python 3.12's standard-library hashlib provides a guaranteed sha256 constructor and hexadecimal digest output.",
+      "id": "R0008-C004",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 8785 canonical JSON sorts object property names by UTF-16 code units and encodes the resulting serialization as UTF-8.",
+      "id": "R0008-C005",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "A CLI-only access log and local seal/plan/registration timestamps cannot establish the absence of earlier external viewing or that generation occurred after sealing.",
+      "id": "R0008-C006",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Pydantic model_copy(update=...) does not validate supplied update values; verify applicability to the locked Pydantic 2.13.5 version.",
+      "id": "R0008-C007",
+      "location": "tree/loop/reports/STEP-0008-L04.md:34-36; tree/src/eval_lab/persistence.py:232",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction, and BEGIN IMMEDIATE requests that transaction immediately and can fail with SQLITE_BUSY.",
+      "id": "R0008-C008",
+      "location": "tree/loop/reports/STEP-0008-L04.md:38-40",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SQLite triggers using RAISE(ABORT, message) terminate UPDATE or DELETE statements with a constraint error.",
+      "id": "R0008-C009",
+      "location": "tree/loop/reports/STEP-0008-L04.md:42-44",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Python 3.12 hashlib guarantees a sha256 constructor and hexadecimal digest output.",
+      "id": "R0008-C010",
+      "location": "tree/loop/reports/STEP-0008-L04.md:46-48",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RFC 8785 sorts object property names by UTF-16 code units and encodes the resulting serialization as UTF-8.",
+      "id": "R0008-C011",
+      "location": "tree/loop/reports/STEP-0008-L04.md:50-52",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "The locked Pydantic JsonValue validator rejects tuples produced by CheckedValue.unpack instead of accepting them as JSON arrays; confirm this dependency behavior underlying L04-R1-F01.",
+      "id": "R0008-C012",
+      "location": "tree/src/eval_lab/generation.py:27-31,97; tree/src/eval_lab/intent_v2.py:27-28; tree/uv.lock:242-243",
+      "origin": "evaluator"
+    }
+  ]
+}

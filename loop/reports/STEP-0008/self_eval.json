@@ -1,0 +1,86 @@
+{
+  "step": 8,
+  "item": "L04",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented generation plans, origin and selection records, first-access logging, provenance binding and private snapshot closure. Advisory gate passed first attempt: 630 tests; 706/900 changed lines.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/generation.py:19 implements L04 lifecycle declarations; src/eval_lab/pilot.py:136 connects plans to registration."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_generation.py:71 covers ordering and degradation; :90 covers FOUND cases; :133 covers append-only selection.",
+        "loop/reports/STEP-0008-L04.md:141 records G11 confirming the sealed plan remains unchanged."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/generation.py:146 validates pinned relationships; :234 preserves binding lineage; :265 builds private dependency closure.",
+        "tests/test_generation_cli.py:16 verifies frozen export replay across later events and reopening."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0008-L04.md:137 records observed failures before fixes; :141 records 630 passing tests with all 548 baseline cases retained.",
+        "tests/test_generation_cli.py:81 covers access failures; :96 covers competing writers.",
+        "docs/generation-plans.md:21 contains the successfully executed TEST-ONLY example; src/eval_lab/pilot_cli.py:23 supplies command help."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "tests/test_generation.py:69 uses explicit chronology oracles with controlled timestamps.",
+        "docs/generation-plans.md:11 distinguishes access attempts from human viewing; :17 limits generation and reproducibility claims."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0008-L04.md:141 records 706 changed lines, no protected or forbidden changes, no dependencies and no removed baseline tests.",
+        "Existing provenance classifier, seal implementation, accepted schemas and public serializers remain unchanged."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Ordering and provenance degradation",
+      "lazy_pass": "Accept caller-selected provenance or promote missing chronology.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/generation.py:234 assembles stored evidence; tests/test_generation.py:71 and :112 verify degradation and reject promotion."
+    },
+    {
+      "criterion": "Append-only selection",
+      "lazy_pass": "Overwrite corrections or silently choose candidates.",
+      "present_in_diff": false,
+      "evidence": "tests/test_generation.py:133 verifies partitions, predecessor pins, conflicts, SQL guards and unchanged prior bytes."
+    },
+    {
+      "criterion": "First-view history",
+      "lazy_pass": "Reset history through aliases or label failed launches as confirmed viewing.",
+      "present_in_diff": false,
+      "evidence": "tests/test_generation_cli.py:66, :81 and :96 cover aliases, failures and competing access attempts."
+    },
+    {
+      "criterion": "FOUND support and private exports",
+      "lazy_pass": "Require plans or invent intent for discovered clips.",
+      "present_in_diff": false,
+      "evidence": "tests/test_generation_cli.py:16 exercises unbound FOUND registration through viewing, binding, selection and frozen export."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "PUBLIC_PROSE",
+    "ADVISORY_G14_SKIPPED: non-advisory integrity verification remains pending.",
+    ""
+  ]
+}
