@@ -23,3 +23,5 @@ Step 0002 remains ABANDONED: HARNESS_INFRASTRUCTURE_FAILURE: duplicate model-aut
 - Which integrated change most likely violates an invariant?
 - Which research verdict is weakest?
 - What should be deferred?
+
+Stop reason: no eligible item
