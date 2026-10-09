@@ -10,6 +10,7 @@ from sqlalchemy import (Column, Integer, String, Text, Table, MetaData,
 from sqlalchemy.pool import StaticPool
 from .domain import ARTIFACT_TYPES, Artifact, Ref, Value, Evidence, HumanRating, AgentAssessment, EvaluationRound, PairwiseRating, ModelRun, EvaluatorVersion, HypothesisGraph, Hypothesis, RelationClaim, EvaluationCase
 from . import pilot_domain  # register additive Pilot 0 types without altering v1 snapshots
+from .domain import CompetingSet
 
 metadata = MetaData()
 artifacts = Table("artifacts", metadata,
@@ -146,6 +147,9 @@ class Repository:
                 media = self.get(evidence).media
                 if not self.media_has_intent(media,item.intent):
                     raise ValueError("hypothesis evidence is outside declared intent")
+        if isinstance(item, CompetingSet):
+            if any(self.get(member).intent != item.intent for member in item.members if isinstance(member, Ref)):
+                raise ValueError("competing set members must share its pinned intent")
         if isinstance(item, RelationClaim):
             evidence_refs = set(item.evidence) | ({item.subject} if item.subject.kind == "Evidence" else set())
             for evidence_ref in evidence_refs:
@@ -185,6 +189,27 @@ class Repository:
         return (any(self.get(run.prompt).intent==intent for run in self.all("ModelRun") if run.media==media)
             or any(clip.intent==intent for clip in self.all("PilotClip") if clip.media==media))
 
+    @staticmethod
+    def _validate_competing_admission(conn, item):
+        """Read retained constraints inside the writer transaction, never via latest."""
+        if isinstance(item, CompetingSet) and item.exclusive:
+            sets = (item,)
+            rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == "RelationClaim")).scalars()
+            claims = tuple(RelationClaim.model_validate_json(row) for row in rows)
+        elif isinstance(item, RelationClaim) and item.predicate == "compatible_with":
+            claims = (item,)
+            rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == "CompetingSet")).scalars()
+            sets = tuple(CompetingSet.model_validate_json(row) for row in rows)
+        else:
+            return
+        for group in sets:
+            if not group.exclusive:
+                continue
+            members = {member for member in group.members if isinstance(member, Ref)}
+            for claim in claims:
+                if claim.predicate == "compatible_with" and {claim.subject, claim.object} <= members:
+                    raise ValueError("compatible_with conflicts with an exclusive competing set's pinned members")
+
     def put(self, item: Artifact) -> str:
         if type(item).__name__ not in ARTIFACT_TYPES:
             raise TypeError("unregistered artifact")
@@ -216,6 +241,7 @@ class Repository:
             revisions = conn.execute(select(artifacts.c.revision).where((artifacts.c.kind == item.ref.kind) & (artifacts.c.id == item.id))).scalars().all()
             if item.revision != (max(revisions, default=0) + 1):
                 raise ValueError("revisions must be appended without gaps")
+            self._validate_competing_admission(conn, item)
             conn.execute(artifacts.insert().values(kind=item.ref.kind, id=item.id, revision=item.revision, sha256=item.digest, payload=item.canonical()))
             if isinstance(item, (HumanRating, PairwiseRating)):
                 unit = item.model_run.model_dump(mode="json") if isinstance(item, HumanRating) else "pair"

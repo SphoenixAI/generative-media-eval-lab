@@ -1,0 +1,91 @@
+{
+  "step": 4,
+  "item": "L07",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented hypothesis sets, structural residuals, compatible_with/refines, transactional exclusivity and private authoring. All 39 new tests failed before implementation, then passed. First advisory gate passed all 249 product tests.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/domain.py:308 implements L07 sets and residuals; src/eval_lab/domain.py:340 adds the two requested relation kinds."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_competing_sets.py:69 covers all flag combinations and unchanged claim confidence; tests/test_competing_sets.py:130 covers invalid references and copied inputs.",
+        "Advisory G11 confirmed the sealed plan matches; G5/G6/G10 confirmed protected-file, path and dependency boundaries."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/domain.py:334 requires immediate predecessor pins; src/eval_lab/persistence.py:193 checks retained exclusivity constraints inside write transactions.",
+        "tests/test_competing_sets.py:199,231,248,295 verify historical pins, canonical reopen, concurrent conflict rejection and private snapshot exports."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Observed 39 new tests fail before runtime changes, then pass. Advisory G1/G12 passed 249 product tests, frozen loop tests and isolated approval.",
+        "docs/hypothesis-testing.md:11 and src/eval_lab/pilot_cli.py:33 document the contract and commands; tests/test_competing_sets.py:358 checks help."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "tests/test_competing_sets.py:69,145 verify independent confidence values, including unknown confidence, without normalization or inferred edges.",
+        "tests/test_competing_sets.py:295,369 verify UNKNOWN and privacy boundaries. The report records tool versions, hashes and the advisory G14 limitation."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Advisory G7 counted 536 changed product lines against the 900-line limit.",
+        "Changes occupy the seven planned product files and this step's report. Existing tests, protected artifacts, dependencies and harness files remain unchanged."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Acceptance tests",
+      "lazy_pass": "Check only that the new type exists.",
+      "present_in_diff": false,
+      "evidence": "tests/test_competing_sets.py:69-385 covers invalid inputs, history, concurrency, CLI, snapshots and privacy; all 39 cases initially failed."
+    },
+    {
+      "criterion": "Exclusivity",
+      "lazy_pass": "Validate only CLI input or one insertion order.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/persistence.py:193,244 enforces both repository admission paths inside the transaction; tests/test_competing_sets.py:176,248 verifies order and concurrent admission."
+    },
+    {
+      "criterion": "Residual and confidence",
+      "lazy_pass": "Invent a residual hypothesis or normalize confidence.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/domain.py:308 defines only the structural residual label; tests/test_competing_sets.py:69 confirms unchanged hypotheses and confidence."
+    },
+    {
+      "criterion": "History and snapshot reachability",
+      "lazy_pass": "Store floating references or omit sets from snapshots.",
+      "present_in_diff": false,
+      "evidence": "tests/test_competing_sets.py:199,295 verifies retained constraints, predecessor pins and unchanged older exports."
+    },
+    {
+      "criterion": "Privacy and evidence limits",
+      "lazy_pass": "Expose private sets or present synthetic checks as real-media validation.",
+      "present_in_diff": false,
+      "evidence": "tests/test_competing_sets.py:369 checks public/embed boundaries. Report claims remain limited to local software and generated-pattern fixtures."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "PUBLIC_PROSE",
+    "ADVISORY_ONLY: G14 was skipped; non-advisory verification remains for the harness.",
+    ""
+  ]
+}

@@ -305,9 +305,41 @@ class Hypothesis(Artifact):
     status: Literal["proposed", "under_test", "supported", "contradicted", "unresolved"] = "proposed"
 
 
+class ResidualMember(Value):
+    """Structural remainder, not an authored hypothesis or a confidence estimate."""
+    kind: Literal["RESIDUAL"]
+    description: Literal["none of the listed causes"]
+
+
+class CompetingSet(Artifact):
+    intent: Ref
+    members: tuple[Ref | ResidualMember, ...]
+    exclusive: Annotated[bool, Field(strict=True)]
+    exhaustive: Annotated[bool, Field(strict=True)]
+    supersedes: Ref | None = None
+
+    @model_validator(mode="after")
+    def set_contract(self):
+        named = tuple(member for member in self.members if isinstance(member, Ref))
+        if not named or any(member.kind != "Hypothesis" for member in named):
+            raise ValueError("members require at least one named Hypothesis reference")
+        if len({member.id for member in named}) != len(named):
+            raise ValueError("duplicate hypothesis identity in members")
+        residual_count = len(self.members) - len(named)
+        if residual_count > 1 or (residual_count and not self.exhaustive):
+            raise ValueError("exactly one RESIDUAL is permitted only in an exhaustive set")
+        if self.exhaustive and not residual_count:
+            residual = ResidualMember(kind="RESIDUAL", description="none of the listed causes")
+            object.__setattr__(self, "members", self.members + (residual,))
+        predecessor = Ref(kind="CompetingSet", id=self.id, revision=self.revision - 1) if self.revision > 1 else None
+        if self.supersedes != predecessor:
+            raise ValueError("set revisions must pin their immediate predecessor with supersedes")
+        return self
+
+
 class RelationClaim(Artifact):
     subject: Ref
-    predicate: Literal["supports", "contradicts", "motivated_by", "fulfills", "violates", "alternative_to"]
+    predicate: Literal["supports", "contradicts", "motivated_by", "fulfills", "violates", "alternative_to", "compatible_with", "refines"]
     object: Ref
     intent: Ref
     epistemic_status: Literal["observed", "asserted", "proposed"]
@@ -328,6 +360,8 @@ class RelationClaim(Artifact):
             "fulfills": ("Evidence", "IntentSpec"),
             "violates": ("Evidence", "IntentSpec"),
             "alternative_to": ("Hypothesis", "Hypothesis"),
+            "compatible_with": ("Hypothesis", "Hypothesis"),
+            "refines": ("Hypothesis", "Hypothesis"),
         }
         if (self.subject.kind, self.object.kind) != expected[self.predicate]:
             raise ValueError("relation domain/range violation")
@@ -335,7 +369,9 @@ class RelationClaim(Artifact):
             raise ValueError("relation must carry intent")
         if self.epistemic_status == "observed" and not self.evidence:
             raise ValueError("observed relation needs evidence")
-        if self.predicate in ("supports", "contradicts", "motivated_by", "alternative_to") and self.epistemic_status == "observed":
+        if self.predicate in ("compatible_with", "refines") and self.subject.id == self.object.id:
+            raise ValueError("hypothesis cannot relate to itself")
+        if self.predicate in ("supports", "contradicts", "motivated_by", "alternative_to", "compatible_with", "refines") and self.epistemic_status == "observed":
             raise ValueError("hypothesis relations are claims, not observations")
         if self.valid_from.tzinfo is None or (self.valid_until is not None and (self.valid_until.tzinfo is None or self.valid_until <= self.valid_from)):
             raise ValueError("invalid validity interval")
@@ -403,7 +439,7 @@ class EvaluationCase(Artifact):
 ARTIFACT_TYPES = {cls.__name__: cls for cls in (
     IntentSpec, PromptSpec, MediaAsset, ModelRun, Rubric, Evidence, HumanRater,
     HumanRating, PairwiseRating, EvaluationRound, EvaluatorVersion, Hypothesis,
-    RelationClaim, HypothesisGraph, AgentAssessment, Disagreement, EvaluationCase,
+    RelationClaim, HypothesisGraph, AgentAssessment, Disagreement, EvaluationCase, CompetingSet,
 )}
 
 REFERENCE_KINDS = {
@@ -417,6 +453,7 @@ REFERENCE_KINDS = {
     "EvaluationRound": {"candidate_model_runs": "ModelRun", "rubric": "Rubric"},
     "EvaluatorVersion": {"rubric": "Rubric"},
     "Hypothesis": {"intent": "IntentSpec", "supporting_evidence": "Evidence", "contradicting_evidence": "Evidence"},
+    "CompetingSet": {"intent": "IntentSpec", "supersedes": "CompetingSet"},
     "RelationClaim": {"intent": "IntentSpec", "evidence": "Evidence"},
     "HypothesisGraph": {"intent": "IntentSpec"},
     "AgentAssessment": {"evaluator": "EvaluatorVersion", "model_run": "ModelRun", "rubric": "Rubric"},

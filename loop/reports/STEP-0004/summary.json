@@ -1,0 +1,38 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 0,
+    "intention": 2,
+    "production_quality": 2,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "INTEGRATE",
+  "flags": [
+    "External research claims were inventoried but not independently sourced under the folder-only restriction.",
+    "I1/I2/I5-I9: inspected structural residual construction, synthetic fixtures, claims-only relations, unchanged confidence and UNKNOWN behavior; no automatic real-media judgment found.",
+    "I15 and external I1 state: gate.json reports unchanged remote main and pilot listing. Those external states were not accessed under the folder-only restriction.",
+    "I3/I13: inspected append-only persistence, predecessor pins and deterministic round-trip tests; verified recorded source/test and Plan hashes.",
+    "I4/I10/I11/I12/I14/I16: checked protected hashes, changed paths, dependencies, existing tests, public allowlist and deferred scope; no violation found.",
+    "Independent runtime and mutation-test execution unavailable: available Python 3.14.7 raises ModuleNotFoundError for pydantic. Supplied passing results are not independently reproduced.",
+    "PUBLIC_PROSE"
+  ],
+  "gate": true,
+  "item": "L07",
+  "passed": 251,
+  "research": {
+    "CONFIRMED": 1
+  },
+  "rounds": 2,
+  "rule": "R6",
+  "scores": {
+    "accuracy": 4,
+    "intention": 4,
+    "production_quality": 4,
+    "relation": 4,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 4
+}

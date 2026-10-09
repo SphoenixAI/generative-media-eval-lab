@@ -30,9 +30,13 @@ def parser():
     fr=sub.add_parser("frames"); fr.add_argument("clip"); fr.add_argument("--at",type=float,nargs="+",required=True)
     op=sub.add_parser("open"); op.add_argument("clip"); op.add_argument("--at",type=float)
     show=sub.add_parser("show"); show.add_argument("clip")
-    for kind,cmd in (("intent","intent"),("observation","observe"),("hypothesis","hypothesis"),("relation","relate"),("confidence","revise-confidence")):
-        sp=sub.add_parser(cmd); sp.add_argument("clip"); sp.add_argument("--file",type=Path,required=True)
-        if kind in ("observation","hypothesis","relation"): sp.add_argument("--id",required=True); sp.add_argument("--session")
+    descriptions={
+        "competing-set":"Record a private hypothesis set with explicit exclusive/exhaustive flags. Members use IDs or ID@revision; repeating --id appends a pinned revision. Exhaustive sets add a structural RESIDUAL, without confidence arithmetic.",
+        "relation":"Record a human relation. compatible_with and refines require distinct hypothesis endpoints; compatible_with cannot join pinned members of an exclusive set. refines records subject-to-object direction only.",
+    }
+    for kind,cmd in (("intent","intent"),("observation","observe"),("hypothesis","hypothesis"),("relation","relate"),("confidence","revise-confidence"),("competing-set","competing-set")):
+        sp=sub.add_parser(cmd,description=descriptions.get(kind),help=descriptions.get(kind)); sp.add_argument("clip"); sp.add_argument("--file",type=Path,required=True)
+        if kind in ("observation","hypothesis","relation","competing-set"): sp.add_argument("--id",required=True); sp.add_argument("--session")
         if kind=="confidence": sp.add_argument("--hypothesis",required=True)
     start=sub.add_parser("start"); start.add_argument("clip")
     for cmd in ("pause","resume","finish"):
@@ -93,6 +97,7 @@ def main(argv=None):
             elif args.command=="intent": result=p.intent(args.clip,args.author,read_human_form("intent",args.file))
             elif args.command=="observe": result=p.observe(args.clip,args.author,args.id,read_human_form("observation",args.file),args.session)
             elif args.command=="hypothesis": result=p.hypothesize(args.clip,args.author,args.id,read_human_form("hypothesis",args.file),args.session)
+            elif args.command=="competing-set": result=p.competing_set(args.clip,args.author,args.id,read_human_form("competing-set",args.file),args.session)
             elif args.command=="relate": result=p.relate(args.clip,args.author,args.id,read_human_form("relation",args.file),args.session)
             elif args.command=="revise-confidence": result=p.revise_confidence(args.clip,args.author,args.hypothesis,read_human_form("confidence",args.file))
             elif args.command=="start": result=p.session_start(args.clip,args.author)

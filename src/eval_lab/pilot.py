@@ -7,7 +7,7 @@ import uuid
 from typing import Literal
 
 from pydantic import Field, model_validator
-from .domain import Value, NonEmpty, Confidence, Criterion, IntentSpec, Evidence, Hypothesis, RelationClaim, Ref
+from .domain import Value, NonEmpty, Confidence, Criterion, IntentSpec, Evidence, Hypothesis, RelationClaim, Ref, CompetingSet
 from .pilot_domain import PilotClip, PilotDataset, PilotSubmission, PilotSession, PilotSnapshot, PinnedArtifact
 from .persistence import Repository, refs_in
 from .media import MediaStore, MediaError, within
@@ -44,10 +44,16 @@ class HypothesisInput(Value):
     falsifying_observation: NonEmpty
 
 
+class CompetingSetInput(Value):
+    members: tuple[NonEmpty, ...] = Field(min_length=1)
+    exclusive: bool = Field(strict=True)
+    exhaustive: bool = Field(strict=True)
+
+
 class RelationInput(Value):
     subject: NonEmpty  # o1 / h1 / intent; kind specified below
     subject_kind: Literal["Evidence","Hypothesis"]
-    predicate: Literal["supports","contradicts","motivated_by","fulfills","violates","alternative_to"]
+    predicate: Literal["supports","contradicts","motivated_by","fulfills","violates","alternative_to","compatible_with","refines"]
     object: NonEmpty
     object_kind: Literal["Hypothesis","IntentSpec"]
     evidence: tuple[str,...] = ()
@@ -63,13 +69,14 @@ class ConfidenceInput(Value):
     evidence_role: Literal["supporting","contradicting","context_only"]
 
 
-INPUT_TYPES={"intent":IntentInput,"observation":ObservationInput,"hypothesis":HypothesisInput,"relation":RelationInput,"confidence":ConfidenceInput}
+INPUT_TYPES={"intent":IntentInput,"observation":ObservationInput,"hypothesis":HypothesisInput,"relation":RelationInput,"confidence":ConfidenceInput,"competing-set":CompetingSetInput}
 TEMPLATES={
     "intent":{"objective":"","audience":"","context":"","constraints":[],"prohibited_outcomes":[],"criteria":[{"dimension":None,"applicability":"required","rationale":"","acceptance":""}]},
     "observation":{"observation":"","timestamp_start":None,"timestamp_end":None,"confidence":None,"derivative_id":None,"frame_indices":[]},
     "hypothesis":{"observed_problem":"","proposed_cause":"","confidence":None,"supporting_evidence":[],"contradicting_evidence":[],"evidence_required":[""],"discriminating_test":"","predicted_observation":"","falsifying_observation":""},
     "relation":{"subject":"","subject_kind":"Evidence","predicate":"supports","object":"","object_kind":"Hypothesis","evidence":[],"purpose":"","scope":"","confidence":None},
     "confidence":{"confidence":None,"reason":"","new_evidence":[],"evidence_role":None},
+    "competing-set":{"members":[],"exclusive":None,"exhaustive":None},
 }
 
 
@@ -224,6 +231,21 @@ class PilotWorkspace:
         self.repo.put(hypothesis)
         self._submission(clip,hypothesis,author,session=session_ref)
         return hypothesis
+
+    def competing_set(self,clip_id,author,id,form:CompetingSetInput,session=None):
+        clip=self.clip(clip_id)
+        session_ref=self._session_ref(clip,author,session)
+        if clip.intent is None: raise ValueError("Declare creative intent before competing sets")
+        members=tuple(self._ref(clip,"Hypothesis",member) for member in form.members)
+        identity=f"{clip.id}:competing-set:{local_id(id)}"
+        try: prior=self.latest("CompetingSet",identity)
+        except KeyError: prior=None
+        item=CompetingSet(id=identity,intent=clip.intent,members=members,
+            exclusive=form.exclusive,exhaustive=form.exhaustive,
+            revision=prior.revision+1 if prior else 1,supersedes=prior.ref if prior else None)
+        self.repo.put(item)
+        self._submission(clip,item,author,session=session_ref)
+        return item
 
     def relate(self,clip_id,author,id,form:RelationInput,session=None):
         clip=self.clip(clip_id)
