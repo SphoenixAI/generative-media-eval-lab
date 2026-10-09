@@ -1,0 +1,10 @@
+{
+  "resolutions": [
+    {
+      "ref": "L02-R1-01",
+      "action": "FIXED",
+      "evidence": "Added four regression cases in tests/test_intent_v2.py:126 covering classification, serialization, retrieval, and repository reopening. All pass with production code and fail under the specified CONTEMPORANEOUS mutation. Advisory gate passed with 460 tests; G14 was skipped. Evidence recorded in loop/reports/STEP-0005-L02.md. Sealed Plan and protected files remain unchanged. All eight research claims are CONFIRMED."
+    }
+  ],
+  "amendments": []
+}

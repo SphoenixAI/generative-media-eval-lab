@@ -1,0 +1,143 @@
+{
+  "step": 5,
+  "item": "L02",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "fcc5646f702642c9b1c5503e14d5669c3be554da25d292d57e5be1857e4bbe8d",
+  "summary": "One material test-coverage gap: borrowing an earlier revision's seal is not tested through the CONTEMPORANEOUS fallback. The current implementation handles that case correctly. Independently checked 109 classifier cases; full pytest execution was unavailable because the available Python lacks dependencies.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all 1,426 lines of diff.patch and opened all eight changed files. Changes implement L02's domain contract, persistence, private snapshots, tests and documentation.",
+        "Compared the changes with plan.md and the north star; no tangential implementation found."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "tests/test_intent_v2.py:109-123 excludes old_seal from the first-view fallback check, leaving a required derivation case untested.",
+        "test_reason_is_required_on_every_path checks absent and invalid reasons on initial and successor revisions; test_all_sixteen_provenance_transitions and test_edits_and_aliases_cannot_reset_ceiling exercise stored provenance ceilings.",
+        "Inspected I1-I3 and I5-I9: fixtures are synthetic, missing judgments remain UNKNOWN, predecessors are pinned, and this change adds no acceptability decisions, measurement-intent coupling, aggregation or confidence arithmetic."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Traced both new artifacts through schema_version=2, ARTIFACT_TYPES registration, generic reference edges, digest validation and transactional admission.",
+        "Traced checksum-based binding discovery in PilotWorkspace.snapshot through pinned dependency traversal and export digest checks.",
+        "Inspected test_actual_workspace_snapshot_closure_and_frozen_export for explicit expected references, alias-first membership, unrelated-content exclusion and frozen exports after reopening.",
+        "Checked lint applicability: no existing domain lint implementation requires extension; the general lint command is expressly outside this sealed plan."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "L02-R1-01: test_exact_revision_and_bound_plan does not detect seal borrowing through CONTEMPORANEOUS.",
+        "A read-only classifier mutation restricting exact-seal matching to the SEALED branch preserved 112 represented chronology, missing-evidence and plan-mismatch inputs, while incorrectly returning CONTEMPORANEOUS for an older seal followed by a first view.",
+        "All changed Python files parse. Independently executed the extracted production classifier against 109 hand-specified cases successfully.",
+        "Full pytest was not independently executed: the available Python raises ModuleNotFoundError for pydantic. The supplied gate.json reports 456 passes."
+      ]
+    },
+    "accuracy": {
+      "score": 3,
+      "evidence": [
+        "loop/reports/STEP-0005-L02.md:136 presents its evidence as covering every derivation case, but tests/test_intent_v2.py:122 explicitly omits the older-seal first-view combination.",
+        "Checked the 13 weak orderings and 104 timing/origin combinations independently. Documentation correctly distinguishes local chronology from generation-order proof and quality judgments.",
+        "External dependency and timestamp-standard claims are listed separately for research; their source contents were not available within the permitted folder."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Independently counted 802 product additions plus removals, within the sealed 900-line limit, and matched changed paths to the plan.",
+        "Compared the diff against DEFERRED items D01-D14; none is implemented.",
+        "Verified every protected-file hash. Inspected I4 and I10-I16: no protected, dependency, existing-test, public-serializer or judge changes; no runtime networking or Git publication code added.",
+        "Inspected I12-I13: expanded exports remain explicitly private, evidence is pinned, and deterministic classifier/replay behavior has targeted tests. No invariant violation demonstrated."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "L02-R1-01",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tree/tests/test_intent_v2.py:109-123",
+      "description": "The borrowed-seal test supplies no first_view_at, and line 122 explicitly excludes old_seal from the fallback check. Consequently, the tests do not distinguish the correct classifier from one that checks exact revision identity only for SEALED and then lets an earlier revision's seal establish CONTEMPORANEOUS. A read-only mutation probe demonstrated this gap against the represented classifier inputs. This leaves the explicit 'Every derivation case is tested' requirement unmet; it is a coverage defect, not a demonstrated defect in the current classifier.",
+      "required_fix": "Add an otherwise-valid case binding revision 2 to revision 1's seal with a first logged view strictly after that seal. Assert RECONSTRUCTED through classification, serialization and repository retrieval. Confirm the assertion fails when exact-revision checking is removed from the CONTEMPORANEOUS path."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Every derivation case is tested.",
+      "lazy_pass": "Enumerate timestamp orderings only with matching seal pins and omit interactions between mismatched revision identity and fallback chronology.",
+      "present_in_diff": true,
+      "evidence": "test_every_chronology_order always uses the bound intent's seal; test_exact_revision_and_bound_plan excludes old_seal from its later-first-view assertion. See L02-R1-01."
+    },
+    {
+      "criterion": "A revision cannot borrow an earlier revision's seal.",
+      "lazy_pass": "Check exact revision identity for SEALED while allowing an older seal to qualify the CONTEMPORANEOUS fallback.",
+      "present_in_diff": false,
+      "evidence": "intent_v2.py:182 rejects mismatched seal pins before both branches. Independent execution confirmed rejection with a later first view, although the shipped regression test lacks that case."
+    },
+    {
+      "criterion": "A revision without a reason is rejected.",
+      "lazy_pass": "Validate only an authoring form or only successor revisions, allowing constructors or copied records to bypass the requirement.",
+      "present_in_diff": false,
+      "evidence": "IntentSpecV2 requires the enum without a default; repository admission revalidates serialized input. test_reason_is_required_on_every_path covers revisions 1 and 2, missing/null/blank/unknown values and copied records."
+    },
+    {
+      "criterion": "No edit can raise a record's provenance.",
+      "lazy_pass": "Freeze one object but permit promotion by appending a revision, renaming the binding or cloning registration anchors.",
+      "present_in_diff": false,
+      "evidence": "intent_v2.py:222-240 checks immutable anchors, checksum lineage and allowed transitions inside the writer transaction. Tests cover all sixteen class pairs, renamed aliases, double-anchor aliases, legacy adaptation and competing writers."
+    },
+    {
+      "criterion": "V2 fields and revision relationships satisfy the sealed contract.",
+      "lazy_pass": "Accept arbitrary dictionaries and predecessor labels without checking nested values, criterion relationships or digests.",
+      "present_in_diff": false,
+      "evidence": "Checked typed fields and validators against test_context_criteria_and_deviations, test_predecessor_must_pin_immediate_revision and test_nested_copies_rejected_at_all_entry_points."
+    },
+    {
+      "criterion": "Private snapshots preserve relevant binding history and dependency closure.",
+      "lazy_pass": "Collect bindings only through exact media references, omitting an alias-first binding or historical revisions.",
+      "present_in_diff": false,
+      "evidence": "pilot.py:351 uses the same content_identity helper as admission. The workspace test explicitly requires alias-first bindings, both historical revisions and dependency pins, and checks frozen exports after reopening."
+    },
+    {
+      "criterion": "Legacy compatibility and provenance limitations remain explicit.",
+      "lazy_pass": "Invent v2 metadata during loading or describe local timestamps as proof of generation order.",
+      "present_in_diff": false,
+      "evidence": "LegacyIntentView preserves the original artifact and returns RECONSTRUCTED; test_legacy_view_and_adaptation_cannot_upgrade checks payload preservation and promotion rejection. docs/intent-provenance.md explicitly limits timestamp evidence and documents I7."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "L02-P5-M01",
+      "claim": "Pydantic v2 BaseModel.model_copy(update=...) does not validate supplied update values.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:37"
+    },
+    {
+      "id": "L02-P5-M02",
+      "claim": "SQLite permits only one simultaneous write transaction; BEGIN IMMEDIATE starts a write transaction immediately or can fail with SQLITE_BUSY when another connection has an active write transaction.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:41"
+    },
+    {
+      "id": "L02-P5-M03",
+      "claim": "RFC 3161 describes timestamping evidence that a datum existed before a particular time.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:45"
+    },
+    {
+      "id": "L02-P5-M04",
+      "claim": "Local seal, plan, registration and first-view timestamps alone cannot prove generation occurred after sealing; witnessing intent existence does not itself witness clip generation.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:49-51; tree/docs/intent-provenance.md:53-55"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE",
+    "Independent execution was limited to extracted classifier functions and read-only structural/hash checks; full domain, repository, concurrency and media tests were not rerun.",
+    "The supplied gate report and embedded builder assessment were treated as untrusted evidence, not independent verification."
+  ]
+}

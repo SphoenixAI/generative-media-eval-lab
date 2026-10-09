@@ -1,0 +1,132 @@
+{
+  "step": 5,
+  "item": "L02",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented IntentSpec v2, derived provenance, immutable binding history and checksum-linked snapshots. Final advisory gate passed: 456 tests, 802/900 changed lines.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/intent_v2.py:81 implements the approved v2 contract and provenance infrastructure.",
+        "Changes remain within the seven planned product files and this step's report."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_intent_v2.py:80 covers all 13 timestamp orderings across four view states and both origins.",
+        "tests/test_intent_v2.py:109,136,240 cover exact-revision seals, mandatory reasons and all sixteen provenance transitions."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/persistence.py:260 enforces binding admission inside the writer transaction.",
+        "src/eval_lab/pilot.py:351 uses the shared checksum identity rule for snapshot membership.",
+        "tests/test_intent_v2.py:350 verifies actual workspace exports, alias-first closure and historical stability after reopening."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Observed the initial missing-module failure and four additional copied-instance validation failures before implementing their fixes.",
+        "205 focused tests and all 251 prior tests pass; frozen loop tests and approval checks also pass.",
+        "docs/intent-provenance.md:14 provides an executable example; snapshot CLI help describes binding history."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "tests/test_intent_v2.py:80 uses an explicit chronology oracle independent of the production classifier.",
+        "tests/test_intent_v2.py:336 verifies deterministic replay and equivalent timezone offsets.",
+        "docs/intent-provenance.md:43 distinguishes local chronological evidence from generation-order proof and acceptability."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0005-L02.md:500 records 802/900 counted lines and passing scope checks.",
+        "The sealed plan and all 16 protected hashes remain unchanged; no existing tests, dependencies, runtime networking or deferred features were changed."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Every derivation case is tested.",
+      "lazy_pass": "Test only the successful sealed ordering.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:80 enumerates strict orders, ties, view boundaries, missing evidence and both origins."
+    },
+    {
+      "criterion": "A revision cannot borrow an earlier revision's seal.",
+      "lazy_pass": "Match intent ID without revision and digest.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:109 persists a successor with its predecessor's seal and requires RECONSTRUCTED."
+    },
+    {
+      "criterion": "A revision without a reason is rejected.",
+      "lazy_pass": "Require reasons only on successors or trust copied objects.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:136 checks initial and successor revisions; line 449 checks existing copied-instance validation."
+    },
+    {
+      "criterion": "No edit can raise provenance.",
+      "lazy_pass": "Reset the ceiling by renaming bindings or cloning both registration anchors.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:240,267,287 cover every transition, alias attacks, independent-content controls and competing writers."
+    },
+    {
+      "criterion": "Snapshots retain relevant binding history.",
+      "lazy_pass": "Use exact references for snapshots while admission groups checksum aliases.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/pilot.py:351 shares content_identity with admission; tests/test_intent_v2.py:350 verifies alias-first exports."
+    },
+    {
+      "criterion": "Legacy artifacts remain unchanged.",
+      "lazy_pass": "Add serialized defaults or promote legacy intent during adaptation.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:316 verifies unchanged legacy payloads/digests and rejects provenance promotion through v2 adaptation."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "L02-R1-01",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "L02-R2-01",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "id": "L02-P5-M01",
+      "claim": "Pydantic model_copy updates bypass validation.",
+      "location": "loop/reports/STEP-0005-L02.md:37"
+    },
+    {
+      "id": "L02-P5-M02",
+      "claim": "SQLite permits one simultaneous writer; BEGIN IMMEDIATE acquires a write transaction or may fail busy.",
+      "location": "loop/reports/STEP-0005-L02.md:41"
+    },
+    {
+      "id": "L02-P5-M03",
+      "claim": "RFC 3161 describes evidence that a datum existed before a particular time.",
+      "location": "loop/reports/STEP-0005-L02.md:45"
+    },
+    {
+      "id": "L02-P5-M04",
+      "claim": "Local chronology alone cannot prove generation followed intent sealing.",
+      "location": "loop/reports/STEP-0005-L02.md:49"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE: both documentation files require the controller's review process.",
+    "Two advisory attempts passed. G14 is skipped in advisory mode; authoritative verification and independent evaluation remain pending.",
+    "Validation establishes software behavior using TEST-ONLY fixtures, not real-media validity or authenticated chronology.",
+    ""
+  ]
+}

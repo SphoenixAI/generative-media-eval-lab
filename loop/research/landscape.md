@@ -1,3 +1,10 @@
-# Research landscape
+# Landscape scan · step 5
 
-No loop landscape scan has run. Every fifth step records at most five findings with primary sources and relevance notes.
+All eight requested claim occurrences are CONFIRMED. The generation-timing conclusions are logical inferences from the cited evidence limits, not findings from repository inspection. Reused the fresh 2026-10-08 Pydantic ledger evidence and reopened its primary sources. Recent documentation and releases do not supersede these conclusions.
+
+Landscape scan: 2026-08-10 through 2026-10-08; all sources accessed 2026-10-08. Five findings:
+1. Generative video evaluation — VWG-Bench, arXiv v1 dated 2026-09-10, separates visual fluency, rule compliance, and goal completion. Relevance: supports distinguishing appearance from intent fulfillment; does not establish generation chronology. [From Evaluation to Enhancement](https://arxiv.org/abs/2609.11242v1).
+2. Human evaluation protocols — PANEL, arXiv v1 dated 2026-09-25, describes controlled multimodal studies with screening, consent versioning, and exportable study specifications. Relevance: useful protocol-recording reference; platform capabilities do not establish measurement validity. No change to this step. [PANEL](https://arxiv.org/abs/2609.31392v1).
+3. Judge reliability and selective evaluation — a preprint dated 2026-09-28 examines correlated task clusters and proposes task-level bootstrap calibration for selective judging. Relevance: cautions against treating correlated evaluations as independent; reported empirical performance is not a universal guarantee or validation for media judging. No change to this step. [Certified Selective Automation of LLM Agent Evaluation](https://arxiv.org/abs/2609.34320v1).
+4. Context-conditioned evaluation — UFO, arXiv v2 dated 2026-09-17, evaluates interacting textual and visual conditions through decomposed checks. Relevance: supports retaining the actual conditioning context; does not validate local chronology evidence. [UFO](https://arxiv.org/abs/2609.12397v2).
+5. Provenance and annotation standards — IPTC's 2026-09-03 conference documents work on C2PA implementation guidance, identity assertions, and proposed metadata changes. Relevance: distinguishes evolving provenance guidance from adopted requirements; the described proposals should not be treated as ratified standards. No change to this step. [IPTC Photo Metadata Conference 2026](https://iptc.org/events/photo-metadata-conference-2026/).
