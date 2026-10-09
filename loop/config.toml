@@ -1,0 +1,30 @@
+[commands]
+setup = "uv sync --frozen --extra test"            # run with UV_PROJECT_ENVIRONMENT set to ENV
+tests = ["{python}", "-m", "pytest", "tests", "-q"]
+doctor = ["{python}", "-m", "eval_lab.pilot_cli", "doctor"]
+approval = ["{python}", "-m", "eval_lab.harness", "--output", "outputs/approval.json"]
+sandbox = []
+[limits]
+max_changed_lines = 900                            # generated paths do not count
+max_eval_rounds = 2
+max_retries_per_item = 2
+max_consecutive_non_integrate = 3
+max_codex_failures = 3
+[timeouts_minutes]
+builder_plan = 15
+builder_build = 60
+evaluator = 15
+researcher = 20
+enhancer = 30
+[paths]
+runs_dir = "../Content Evaluator - loop-runs"
+env_dir = "../Content Evaluator - loop-env"
+main_checkout = "../Content Evaluator"
+forbidden = ["pilot-local/**", ".tools/**", "**/.env*", "**/*.mp4", "**/*.mov", "**/*.mkv", "**/*.webm", "AGENTS.md", "loop/**"]
+forbidden_exceptions = ["tests/**", "loop/reports/STEP-{N}-*", "loop/proposals/STEP-{N}.toml"]
+generated = ["schemas/**", "outputs/**", "loop/reports/**", "loop/research/**"]
+deferred_terms = ["provider", "judge", "instrument", "tracker", "swarm", "gold", "regression", "drift", "vfx", "rasch", "generalizability", "multitrait", "information gain", "probability", "timestamp authority", "opentimestamps", "json-ld", "frontend", "study"]
+[git]
+main = "main"
+integration = "loop/integration"
+remote = "origin"

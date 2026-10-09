@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "properties": {
+    "resolutions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "FIXED",
+              "REJECTED_WITH_REASON",
+              "DEFERRED_AS_PROPOSAL"
+            ]
+          },
+          "evidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ref",
+          "action",
+          "evidence"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "amendments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claim_id": {
+            "type": "string"
+          },
+          "change": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim_id",
+          "change"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "resolutions",
+    "amendments"
+  ],
+  "additionalProperties": false
+}

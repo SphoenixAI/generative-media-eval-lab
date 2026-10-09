@@ -1,0 +1,195 @@
+{
+  "type": "object",
+  "properties": {
+    "step": {
+      "type": "integer"
+    },
+    "item": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "claim": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "plan",
+              "diff",
+              "evaluator"
+            ]
+          },
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "CONFIRMED",
+              "CONTRADICTED",
+              "OUTDATED",
+              "UNVERIFIABLE"
+            ]
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "accessed": {
+                  "type": "string"
+                },
+                "quote": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "url",
+                "title",
+                "accessed",
+                "quote"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "newer_practice": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "summary": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "summary",
+                  "url",
+                  "date"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "affects_this_step": {
+            "type": "boolean"
+          },
+          "recommended_action": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "claim",
+          "origin",
+          "verdict",
+          "sources",
+          "newer_practice",
+          "affects_this_step",
+          "recommended_action"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "proposals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "S",
+              "M",
+              "L"
+            ]
+          },
+          "risk": {
+            "type": "string",
+            "enum": [
+              "LOW",
+              "MEDIUM",
+              "HIGH"
+            ]
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "domain",
+              "tooling",
+              "docs",
+              "test",
+              "validation",
+              "bugfix"
+            ]
+          },
+          "relevance": {
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          "claim_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "title",
+          "rationale",
+          "size",
+          "risk",
+          "category",
+          "relevance",
+          "claim_id"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "step",
+    "item",
+    "summary",
+    "claims",
+    "proposals"
+  ],
+  "additionalProperties": false
+}

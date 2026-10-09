@@ -1,0 +1,11 @@
+{
+  "items": {
+    "L01": {
+      "status": "DONE",
+      "retries": 0,
+      "reason": "H1 publication approved and completed."
+    }
+  },
+  "steps": [],
+  "last_integrated_test_count": 209
+}

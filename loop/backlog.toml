@@ -1,0 +1,529 @@
+# Approval fields belong to Sphoenix. loopctl may append proposals only.
+# Exact approved item prose is retained in notes; acceptance strings are not paraphrased.
+
+[[item]]
+id = "L00"
+title = "Verify the bootstrap"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "LOW"
+category = "tooling"
+depends_on = []
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["loop/tests pass.", "The gate passes on unchanged product code.", "baseline.json matches a fresh test run."]
+notes = "Run the loop once over the bootstrap committed in A6. Confirm the recorded commands, the baseline, the protected manifest and the decision about the approval harness. Mark L01 DONE if H1 approved it. No product changes.\n\nAcceptance:\n\nloop/tests pass.\nThe gate passes on unchanged product code.\nbaseline.json matches a fresh test run."
+
+[[item]]
+id = "L01"
+title = "Front-door README"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "LOW"
+category = "docs"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Open with one sentence that states the thesis.", "A dated status block whose numbers are computed from the repository.", "A \"Three minutes\" section: what to read, plus eval-pilot doctor, the test command and eval-pilot --help.", "What exists, and what does not exist yet:", "no live judges;", "no real-media results;", "no superiority claims;", "the intent study is designed but not run.", "A roadmap: Pilot 0.1, then the first three human cases, then validated instruments, then studies.", "A \"How this repository is built\" section, added only after L00 is DONE, that describes the evaluated loop and links loop/reports/INDEX.md.", "No mention of any employer or any application.", "At most 350 words before the first detailed section.", "Every factual statement can be checked against a file, a test or a command.", "House style: plain, specific sentences; no em dashes; no hype; nothing that tells the reader how to feel or announces what comes next."]
+notes = "Done by hand in A4. After that, the loop only updates the status numbers, and each such update raises the PUBLIC_PROSE flag.\n\nContent:\n\nOpen with one sentence that states the thesis.\nA dated status block whose numbers are computed from the repository.\nA \"Three minutes\" section: what to read, plus eval-pilot doctor, the test command and eval-pilot --help.\nWhat exists, and what does not exist yet:\nno live judges;\nno real-media results;\nno superiority claims;\nthe intent study is designed but not run.\nA roadmap: Pilot 0.1, then the first three human cases, then validated instruments, then studies.\nA \"How this repository is built\" section, added only after L00 is DONE, that describes the evaluated loop and links loop/reports/INDEX.md.\nNo mention of any employer or any application.\n\nConstraints:\n\nAt most 350 words before the first detailed section.\nEvery factual statement can be checked against a file, a test or a command.\nHouse style: plain, specific sentences; no em dashes; no hype; nothing that tells the reader how to feel or announces what comes next."
+
+[[item]]
+id = "L02"
+title = "IntentSpec v2 with derived provenance"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L00"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Every derivation case is tested.", "A revision cannot borrow an earlier revision's seal.", "A revision without a reason is rejected.", "No edit can raise a record's provenance."]
+notes = "New fields:\n\nuse_context: surface, audience, and viewing_profile (FEED or STUDIO).\ncriteria[]: id, dimension, priority (MUST, SHOULD, COULD or WONT), acceptance, rejection, tolerance.\nexpected_deviations[]: dimension, description, criterion_id.\nrevision_reason: SERENDIPITY, CLARIFICATION, CORRECTION or SCOPE_CHANGE. Required on every revision.\n\nDo not label any dimension as SENSITIVE or INVARIANT.\n\nProvenance is computed when a clip is bound to an intent revision (L04). It is never typed, with one exception: PROMPT_ONLY may be declared, and only for FOUND clips. Compute it from three times:\n\nthe seal time of that exact revision;\nthe planned time of a plan that lists that revision;\nthe registration time of this clip.\nClass\tCondition\nSEALED\tseal time < plan time < registration time\nCONTEMPORANEOUS\tnot SEALED, and the revision was sealed before the first logged view of this clip\nRECONSTRUCTED\tanything else, including a revision that was never sealed\n\nPilot 0 intents load as RECONSTRUCTED. Document what each class proves and what it does not. In particular, timestamps cannot prove the order of generation without an external witness.\n\nAcceptance:\n\nEvery derivation case is tested.\nA revision cannot borrow an earlier revision's seal.\nA revision without a reason is rejected.\nNo edit can raise a record's provenance."
+
+[[item]]
+id = "L03"
+title = "Seal and verify"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L02"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["The digest is stable across key order and whitespace.", "Any change to a value changes the digest.", "Key-ordering vectors with non-ASCII keys pass.", "Tampering is detected.", "Seals are immutable."]
+notes = "New commands: eval-pilot seal-intent FILE and eval-pilot verify-seal ID|FILE. Sealing works like this:\n\nCanonicalize the file with RFC 8785 (JCS).\nHash the canonical form with SHA-256.\nStore an append-only SealRecord with: the digest, the canonicalization method, sealed_at in UTC, the tool version, the source path, and an optional git_witness (commit and remote URL).\n\nImplement JCS for the JSON subset the schema allows: objects, arrays, strings, integers, booleans and null. Reject non-integer numbers with a message that says what to do. If research favors a vetted dependency instead, propose it; using one needs Sphoenix's approval. External timestamping is deferred.\n\nAcceptance:\n\nThe digest is stable across key order and whitespace.\nAny change to a value changes the digest.\nKey-ordering vectors with non-ASCII keys pass.\nTampering is detected.\nSeals are immutable."
+
+[[item]]
+id = "L04"
+title = "Generation plans, families, selection log, view log"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L02", "L03"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["tests for the ordering rules, provenance degrading rather than failing, the append-only selection log, and FOUND clips."]
+notes = "GenerationPlan fields: family_id, arm, varied_factor, controlled_factors, prompt, model, model_version_string, settings, seed (or null), n_planned, intent_revision_ids, planned_at, notes.\neval-pilot plan records a plan. register --plan binds a clip as PLANNED; without the flag, the clip is FOUND.\nSelection log fields: candidates_considered, rejected[] (ref and reason), random_draw, kept.\nView log: open and frames record a first-view event, and so will play once it exists. Viewing outside the CLI cannot be detected; document that limit.\nDerive provenance at bind time, as L02 defines it. FOUND clips, the natural discovery cases, are fully supported.\n\nAcceptance: tests for the ordering rules, provenance degrading rather than failing, the append-only selection log, and FOUND clips."
+
+[[item]]
+id = "L05"
+title = "Technical observations vs criterion assessments"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L02", "L03", "L04"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["does Pilot 0 record per-clip verdicts or per-dimension scores? Cite file:line."]
+acceptance = ["In the intent-flip fixture, identical observations under two sealed TEST-ONLY intents produce different assessments.", "A TechnicalObservation that references intent is rejected.", "UNKNOWN propagates."]
+notes = "Probe: does Pilot 0 record per-clip verdicts or per-dimension scores? Cite file:line.\n\nTwo record types:\n\nTechnicalObservation: dimension; deviation (NONE, MINOR, MATERIAL, SEVERE, CATASTROPHIC or UNKNOWN); span; evidence refs; viewing_profile. It carries no reference to intent.\nCriterionAssessment: criterion_id plus the pinned intent revision; status (SATISFIED, VIOLATED, NOT_APPLICABLE or UNKNOWN); refs to technical observations; rationale.\n\nAcceptance:\n\nIn the intent-flip fixture, identical observations under two sealed TEST-ONLY intents produce different assessments.\nA TechnicalObservation that references intent is rejected.\nUNKNOWN propagates."
+
+[[item]]
+id = "L06"
+title = "Decision policy and terminal verdict"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L04", "L05"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["how does the Phase 2 hard-fail engine work, and does it read IntentSpec applicability? Cite file:line."]
+acceptance = ["All the CATASTROPHIC-geometry cases below use identical observations:", "Case\tExpected decision", "Dream fixture, SEALED intent\tSHIP", "Dream fixture, CONTEMPORANEOUS intent\tSHIP, with a flag", "Dream fixture, RECONSTRUCTED or PROMPT_ONLY intent\tHOLD", "Product-demo fixture\tREGENERATE", "Two unresolved hypotheses that both violate a MUST criterion\tREGENERATE, and both hypotheses stay unresolved", "UNKNOWN evidence on a MUST criterion\tHOLD", "An override without a reason\tRejected", "A regression test also proves that Phase 2 behavior is unchanged."]
+notes = "Probe: how does the Phase 2 hard-fail engine work, and does it read IntentSpec applicability? Cite file:line.\n\nDecisionPolicy:\n\nAn id, a version, and a scope (the use context it applies to).\nOrdered rules; the first match wins. A default rule is required.\nConditions may read:\ncriterion priority together with assessment status;\nthe worst technical deviation for each dimension;\nthe intent provenance class;\nsalvage_guess;\nthe count of unresolved hypotheses that are relevant to the decision;\nUNKNOWN evidence on a MUST criterion.\nOutputs: SHIP, HOLD, REPAIR, REGENERATE or INVESTIGATE.\n\nVerdict:\n\ntechnical integrity, as the worst value for each dimension;\nintent_fulfillment, written by a human: ACCEPT, REVISE, REJECT or UNKNOWN;\nsalvage_guess, written by a human: POST_FIXABLE, EXPENSIVE_POST_FIX, REGENERATE or UNKNOWN;\nthe decision: policy id and version, the id of the rule that fired, and a hash of the inputs;\nan optional override (action, reason, author). The reason is required.\n\nThe Phase 2 hard-fail engine stays unchanged and is documented as the intent-blind default for records that have no intent.\n\nAcceptance. All the CATASTROPHIC-geometry cases below use identical observations:\n\nCase\tExpected decision\nDream fixture, SEALED intent\tSHIP\nDream fixture, CONTEMPORANEOUS intent\tSHIP, with a flag\nDream fixture, RECONSTRUCTED or PROMPT_ONLY intent\tHOLD\nProduct-demo fixture\tREGENERATE\nTwo unresolved hypotheses that both violate a MUST criterion\tREGENERATE, and both hypotheses stay unresolved\nUNKNOWN evidence on a MUST criterion\tHOLD\nAn override without a reason\tRejected\n\nA regression test also proves that Phase 2 behavior is unchanged."
+
+[[item]]
+id = "L07"
+title = "Hypothesis sets"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L00"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["tests."]
+notes = "CompetingSet fields: members, exclusive, exhaustive.\nAn exhaustive set gets an automatic RESIDUAL member: \"none of the listed causes\".\nNew relation kinds: compatible_with and refines.\nMembers of an exclusive set cannot be compatible_with each other.\nConfidence stays attached to each claim. It is never summed or normalized.\n\nAcceptance: tests."
+
+[[item]]
+id = "L08"
+title = "Test plans with qualitative predictions"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L03", "L04", "L07"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["one fixture per class, an identical-prediction pair, a single-hypothesis plan, rejection of empty predictions, freeze and digest checks, and the sample-design rule."]
+notes = "TestPlan fields:\n\ncompeting_set, plus the set revision pinned at freeze;\narms[]: id, description, and generation_plan_ref or null;\nsample_design: n_per_arm or stopping_rule, plus decision_rule;\nmeasurement: kind (HUMAN or INSTRUMENT) and protocol. An instrument is declared, never run;\noutcome_categories[];\npredictions: a map from hypothesis id to the outcome ids it predicts. Every named hypothesis must predict at least one outcome;\nfrozen_at and frozen_digest (the JCS digest from L03).\n\nRules:\n\nA plan is frozen only by an explicit freeze command.\nAny change after freezing fails digest verification and is rejected. To change a frozen plan, append a new version.\nsample_design is required whenever an arm references a generation plan.\n\nDiagnosticity is computed over the named hypotheses only. The residual is excluded and reported as \"not testable by this plan\". Let compatible(o) be the set of hypotheses whose predictions include outcome o. Check the classes in this order:\n\nClass\tCondition\nNON_DIAGNOSTIC\tEvery named hypothesis predicts the same outcome set. This always holds when there are fewer than two named hypotheses.\nDECISIVE\tEvery compatible(o) has at most one member.\nPARTIALLY_DIAGNOSTIC\tEverything else.\n\nAlso list the UNPREDICTED outcomes: those that no hypothesis predicts.\n\nAcceptance: one fixture per class, an identical-prediction pair, a single-hypothesis plan, rejection of empty predictions, freeze and digest checks, and the sample-design rule."
+
+[[item]]
+id = "L09"
+title = "Evidence roles"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L04", "L08"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["are creation order and first-view events stored for both evidence and hypotheses?"]
+acceptance = ["A frame scrubbed after the hypothesis was created is SUPPORTING.", "A hypothesis added after the freeze never gets TEST_RESULT.", "Evidence from a post-freeze arm, created after the freeze, is TEST_RESULT.", "Evidence from an arm that already existed is SUPPORTING, with its reason."]
+notes = "Probe: are creation order and first-view events stored for both evidence and hypotheses?\n\nThe role is computed for every pair of evidence and hypothesis, and nobody authors it. Check the roles in this order:\n\nTEST_RESULT requires all four:\nthe hypothesis predates frozen_at and is in the set revision pinned at freeze;\nthe evidence is linked to an arm of that frozen plan;\nthe evidence was created after frozen_at;\nthe arm's clip was registered after frozen_at, or the arm is an instrument run made after frozen_at.\nDISCOVERY: the evidence existed when the hypothesis was created, or is cited by the observation that prompted it.\nSUPPORTING: everything else, with a reason recorded (for example, a FOUND arm that already existed).\n\nAcceptance:\n\nA frame scrubbed after the hypothesis was created is SUPPORTING.\nA hypothesis added after the freeze never gets TEST_RESULT.\nEvidence from a post-freeze arm, created after the freeze, is TEST_RESULT.\nEvidence from an arm that already existed is SUPPORTING, with its reason."
+
+[[item]]
+id = "L10"
+title = "Resolution events"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L08", "L09"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["elimination tests, plus rejection of unfrozen plans, non-TEST_RESULT evidence and insufficient samples."]
+notes = "eval-pilot resolve works like this:\n\nIt requires a frozen plan, an outcome from the plan's categories, and TEST_RESULT evidence. A stochastic arm needs n_per_arm TEST_RESULT samples, or a stopping rule that has been met.\nIt computes ELIMINATED or RETAINED for each named hypothesis.\nThe residual is never ELIMINATED. It is RETAINED, and it is the only survivor when no named hypothesis predicted the outcome.\nINDETERMINATE is allowed, with a reason.\nIt appends status events and never overwrites them.\n\nAcceptance: elimination tests, plus rejection of unfrozen plans, non-TEST_RESULT evidence and insufficient samples."
+
+[[item]]
+id = "L11"
+title = "Relation v2"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L02"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["tests."]
+notes = "New relation fields:\n\ncreative_anchor: criterion ids from the pinned intent;\nepistemic_purpose: SUPPORT, RULE_OUT, DISCRIMINATE, LOCALIZE, EXPLAIN, QUALIFY, SCOPE or OPERATIONALIZE;\noperational_purpose: SHIP, REPAIR, REGENERATE, REVISE_RUBRIC, ADD_GOLD, RETRAIN_SIGNAL or INVESTIGATE;\nwarrant, required for supports and contradicts;\nqualifier;\nrebuttal.\n\nLegacy relations load with UNSPECIFIED purposes.\n\nAcceptance: tests."
+
+[[item]]
+id = "L12"
+title = "Lint"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes."]
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes."
+
+[[item]]
+id = "L13"
+title = "Viewing profile and first-view salience"
+priority = "P1"
+approval = "APPROVED"
+size = "S"
+risk = "LOW"
+category = "domain"
+depends_on = ["L05"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Add viewing_profile (FEED or STUDIO) to observations, and an optional first_view with three fields: noticed, time_to_notice_s (or null) and plays."]
+notes = "Add viewing_profile (FEED or STUDIO) to observations, and an optional first_view with three fields: noticed, time_to_notice_s (or null) and plays."
+
+[[item]]
+id = "L14"
+title = "One-keystroke timestamp marking"
+priority = "P1"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L04"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["how many manual steps does it take to capture one timestamp today?"]
+acceptance = ["mapping tests on synthetic variable-frame-rate timelines."]
+notes = "Probe: how many manual steps does it take to capture one timestamp today?\n\neval-pilot play CLIP launches mpv, if installed, with a bundled Lua binding.\nPressing m appends the time position, the displayed frame index and the wall time to the clip's marks file in the operator workspace.\nThe displayed frame index follows the floor rule: the last frame whose onset is at or before t. open --at uses a different rule (the first frame at or after t); document why each rule fits its command.\neval-pilot marks CLIP lists the marks so drafts can reference them.\nWithout mpv, print an install hint.\n\nAcceptance: mapping tests on synthetic variable-frame-rate timelines."
+
+[[item]]
+id = "L15"
+title = "Operator guide: the first sealed case"
+priority = "P1"
+approval = "APPROVED"
+size = "S"
+risk = "LOW"
+category = "docs"
+depends_on = ["L12"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Write docs/pilot0_1.md as a walkthrough of the slide family, in this order:\n\nintent;\nseal;\ntwo plans: locked-off and tracking;\ncommit and push, as a public witness;\ngenerate;\nregister;\na FEED observation, then a STUDIO observation;\nthe competing set;\nfreeze;\nresolve;\nassessments;\npolicy and verdict;\nlint;\nsnapshot.\n\nUse blank forms only."]
+notes = "Write docs/pilot0_1.md as a walkthrough of the slide family, in this order:\n\nintent;\nseal;\ntwo plans: locked-off and tracking;\ncommit and push, as a public witness;\ngenerate;\nregister;\na FEED observation, then a STUDIO observation;\nthe competing set;\nfreeze;\nresolve;\nassessments;\npolicy and verdict;\nlint;\nsnapshot.\n\nUse blank forms only."
+
+[[item]]
+id = "L16"
+title = "Synthetic mechanics demo"
+priority = "P1"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L06", "L12"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["the output is deterministic, and a test asserts SHIP for one intent and REGENERATE for the other."]
+notes = "eval-pilot demo intent-flip runs in a temporary workspace built from generated test patterns and TEST-ONLY text. It runs the full pipeline under two synthetic sealed intents and one synthetic policy, then prints both decisions with their rule traces, under this banner: \"SYNTHETIC MECHANICS DEMO: no real media, no real judgments.\"\n\nAcceptance: the output is deterministic, and a test asserts SHIP for one intent and REGENERATE for the other."
+
+[[item]]
+id = "D01"
+title = "live model providers or judges"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D02"
+title = "running instruments (point tracking, camera pose, segmentation, surprise models)"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D03"
+title = "the specialist swarm"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D04"
+title = "gold sets"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D05"
+title = "regression and drift engines"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D06"
+title = "the VFX engine"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D07"
+title = "psychometrics beyond the existing agreement code: blind-retest tooling, G-theory, Rasch, multitrait-multimethod"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D08"
+title = "numeric information gain and probability-mass types"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D09"
+title = "calibration-ledger tooling"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D10"
+title = "external timestamping"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D11"
+title = "JSON-LD and W3C exports"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D12"
+title = "imports of external benchmarks"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D13"
+title = "public or randomized studies"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D14"
+title = "any frontend"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
