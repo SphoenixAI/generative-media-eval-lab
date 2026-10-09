@@ -1,0 +1,14 @@
+{
+  "readme_sha256": "de2e2fdc7fb9810a42196584bfc548d0420e8d903b5675fb71a4e8b57cb30f63",
+  "words_before_setup": 168,
+  "em_dashes": 0,
+  "missing_local_links": [],
+  "unwanted_employer_application_terms": false,
+  "home_paths_in_readme_docs": [],
+  "strict_evaluation_schema": "PASS",
+  "round1_structured_output_and_diff_hash": "PASS",
+  "round2_structured_output_and_diff_hash": "PASS",
+  "runtime_or_test_diff": [],
+  "loop_runner_present": false,
+  "license_present": false
+}

@@ -1,19 +1,25 @@
-# Roadmap and stop boundary
+# Roadmap: current scope and deferred work
 
-Phases 1–4 are the current checkpoint: typed domain/persistence/versioning, rubric/scoring, human-rating/agreement/blinding contracts, bounded deterministic specialists and disagreement. Initial hypothesis types and a sample graph are included as the brief requests. They do not execute Phase 5 tests.
+Status: October 8, 2026. Phase 4 and Pilot 0 infrastructure are accepted. The current work prepares a private, reviewable repository and README. The autonomous build loop has not been built or started.
 
-The next phases remain unimplemented:
+## Lab thesis
 
-5. Controlled discriminating tests, outcome evidence and human adjudication.
-6. Qualified versioned gold examples and protected splits.
-7. Model regression and evaluator drift with paired uncertainty.
-8. VFX triage calibrated against real interventions.
-9. Strategic product investigation after media-task value is demonstrated.
-10. Authenticated/rate-limited API and protected media delivery.
-11–14. Internal inspector, full lab, shared embed and portfolio integration.
-15. Qualified live multimodal providers with enforceable authority and budget.
-16. Real benchmark media, authored analysis and portfolio polish.
+Can ambiguous generative-media failures be converted into evidence-linked, reproducible, actionable evaluation?
 
-Research may refine these boundaries—for example a small real-media pilot may need a separately scoped adapter earlier—but do not silently proceed. The current work stops at Phase 4. There is no scheduled automation, deployment or Git remote.
+The first study is designed at the comparison-question level, not run or preregistered: compare no intent, true intent and decoy intent to investigate whether unstated intent explains part of evaluator disagreement. Sampling, assignment, adjudication and analysis still need a protocol. No real-media result, superiority claim or measured efficiency gain exists in the versioned record. The lab should remain useful if the intent effect is small.
 
-Before a pilot, Sphoenix should choose the first production audience/use case, critical-failure policy, media rights, review budget and meaningful quality/time margin. The study plan must be fixed before comparing outcomes. Approval of those concrete pilot decisions is distinct from the offline harness result.
+## Next stages
+
+1. **Evaluated build loop.** Planned tooling with bounded steps, independent review, verification and reports. The current evaluator prompt and schema support the README review only. No runner, scheduler or continuous mode exists.
+2. **Pilot 0.1.** Intent sealing, generation plans, separation of technical observations from acceptability, explicit decision policies, frozen test plans, evidence roles, resolution records and lint. These are planned, not implemented by the README work.
+3. **Three human-authored cases.** A controlled slide family, another controlled family selected by Sphoenix, and a natural discovery clip. Sphoenix authors real intentions, observations, hypotheses, relations, policies and judgments.
+4. **Validated instruments.** Only after real cases expose a useful measurement need, with separate approval and evidence that the instrument measures the intended property.
+5. **Studies.** Predeclare the human reference, task, sample design, comparisons and meaningful accuracy/time margins before evaluating outcomes.
+
+The [Pilot 0 four-condition contracts](../pilot0/experimental-contracts.json) concern human-only and evaluator-assisted workflows. They address a different question from the three intent-information conditions above. Both remain unexecuted. The existing [outcome definitions](../pilot0/outcome-contracts.json) are measurement contracts, not results.
+
+## Deferred
+
+Live model providers and judges; instrument execution; a live specialist swarm; gold sets; regression and drift engines; VFX automation; psychometrics beyond existing agreement code; probability arithmetic and numeric information gain; calibration-ledger tooling; external timestamping; JSON-LD/W3C exports; external benchmark imports; public/randomized studies; any frontend.
+
+The [Phase 4 checkpoint](checkpoint.md) and [Pilot 0 checkpoint](pilot0-report.md) preserve their earlier scope and evidence. No later stage is authorized by passing a software test or publishing this repository.

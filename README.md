@@ -1,80 +1,61 @@
 # Sphoenix Generative Media Evaluation Lab
 
-A backend for inspecting whether generated media satisfies an explicit intention, what failed, which evidence supports that judgment, and where humans and instruments disagree.
+Can ambiguous generative-media failures be converted into evidence-linked, reproducible, actionable evaluation?
 
-**Status: Phase 4 accepted; Pilot 0 local infrastructure ready.** The accepted synthetic demo remains intact. Local video ingestion and a private human-authoring CLI are now available; the pilot starts empty and Sphoenix supplies the real selections and judgments. There is no live model adapter, paid inference or deployed public service. Phases 5+ remain deferred.
+This lab records what someone observed, the competing explanations, the evidence behind each claim, and the creative intention that makes a judgment relevant. It is a local Python backend and CLI.
 
-Start with the [Pilot 0 first-clip workflow](docs/pilot0.md). Run `.venv/bin/eval-pilot doctor`, then register your first manually selected clip. The [Pilot 0 report](docs/pilot0-report.md) describes the file pipeline, validation and remaining decisions. Earlier reports below remain historical Phase 4 evidence.
+**Status · October 8, 2026**
 
-## Read first
+- Phase 4 and Pilot 0 infrastructure accepted.
+- **209 tests passed; 0 failed; 0 skipped.** Seven validation gates passed; four deliberate software mutations were caught. [Validation record](outputs/loop/front-door-validation.json).
+- **0 published real-media results.** The checked examples use synthetic judgments and generated technical video fixtures.
+- No live model judges, measured workflow advantage, or claims of superiority. The intent study is designed, not run.
 
-- [Research synthesis and measurable acceptance plan](docs/research/synthesis.md)
-- [Media benchmarks and current model candidates](docs/research/media-methods.md)
-- [Human evaluation, ontology and standards](docs/research/methods-standards.md)
-- [Agent harness research and practitioner methods](docs/research/agent-harness.md)
-- [Independent source fact-check and corrections](docs/research/independent-fact-check.md)
-- [Phase 4 checkpoint report](docs/checkpoint.md)
+## Three minutes
 
-Research has a **2026-10-06** cutoff, three parallel research tracks, a separate recent-paper/model sweep, and an independent claim review. Registers preserve primary URLs, dates, claims and limitations. Freshness is bounded by sources checked, not a promise of exhaustive internet coverage or local model availability.
+Read the [Pilot 0 report](docs/pilot0-report.md) for the implemented boundary and the [first-clip guide](docs/pilot0.md) for the human workflow. After setup, run:
 
-## Run
+```sh
+.venv/bin/eval-pilot doctor
+.venv/bin/python -m pytest -q
+.venv/bin/eval-pilot --help
+```
 
-Python 3.12 or newer; `uv.lock` pins the resolved environment. No model credentials required.
+Passing these checks establishes software behavior. It does not validate a perceptual judgment or demonstrate scientific or production effectiveness.
+
+## Setup
+
+Use Python 3.12 or newer and `uv`. From the repository root:
 
 ```sh
 uv sync --frozen --extra test
-uv run --frozen --extra test pytest -q
-uv run --frozen --extra test eval-lab --output outputs/demo.json
-uv run --frozen --extra test eval-lab-check --output outputs/approval.json
 ```
 
-The project environment already contains the dependencies. Without uv:
+Media tests and ingestion require both `ffmpeg` and `ffprobe`. On Apple Silicon macOS, the optional installer downloads third-party builds and checks pinned SHA-256 values:
 
 ```sh
-.venv/bin/python -m pytest -q
-.venv/bin/python -m eval_lab.demo --output outputs/demo.json
-.venv/bin/python -m eval_lab.harness --output outputs/approval.json
+python3 scripts/install_media_tools.py
 ```
 
-The CLI uses an ephemeral SQLite database by default. `--db /absolute/path/demo.sqlite` retains the append-only records. Replaying identical fixture data is idempotent. Do not use authored demo seeds, synthetic identities or this API stub as a production service.
+On other platforms, install those tools separately. The CLI discovers them through `PATH` or absolute `EVAL_LAB_FFMPEG` and `EVAL_LAB_FFPROBE` paths. The recorded validation used Python 3.12.14 and FFmpeg 9.0 on macOS; other platforms have not been validated here. No model credentials are required.
 
-## What is implemented
+## What exists
 
-- Frozen, typed, versioned domain snapshots with canonical hashes, linked intent and evidentiary claims.
-- SQLAlchemy/SQLite persistence, foreign keys, unique submission keys, initial schema version, and SQLite append-only triggers.
-- Thirteen dimensions with behavioral 0–4 anchors; intent-specific applicability, explicit abstention, critical-failure veto and provisional regeneration policy.
-- Human/pairwise rating records, stable blinded assignment, tie/cannot-determine distinction, ordinal alpha, nominal/quadratic kappa and exact agreement.
-- Thirteen bounded deterministic specialists; validated output contracts, pinned fixture rules and rubric, exact-input cache, call/time limits and traces.
-- Disagreement proposals, two competing hypothesis records and an intention-bearing graph. No hypothesis tests executed.
-- Public/embed allowlist serializers using the same stored case; reveal follows a stored session rating. Health and deny-execution FastAPI stubs only.
-- Reproducible demonstration, adversarial tests, independent review and an offline approval harness with negative controls.
+- Verified local video copies, ffprobe metadata, decoded timestamps, deterministic frame extraction, and derivative manifests. Reproducibility checks use the recorded toolchain.
+- Human-authored intent, observations, hypotheses, relation claims, test proposals, and confidence revisions. Sphoenix supplies every substantive real-media judgment.
+- Versioned records, append-only SQLite storage, and snapshots that pin revisions and hashes. Missing evidence remains `UNKNOWN`.
+- Synthetic scoring and disagreement demonstrations with critical-failure vetoes. The fixture specialists are authored rules, not independent perceptual judges.
 
-## Layout
+Private clips and annotations stay in the ignored `pilot-local/` workspace. Public/embed serializers are fixture-only. Derivative PNGs are not a color-managed HDR viewing workflow. The [architecture](docs/architecture.md) and [Pilot 0 guide](docs/pilot0.md) document these limits.
 
-```text
-src/eval_lab/
-  domain.py          # intention, evidence, rubric, rating, claims, graph
-  persistence.py     # typed snapshots, SQL links, admission invariants
-  rubrics.py         # explicit provisional anchors and thresholds
-  scoring.py         # critical veto, unknown, review, pass
-  agreement.py       # exact agreement, kappa, frequency-ordinal alpha
-  providers.py       # protocols and clearly synthetic provider
-  swarm.py           # finite independent first passes and traces
-  disagreement.py    # conflict representation, never ground truth
-  presentation.py    # public/embed projections and reveal contract
-  api.py             # boundary stubs, live execution denied
-  fixtures.py        # twelve authored scenario records
-  demo.py            # Phase 1–4 end-to-end walkthrough
-  harness.py         # tests, replay, guards and scoped approval
-tests/               # implementation and independent-review regressions
-docs/research/       # evidence, comparisons, freshness/fact-check sweeps
-outputs/             # actual generated demo and approval artifacts
-```
+## Roadmap
 
-One backend serves all planned surfaces. Providers, site integrations, public hosting and later gold/regression/VFX engines remain behind the Phase 4 checkpoint. [Architecture](docs/architecture.md), [ontology](docs/ontology.md), [roadmap](docs/roadmap.md).
+The evaluated build loop is planned, not running. Next: Pilot 0.1 intent sealing and explicit test/resolution records; three human-authored cases; validated instruments; then studies. Each later stage needs separate approval.
 
-## What passing means
+The first planned study compares no intent, true intent, and decoy intent to test whether unstated intent explains some evaluator disagreement. The lab's thesis must remain useful if that effect is small. No participants or results are reported. See the [roadmap](docs/roadmap.md).
 
-`APPROVED_FOR_OFFLINE_TESTING` means the scoped executable checks passed for the recorded source digest. `NEEDS_HUMAN_VALIDATION` remains true. Agreement among coding agents or fixture judges does not validate a visual judgment, demonstrate human-time savings, establish causality, or authorize production deployment.
+Live providers, gold sets, regression/VFX engines, instrument execution, and a frontend remain deferred. Research references have an [October 6, 2026 cutoff](docs/research/synthesis.md).
 
-Before a live pilot, compare trained-human-only, one qualified judge plus human, and bounded specialists plus human at comparable quality/resource budgets. Include a flat-evidence-log comparison to test whether the intent graph adds value. Measure missed severe failures first, then review time, cost and rework. Preserve negative or inconclusive results.
+## License
+
+No project license has been selected yet.

@@ -1,0 +1,296 @@
+{
+  "type": "object",
+  "properties": {
+    "step": {
+      "type": "integer"
+    },
+    "item": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "builder",
+        "evaluator"
+      ]
+    },
+    "round": {
+      "type": "integer",
+      "enum": [
+        1,
+        2
+      ]
+    },
+    "diff_sha256": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "scores": {
+      "type": "object",
+      "properties": {
+        "relevance": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "score",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "intention": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "score",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "relation": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "score",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "production_quality": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "score",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "accuracy": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "score",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "score",
+            "evidence"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "relevance",
+        "intention",
+        "relation",
+        "production_quality",
+        "accuracy",
+        "scope"
+      ],
+      "additionalProperties": false
+    },
+    "blocking_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "dimension": {
+            "type": "string",
+            "enum": [
+              "relevance",
+              "intention",
+              "relation",
+              "production_quality",
+              "accuracy",
+              "scope"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "MINOR",
+              "MATERIAL",
+              "SEVERE",
+              "CATASTROPHIC"
+            ]
+          },
+          "location": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "required_fix": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "dimension",
+          "severity",
+          "location",
+          "description",
+          "required_fix"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "loophole_audit": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "criterion": {
+            "type": "string"
+          },
+          "lazy_pass": {
+            "type": "string"
+          },
+          "present_in_diff": {
+            "type": "boolean"
+          },
+          "evidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "criterion",
+          "lazy_pass",
+          "present_in_diff",
+          "evidence"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "step",
+    "item",
+    "role",
+    "round",
+    "diff_sha256",
+    "summary",
+    "scores",
+    "blocking_findings",
+    "loophole_audit",
+    "flags"
+  ],
+  "additionalProperties": false
+}
