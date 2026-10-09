@@ -1,0 +1,417 @@
+[
+  {
+    "id": "M01",
+    "title": "VBench: Comprehensive Benchmark Suite for Video Generative Models",
+    "url": "https://arxiv.org/abs/2311.17982",
+    "published_date": "2023-11-29",
+    "accessed_date": "2026-10-06",
+    "claim": "Defines 16 evaluation dimensions with tailored prompts and human alignment checks.",
+    "kind": "paper",
+    "limitations": "Original benchmark distribution; not a professional production acceptance policy."
+  },
+  {
+    "id": "M02",
+    "title": "VBench++: Comprehensive and Versatile Benchmark Suite for Video Generative Models",
+    "url": "https://arxiv.org/abs/2411.13503",
+    "published_date": "2024-11-20",
+    "accessed_date": "2026-10-06",
+    "claim": "Extends the VBench approach to image-to-video and trustworthiness evaluation.",
+    "kind": "paper",
+    "limitations": "Distinct version and protocol; results must not be silently merged with VBench."
+  },
+  {
+    "id": "M03",
+    "title": "VBench-2.0: Advancing Video Generation Benchmark Suite for Intrinsic Faithfulness",
+    "url": "https://arxiv.org/abs/2503.21755",
+    "published_date": "2025-03-27",
+    "accessed_date": "2026-10-06",
+    "claim": "Evaluates human fidelity, controllability, creativity, physics, and commonsense.",
+    "kind": "paper",
+    "limitations": "Source-reported human alignment is not universal causal or physics validity."
+  },
+  {
+    "id": "M04",
+    "title": "VBench-2.0 official implementation",
+    "url": "https://github.com/Vchitect/VBench/blob/master/VBench-2.0/README.md",
+    "accessed_date": "2026-10-06",
+    "claim": "Documents benchmark prompt lists, evaluation pipeline, and custom-video support.",
+    "kind": "official_repository",
+    "limitations": "Live branch not pinned or executed; dependencies and model licenses require later qualification."
+  },
+  {
+    "id": "M05",
+    "title": "EvalCrafter: Benchmarking and Evaluating Large Video Generation Models",
+    "url": "https://arxiv.org/abs/2310.11440",
+    "published_date": "2023-10-17",
+    "accessed_date": "2026-10-06",
+    "claim": "Uses 700 prompts, 17 objective metrics, and fitted human-alignment coefficients.",
+    "kind": "paper",
+    "limitations": "Fitted weights need validation for new audiences and model distributions."
+  },
+  {
+    "id": "M06",
+    "title": "T2V-CompBench: A Comprehensive Benchmark for Compositional Text-to-video Generation",
+    "url": "https://arxiv.org/abs/2407.14505",
+    "published_date": "2024-07-19",
+    "accessed_date": "2026-10-06",
+    "claim": "Measures seven compositional categories with MLLM, detection, and tracking methods.",
+    "kind": "paper",
+    "limitations": "Category-dependent instruments; not proof of exhaustive temporal or causal validity."
+  },
+  {
+    "id": "M07",
+    "title": "VideoScore: Building Automatic Metrics to Simulate Fine-grained Human Feedback for Video Generation",
+    "url": "https://arxiv.org/abs/2406.15252",
+    "published_date": "2024-06-21",
+    "accessed_date": "2026-10-06",
+    "claim": "Trains automatic multi-aspect assessment from VideoFeedback containing 37.6K synthesized videos.",
+    "kind": "paper",
+    "limitations": "Reported correlations are dataset-specific; contemporary generator shift requires revalidation."
+  },
+  {
+    "id": "M08",
+    "title": "VideoScore-v1.1 model card",
+    "url": "https://huggingface.co/TIGER-Lab/VideoScore-v1.1",
+    "accessed_date": "2026-10-06",
+    "claim": "Provides a published VideoScore model as a candidate baseline for learned assessment.",
+    "kind": "official_model_card",
+    "limitations": "Weights not downloaded; capability claims not tested locally."
+  },
+  {
+    "id": "M09",
+    "title": "On the Content Bias in Frechet Video Distance",
+    "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Ge_On_the_Content_Bias_in_Frechet_Video_Distance_CVPR_2024_paper.pdf",
+    "accessed_date": "2026-10-06",
+    "claim": "Reports content bias that can favor spatial quality over temporal consistency in FVD.",
+    "kind": "conference_paper",
+    "limitations": "Does not imply FVD is useless for all matched distribution-level comparisons."
+  },
+  {
+    "id": "M10",
+    "title": "Evaluating Text-to-Visual Generation with Image-to-Text Generation",
+    "url": "https://arxiv.org/abs/2404.01291",
+    "published_date": "2024-04-01",
+    "accessed_date": "2026-10-06",
+    "claim": "Proposes VQAScore and diagnoses compositional weaknesses of CLIP-like alignment.",
+    "kind": "paper",
+    "limitations": "A VQA score is model-dependent, not a calibrated probability of overall correctness."
+  },
+  {
+    "id": "M11",
+    "title": "GenEval: An Object-Focused Framework for Evaluating Text-to-Image Alignment",
+    "url": "https://arxiv.org/abs/2310.11513",
+    "accessed_date": "2026-10-06",
+    "claim": "Introduces object-focused text-to-image alignment evaluation.",
+    "kind": "paper",
+    "limitations": "Older benchmark may drift as models change; do not treat detector outputs as ground truth."
+  },
+  {
+    "id": "M12",
+    "title": "GenAI-Bench: Evaluating and Improving Compositional Text-to-Visual Generation",
+    "url": "https://arxiv.org/abs/2406.13743",
+    "published_date": "2024-06-19",
+    "accessed_date": "2026-10-06",
+    "claim": "Studies compositional text-to-visual generation and alignment against human ratings.",
+    "kind": "paper",
+    "limitations": "Disambiguate from the separately authored TIGER-Lab GenAI-Bench dataset."
+  },
+  {
+    "id": "M13",
+    "title": "TIGER-Lab GenAI-Bench dataset card",
+    "url": "https://huggingface.co/datasets/TIGER-Lab/GenAI-Bench",
+    "accessed_date": "2026-10-06",
+    "claim": "Documents pairwise human-preference data for image, image-editing, and video evaluation.",
+    "kind": "official_dataset_card",
+    "limitations": "Shared benchmark name does not imply identical authors, prompts, or labels."
+  },
+  {
+    "id": "M14",
+    "title": "GenEval 2: Addressing Benchmark Drift in Text-to-Image Evaluation",
+    "url": "https://arxiv.org/abs/2512.16853",
+    "published_date": "2025-12-18",
+    "accessed_date": "2026-10-06",
+    "claim": "Documents benchmark drift and proposes more compositional evaluation with Soft-TIFA.",
+    "kind": "paper",
+    "limitations": "Continual audits remain necessary; no guarantee the replacement cannot drift."
+  },
+  {
+    "id": "M15",
+    "title": "DynamicEval: Rethinking Evaluation for Dynamic Text-to-Video Synthesis",
+    "url": "https://arxiv.org/abs/2510.07441",
+    "published_date": "2025-10-08",
+    "accessed_date": "2026-10-06",
+    "claim": "Studies dynamic camera motion and foreground/background consistency including occlusion failures.",
+    "kind": "preprint",
+    "limitations": "ArXiv page labels it a preprint under review; local reproduction not performed."
+  },
+  {
+    "id": "M16",
+    "title": "T2VPhysBench: A First-Principles Benchmark for Physical Consistency in Text-to-Video Generation",
+    "url": "https://arxiv.org/abs/2505.00337",
+    "published_date": "2025-05-01",
+    "accessed_date": "2026-10-06",
+    "claim": "Uses physical-law testing, human evaluation, hint ablations, and counterfactual prompts.",
+    "kind": "paper",
+    "limitations": "Physics criteria require declared world assumptions and sufficient visual evidence."
+  },
+  {
+    "id": "M17",
+    "title": "PhyWorldBench: A Comprehensive Evaluation of Physical Realism in Text-to-Video Models",
+    "url": "https://arxiv.org/abs/2507.13428",
+    "published_date": "2025-07-17",
+    "accessed_date": "2026-10-06",
+    "claim": "Includes multiple physical phenomena and an Anti-Physics category.",
+    "kind": "paper",
+    "limitations": "Abstract model total/group counts are inconsistent; no exact model-count claim adopted."
+  },
+  {
+    "id": "M18",
+    "title": "RAVEN-Eval: Rubric-Guided Automatic Evaluation for AI Video Generation Models Based on LMM Preference Judgement",
+    "url": "https://arxiv.org/html/2608.09111v1",
+    "published_date": "2026-08-10",
+    "accessed_date": "2026-10-06",
+    "claim": "Uses task-specific pairwise rubrics and anchor-based model insertion; acknowledges sparse-frame motion limitations.",
+    "kind": "preprint_full_text",
+    "limitations": "Incomplete human coverage and limited model set restrict scalability evidence; no universal approval guarantee."
+  },
+  {
+    "id": "M19",
+    "title": "VGA-BenchV2: An Expanded Unified Benchmark and Multi-Model Framework for Evaluating Video Aesthetics and Generation Quality",
+    "url": "https://arxiv.org/abs/2608.25452",
+    "published_date": "2026-08-26",
+    "accessed_date": "2026-10-06",
+    "claim": "Separates aesthetic and generation quality in a 52-subdimension taxonomy with specialized evaluators.",
+    "kind": "paper",
+    "limitations": "Author-reported alignment; taxonomy needs local rater-discriminability testing."
+  },
+  {
+    "id": "M20",
+    "title": "VGI-Bench: Probing Visual Intelligence in Video Generation Models",
+    "url": "https://arxiv.org/abs/2608.19583",
+    "accessed_date": "2026-10-06",
+    "claim": "Evaluates visual reasoning capabilities through generated outputs.",
+    "kind": "paper",
+    "limitations": "Not a measure of all-purpose intelligence or general real-world reliability."
+  },
+  {
+    "id": "M21",
+    "title": "Knowledge-Intensive Video Generation",
+    "url": "https://arxiv.org/abs/2606.01285",
+    "published_date": "2026-05-31",
+    "accessed_date": "2026-10-06",
+    "claim": "Introduces factuality and helpfulness evaluation for explanatory or procedural video; revised September 28, 2026.",
+    "kind": "paper",
+    "limitations": "Domain correctness still needs qualified evidence; automatic metrics not locally validated."
+  },
+  {
+    "id": "M22",
+    "title": "VTR-Bench: A Systematic Benchmark for Evaluating Visual Text Rendering in Video Generation",
+    "url": "https://arxiv.org/abs/2610.01499",
+    "published_date": "2026-10-01",
+    "accessed_date": "2026-10-06",
+    "claim": "Evaluates video text fidelity separately from scene/motion requirements and describes an agentic keyframe workflow.",
+    "kind": "preprint",
+    "limitations": "Very recent work; no independent replication established in this research pass."
+  },
+  {
+    "id": "M23",
+    "title": "VABench: A Comprehensive Benchmark for Audio-Video Generation",
+    "url": "https://arxiv.org/abs/2512.09299",
+    "published_date": "2025-12-10",
+    "accessed_date": "2026-10-06",
+    "claim": "Provides multidimensional synchronous audio-video evaluation including audio-video and lip-speech consistency.",
+    "kind": "paper",
+    "limitations": "Audio evaluation requires observed audio and a qualified modality-specific instrument."
+  },
+  {
+    "id": "M24",
+    "title": "VABench CVPR 2026 proceedings",
+    "url": "https://openaccess.thecvf.com/content/CVPR2026/papers/Hua_VABench_A_Comprehensive_Benchmark_for_Audio-Video_Generation_CVPR_2026_paper.pdf",
+    "accessed_date": "2026-10-06",
+    "claim": "Confirms the VABench work appears in CVPR 2026 proceedings.",
+    "kind": "conference_paper",
+    "limitations": "Publication status is distinct from independent replication."
+  },
+  {
+    "id": "M25",
+    "title": "Veo 3.1 official model page",
+    "url": "https://deepmind.google/models/veo/",
+    "accessed_date": "2026-10-06",
+    "claim": "Documents Veo3.1 capabilities; comparative charts state October2025.",
+    "kind": "official_product_documentation",
+    "limitations": "Vendor comparisons are not an October2026 independent ranking or account-access proof."
+  },
+  {
+    "id": "M26",
+    "title": "Gemini API release notes",
+    "url": "https://ai.google.dev/gemini-api/docs/changelog",
+    "accessed_date": "2026-10-06",
+    "claim": "Records Omni1.1 Flash GA August27, Gemini3.8 Flash GA September2, and Nano Banana2.1 GA October6, 2026.",
+    "kind": "official_release_notes",
+    "limitations": "Current doc snapshot; regional/account access untested; future shutdown dates are announcements."
+  },
+  {
+    "id": "M27",
+    "title": "Creating with Gen-4.5",
+    "url": "https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5",
+    "accessed_date": "2026-10-06",
+    "claim": "Documents current Gen4.5 product workflow and text/image-to-video usage.",
+    "kind": "official_product_documentation",
+    "limitations": "Does not establish account API entitlement, release date, or independent quality ranking."
+  },
+  {
+    "id": "M28",
+    "title": "Seedance 2.0 Official Launch",
+    "url": "https://seed.bytedance.com/en/blog/seedance-2-0-official-launch",
+    "published_date": "2026-02-12",
+    "accessed_date": "2026-10-06",
+    "claim": "Announces multimodal audio-video creation supporting text, image, audio, and video input.",
+    "kind": "official_announcement",
+    "limitations": "Announcement and capability description do not prove universal API/region availability."
+  },
+  {
+    "id": "M29",
+    "title": "Introducing Kling 4.0",
+    "url": "https://kling.ai/blog/kling40-kling-visual-realism-creative-control-introducing-storytelling?tab=all",
+    "published_date": "2026-09-30",
+    "accessed_date": "2026-10-06",
+    "claim": "Describes early access, planned wider October rollout, and separately coming-soon features.",
+    "kind": "official_announcement",
+    "limitations": "Do not label early access as general availability or future HDR/extension as delivered."
+  },
+  {
+    "id": "M30",
+    "title": "Alibaba Cloud Wan text-to-video API guide",
+    "url": "https://www.alibabacloud.com/help/en/model-studio/text-to-video-guide/",
+    "accessed_date": "2026-10-06",
+    "claim": "Documents wan3.0-video and migration from wan2.7.",
+    "kind": "official_api_documentation",
+    "limitations": "No API called; endpoint documentation is not proof of weights release or account access."
+  },
+  {
+    "id": "M31",
+    "title": "Wan2.2 official repository",
+    "url": "https://github.com/Wan-Video/Wan2.2",
+    "accessed_date": "2026-10-06",
+    "claim": "Documents open Wan2.2 models and inference workflows.",
+    "kind": "official_repository",
+    "limitations": "Distinct from Wan3.0; exact checkpoint/runtime/license require recording before execution."
+  },
+  {
+    "id": "M32",
+    "title": "Wan3.0 official repository",
+    "url": "https://github.com/AlibabaCloud-Official/Wan3.0",
+    "accessed_date": "2026-10-06",
+    "claim": "Provides Wan3.0 announcement and capability information.",
+    "kind": "official_repository",
+    "limitations": "Repository existence alone does not establish released code or model weights."
+  },
+  {
+    "id": "M33",
+    "title": "LTX-2 official inference repository",
+    "url": "https://github.com/Lightricks/LTX-2",
+    "accessed_date": "2026-10-06",
+    "claim": "Recommends LTX2.5 and documents component weights and inference pipelines.",
+    "kind": "official_repository",
+    "limitations": "Live repository not pinned/executed; pipeline versions and dependencies can change."
+  },
+  {
+    "id": "M34",
+    "title": "LTX-2.5 model card",
+    "url": "https://huggingface.co/Lightricks/LTX-2.5",
+    "accessed_date": "2026-10-06",
+    "claim": "Documents published component weights, gated access, and community-license conditions.",
+    "kind": "official_model_card",
+    "limitations": "Open weights do not imply unrestricted license; local hardware and runtime untested."
+  },
+  {
+    "id": "M35",
+    "title": "LTX-2.5 API model documentation",
+    "url": "https://docs.ltx.io/models/ltx-2-5",
+    "accessed_date": "2026-10-06",
+    "claim": "Documents fast/pro API variants and supported generation endpoints.",
+    "kind": "official_api_documentation",
+    "limitations": "API constraints differ from local pipeline behavior; no paid requests made."
+  },
+  {
+    "id": "M36",
+    "title": "OpenAI API deprecations",
+    "url": "https://developers.openai.com/api/docs/deprecations",
+    "accessed_date": "2026-10-06",
+    "claim": "Lists Sora2 aliases/snapshots and Videos API shutdown on September24, 2026.",
+    "kind": "official_api_documentation",
+    "limitations": "Use for historical-provider status; does not validate availability of archived media."
+  },
+  {
+    "id": "M37",
+    "title": "OpenAI image generation API reference",
+    "url": "https://developers.openai.com/api/reference/resources/images/methods/generate",
+    "accessed_date": "2026-10-06",
+    "claim": "Lists GPT Image2.5 Sunburst/Flare and dated September8, 2026 snapshots.",
+    "kind": "official_api_documentation",
+    "limitations": "Snapshot date is not necessarily public release date; account access untested."
+  },
+  {
+    "id": "M38",
+    "title": "What is FLUX.2?",
+    "url": "https://help.bfl.ai/articles/4292391522-what-is-flux-2",
+    "accessed_date": "2026-10-06",
+    "claim": "Describes FLUX2 variants and API versus local deployment options; page updated June12, 2026.",
+    "kind": "official_product_documentation",
+    "limitations": "Variant-specific capabilities and licenses must be checked individually."
+  },
+  {
+    "id": "M39",
+    "title": "FLUX.2 official inference repository",
+    "url": "https://github.com/black-forest-labs/flux2",
+    "accessed_date": "2026-10-06",
+    "claim": "Provides official code and links for FLUX2 inference.",
+    "kind": "official_repository",
+    "limitations": "No weights or runtime executed; pin revision before reproducibility claims."
+  },
+  {
+    "id": "M40",
+    "title": "Gemini 3.8 Flash model documentation",
+    "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+    "accessed_date": "2026-10-06",
+    "claim": "Documents text/image/video/audio/PDF input and structured outputs.",
+    "kind": "official_model_documentation",
+    "limitations": "Input modality support is not validated temporal-judging quality."
+  },
+  {
+    "id": "M41",
+    "title": "Qwen3.8-27B model card",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-27B",
+    "accessed_date": "2026-10-06",
+    "claim": "Documents open native vision-language weights and image/video understanding.",
+    "kind": "official_model_card",
+    "limitations": "No local inference; runtime, quantization, preprocessing, and licenses need recording."
+  },
+  {
+    "id": "M42",
+    "title": "Qwen3.8 official repository and release history",
+    "url": "https://github.com/QwenLM/Qwen3.8",
+    "accessed_date": "2026-10-06",
+    "claim": "Dates Qwen3.8-27B availability to August14, 2026.",
+    "kind": "official_repository",
+    "limitations": "The prior Qwen3.5 URL redirects here; historical versions need pinned revisions."
+  },
+  {
+    "id": "M43",
+    "title": "GPT-6 Astra model documentation",
+    "url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+    "accessed_date": "2026-10-06",
+    "claim": "Documents image input and structured outputs; native audio and video are not supported.",
+    "kind": "official_model_documentation",
+    "limitations": "Sampled-frame analysis must not be represented as full-video observation."
+  },
+  {
+    "id": "M44",
+    "title": "Claude models overview",
+    "url": "https://platform.claude.com/docs/en/models/overview",
+    "accessed_date": "2026-10-06",
+    "claim": "Lists Fable5.1, Opus5.5, Sonnet5.5 and their text/image input support.",
+    "kind": "official_model_documentation",
+    "limitations": "Catalog presence is not a media-judge qualification result or native-video guarantee."
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "comparison_basis": "Accepted Phase 4 source manifest for runtime/tests/config; authored change inventory for docs/contracts/examples. This workspace has no Git repository.",
+  "added": [
+    "docs/pilot0-report.md",
+    "docs/pilot0.md",
+    "examples/pilot0/confidence.blank.json",
+    "examples/pilot0/dataset.empty.json",
+    "examples/pilot0/hypothesis.blank.json",
+    "examples/pilot0/intent.blank.json",
+    "examples/pilot0/observation.blank.json",
+    "examples/pilot0/relation.blank.json",
+    "pilot0/experimental-contracts.json",
+    "pilot0/outcome-contracts.json",
+    "schemas/pilot0-bundle.json",
+    "schemas/pilot0-dataset.schema.json",
+    "scripts/install_media_tools.py",
+    "src/eval_lab/media.py",
+    "src/eval_lab/pilot.py",
+    "src/eval_lab/pilot_cli.py",
+    "src/eval_lab/pilot_domain.py",
+    "tests/test_media.py",
+    "tests/test_pilot.py"
+  ],
+  "modified": [
+    ".gitignore",
+    "README.md",
+    "pyproject.toml",
+    "src/eval_lab/persistence.py"
+  ],
+  "generated_validation_outputs": [
+    "outputs/pilot0/approval.json",
+    "outputs/pilot0/toolchain.json",
+    "outputs/pilot0/readiness.json",
+    "outputs/pilot0/files-changed.json"
+  ],
+  "local_ignored": [
+    ".tools/ffmpeg",
+    ".tools/ffprobe",
+    ".tools/installation.json",
+    "pilot-local/pilot.sqlite"
+  ],
+  "dependency_lock_unchanged": true
+}

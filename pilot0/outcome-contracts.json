@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "status": "MEASUREMENT_DEFINITIONS_ONLY_NO_RESULTS",
+  "missing_policy": "Unresolved reference, unavailable evidence or absent measurement produces null/UNKNOWN with a reason and denominator; never zero accuracy or a pass.",
+  "outcomes": [
+    {
+      "id":"reference_agreement",
+      "name":"Agreement with adjudicated human reference",
+      "unit":"Applicable clip-dimension judgment under one intent and rubric snapshot",
+      "measure":"Exact category agreement and confusion matrix; ordinal agreement separately when enough pairable units and nondegenerate marginals exist",
+      "denominator":"All applicable judgments with a resolved independent reference; report unresolved/abstained exclusions and coverage separately",
+      "requires":"Independent blinded human ratings and future adjudication; not present in Pilot 0"
+    },
+    {
+      "id":"evaluation_time",
+      "name":"Time to evaluation",
+      "unit":"Seconds per reviewer-case session",
+      "measure":"Active start/pause/resume/finish time plus total wall time; separately record preprocessing, assistance latency and rework",
+      "denominator":"Completed sessions; retain interrupted and unfinished sessions as censored/incomplete, not zero",
+      "requires":"Operator-controlled timer records; local UTC timing is recorded, clock adjustments and forgotten pauses need review"
+    },
+    {
+      "id":"useful_disagreement",
+      "name":"Useful disagreement discovery",
+      "unit":"Distinct disputed claim per case",
+      "measure":"Count independent human-confirmed new actionable issues and fraction of flagged disagreements confirmed useful; also report false leads and unresolved issues",
+      "denominator":"All flagged disputes reviewed under a predeclared usefulness criterion, plus review coverage",
+      "requires":"Human assessment of whether a dispute changed the decision, exposed a missed issue or motivated an informative test; agent vote count is not usefulness"
+    },
+    {
+      "id":"failure_classification",
+      "name":"Failure classification accuracy",
+      "unit":"Applicable failure-category judgment per clip",
+      "measure":"Per-category confusion counts, precision/recall and macro F1 where defined; prioritize missed severe failures and separate severity from category",
+      "denominator":"Resolved reference labels; retain multilabel cases, absent classes and abstention explicitly",
+      "requires":"Versioned category definitions and future adjudicated reference; no current automated classification"
+    },
+    {
+      "id":"test_quality",
+      "name":"Discriminating-test quality",
+      "unit":"Human-authored proposed test",
+      "measure":"Blinded human ratings on discrimination between alternatives, explicit prediction/falsifier, control of confounding and practical feasibility; record facet distributions, reviewer agreement and rationale",
+      "denominator":"All proposed tests reviewed; separately count missing or untestable proposals",
+      "requires":"Provisional facet anchors: 0 absent/uncheckable, 1 partly specified, 2 operationally checkable. Calibrate these human review anchors before comparison; no test execution or automatic quality scoring"
+    },
+    {
+      "id":"confidence_calibration",
+      "name":"Confidence calibration",
+      "unit":"A predeclared probabilistic prediction with subsequently resolved binary outcome",
+      "measure":"Brier score and reliability bins with counts, only after probability semantics and the resolution rule are fixed; retain pre/post evidence confidence separately",
+      "denominator":"Resolved predictions with prospectively recorded probabilities; report resolution coverage and avoid treating repeated revisions as independent cases",
+      "requires":"Current subjective observation/hypothesis confidence is uncalibrated and is not automatically an empirical probability. No Brier/calibration result until a human defines the event and reference procedure"
+    },
+    {
+      "id":"rubric_revisions",
+      "name":"Rubric revision frequency",
+      "unit":"Substantive revision event per completed case count",
+      "measure":"Number of substantive rubric versions per 10 completed cases; distinguish editorial fixes, changed anchors, changed applicability and added/merged dimensions",
+      "denominator":"Completed cases examined, with exposure count per rubric version",
+      "requires":"Human revision reason and motivating evidence; a higher revision rate is not inherently better or worse; no autonomous rubric changes"
+    }
+  ],
+  "uncertainty_plan":"Future paired analysis and resampling must respect prompt/media lineage and reviewer dependence; no inferential comparison runs in Pilot 0.",
+  "undecided_before_comparison":["Target production task and reviewer population","Human reference/adjudication procedure","Severe-defect definition and meaningful margin","Viewing conditions and SDR/HDR scope","Condition counterbalancing and resource limits","Confidence event wording and usefulness criterion"]
+}

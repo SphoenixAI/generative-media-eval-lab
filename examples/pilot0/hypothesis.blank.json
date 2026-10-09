@@ -1,0 +1,13 @@
+{
+  "observed_problem": "",
+  "proposed_cause": "",
+  "confidence": null,
+  "supporting_evidence": [],
+  "contradicting_evidence": [],
+  "evidence_required": [
+    ""
+  ],
+  "discriminating_test": "",
+  "predicted_observation": "",
+  "falsifying_observation": ""
+}

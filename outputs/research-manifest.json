@@ -1,0 +1,24 @@
+{
+  "cutoff": "2026-10-06",
+  "claim_records": 83,
+  "distinct_primary_urls": 83,
+  "domains": 33,
+  "registers": [
+    {
+      "path": "docs/research/harness-sources.json",
+      "sha256": "466a29770c74cefa1fef9a426d480ab282e7c4c4ac15a260a17bbd1aeb950784",
+      "records": 19
+    },
+    {
+      "path": "docs/research/media-sources.json",
+      "sha256": "08cde19d4a28ffff7c8972bab75831c2edb8fca4654dd930a898c7f80d1acc98",
+      "records": 44
+    },
+    {
+      "path": "docs/research/standards-sources.json",
+      "sha256": "8cffb67b7b28480e9067e9871fa40115915effda20e47411b520d7f0645a5272",
+      "records": 20
+    }
+  ],
+  "coverage": "Targeted extensive primary-source research, separate freshness sweep and selected independent claim checks; not exhaustive internet coverage or replication."
+}

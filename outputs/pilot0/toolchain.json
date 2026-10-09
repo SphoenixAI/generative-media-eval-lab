@@ -1,0 +1,16 @@
+{
+  "automated_media_judging": false,
+  "local_video_only": true,
+  "tools": {
+    "ffmpeg": {
+      "executable_sha256": "591260c945d0eef150e3bf82b0ef988bd36a9cecc18ff05d6679617159f0a95e",
+      "name": "ffmpeg",
+      "version": "ffmpeg version 9.0 Copyright (c) 2000-2026 the FFmpeg developers\nbuilt with Apple clang version 13.1.6 (clang-1316.0.21.2.5)\nconfiguration: --prefix=/Volumes/tempdisk/sw --extra-cflags=-fno-stack-check --arch=arm64 --cc=/usr/bin/clang --enable-gpl --enable-libvmaf --enable-libopenjpeg --enable-libopus --enable-libmp3lame --enable-libx264 --enable-libx265 --enable-libvvenc --enable-libvpx --enable-libwebp --enable-libass --enable-libfreetype --enable-fontconfig --enable-libtheora --enable-libvorbis --enable-libsnappy --enable-libaom --enable-libvidstab --enable-libzimg --enable-libsvtav1 --enable-libharfbuzz --enable-libkvazaar --pkg-config-flags=--static --enable-ffplay --enable-neon --enable-runtime-cpudetect --disable-indev=qtkit --disable-indev=x11grab_xcb\nlibavutil      61.  1.100 / 61.  1.100\nlibavcodec     63.  1.100 / 63.  1.100\nlibavformat    63.  1.100 / 63.  1.100\nlibavdevice    63.  1.100 / 63.  1.100\nlibavfilter    12.  1.100 / 12.  1.100\nlibswscale     10.  1.100 / 10.  1.100\nlibswresample   7.  1.100 /  7.  1.100\n\nExiting with exit code 0"
+    },
+    "ffprobe": {
+      "executable_sha256": "e11c17e8200b3ee4c4c186d245e2b4053f01d56957336c1817fca0b997469106",
+      "name": "ffprobe",
+      "version": "ffprobe version 9.0 Copyright (c) 2007-2026 the FFmpeg developers\nbuilt with Apple clang version 13.1.6 (clang-1316.0.21.2.5)\nconfiguration: --prefix=/Volumes/tempdisk/sw --extra-cflags=-fno-stack-check --arch=arm64 --cc=/usr/bin/clang --enable-gpl --enable-libvmaf --enable-libopenjpeg --enable-libopus --enable-libmp3lame --enable-libx264 --enable-libx265 --enable-libvvenc --enable-libvpx --enable-libwebp --enable-libass --enable-libfreetype --enable-fontconfig --enable-libtheora --enable-libvorbis --enable-libsnappy --enable-libaom --enable-libvidstab --enable-libzimg --enable-libsvtav1 --enable-libharfbuzz --enable-libkvazaar --pkg-config-flags=--static --enable-ffplay --enable-neon --enable-runtime-cpudetect --disable-indev=qtkit --disable-indev=x11grab_xcb\nlibavutil      61.  1.100 / 61.  1.100\nlibavcodec     63.  1.100 / 63.  1.100\nlibavformat    63.  1.100 / 63.  1.100\nlibavdevice    63.  1.100 / 63.  1.100\nlibavfilter    12.  1.100 / 12.  1.100\nlibswscale     10.  1.100 / 10.  1.100\nlibswresample   7.  1.100 /  7.  1.100"
+    }
+  }
+}

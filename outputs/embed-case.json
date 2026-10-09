@@ -1,0 +1,411 @@
+{
+  "choices": [
+    "A",
+    "B",
+    "tie",
+    "cannot_determine"
+  ],
+  "fixture_notice": "Synthetic records only; no playable media or validated human consensus.",
+  "mode": "embed",
+  "outputs": [
+    {
+      "label": "A",
+      "media_state": "fixture_no_media",
+      "presentation_token": "d35363ed41bbdc6aa50e91ffe1b99596bb24305ecdecb41207eb87d1bc71204b"
+    },
+    {
+      "label": "B",
+      "media_state": "fixture_no_media",
+      "presentation_token": "e3d5b0c4f8281f1a6c60feaf4daba1180b9336af08258e038baeac8bad669781"
+    }
+  ],
+  "prompt": "A red dog walks across a stable ground grid in a single static-camera realistic shot.",
+  "remaining_uncertainty": "Fixture judgments do not establish media quality, human reliability or evaluator validity.",
+  "results": [
+    {
+      "agent_scores": [
+        {
+          "dimension": "prompt_adherence",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 0,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "subject_consistency",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "semantic_consistency",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "temporal_consistency",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "temporal_geometry",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "motion_plausibility",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "occlusion_consistency",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "lighting_continuity",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "camera_language",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "composition",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "artifacting",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "aesthetic_quality",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "editability",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        }
+      ],
+      "human_score_distributions": {
+        "aesthetic_quality": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "artifacting": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "camera_language": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "composition": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "editability": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "lighting_continuity": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "motion_plausibility": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "occlusion_consistency": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "prompt_adherence": {
+          "0": 1,
+          "1": 1,
+          "2": 0,
+          "3": 1,
+          "4": 0
+        },
+        "semantic_consistency": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "subject_consistency": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "temporal_consistency": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "temporal_geometry": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        }
+      },
+      "label": "A"
+    },
+    {
+      "agent_scores": [
+        {
+          "dimension": "prompt_adherence",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "subject_consistency",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "semantic_consistency",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "temporal_consistency",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "temporal_geometry",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "motion_plausibility",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "occlusion_consistency",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "lighting_continuity",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "camera_language",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "composition",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "artifacting",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "aesthetic_quality",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 1,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        },
+        {
+          "dimension": "editability",
+          "evaluator_digest": "81d76d3884872e68a18b39b8ef818a0dc91014bc74d0afcd6eced1c3f16298e6",
+          "score": 4,
+          "source_mode": "deterministic_fixture",
+          "status": "scored"
+        }
+      ],
+      "human_score_distributions": {
+        "aesthetic_quality": {
+          "0": 0,
+          "1": 3,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "artifacting": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "camera_language": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "composition": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "editability": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "lighting_continuity": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "motion_plausibility": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "occlusion_consistency": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "prompt_adherence": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "semantic_consistency": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "subject_consistency": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "temporal_consistency": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        },
+        "temporal_geometry": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 3
+        }
+      },
+      "label": "B"
+    }
+  ],
+  "schema_version": 1,
+  "slug": "demo-comparison",
+  "stage": "revealed",
+  "title": "A beautiful output can fail its brief",
+  "your_evaluation": {
+    "choice": "cannot_determine"
+  }
+}

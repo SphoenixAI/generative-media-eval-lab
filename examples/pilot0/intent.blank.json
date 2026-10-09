@@ -1,0 +1,15 @@
+{
+  "objective": "",
+  "audience": "",
+  "context": "",
+  "constraints": [],
+  "prohibited_outcomes": [],
+  "criteria": [
+    {
+      "dimension": null,
+      "applicability": "required",
+      "rationale": "",
+      "acceptance": ""
+    }
+  ]
+}
