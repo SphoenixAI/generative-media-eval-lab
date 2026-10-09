@@ -1,0 +1,155 @@
+{
+  "claims": [
+    {
+      "affects_this_step": true,
+      "claim": "Pydantic v2 BaseModel.model_copy(update=...) does not validate supplied update values before returning the copied model.",
+      "id": "R0003-C001",
+      "newer_practice": {
+        "date": "2026-04-13",
+        "summary": "Pydantic 2.13 changed RootModel shallow-copy behavior. This does not introduce update validation or change this step's validation requirement.",
+        "url": "https://pydantic.dev/articles/pydantic-v2-13-release"
+      },
+      "origin": "plan",
+      "recommended_action": "When updates must preserve field and model invariants, validate a reconstructed input mapping with model_validate. Cover invalid field values and cross-field combinations with regression tests.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "no validation is performed on updated values.",
+          "title": "Pydantic BaseModel API \u2014 model_copy",
+          "url": "https://pydantic.dev/docs/validation/latest/api/pydantic/base_model/#model_copy"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "RFC 3161 defines time-stamping evidence that a datum existed before a particular time, requires a trustworthy time source, and does not examine the time-stamped imprint beyond its length.",
+      "id": "R0003-C002",
+      "newer_practice": {
+        "date": "2026-02",
+        "summary": "RFC 9921 adds COSE timestamp headers with distinct payload and signature semantics. It preserves the claimed RFC 3161 properties; no change to this step is required.",
+        "url": "https://www.rfc-editor.org/rfc/rfc9921.html"
+      },
+      "origin": "plan",
+      "recommended_action": "Cite RFC 3161 sections 1 and 2.1, requirements 1, 7 and 8. Clarify that the TSA checks the hash algorithm identifier and digest length, without inspecting the underlying content or witnessing its generation.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "existed before a particular time. \u2026 to use a trustworthy source of time.",
+          "title": "RFC 3161 \u2014 Internet X.509 Public Key Infrastructure Time-Stamp Protocol (TSP)",
+          "url": "https://www.rfc-editor.org/rfc/rfc3161.html"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "A locally recorded seal-plan-registration ordering alone cannot prove that a clip was generated after its intent was sealed.",
+      "id": "R0003-C003",
+      "newer_practice": {
+        "date": "2026-02",
+        "summary": "RFC 9921 explicitly distinguishes what each timestamp covers. This reinforces the evidence boundary; it does not establish clip-generation timing.",
+        "url": "https://www.rfc-editor.org/rfc/rfc9921.html#section-5.1"
+      },
+      "origin": "plan",
+      "recommended_action": "Retain the limitation as an inference: a pre-existing clip can be registered after sealing while preserving the recorded ordering. Label the records as workflow-order evidence and leave generation-after-sealing unproven without evidence binding the actual generation event to the sealed intent.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "prove that it was created before a given time.",
+          "title": "RFC 9921 \u2014 COSE Header Parameter for Timestamp Tokens as Defined in RFC 3161",
+          "url": "https://www.rfc-editor.org/rfc/rfc9921.html#section-1"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "Pydantic v2 BaseModel.model_copy(update=...) does not validate supplied update values.",
+      "id": "R0003-C004",
+      "newer_practice": {
+        "date": "2026-04-13",
+        "summary": "Pydantic 2.13 changed RootModel shallow copying, without adding validation of update values. This does not change the finding.",
+        "url": "https://pydantic.dev/articles/pydantic-v2-13-release"
+      },
+      "origin": "evaluator",
+      "recommended_action": "Accept the external API finding. Require explicit validation wherever copied updates must preserve invariants; the cited repository implementation was not inspected in this research pass.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "no validation is performed on updated values.",
+          "title": "Pydantic BaseModel API \u2014 model_copy",
+          "url": "https://pydantic.dev/docs/validation/latest/api/pydantic/base_model/#model_copy"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "RFC 3161 defines evidence that a datum existed before a particular time, requires a trustworthy time source, and does not examine the timestamped imprint beyond its length.",
+      "id": "R0003-C005",
+      "newer_practice": {
+        "date": "2026-02",
+        "summary": "RFC 9921 standardizes COSE integration while retaining RFC 3161 timestamp semantics. It does not supersede this claim or require a change here.",
+        "url": "https://www.rfc-editor.org/rfc/rfc9921.html"
+      },
+      "origin": "evaluator",
+      "recommended_action": "Retain the finding with references to sections 1 and 2.1. Attribute the requirements to the TSA and preserve the distinction between digest existence evidence and validation of the underlying media or assertions.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "not to examine the imprint \u2026 other than to check its length",
+          "title": "RFC 3161 \u2014 Internet X.509 Public Key Infrastructure Time-Stamp Protocol (TSP)",
+          "url": "https://www.rfc-editor.org/rfc/rfc3161.html#section-2.1"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "Local seal-plan-registration timestamps alone cannot prove generation followed intent sealing; witnessing intent existence does not itself witness generation.",
+      "id": "R0003-C006",
+      "newer_practice": {
+        "date": "2026-02",
+        "summary": "RFC 9921 explicitly separates payload-existence evidence from signature evidence. By inference, witnessing intent existence cannot establish a separate generation event; the limitation remains necessary.",
+        "url": "https://www.rfc-editor.org/rfc/rfc9921.html#section-5.1"
+      },
+      "origin": "evaluator",
+      "recommended_action": "Retain this as an evidence-boundary inference. Report local ordering and intent witnessing separately, and keep generation timing unproven until evidence specifically covering generation is available.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "Validators must not interpret protected-header payload timestamps as proof of signature creation time",
+          "title": "RFC 9921 \u2014 Section 5.1, Avoiding Semantic Confusion",
+          "url": "https://www.rfc-editor.org/rfc/rfc9921.html#section-5.1"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "SQLAlchemy provides a path to PostgreSQL, while this repository's PostgreSQL isolation, triggers, migrations and load behavior remain unvalidated.",
+      "id": "R0003-C007",
+      "newer_practice": {
+        "date": "2026-09-24",
+        "summary": "SQLAlchemy 2.1 changes the default driver for postgresql:// URLs to psycopg 3. This matters when specifying a future PostgreSQL configuration, but does not establish repository readiness or require migration in this step.",
+        "url": "https://www.sqlalchemy.org/blog/2026/09/24/sqlalchemy-2.1.0-released/"
+      },
+      "origin": "evaluator",
+      "recommended_action": "The SQLAlchemy capability is confirmed, but the repository-specific validation status cannot be established from the supplied claim and empty ledger. Keep readiness explicitly unverified by this review. Require versioned PostgreSQL evidence covering isolation, triggers, migrations and representative load before asserting readiness.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "Support for the PostgreSQL database.",
+          "title": "PostgreSQL \u2014 SQLAlchemy 2.0 Documentation",
+          "url": "https://docs.sqlalchemy.org/en/20/dialects/postgresql.html"
+        }
+      ],
+      "verdict": "UNVERIFIABLE"
+    }
+  ],
+  "item": "L02",
+  "proposals": [],
+  "step": 3,
+  "summary": "Six claims confirmed, including two supported by explicit inference; one compound claim is unverifiable because repository validation evidence was not supplied. Read only claims.json and the empty ledger.jsonl. Opened primary sources and checked developments from the last 18 months; all URLs were accessed on 2026-10-08. No landscape scan was required."
+}
