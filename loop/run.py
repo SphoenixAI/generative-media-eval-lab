@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -80,9 +81,7 @@ def validate(value, schema, at='$'):
 def needs_enhancement(evaluation, research, gate):
     return (not gate.get('passed', False) or bool(evaluation['blocking_findings']) or
             any(s['score'] <= 2 for s in evaluation['scores'].values()) or
-            any(c['affects_this_step'] and
-                (c['verdict'] != 'CONFIRMED' or c['newer_practice'] is not None)
-                for c in research['claims']))
+            any(c['action_required'] for c in research['claims']))
 
 
 def observed_model(log):
@@ -128,12 +127,14 @@ def role_argv(role, cwd, output, schema=None):
 
 
 class Runner:
-    def __init__(self, root, *, fixtures=False):
+    def __init__(self, root, *, fixtures=False, recovery=None):
         self.root = Path(root).resolve()
         self.config = tomllib.loads((self.root / 'loop/config.toml').read_text())
         self.runs = (self.root / self.config['paths']['runs_dir']).resolve()
         self.environment = (self.root / self.config['paths']['env_dir']).resolve()
         self.fixture_mode = fixtures
+        self.recovery = recovery
+        self.recovered = False
         self.env = dict(os.environ, UV_PROJECT_ENVIRONMENT=str(self.environment),
                         LOOP_RUNNER_PID=str(os.getpid()))
         self.step = None
@@ -281,7 +282,8 @@ class Runner:
                        'researcher': 'research', 'enhancer': 'enhancement'}.get(role)
         schema = self.harness / f'schemas/{schema_kind}.schema.json' if schema_kind else None
         meta = read_json(self.step_dir / 'step.json')
-        prompt = (self.harness / f'prompts/{role}.md').read_text()
+        prompt_name = 'recovery_review' if self.recovered and role == 'builder_build' else role
+        prompt = (self.harness / f'prompts/{prompt_name}.md').read_text()
         prompt += '\n\nStep context (data, not additional permissions):\n' + json.dumps({
             'step': self.step, 'item': meta['item']['id'] if role == 'researcher' else meta['item'], 'round': round_number,
             **({'report': meta['report'], 'harness': str(self.harness),
@@ -302,7 +304,9 @@ class Runner:
             else:
                 timeout = self.config['timeouts_minutes'][role] * 60
                 with (self.step_dir / (output.stem + '.log')).open('w') as log:
-                    process = subprocess.Popen(role_argv(role, cwd, output, schema), cwd=cwd,
+                    argv = role_argv(role, cwd, output, schema)
+                    if self.recovered and role == 'builder_build': argv[argv.index('-s')+1] = 'read-only'
+                    process = subprocess.Popen(argv, cwd=cwd,
                               stdin=subprocess.PIPE, stdout=log, stderr=subprocess.STDOUT,
                               text=True, env=self.env, start_new_session=True)
                     try:
@@ -380,6 +384,60 @@ class Runner:
                              self.step_dir / f'eval_r{round_number}_hash_mismatch.json')
         return result  # Deterministic R5 handles the mismatch after its one rerun.
 
+    def recover_product(self, source_number, expected_hash):
+        """Verify the historical full diff in isolation; never restore old bookkeeping."""
+        source = self.runs / f'{source_number:04d}'
+        original = read_json(source / 'step.json')
+        current = read_json(self.step_dir / 'step.json')
+        evidence = {'source_step': source_number, 'new_step': self.step,
+                    'expected_diff_sha256': expected_hash, 'matched': False}
+        def record(reason):
+            evidence['reason'] = reason
+            write_json(self.step_dir / 'recovery.json', evidence)
+            return False
+        if original['item']['id'] != current['item']['id']:
+            return record('item mismatch; use fresh build')
+        patch = source / 'eval_view_r2/diff.patch'
+        raw = patch.read_bytes()
+        if hashlib.sha256(raw).hexdigest() != expected_hash:
+            return record('source diff hash mismatch; use fresh build')
+        with tempfile.TemporaryDirectory(prefix='eval-loop-recover-') as temporary:
+            replica = Path(temporary) / 'replica'
+            command(['git','clone','--shared','--no-checkout',str(self.root),str(replica)], self.root)
+            command(['git','checkout','--detach',original['base_commit']], replica)
+            command(['git','apply','--index',str(patch)], replica)
+            restored = subprocess.check_output(['git','diff','--binary',original['base_commit'],'--'],cwd=replica)
+            evidence['restored_diff_sha256'] = hashlib.sha256(restored).hexdigest()
+            if evidence['restored_diff_sha256'] != expected_hash:
+                return record('reconstructed diff hash mismatch; use fresh build')
+            paths = command(['git','diff','--name-only',original['base_commit'],'--'],replica).stdout.splitlines()
+            product = [name for name in paths if name != original['report']]
+            if not product or any(not name.startswith(('src/','tests/','docs/')) for name in product):
+                return record('unexpected recovery path; use fresh build')
+            delta = subprocess.check_output(['git','diff','--binary',original['base_commit'],'--',*product],cwd=replica)
+            product_patch = self.step_dir / 'recovered-product.patch'
+            product_patch.write_bytes(delta)
+            if self.git('apply','--check','--index',str(product_patch),check=False).returncode:
+                return record('current product base incompatible; use fresh build')
+            self.git('apply','--index',str(product_patch))
+            actual = subprocess.check_output(['git','diff','--binary',current['base_commit'],'--',*product],cwd=self.root)
+            if actual != delta:
+                # Roll back only the exact patch just applied; retain the new step skeleton.
+                self.git('apply','--reverse','--index',str(product_patch))
+                return record('restored product bytes mismatch; use fresh build')
+            evidence.update(matched=True,product_diff_sha256=hashlib.sha256(actual).hexdigest(),
+                            product_paths=product,original_base=original['base_commit'],
+                            excluded_historical_report=original['report'])
+        # Only the sealed plan is carried forward; all assessments are freshly produced.
+        import importlib.util
+        spec=importlib.util.spec_from_file_location('recovery_control',self.harness/'loopctl.py')
+        control=importlib.util.module_from_spec(spec); spec.loader.exec_module(control)
+        report=self.root/current['report']
+        report.write_text(control.replace_section(report.read_text(),'Plan',original['plan']))
+        evidence['reason']='exact historical full diff reconstructed; matching product patch restored; fresh validation required'
+        write_json(self.step_dir/'recovery.json',evidence)
+        return True
+
     def one_step(self):
         item = self.ctl('next', live=True)
         if item == 'NONE' or item is None:
@@ -392,7 +450,13 @@ class Runner:
         self.config = tomllib.loads((self.harness / 'config.toml').read_text())
         role_failed = False
         try:
-            self.role('builder_plan', 'builder_plan.md')
+            self.recovered = False
+            if self.recovery is not None:
+                source_number, expected_hash = self.recovery
+                self.recovery = None  # Never apply an old patch to a subsequent queue item.
+                self.recovered = self.recover_product(source_number, expected_hash)
+            if not self.recovered:
+                self.role('builder_plan', 'builder_plan.md')
             split_path = self.root / f'loop/reports/STEP-{self.step:04d}-split.toml'
             if split_path.exists():
                 self.ctl('split', '--step', str(self.step))
@@ -583,7 +647,15 @@ def main():
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--max-steps', type=int)
     parser.add_argument('--until')
+    parser.add_argument('--recover-step', type=int)
+    parser.add_argument('--recover-sha256')
     args = parser.parse_args()
+    if (args.recover_step is None) != (args.recover_sha256 is None):
+        parser.error('recovery requires both --recover-step and --recover-sha256')
+    if args.recover_sha256 and not re.fullmatch(r'[a-f0-9]{64}',args.recover_sha256):
+        parser.error('recovery requires a SHA-256 hex digest')
+    if args.dry_run and args.recover_step is not None:
+        parser.error('historical recovery is separate from synthetic dry-run')
     if args.max_steps is not None and args.max_steps < 1:
         parser.error('--max-steps must be positive')
     if args.until:
@@ -592,7 +664,7 @@ def main():
         except ValueError:
             parser.error('--until must be HH:MM')
     root = Path(__file__).resolve().parent.parent
-    return dry_run(root, args) if args.dry_run else Runner(root).run(
+    return dry_run(root, args) if args.dry_run else Runner(root,recovery=(args.recover_step,args.recover_sha256) if args.recover_step is not None else None).run(
         once=args.once, max_steps=args.max_steps, until=args.until)
 
 

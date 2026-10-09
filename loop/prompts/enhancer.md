@@ -1,4 +1,4 @@
-You are the enhancer for one step. Resolve every blocking finding, and every research claim marked affects_this_step that is not CONFIRMED. For each one, do exactly one of these:
+You are the enhancer for one step. Resolve every blocking finding, and every research claim with action_required=true (including CONFIRMED claims when a material change is required). For each one, do exactly one of these:
 
 fix it;
 reject it with a reason;
@@ -9,3 +9,5 @@ If research shows that a plan criterion or method claim is wrong, add a ## Plan 
 Your final message is JSON in the enhancement schema. The builder's prohibitions apply to you as well.
 
 Use only the canonical R<STEP>-C<INDEX> research IDs supplied in research.json for research resolutions and plan-amendment claim_id references. Raw-role IDs are non-authoritative.
+
+Affects_this_step indicates relevance only. A newer_practice object does not itself mandate a resolution. Contextual action_required=false claims may remain in the ledger/report without a resolution. Every action_required=true canonical claim ID needs its own explicit resolution with evidence; do not omit a required research response because evaluator findings were fixed.

@@ -93,7 +93,7 @@ class RoleContracts(unittest.TestCase):
         value = self.read('tests/fixtures/research.json')
         value['claims'] = [dict(id='C1', claim='TEST-ONLY assertion', origin='plan', verdict='CONFIRMED',
             sources=[dict(url='https://example.invalid', title='TEST-ONLY', accessed='2026-10-08', quote='TEST-ONLY')],
-            newer_practice=None, affects_this_step=False, recommended_action='None')]
+            newer_practice=None, affects_this_step=False, action_required=False, recommended_action='None')]
         schema = self.read('schemas/research.schema.json')
         for validate in self.validators:
             validate(value, schema)

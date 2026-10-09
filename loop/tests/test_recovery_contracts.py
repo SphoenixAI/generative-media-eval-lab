@@ -95,7 +95,7 @@ class RecoveryContracts(unittest.TestCase):
         self.write('research_view/claims.json', {'claims': [{'id': 'C1', 'claim': 'TEST-ONLY assertion'}]})
         research = self.read('research.json')
         research['claims'] = [dict(id='C1', claim='TEST-ONLY assertion', origin='plan', verdict='CONTRADICTED',
-             sources=[], newer_practice=None, affects_this_step=True, recommended_action='TEST-ONLY correction')]
+             sources=[], newer_practice=None, affects_this_step=True, action_required=True, recommended_action='TEST-ONLY correction')]
         research['proposals'] = [dict(title='Clarify wording', rationale='TEST-ONLY wording correction',
              size='S', risk='LOW', category='docs', relevance=4, claim_id='C1')]
         self.write('research.json', research)

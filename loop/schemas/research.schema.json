@@ -97,6 +97,9 @@
           },
           "recommended_action": {
             "type": "string"
+          },
+          "action_required": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -107,7 +110,8 @@
           "sources",
           "newer_practice",
           "affects_this_step",
-          "recommended_action"
+          "recommended_action",
+          "action_required"
         ],
         "additionalProperties": false
       }

@@ -149,7 +149,7 @@ def decision(evaluation, gate, all_gates, research, enhancement, failure, expect
     else:
         resolutions = {r['ref']: r for r in enhancement.get('resolutions', [])}
         required = {f['id'] for f in findings}
-        required |= {c['id'] for c in research.get('claims', []) if c['affects_this_step'] and (c['verdict'] != 'CONFIRMED' or c.get('newer_practice'))}
+        required |= {c['id'] for c in research.get('claims', []) if c['action_required']}
         prior_status = {p['ref']: p['status'] for p in evaluation.get('prior_findings', [])}
         unresolved = any(s == 'UNRESOLVED' for s in prior_status.values())
         if prior is not None:
@@ -325,6 +325,8 @@ class Control:
             ids={c['id'] for c in value['claims']}
             if any(p['claim_id'] is not None and p['claim_id'] not in ids for p in value['proposals']): raise ValueError('proposal requires canonical claim reference')
             for claim in value['claims']:
+                if claim['action_required'] and not claim['affects_this_step']: raise ValueError('required research action must affect this step')
+                if not claim['recommended_action'].strip(): raise ValueError('research action or no-action rationale is required')
                 if claim['verdict']!='UNVERIFIABLE' and not claim['sources']: raise ValueError('research verdict lacks primary-source evidence')
                 for source in claim['sources']:
                     if not all(source.values()) or not source['url'].startswith('https://'): raise ValueError('research source attribution is incomplete')
@@ -368,7 +370,7 @@ class Control:
                 text=replace_section(text,f'Independent evaluation, round {number}',content)
         research=self.optional_role(n,'research.json','research')
         if research:
-            content=research['summary']+'\n\n'+table(['ID','Claim','Verdict','Sources (accessed)','Newer practice','Affects step'],[(c['id'],c['claim'],c['verdict'],'; '.join(f"[{x['title']}]({x['url']}) ({x['accessed']})" for x in c['sources']),json.dumps(c['newer_practice']),c['affects_this_step']) for c in research['claims']])
+            content=research['summary']+'\n\n'+table(['ID','Claim','Verdict','Sources (accessed)','Newer practice','Affects step','Action required','Recommended action'],[(c['id'],c['claim'],c['verdict'],'; '.join(f"[{x['title']}]({x['url']}) ({x['accessed']})" for x in c['sources']),json.dumps(c['newer_practice']),c['affects_this_step'],c['action_required'],c['recommended_action']) for c in research['claims']])
             text=replace_section(text,'Research',content)
         enhancement=self.optional_role(n,'enhancement.json','enhancement')
         if enhancement:
@@ -503,6 +505,28 @@ class Control:
         if path.exists() and read(path)!=event: raise ValueError('classification already exists with different content')
         write(path,event)
         if event not in state.setdefault('events',[]): state['events'].append(event)
+        write(self.root/'loop/state.json',state); self.packet()
+        return event
+
+    def classify_policy_false_revert(self,n):
+        historical=self.root/f'loop/reports/STEP-{n:04d}/decision.json'
+        decision=read(historical); state=self.state()
+        matches=[s for s in state['steps'] if s['step']==n]
+        if decision.get('decision')!='REVERT' or decision.get('rule')!='R4' or len(matches)!=1 or matches[0]['decision']!='REVERT' or matches[0]['rule']!='R4':
+            raise ValueError('policy correction requires a historical REVERT / R4')
+        classification='HARNESS_POLICY_FALSE_REVERT'
+        prior=[e for e in state.get('events',[]) if e.get('step')==n and e.get('classification')==classification]
+        if prior: return prior[0]
+        item=matches[0]['item']; row=state['items'][item]; before=row['retries']
+        if before<1 or row['status'] not in ('BLOCKED','PENDING'): raise ValueError('no removable product retry')
+        event={'step':n,'item':item,'decision':'REVERT','rule':'R4','classification':classification,
+               'reason':classification+': research actionability / enhancer resolution mismatch',
+               'historical_decision_sha256':digest(historical.read_bytes()),'product_retry_charged':False,
+               'retry_correction':{'before':before,'after':before-1},'authorized_by':'Sphoenix direct instruction'}
+        path=self.root/f'loop/reports/STEP-{n:04d}/policy-classification.json'
+        if path.exists() and read(path)!=event: raise ValueError('conflicting historical classification')
+        write(path,event); state.setdefault('events',[]).append(event)
+        row.update(retries=before-1,status='PENDING')
         write(self.root/'loop/state.json',state); self.packet()
         return event
 

@@ -12,7 +12,12 @@ CONTRADICTED
 OUTDATED (a newer version or practice supersedes the claim)
 UNVERIFIABLE
 Search for newer or better practice from the last 18 months. If you find any, record it with its date and say whether it changes this step.
-Set affects_this_step, and give a concrete recommended_action.
+Set affects_this_step (relevance), action_required (whether integration would be wrong or materially incomplete without addressing this result), and a concrete recommended_action or explicit no-change rationale. These are separate judgments; the harness consumes the explicit boolean without inferring actionability from newer_practice.
+- CONFIRMED, including contextual or reinforcing newer practice: action_required=false unless a material implementation/docs/plan change is required.
+- CONTRADICTED or OUTDATED: action_required=true when the step relies on the claim.
+- UNVERIFIABLE: action_required=true when the claim would ship as fact; recommend removing it or marking it as an assumption. If it is already bounded as an assumption and no change is needed, explain why action_required=false.
+- action_required=true requires affects_this_step=true. Never leave recommended_action empty.
+Do not copy an absent action_required from an old ledger entry or default it to false: independently assess actionability under this contract. Ledger reuse verifies claims, not the current step's actionability.
 
 Rules:
 

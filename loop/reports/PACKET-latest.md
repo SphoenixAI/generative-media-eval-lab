@@ -20,8 +20,10 @@ Revert rate: 2/5 steps.
 
 Step 0002 remains ABANDONED: HARNESS_INFRASTRUCTURE_FAILURE: duplicate model-authored research claim ids. Product retry charged: False.
 
+Step 0005 remains REVERT: HARNESS_POLICY_FALSE_REVERT: research actionability / enhancer resolution mismatch. Product retry charged: False.
+
+Stop reason: Actionability hotfix verified by unit tests; isolated full dry-run precedes authorized recovery.
+
 - Which integrated change most likely violates an invariant?
 - Which research verdict is weakest?
 - What should be deferred?
-
-Stop reason: no eligible item

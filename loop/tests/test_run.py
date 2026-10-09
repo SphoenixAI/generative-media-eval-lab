@@ -79,7 +79,7 @@ max_consecutive_non_integrate = 3
         self.assertFalse(run.needs_enhancement(evaluation, research, {'passed': True}))
         self.assertTrue(run.needs_enhancement(evaluation, research, {'passed': False}))
         research['claims'] = [{'affects_this_step': True, 'verdict': 'CONFIRMED',
-                               'newer_practice': {'summary': 'TEST-ONLY newer practice'}}]
+                               'action_required': True, 'newer_practice': {'summary': 'TEST-ONLY newer practice'}}]
         self.assertTrue(run.needs_enhancement(evaluation, research, {'passed': True}))
 
     def test_refuses_main_push_even_if_called_directly(self):

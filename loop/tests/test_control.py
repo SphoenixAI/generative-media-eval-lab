@@ -36,7 +36,7 @@ class DecisionTests(unittest.TestCase):
         self.assertEqual(decide(gate={'passed':False}),'R1')
         self.assertEqual(decide(evaluation=evaluation(1)),'R2')
         self.assertEqual(decide(evaluation=evaluation(2)),'R3')
-        self.assertEqual(decide(research={'claims':[{'id':'C1','affects_this_step':True,'verdict':'UNVERIFIABLE'}]}),'R4')
+        self.assertEqual(decide(research={'claims':[{'id':'C1','affects_this_step':True,'action_required':True,'verdict':'UNVERIFIABLE'}]}),'R4')
         zero=evaluation(0); zero['blocking_findings']=[{'id':'F1','invariant':'I11'}]
         self.assertEqual(decide(evaluation=zero,failure={'error':True}),'R0')
         self.assertEqual(decide(all_gates=[{'gates':{'G6':{'passed':False}}}],failure={'error':True}),'R0')

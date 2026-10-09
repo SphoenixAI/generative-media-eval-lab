@@ -24,7 +24,7 @@ RF	A role failed or timed out	REVERT; no retry is charged
 R1	The final gate has a blocking failure	REVERT
 R2	Any other final 0, or any final 1	REVERT
 R3	Any final score of 2	REVERT
-R4	Any prior_findings entry is UNRESOLVED, or a blocking finding or affecting claim has no resolution	REVERT
+R4	Any prior_findings entry is UNRESOLVED, or a blocking finding or research claim with action_required=true has no resolution	REVERT
 R5	The evaluator's diff_sha256 does not match after one rerun	REVERT
 R6	None of the above	INTEGRATE
 

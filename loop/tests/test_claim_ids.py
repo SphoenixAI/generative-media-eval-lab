@@ -135,7 +135,7 @@ class CanonicalClaimTests(unittest.TestCase):
 
     def test_decision_requires_resolution_of_both_duplicate_labeled_claims(self):
         raw=self.install_duplicates()
-        for claim in raw['claims']: claim['affects_this_step']=True
+        for claim in raw['claims']: claim.update(affects_this_step=True,action_required=True)
         self.write('research.json',raw); self.ctl.research_view(1); self.ctl.canonicalize_research(1)
         data={'resolutions':[{'ref':'R0001-C001','action':'FIXED','evidence':'TEST-ONLY proof'}], 'amendments':[]}
         self.write('enhancement.json',data)
