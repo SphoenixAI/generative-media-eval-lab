@@ -2,6 +2,8 @@
 
 Can ambiguous generative-media failures be converted into evidence-linked, reproducible, actionable evaluation?
 
+For example, in a generated clip where a dancer seems to slide, it records the timestamped observation, the competing explanations (camera motion, foot slip, a deforming floor), the test that would tell them apart, and what the clip was made to do.
+
 This lab records what someone observed, the competing explanations, the evidence behind each claim, and the creative intention that makes a judgment relevant. It is a local Python backend and CLI.
 
 **Status · October 8, 2026**
@@ -58,4 +60,4 @@ Live providers, gold sets, regression/VFX engines, instrument execution, and a f
 
 ## License
 
-No project license has been selected yet.
+Copyright 2026 Sphoenix. All rights reserved.

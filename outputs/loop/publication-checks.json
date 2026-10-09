@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-08",
+  "scope": "Owner-requested H1 publication edits only",
+  "readme_sha256": "506fd231ac1ee0e4604e4331d0e385315d5d8ab604f9a3a4433ac6f1388bd43e",
+  "requested_example_exact_and_after_first_paragraph": true,
+  "copyright_exact": true,
+  "license_file_present": false,
+  "words_before_setup": 210,
+  "em_dashes": 0,
+  "missing_local_links": [],
+  "home_paths_in_readme_docs": [],
+  "unwanted_employer_application_terms": false,
+  "three_requested_commands_present": true,
+  "strict_evaluation_schema": "PASS",
+  "prior_evaluation_records_integrity": "PASS",
+  "prior_evaluations_scope": "Previous README version; these two exact owner-requested edits received deterministic checks, not a new model evaluation.",
+  "runtime_tests_and_protected_artifacts_changed": [],
+  "test_evidence": "outputs/loop/front-door-validation.json (209 passed, 0 failed, 0 skipped; product source/tests unchanged)",
+  "private_workspace_accessed": false,
+  "A6_started": false,
+  "license_decision": "Copyright 2026 Sphoenix. All rights reserved. No LICENSE file.",
+  "status": "PASS"
+}
