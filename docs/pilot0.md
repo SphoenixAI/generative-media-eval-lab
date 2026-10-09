@@ -9,7 +9,7 @@ The prepared `pilot-local` workspace starts with **zero selected clips and zero 
 Run commands from the repository:
 
 ```sh
-cd '/Users/sphoenix/Desktop/Content Evaluator'
+cd generative-media-eval-lab
 .venv/bin/eval-pilot doctor
 .venv/bin/eval-pilot init pilot0
 ```
