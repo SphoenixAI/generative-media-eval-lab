@@ -1,0 +1,107 @@
+{
+  "step": 2,
+  "item": "L02",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented additive IntentSpec v2, derived provenance and immutable binding histories. Advisory gate passed on attempt 1: 428 tests passed; 759/900 changed lines. Sealed Plan preserved.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/intent_v2.py:56 implements L02's context, criteria, deviations and required revision reasons.",
+        "src/eval_lab/intent_v2.py:153 implements the specified provenance classification."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_intent_v2.py:79 covers all 13 timestamp orderings, four view states and both origins.",
+        "tests/test_intent_v2.py:114 rejects borrowed seals; line 154 tests mandatory reasons; line 261 tests promotion attempts.",
+        "loop/reports/STEP-0002-L02.md:109 records failing tests before implementation and preserved sealed-plan verification."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/intent_v2.py:212 verifies all artifact digests and pinned predecessors.",
+        "src/eval_lab/persistence.py:221 enforces binding history within the writer transaction.",
+        "tests/test_intent_v2.py:369 verifies concurrent alias rejection and persistence after reopening."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Advisory gate passed with 428 product tests, preserved baseline coverage, frozen harness tests and isolated approval verification.",
+        "tests/test_intent_v2.py:226 verifies deterministic replay and equivalent timezone offsets.",
+        "docs/intent-provenance.md:3 documents the unchanged v1 CLI and future integration boundary."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "docs/intent-provenance.md:53 explains why local timestamps cannot prove generation chronology.",
+        "tests/test_intent_v2.py:309 verifies unchanged legacy canonical bytes and digests.",
+        "loop/reports/STEP-0002-L02.md:109 records actual results, tool versions and hashes; explicitly identifies G14 as skipped."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Gate measured 759 changed lines against the 900-line limit.",
+        "Protected files, dependencies and baseline tests were unchanged; forbidden-path changes were empty.",
+        "Production seal creation, plan storage, event collection and CLI integration remain outside L02."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Every derivation case is tested.",
+      "lazy_pass": "Test only successful chronological ordering.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:79 covers all weak orderings; lines 95–131 cover missing evidence, declarations and mismatched pins."
+    },
+    {
+      "criterion": "A revision cannot borrow an earlier revision's seal.",
+      "lazy_pass": "Match intent identity while ignoring revision or digest.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:114 and :279 demonstrate exact-revision matching and appended degradation."
+    },
+    {
+      "criterion": "A revision without a reason is rejected.",
+      "lazy_pass": "Validate ordinary construction but permit copied-model bypasses.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:154 checks omitted and invalid reasons on initial and subsequent revisions, including persistence revalidation."
+    },
+    {
+      "criterion": "No edit can raise a record's provenance.",
+      "lazy_pass": "Block overwrites while allowing promotion through successors or alternate IDs.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:261 checks four admission routes; :329 isolates the historical ceiling with unchanged registration and plan."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "L02-M01",
+      "claim": "Pydantic model_copy(update=...) does not validate supplied updates; persistence must revalidate.",
+      "location": "loop/reports/STEP-0002-L02.md:33"
+    },
+    {
+      "id": "L02-M02",
+      "claim": "RFC 3161 establishes evidence of prior datum existence, requires trustworthy time and does not inspect datum meaning.",
+      "location": "loop/reports/STEP-0002-L02.md:37"
+    },
+    {
+      "id": "L02-M03",
+      "claim": "Local seal-plan-registration timestamps alone cannot prove actual generation chronology.",
+      "location": "docs/intent-provenance.md:53"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE: docs/domain-model.md and docs/intent-provenance.md.",
+    "G14 was skipped in advisory mode; authoritative verification remains pending.",
+    ""
+  ]
+}
