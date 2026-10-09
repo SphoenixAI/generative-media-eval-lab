@@ -41,8 +41,8 @@ def parser():
     start=sub.add_parser("start"); start.add_argument("clip")
     for cmd in ("pause","resume","finish"):
         sp=sub.add_parser(cmd); sp.add_argument("session")
-    snap=sub.add_parser("snapshot"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
-    exp=sub.add_parser("export-snapshot"); exp.add_argument("id"); exp.add_argument("--output",type=Path)
+    snap=sub.add_parser("snapshot", description="Freeze private records, including checksum-linked intent binding history and pinned dependencies.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
+    exp=sub.add_parser("export-snapshot", description="Export a frozen private snapshot with its pinned binding history.", help="Export frozen private snapshot records"); exp.add_argument("id"); exp.add_argument("--output",type=Path)
     return p
 
 

@@ -10,6 +10,7 @@ from pydantic import Field, model_validator
 from .domain import Value, NonEmpty, Confidence, Criterion, IntentSpec, Evidence, Hypothesis, RelationClaim, Ref, CompetingSet
 from .pilot_domain import PilotClip, PilotDataset, PilotSubmission, PilotSession, PilotSnapshot, PinnedArtifact
 from .persistence import Repository, refs_in
+from .intent_v2 import content_identity
 from .media import MediaStore, MediaError, within
 
 
@@ -347,6 +348,10 @@ class PilotWorkspace:
                     self.store.verify(self.repo.get(artifact.ingestion),artifact)
                 elif artifact.clip.id not in ids: continue
                 roots.append(artifact.ref)
+        identities = {content_identity(self.repo.get, self.repo.get(c).media, self.repo.get(c).ingestion) for c in dataset.clips}
+        for binding in self.repo.all("IntentBinding"):
+            if content_identity(self.repo.get, binding.media.ref, binding.registration.ref) in identities:
+                roots.append(binding.ref)
         seen={}
         while roots:
             ref=roots.pop()

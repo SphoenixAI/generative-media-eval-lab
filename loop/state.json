@@ -37,14 +37,14 @@
     },
     "L02": {
       "retries": 1,
-      "status": "PENDING"
+      "status": "DONE"
     },
     "L07": {
       "retries": 0,
       "status": "DONE"
     }
   },
-  "last_integrated_test_count": 251,
+  "last_integrated_test_count": 460,
   "steps": [
     {
       "auto_approved": [],
@@ -224,6 +224,44 @@
         "scope": 4
       },
       "step": 5
+    },
+    {
+      "auto_approved": [],
+      "calibration": {
+        "accuracy": 1,
+        "intention": 1,
+        "production_quality": 2,
+        "relation": 0,
+        "relevance": 0,
+        "scope": 0
+      },
+      "decision": "INTEGRATE",
+      "flags": [
+        "Extracted-function checks used lightweight stand-ins and do not establish Pydantic validation, SQL concurrency or actual media-workspace execution.",
+        "Full pytest and the builder's reported validation mutations were not independently reproduced: Pydantic, SQLAlchemy and pytest are unavailable.",
+        "HOME_PATH",
+        "HOME_PATH: tree/loop/reports/STEP-0006-L02.md:204 contains absolute local paths.",
+        "Minor test weakness: tree/tests/test_intent_v2.py:201-202 can reject the initial-predecessor case for an unrelated immutable-revision conflict.",
+        "PUBLIC_PROSE",
+        "The supplied gate reports 460 passing tests; this was treated as reported evidence only."
+      ],
+      "gate": true,
+      "item": "L02",
+      "passed": 460,
+      "research": {
+        "CONFIRMED": 8
+      },
+      "rounds": 2,
+      "rule": "R6",
+      "scores": {
+        "accuracy": 3,
+        "intention": 4,
+        "production_quality": 3,
+        "relation": 4,
+        "relevance": 4,
+        "scope": 4
+      },
+      "step": 6
     }
   ]
 }
