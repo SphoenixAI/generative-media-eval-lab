@@ -578,3 +578,20 @@ authorized_test_changes = []
 authorized_dependencies = false
 probes = []
 acceptance = ["The version-tagged dependency source confirms the rejection underlying L04-R1-F01. Normalize tuples recursively at the reported boundary and verify nested and empty array cases so valid JSON-array content can reach generation."]
+
+[[item]]
+id = "P0009-1"
+title = "Include applicable RelationClaimV2 history in private dataset snapshots"
+rationale = "R1-F1 identifies a real integration gap: PilotWorkspace.snapshot follows outgoing references from dataset roots, and PilotSubmission rejects RelationClaimV2. Stored v2 relations therefore remain absent from ordinary private dataset exports. The sealed L11 Plan explicitly excludes private snapshot discovery; implementing it during enhancement would exceed that scope. This proposal requires a separately approved item and sealed plan before implementation."
+priority = "P2"
+approval = "PROPOSED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Define dataset applicability using exact included evidence/intent revisions and retained bindings; exclude unrelated datasets and same-ID but different intent revisions.", "Privately discover applicable stored RelationClaimV2 records without creating judgments; pin each relation, its predecessor history, and all exact transitive reference and digest dependencies.", "A TEST-ONLY generated-media dataset test stores a v2 relation, snapshots and exports the dataset, and independently asserts its reference, digest, purposes, creative anchors, warrant, qualifier and rebuttal.", "After appending a successor, a new snapshot includes the appropriate retained history while the earlier exported snapshot remains byte-for-byte unchanged; deterministic fixed-input replay is tested.", "Test unrelated-dataset exclusion, missing or mismatched dependencies, unchanged v1 payloads and hashes, and unchanged public/embed serialization. Use temporary TEST-ONLY fixtures, no pilot-local writes, no protected-file or dependency changes, and no test weakening."]

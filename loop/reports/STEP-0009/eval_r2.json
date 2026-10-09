@@ -1,0 +1,158 @@
+{
+  "step": 9,
+  "item": "L11",
+  "role": "evaluator",
+  "round": 2,
+  "diff_sha256": "1ef25327754f910b809c818d87cf1eec24aaac19646c72fcb1a29e48dd1f7d5b",
+  "summary": "The independent warrant-preservation oracle is fixed. R1-F1 remains unresolved: ordinary dataset snapshots still omit RelationClaimV2. Filing a proposal does not satisfy the explicit snapshot integration requirement. Review was static; supplied test results were not independently rerun.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all 1007 lines of diff.patch and opened all six changed files under tree/.",
+        "Compared the implementation with plan.md and L11: changes address relation metadata, admission, compatibility and structural tests."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "Mapped all ten expanded sealed criteria to tests and inspected their assertions and rejection paths; detailed mappings appear in loophole_audit.",
+        "Checked I1–I2: added fixtures are TEST-ONLY, optional values remain absent, and legacy purposes are UNSPECIFIED.",
+        "Checked I3, I5–I9: exact predecessor and intent pins are validated; relation storage does not promote provenance, alter hypothesis state, execute decisions or combine confidence.",
+        "Checked I12 against the unchanged presentation allowlist and test_private_relation_text_never_changes_public_payload."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "tree/src/eval_lab/relation_v2.py:111 registers the new artifact; tree/src/eval_lab/persistence.py:217 integrates transactional pin validation.",
+        "tree/src/eval_lab/pilot.py:338 still omits v2 relations from snapshot roots, while tree/src/eval_lab/pilot_domain.py:150 rejects them as submission artifacts.",
+        "tree/loop/proposals/STEP-0009.toml:3 acknowledges the missing integration but supplies no implementation or snapshot test."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Inspected positive, negative, copied-input, historical-revision and competing-writer tests; rejection helpers require specific errors and unchanged stored rows.",
+        "test_authored_argument_literals_survive_storage_reopen_and_successor now uses independently authored, distinct purpose/warrant/qualifier/rebuttal literals and checks raw SQL bytes, digest, replay, reopening and successor preservation.",
+        "Verified that replacing warrant with purpose would fail the new literal assertions; this sensitivity assessment was static.",
+        "Parsed all three changed Python files successfully and checked documentation against the implementation. gate.json reports 700 passing tests; runtime execution was not independently verified."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Read changed comments, docstrings, documentation and report claims; found no external methodological or standards claims requiring research.",
+        "Independently verified the diff hash, all five reported product/proposal hashes, and the 717 changed non-report lines.",
+        "Verified that added-file contents match diff.patch and that the report's sealed Plan matches plan.md.",
+        "Checked documented vocabulary, compatibility behavior and version boundaries against source. Documentation explicitly acknowledges absent snapshot discovery."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared the complete diff with the sealed implementation scope and DEFERRED items D01–D14; no deferred capability is implemented.",
+        "Checked I4, I10–I11 and I16: no protected files, dependencies, existing tests, harness code or judging contracts appear among changed paths.",
+        "Checked I13: tool versions and hashes are recorded and complete fixed-input determinism has an independent literal oracle.",
+        "Checked I14–I15 within available evidence: no prohibited implementation or branch operation appears in the diff; supplied G14 reports unchanged pilot listing and remote main.",
+        "The additional proposal is administrative material outside the planned product-file list; it does not implement the excluded snapshot work."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "R2-F1",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tree/src/eval_lab/pilot.py:338; tree/src/eval_lab/pilot_domain.py:150; tree/loop/proposals/STEP-0009.toml:3",
+      "description": "R1-F1 remains unresolved. Dataset snapshot discovery starts from dataset submissions, sessions, derivatives and bindings, then follows outgoing references. RelationClaimV2 is neither discovered directly nor admitted through PilotSubmission. Consequently, a stored v2 relation pointing to included evidence or intent is omitted from ordinary dataset exports, including its authored purposes, anchors and argument text. The proposal acknowledges this gap but does not satisfy the user's explicit requirement that new types be pinned in snapshots. The sealed-plan exclusion remains a conflict, not an accepted resolution.",
+      "required_fix": "Resolve the scope conflict through the applicable approval process and complete the required private snapshot integration. Verify relation references, digests, authored fields and exact dependencies in an exported TEST-ONLY dataset snapshot, and verify that appending a successor leaves the earlier export unchanged."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Acceptance: tests.",
+      "lazy_pass": "Test an isolated repository record while leaving it absent from reproducible dataset review artifacts.",
+      "present_in_diff": true,
+      "evidence": "The relation test module has no snapshot/export integration test. tree/src/eval_lab/pilot.py:338 and tree/src/eval_lab/pilot_domain.py:150 still exclude the new kind from ordinary snapshot discovery."
+    },
+    {
+      "criterion": "Expanded criterion 1: additive v2 type, preserved v1 contract and all predicates.",
+      "lazy_pass": "Modify v1 serialization or implement only a subset of predicates.",
+      "present_in_diff": false,
+      "evidence": "RelationClaim remains unchanged. test_all_predicates_keep_endpoints_and_optional_unknowns covers all eight predicates; test_legacy_loader_and_append_only_reopen_preserve_stored_bytes checks retained v1 identity and rows."
+    },
+    {
+      "criterion": "Expanded criterion 2: explicit and independent purpose vocabularies.",
+      "lazy_pass": "Infer purposes from predicates or silently accept UNSPECIFIED on new records.",
+      "present_in_diff": false,
+      "evidence": "test_independent_purpose_vocabularies_and_fixed_input_replay checks all 56 supplied combinations against literal labels. test_new_authoring_requires_explicit_known_purposes rejects omitted, null, blank, wrong-case, unknown and UNSPECIFIED values."
+    },
+    {
+      "criterion": "Expanded criterion 3: criterion anchors belong to the exact pinned intent.",
+      "lazy_pass": "Accept any matching criterion name from another intent or its latest revision.",
+      "present_in_diff": false,
+      "evidence": "test_exact_intent_anchor_and_evidence_boundaries rejects unknown, newer-only, other-intent and legacy anchors and invalid pins. test_multiple_anchors_empty_anchors_and_omitted_optional_fields checks literal anchor order and empty anchors."
+    },
+    {
+      "criterion": "Expanded criterion 4: required authored warrants and preserved optional text.",
+      "lazy_pass": "Substitute purpose for warrant or normalize supplied text.",
+      "present_in_diff": false,
+      "evidence": "test_support_and_contradiction_require_the_authors_warrant rejects omitted and blank warrants. The new test_authored_argument_literals_survive_storage_reopen_and_successor uses distinct literals with whitespace and independently checks constructor output, raw storage and loaded records for both predicates."
+    },
+    {
+      "criterion": "Expanded criterion 5: endpoint, evidence-kind, status and interval restrictions.",
+      "lazy_pass": "Validate only field shapes while accepting cross-intent hypotheses or invalid endpoint kinds.",
+      "present_in_diff": false,
+      "evidence": "test_all_predicates_keep_endpoints_and_optional_unknowns, test_direct_admission_revalidates_contract, test_self_relation_is_rejected_even_across_hypothesis_revisions and the endpoint/hypothesis boundary cases require targeted failures."
+    },
+    {
+      "criterion": "Expanded criterion 6: complete admission validation and retained evidence bindings.",
+      "lazy_pass": "Check constructors only or ignore an evidence subject omitted from the evidence list.",
+      "present_in_diff": false,
+      "evidence": "test_anchored_relation_requires_retained_exact_binding rejects the unbound subject before accepting it with a retained binding. Boundary tests reject wrong media, intent revisions, extra unbound evidence and missing references; reject() verifies no rows changed."
+    },
+    {
+      "criterion": "Expanded criterion 7: append-only revisions with exact predecessor pins.",
+      "lazy_pass": "Accept arbitrary predecessors or overwrite an existing revision.",
+      "present_in_diff": false,
+      "evidence": "test_predecessor_pin_rejections covers missing, skipped, wrong-kind, wrong-ID and wrong-digest predecessors. Reopening and literal-payload tests compare retained rows and independently expected original bytes after successor insertion."
+    },
+    {
+      "criterion": "Expanded criterion 8: exclusive competing-set integration.",
+      "lazy_pass": "Check only one insertion order, endpoint order or relation version.",
+      "present_in_diff": false,
+      "evidence": "test_exclusive_sets_cover_both_versions_orders_and_copied_admission covers all three axes. test_competing_writers_cannot_commit_conflicting_v2_relation_and_set requires exactly one stored record; historical-set tests preserve retained constraints."
+    },
+    {
+      "criterion": "Expanded criterion 9: explicit read-only legacy compatibility.",
+      "lazy_pass": "Rewrite legacy records or manufacture missing purposes and warrants.",
+      "present_in_diff": false,
+      "evidence": "test_legacy_loader_and_append_only_reopen_preserve_stored_bytes asserts literal UNSPECIFIED purposes, absent argument fields, source identity, unchanged rows, frozen assignment rejection and rejection of view persistence."
+    },
+    {
+      "criterion": "Expanded criterion 10: meaningful structural, preservation and privacy tests.",
+      "lazy_pass": "Derive every expected value from the implementation so consistent corruption passes.",
+      "present_in_diff": false,
+      "evidence": "Some original replay checks still derive a payload from model_dump, but the added complete literal oracle independently covers canonical serialization, digest and warrant preservation. Existing tests separately assert literal purposes, anchors, optional fields, unchanged hypothesis state and unchanged public/embed output."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "R1-F1",
+      "status": "UNRESOLVED"
+    },
+    {
+      "ref": "eval_r1.json:production_quality",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "PUBLIC_PROSE: tree/docs/relations-v2.md.",
+    "Independent pytest execution unavailable: the accessible interpreter lacks pytest, Pydantic and SQLAlchemy. Supplied gate results and the reported mutation experiment were not independently rerun.",
+    "Lint remains assigned to L12 in tree/loop/backlog.toml:209; no existing lint integration point was found.",
+    "The snapshot proposal is outside the sealed implementation file list and remains unimplemented. Its deferral is not accepted as satisfaction of the explicit snapshot requirement."
+  ]
+}
