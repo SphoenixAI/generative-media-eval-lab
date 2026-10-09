@@ -17,3 +17,5 @@ Revert rate: 0/1 steps.
 - Which integrated change most likely violates an invariant?
 - Which research verdict is weakest?
 - What should be deferred?
+
+Stop reason: once complete
