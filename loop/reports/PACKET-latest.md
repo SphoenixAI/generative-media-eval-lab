@@ -18,4 +18,4 @@ Revert rate: 0/1 steps.
 - Which research verdict is weakest?
 - What should be deferred?
 
-Stop reason: once complete
+Stop reason: H2 reached. Continuous mode has not started; awaiting Sphoenix's "run".
