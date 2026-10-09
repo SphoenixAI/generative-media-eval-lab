@@ -1,0 +1,20 @@
+{
+  "resolutions": [
+    {
+      "ref": "L04-R1-F01",
+      "action": "FIXED",
+      "evidence": "Validated raw arrays and rejection objects before normalization. Added 41 regression cases proving structured UNKNOWN errors and nonadmission. Advisory gate passed: 674 tests, 882/900 changed lines; sealed Plan unchanged. G14 remains pending."
+    },
+    {
+      "ref": "R0010-C014",
+      "action": "FIXED",
+      "evidence": "docs/pilot0.md identifies provider, version, download URLs, checksum source and executable digest coverage. Current download correspondence and authenticity are explicitly unverified."
+    },
+    {
+      "ref": "R0010-C016",
+      "action": "FIXED",
+      "evidence": "docs/pilot0.md documents exact extraction options and pixel-format fallback limits. A synthetic rotated clip verified stream selection, frame indexing, coded dimensions and RGB24 output under pinned tools.\n"
+    }
+  ],
+  "amendments": []
+}

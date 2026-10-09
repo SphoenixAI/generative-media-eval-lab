@@ -44,8 +44,8 @@
       "status": "DONE"
     },
     "L04": {
-      "retries": 1,
-      "status": "PENDING"
+      "retries": 2,
+      "status": "BLOCKED"
     },
     "L07": {
       "retries": 0,
@@ -385,6 +385,43 @@
         "scope": 4
       },
       "step": 9
+    },
+    {
+      "auto_approved": [],
+      "calibration": {
+        "accuracy": 2,
+        "intention": 2,
+        "production_quality": 2,
+        "relation": 0,
+        "relevance": 0,
+        "scope": 0
+      },
+      "decision": "REVERT",
+      "flags": [
+        "Checked I1-I16 against the diff and relevant code paths: no demonstrated invariant violation. No real-media authoring, UNKNOWN conversion, history overwrite, protected/harness edit, judgment-engine change, new runtime network/dependency, test weakening, public exposure or DEFERRED implementation was found. External Git state was not verified.",
+        "External claims remain research requests; nothing outside the supplied folder was read. The report also embeds a builder self-assessment; its scores were not used as evidence.",
+        "Independent validation comprised full diff/file inspection, Python syntax parsing, hash and size checks, and execution of extracted parsing guards. The supplied 674-test pass and mutation results were not independently reproduced.",
+        "MINOR_TEST_ORACLE_GAP: Add a literal expected candidate-order assertion after construction and reopen; existing selection comparisons cannot detect input reordering.",
+        "PUBLIC_PROSE"
+      ],
+      "gate": true,
+      "item": "L04",
+      "passed": 674,
+      "research": {
+        "CONFIRMED": 14,
+        "UNVERIFIABLE": 2
+      },
+      "rounds": 2,
+      "rule": "R3",
+      "scores": {
+        "accuracy": 2,
+        "intention": 4,
+        "production_quality": 3,
+        "relation": 4,
+        "relevance": 4,
+        "scope": 4
+      },
+      "step": 10
     }
   ]
 }
