@@ -34,3 +34,5 @@ Landscape scan instructions (when claims.json sets landscape_required=true): Sea
 - provenance and annotation standards.
 
 Report at most five findings in the research summary, each with its primary-source URL, access date, and relevance note. loopctl records this summary in research/landscape.md. These are landscape findings, not additional step-claim IDs. Keep claims[] limited to the IDs supplied in claims.json. The no-external-claims fast path never skips this fifth-step scan.
+
+Claim identity contract: claims.json IDs are harness-issued request handles. Return every requested claim exactly once per occurrence; copy its claim text and origin exactly, preferably in the same order. Never merge identical claims. The harness assigns final R<STEP>-C<INDEX> IDs by validated output order; your claims[].id strings are only raw evidence. A proposal's claim_id must copy the relevant harness-issued request handle from claims.json, or be null. Never reference an invented or reused model ID.

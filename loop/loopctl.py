@@ -2,7 +2,7 @@
 """Deterministic build-loop control. Git queries/export only; run.py owns history."""
 from __future__ import annotations
 import argparse
-from collections import Counter
+from collections import Counter, defaultdict, deque
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -71,6 +71,26 @@ def validate(value, schema, at='$'):
             if k in schema.get('properties', {}): validate(v, schema['properties'][k], f'{at}.{k}')
     if kind == 'array':
         for i, v in enumerate(value): validate(v, schema['items'], f'{at}[{i}]')
+
+
+def canonical_claims(step, claims):
+    """Assign IDs by validated output order without interpreting suggested IDs."""
+    return [{**claim, 'id': f'R{step:04d}-C{index:03d}'}
+            for index, claim in enumerate(claims, 1)]
+
+
+def claim_key(claim):
+    return claim['claim'], claim.get('origin')
+
+
+def verify_ledger_ids(claims, existing, step):
+    ids=[row['id'] for row in existing]
+    if len(ids)!=len(set(ids)): raise ValueError('research ledger identifiers are not unique')
+    by_id={row['id']:row for row in existing}
+    for claim in claims:
+        previous=by_id.get(claim['id'])
+        if previous and (previous.get('loop_step')!=step or {k:v for k,v in previous.items() if k!='loop_step'}!=claim):
+            raise ValueError('research ledger identifier collision: '+claim['id'])
 
 
 def body(text, heading):
@@ -164,7 +184,7 @@ class Control:
 
     def start(self, item_id):
         self.runs.mkdir(parents=True, exist_ok=True)
-        n = max([int(p.name) for p in self.runs.iterdir() if p.is_dir() and p.name.isdigit()] + [0]) + 1
+        n = max([int(p.name) for p in self.runs.iterdir() if p.is_dir() and p.name.isdigit()] + [s['step'] for s in self.state().get('steps',[])] + [0]) + 1
         state = self.state(); backlog = items(self.root)
         eligible = next_item(backlog, state)
         if eligible is None or eligible['id'] != item_id: raise ValueError('item is not the next eligible item')
@@ -233,7 +253,13 @@ class Control:
         run=self.path(n); step=self.step(n); ev=self.role(n,'eval_r1.json','evaluation')
         claims=[{'id':m[0],'claim':m[1],'location':'sealed plan','origin':'plan'} for m in re.findall(r'^CLAIM ([\w.-]+):\s*(.+)$',step['plan'],re.M)]
         for c in ev['claims_for_research']: claims.append({**c,'origin':'evaluator'})
-        if len({c['id'] for c in claims})!=len(claims): raise ValueError('research claim ids must be unique')
+        claims=canonical_claims(n,claims)
+        normalized=read(run/'research-normalization.json')
+        if normalized:
+            self.role(n,'research.json','research')
+            claims=normalized['view_claims']
+        else:
+            write(run/'research_requests.json',{'claims':claims})
         view=run/'research_view'; view.mkdir(exist_ok=True)
         write(view/'claims.json',{'step':n,'item':step['item']['id'],'claims':claims,'landscape_required':n%5==0})
         ledger=self.root/'loop/research/ledger.jsonl'
@@ -245,19 +271,69 @@ class Control:
         (view/'ledger.jsonl').write_text(''.join(json.dumps(c)+'\n' for c in relevant))
         return {'view':str(view),'claims':len(claims),'landscape_required':n%5==0}
 
+    def canonicalize_research(self,n):
+        run=self.path(n); source=run/'research.raw.json'; marker=run/'research-normalization.json'
+        if marker.exists():
+            saved=read(marker)
+            if digest(source.read_bytes())!=saved['raw_sha256'] or digest((run/'research.json').read_bytes())!=saved['canonical_sha256']:
+                raise ValueError('research normalization evidence changed')
+            return self.role(n,'research.json','research')
+        raw=read(source if source.exists() else run/'research.json')
+        validate(raw,read(run/'harness/schemas/research.schema.json'))
+        if raw['step']!=n or raw['item']!=self.step(n)['item']['id']: raise ValueError('research identity mismatch')
+        requests=read(run/'research_requests.json',read(run/'research_view/claims.json',{})).get('claims',[])
+        if Counter(map(claim_key,requests))!=Counter(map(claim_key,raw['claims'])):
+            raise ValueError('research coverage mismatch: preserve every requested claim and origin')
+        value=json.loads(json.dumps(raw)); value['claims']=canonical_claims(n,value['claims'])
+        existing_path=self.root/'loop/research/ledger.jsonl'
+        existing=[json.loads(line) for line in existing_path.read_text().splitlines()] if existing_path.exists() else []
+        verify_ledger_ids(value['claims'],existing,n)
+        # Occurrence queues retain even identical claim texts without merging them.
+        pending=defaultdict(deque)
+        for request in requests: pending[claim_key(request)].append(request)
+        view_claims=[]; request_to_output={}
+        for claim in value['claims']:
+            request=pending[claim_key(claim)].popleft()
+            request_to_output[request['id']]=claim['id']
+            view_claims.append({**request,'id':claim['id']})
+        unresolved=[]
+        for index,proposal in enumerate(value['proposals']):
+            reference=proposal['claim_id']
+            if reference is not None:
+                # Only harness-issued request handles can identify a proposal's source.
+                if reference in request_to_output: proposal['claim_id']=request_to_output[reference]
+                else: proposal['claim_id']=None; unresolved.append(index)
+        if not source.exists(): source.write_bytes((run/'research.json').read_bytes())
+        write(run/'research.json',value)
+        write(run/'research_view/claims.json',{'step':n,'item':value['item'],'claims':view_claims,'landscape_required':n%5==0})
+        write(marker,{'raw_sha256':digest(source.read_bytes()),'canonical_sha256':digest((run/'research.json').read_bytes()),
+                      'view_claims':view_claims,'unresolved_proposals':unresolved})
+        return self.role(n,'research.json','research')
+
     def role(self,n,name,kind):
         value=read(self.path(n)/name)
         validate(value,read(self.path(n)/'harness/schemas'/f'{kind}.schema.json'))
         if kind!='enhancement':
             if value['step']!=n or value['item']!=self.step(n)['item']['id']: raise ValueError('role output identity mismatch')
         if kind=='research':
-            if len({c['id'] for c in value['claims']}) != len(value['claims']): raise ValueError('duplicate research claim')
+            if [c['id'] for c in value['claims']] != [f'R{n:04d}-C{i:03d}' for i in range(1,len(value['claims'])+1)]:
+                raise ValueError('research identifiers must be unique harness-issued canonical IDs')
             requested=read(self.path(n)/'research_view/claims.json',{}).get('claims',[])
-            if {c['id'] for c in requested}!={c['id'] for c in value['claims']}: raise ValueError('research coverage mismatch')
+            if [(c['id'],claim_key(c)) for c in requested]!=[(c['id'],claim_key(c)) for c in value['claims']]: raise ValueError('research coverage mismatch')
+            existing=self.root/'loop/research/ledger.jsonl'
+            verify_ledger_ids(value['claims'],[json.loads(l) for l in existing.read_text().splitlines()] if existing.exists() else [],n)
+            ids={c['id'] for c in value['claims']}
+            if any(p['claim_id'] is not None and p['claim_id'] not in ids for p in value['proposals']): raise ValueError('proposal requires canonical claim reference')
             for claim in value['claims']:
                 if claim['verdict']!='UNVERIFIABLE' and not claim['sources']: raise ValueError('research verdict lacks primary-source evidence')
                 for source in claim['sources']:
                     if not all(source.values()) or not source['url'].startswith('https://'): raise ValueError('research source attribution is incomplete')
+        if kind=='enhancement':
+            research=self.role(n,'research.json','research')
+            claim_ids={c['id'] for c in research['claims']}
+            finding_ids={f['id'] for f in read(self.path(n)/'eval_r1.json',{}).get('blocking_findings',[])}
+            if any(a['claim_id'] not in claim_ids for a in value['amendments']): raise ValueError('plan amendment requires canonical research claim ID')
+            if any(r['ref'] not in claim_ids | finding_ids for r in value['resolutions']): raise ValueError('unresolved enhancement reference')
         if kind=='evaluation':
             expected_role='builder' if name=='self_eval.json' else 'evaluator'
             expected_round=2 if name=='eval_r2.json' else 1
@@ -372,6 +448,7 @@ class Control:
         terms=self.config['paths'].get('deferred_terms',[])
         for i,(p,source) in enumerate(proposals):
             approved=auto_approval(p,source,n,state,research.get('claims',[]),terms)
+            if source=='researcher' and i in read(run/'research-normalization.json',{}).get('unresolved_proposals',[]): approved=False
             if summary['auto_approved']: approved=False
             pid=f'P{n:04d}-{i+1}'
             candidate={'id':pid,'title':p['title'],'rationale':p['rationale'],'priority':'P2','approval':'AUTO_APPROVED' if approved else 'PROPOSED','size':p['size'],'risk':p['risk'],'category':p['category'],'depends_on':[],'human_review':True,'authorized_protected':[],'authorized_test_changes':[],'authorized_dependencies':False,'probes':[],'acceptance':p.get('acceptance',[p['rationale']])}
@@ -389,6 +466,7 @@ class Control:
         existing=[json.loads(l) for l in ledger.read_text().splitlines()] if ledger.exists() else []
         existing=[c for c in existing if c.get('loop_step')!=n]
         existing.extend({**c,'loop_step':n} for c in research.get('claims',[]))
+        if len({c['id'] for c in existing})!=len(existing): raise ValueError('research ledger identifiers are not unique')
         ledger.write_text(''.join(json.dumps(c,sort_keys=True)+'\n' for c in existing))
         if n%5==0:
             (self.root/'loop/research/landscape.md').write_text(f'# Landscape scan · step {n}\n\n'+research.get('summary','No research result available.')+'\n')
@@ -411,6 +489,23 @@ class Control:
         write(self.path(lock['step'])/'decision.json',{'decision':'ABANDONED','rule':'ABANDONED','stop':False})
         return {'reset_required':True,'base_commit':step['base_commit'],'step':lock['step']}
 
+    def classify_infrastructure(self,n,reason):
+        """Append a classification; never replace a historical decision or report."""
+        historical=self.root/f'loop/reports/STEP-{n:04d}/decision.json'
+        decision=read(historical)
+        if not decision or decision['decision']!='ABANDONED': raise ValueError('only an abandoned historical step may be classified')
+        state=self.state(); matches=[s for s in state['steps'] if s['step']==n]
+        if len(matches)!=1 or matches[0]['decision']!='ABANDONED': raise ValueError('historical status mismatch')
+        if state['items'][matches[0]['item']].get('retries',0)!=0: raise ValueError('unexpected product retries; preserve history for review')
+        event={'step':n,'item':matches[0]['item'],'decision':'ABANDONED','classification':'HARNESS_INFRASTRUCTURE_FAILURE',
+               'reason':reason,'historical_decision_sha256':digest(historical.read_bytes()),'product_retry_charged':False}
+        path=self.root/f'loop/reports/STEP-{n:04d}/infrastructure-classification.json'
+        if path.exists() and read(path)!=event: raise ValueError('classification already exists with different content')
+        write(path,event)
+        if event not in state.setdefault('events',[]): state['events'].append(event)
+        write(self.root/'loop/state.json',state); self.packet()
+        return event
+
     def packet(self, reason=None):
         state=self.state(); rows=[]
         for s in state.get('steps',[]):
@@ -432,6 +527,8 @@ class Control:
         text+=f'Calibration gaps: {json.dumps([s.get("calibration",{}) for s in steps[-5:]])}. Mean self-minus-independent: {over}.\n\n'
         if over is not None and over>1: text+='Flag: builder mean overconfidence exceeds 1.0.\n\n'
         text+=f'Revert rate: {sum(s["decision"]=="REVERT" for s in steps)}/{len(steps)} steps.\n\n'
+        for event in state.get('events',[]):
+            text+=f"Step {event['step']:04d} remains {event['decision']}: {event['reason']}. Product retry charged: {event['product_retry_charged']}.\n\n"
         if reason: text+='Stop reason: '+reason+'\n\n'
         text+='- Which integrated change most likely violates an invariant?\n- Which research verdict is weakest?\n- What should be deferred?\n'
         (reports/'PACKET-latest.md').write_text(text)
@@ -446,11 +543,11 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root',default=str(Path.cwd())); parser.add_argument('--runs')
     sub=parser.add_subparsers(dest='command',required=True)
-    for name in ('bootstrap','status','next','start','split','seal-plan','gate','export','research-view','report','decide','finish','abort-step','packet'):
+    for name in ('bootstrap','status','next','start','split','seal-plan','gate','export','research-view','canonicalize-research','report','decide','finish','abort-step','packet'):
         p=sub.add_parser(name)
         if name=='bootstrap': p.add_argument('--rebaseline',action='store_true')
         if name=='start': p.add_argument('--item',required=True)
-        if name in ('split','seal-plan','gate','export','research-view','report','decide','finish'): p.add_argument('--step',type=int,required=name!='gate')
+        if name in ('split','seal-plan','gate','export','research-view','canonicalize-research','report','decide','finish'): p.add_argument('--step',type=int,required=name!='gate')
         if name in ('gate','export','report'): p.add_argument('--round',type=int,default=1)
         if name=='gate': p.add_argument('--advisory',action='store_true')
         if name=='packet': p.add_argument('--reason')
@@ -474,6 +571,7 @@ def main(argv=None):
             result=gates.gate(ctl.root,ctl.path(n),ctl.harness,ctl.step(n),args.round,args.advisory); failed=not result['passed']
         elif cmd=='export': result=ctl.export(args.step,args.round)
         elif cmd=='research-view': result=ctl.research_view(args.step)
+        elif cmd=='canonicalize-research': result=ctl.canonicalize_research(args.step)
         elif cmd=='report': result=ctl.report(args.step,args.round)
         elif cmd=='decide': result=ctl.decide(args.step)
         elif cmd=='finish': result=ctl.finish(args.step)

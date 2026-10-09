@@ -1,4 +1,15 @@
 {
+  "events": [
+    {
+      "classification": "HARNESS_INFRASTRUCTURE_FAILURE",
+      "decision": "ABANDONED",
+      "historical_decision_sha256": "9969bd5e0118f12425307b87dacc2b86fa331f728ddf96f2aae1b5dca941e9ad",
+      "item": "L02",
+      "product_retry_charged": false,
+      "reason": "HARNESS_INFRASTRUCTURE_FAILURE: duplicate model-authored research claim ids",
+      "step": 2
+    }
+  ],
   "items": {
     "L00": {
       "retries": 0,

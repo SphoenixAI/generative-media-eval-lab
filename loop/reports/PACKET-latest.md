@@ -7,7 +7,7 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 
 Open flags: Evaluation used supplied execution evidence and independent read-only comparisons; product and loop test suites were not rerun., Independent full-suite execution unavailable: the available Python lacks Pydantic. Supplied gate results were inspected, not independently reproduced., Original advisory stdout, elapsed-time measurement, and fresh version-probe logs are not included in this folder; their historical execution details could not be independently reproduced., PUBLIC_PROSE
 
-Proposals awaiting approval: none
+Proposals awaiting approval: P-HARNESS-IDS-01: Canonical evaluator finding and response identities
 
 Contradictions for review: none
 
@@ -15,8 +15,10 @@ Calibration gaps: [{"accuracy": 0, "intention": -2, "production_quality": 0, "re
 
 Revert rate: 0/2 steps.
 
+Step 0002 remains ABANDONED: HARNESS_INFRASTRUCTURE_FAILURE: duplicate model-authored research claim ids. Product retry charged: False.
+
+Stop reason: Harness research-ID hotfix validation in progress; restart already authorized.
+
 - Which integrated change most likely violates an invariant?
 - Which research verdict is weakest?
 - What should be deferred?
-
-Stop reason: /Users/sphoenix/Desktop/Content Evaluator - loop-env/bin/python failed (1): {"error": "research claim ids must be unique", "command": "research-view"}

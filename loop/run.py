@@ -248,6 +248,8 @@ class Runner:
         folder = self.harness / 'tests/fixtures'
         if role == 'builder_plan':
             body = (folder / 'builder_plan.md').read_text()
+            duplicate=read_json(folder / 'duplicate_research.json')
+            if duplicate: body+='\nCLAIM C1: '+duplicate['claims'][0]['claim']+'\n'
             report = self.root / read_json(self.step_dir / 'step.json')['report']
             text = report.read_text()
             report.write_text(re.sub(r'(## Plan[^\n]*\n).*?(?=\n## |\Z)',
@@ -255,7 +257,10 @@ class Runner:
                                     count=1, flags=re.S))
             output.write_text('SYNTHETIC DRY-RUN plan installed.\n')
             return
-        data = read_json(folder / output.name)
+        data = read_json(folder / ('duplicate_research.json' if role=='researcher' else output.name))
+        if role=='evaluator':
+            duplicate=read_json(folder / 'duplicate_research.json')
+            if duplicate: data['claims_for_research']=[{'id':'C1','claim':duplicate['claims'][1]['claim'],'location':'TEST-ONLY fixture'}]
         if data is None:
             raise RoleError(f'Missing fixture {output.name}')
         meta = read_json(self.step_dir / 'step.json')
@@ -396,7 +401,8 @@ class Runner:
                 self.role('builder_build', 'self_eval.json')
                 evaluation = self.evaluate(1)
                 self.ctl('research-view', '--step', str(self.step))
-                research = self.role('researcher', 'research.json', self.step_dir / 'research_view')
+                self.role('researcher', 'research.json', self.step_dir / 'research_view')
+                research = self.ctl('canonicalize-research', '--step', str(self.step))
                 self.ctl('report', '--step', str(self.step), '--round', '1')
                 if needs_enhancement(evaluation, research, read_json(self.step_dir / 'gate_r1.json')):
                     self.role('enhancer', 'enhancement.json')
@@ -553,6 +559,10 @@ def dry_run(root, args):
             actual = (wt / runner.config['paths'][name]).resolve()
             if actual != expected:
                 raise LoopError(f'Dry-run configuration must use standard sibling layout: {name}')
+        state=read_json(wt / 'loop/state.json')
+        state['items']['L00']={'status':'PENDING','retries':0}
+        write_json(wt / 'loop/state.json',state)
+        runner.commit('TEST-ONLY: reopen L00 in disposable dry-run clone')
         command(runner.configured_command(runner.config['commands']['setup']), wt, env=runner.env)
         result = runner.run(once=args.once, max_steps=args.max_steps or 1, until=args.until)
         decisions = [read_json(p) for p in sorted(runner.runs.glob('*/decision.json'))]

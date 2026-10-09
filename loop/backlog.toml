@@ -527,3 +527,20 @@ authorized_dependencies = false
 probes = []
 acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
 notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "P-HARNESS-IDS-01"
+title = "Canonical evaluator finding and response identities"
+priority = "P1"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "tooling"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["Inspect repeated evaluator blocking_findings.id, prior_findings.ref and enhancement resolutions.ref across rounds."]
+acceptance = ["Repeated finding labels cannot collapse distinct findings or satisfy two findings with one resolution.", "Round-two statuses and resolutions bind unambiguously to harness-assigned finding identities.", "Unknown and duplicate response references cannot overwrite another response silently."]
+rationale = "loopctl.decision currently uses sets keyed by evaluator finding IDs and dictionaries keyed by prior-finding and resolution references. Reused model labels could collapse distinct findings or overwrite a response. Correctness requires a cross-round identity contract; it is outside the bounded research-ID hotfix. Proposal IDs are already harness-generated."
