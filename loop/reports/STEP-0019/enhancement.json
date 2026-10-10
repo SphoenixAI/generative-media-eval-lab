@@ -1,0 +1,30 @@
+{
+  "resolutions": [
+    {
+      "ref": "F0019-R1-001",
+      "action": "FIXED",
+      "evidence": "Unavailable coverage now blocks readiness. tests/test_lint_workflow.py::test_unavailable_motion_coverage_raw_and_retained verifies exact diagnostics, ready=false and unchanged database bytes. Removing the coverage guard fails the regression."
+    },
+    {
+      "ref": "F0019-R1-002",
+      "action": "FIXED",
+      "evidence": "Implemented the exact hypothesis/evidence/criterion warrant traversal. tests/test_lint.py::test_relation_warrant_exact_pins_and_anchors passes with a repository-admitted positive and negative media, revision, intent, warrant, anchor and relevance controls."
+    },
+    {
+      "ref": "F0019-R1-003",
+      "action": "FIXED",
+      "evidence": "Reference discovery respects schema-declared data mappings. tests/test_lint_workflow.py::test_admitted_prediction_ids_are_data passes and fails when the mapping guard is removed. Explicit reference revisions remain required."
+    },
+    {
+      "ref": "F0019-R1-004",
+      "action": "FIXED",
+      "evidence": "Admission verifies retained input pins and aggregate hashes. tests/test_lint_workflow.py::test_lint_result_input_identity_admission uses fresh IDs and specific exceptions/messages; independently removing each of its three guards fails the corresponding test."
+    },
+    {
+      "ref": "R0019-C001",
+      "action": "FIXED",
+      "evidence": "Marked fixture JCS equivalence unverified in tests/test_lint.py. No sealed Plan criterion or method was contradicted, so no amendment was needed. Final advisory gate passed: 1,293 product tests, frozen harness tests and approval checks; G14 was skipped. Evidence is recorded in loop/reports/STEP-0019-L12.md."
+    }
+  ],
+  "amendments": []
+}

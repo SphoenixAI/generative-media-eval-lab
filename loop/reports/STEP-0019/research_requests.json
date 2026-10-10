@@ -1,0 +1,10 @@
+{
+  "claims": [
+    {
+      "claim": "The independently sorted JSON used for this frozen-plan fixture equals RFC 8785 canonicalization.",
+      "id": "R0019-C001",
+      "location": "tests/test_lint.py:95",
+      "origin": "evaluator"
+    }
+  ]
+}
