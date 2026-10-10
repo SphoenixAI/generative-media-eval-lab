@@ -117,3 +117,48 @@ Private `show` includes plans tied to the clip's retained intent revisions;
 new snapshots include their histories and pinned dependencies. Old exports stay
 fixed. Public/embed serialization omits these private declarations. `schema`
 exposes the new record contract without modifying stored schema artifacts.
+
+## Computed evidence roles
+
+Roles are private, pair-specific computations on exact Evidence/Hypothesis pins.
+`TEST_RESULT` requires a hypothesis revision created strictly before freeze and
+named in the frozen plan's exact set, a checked evidence-to-arm link, evidence
+created strictly after freeze, and either post-freeze source registration or a
+retained post-freeze instrument run. `DISCOVERY` follows when evidence predates
+the hypothesis or its explicitly pinned prompting observation cites it.
+Otherwise the result is `SUPPORTING`, with a reason such as `EXISTING_CLIP`.
+Missing necessary records or equal evidence/hypothesis timestamps produce
+`UNKNOWN` with a null role; mismatched pins produce `INTEGRITY_FAILURE`.
+A proven failed test predicate can make unavailable source chronology irrelevant.
+
+Import complete associations with `evidence-arm --file FILE`,
+`hypothesis-context --file FILE`, or `instrument-run --file FILE`. Each accepts
+`id`, `author` matching `--author`, exact pins, and optional revision metadata.
+Corrections append the next revision with `predecessor` and `revision_reason`;
+the subject evidence/hypothesis pin cannot change. Omit application-owned
+`created_at` (import time) and `tool_version`. No role/reason field is accepted.
+`schema` exposes these contracts; existing stored schemas are unchanged.
+
+EvidenceArm requires `evidence`, `plan`, `arm` and `clip`; optional `origin` pins
+ClipOrigin (required for a declared generation arm), and `run` pins InstrumentRun.
+HypothesisContext requires `hypothesis` and `observation`; that exact
+TechnicalObservation must exist by hypothesis creation. InstrumentRun requires
+`plan`, `arm`, `evidence`, `executed_at`, `tool`, `version`, `tool_sha256`,
+`input_sha256` (source bytes) and `output_sha256` (Evidence artifact digest).
+Execution cannot follow the evidence or import time. These are declared local
+provenance records, not authenticated execution or instrument qualification.
+
+Use `eval-pilot --root ./private-workspace evidence-role --file pair.json`, where
+pair.json contains only `evidence` and `hypothesis` pins in the format above.
+Queries write nothing and do not initialize missing workspaces; UNKNOWN and
+INTEGRITY_FAILURE exit 2. Context lineage heads apply corrections; all exact
+plan/set/source pins and consulted dependencies are returned. Multiple links are
+checked in stable kind/ID/revision order; the first qualifying link is identified.
+Freeze/creation equality never qualifies as before/after. Original registrations
+and earlier registrations of identical bytes prevent old sources becoming new.
+First-view telemetry is clip-level access, not pair-level human exposure; neither
+viewing again nor a later clip revision changes creation/registration chronology.
+Private `show` and new snapshots retain applicable context histories and cross-clip
+dependencies for replay. Earlier snapshots and public/embed payloads stay fixed.
+Roles never change confidence, observations, test outcomes, acceptability or verdicts;
+the separate human confidence-form `evidence_role` field retains its old meaning.

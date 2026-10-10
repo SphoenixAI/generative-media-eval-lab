@@ -12,7 +12,7 @@ from .media import MediaError, MediaTools, within
 from .pilot import PilotWorkspace, TEMPLATES, INPUT_TYPES, read_human_form
 from .pilot_domain import PILOT_TYPES, PilotDataset
 from .seals import seal_intent, verify_seal
-from . import generation, assessments, decisions, test_plans
+from . import generation, assessments, decisions, test_plans, evidence_roles
 from .canonical_json import parse_json
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -22,6 +22,9 @@ def parser():
     p.add_argument("--root",type=Path,default=Path("pilot-local"),help="Private local workspace; defaults to ./pilot-local")
     p.add_argument("--author",default="Sphoenix",help="Human authorship declaration; not authenticated identity")
     sub=p.add_subparsers(dest="command",required=True)
+    for command in (*evidence_roles.COMMANDS, "evidence-role"):
+        sp=sub.add_parser(command, help="Exact private evidence-role context and query", description="Use exact revision/digest pins. Import complete private associations or declared run provenance; created_at/tool_version are application-owned. Corrections require predecessor and revision_reason. evidence-role reads evidence/hypothesis pins without writing; missing evidence is UNKNOWN. No role/reason input, measurement or judgment. See docs/hypothesis-testing.md.")
+        sp.add_argument("--file", type=Path, required=True)
     seal=sub.add_parser("seal-intent", help="Append a private local intent seal", description="Seal a complete human-authored IntentSpecV2 FILE using RFC 8785 with integer literals only (safe integer range). Imports exact input; never edits it. Local time and declared Git metadata do not prove generation chronology.")
     seal.add_argument("file", type=Path, metavar="FILE")
     seal.add_argument("--git-commit", help="Declared full lowercase commit hash; requires --git-remote")
@@ -96,6 +99,10 @@ def main(argv=None):
     args=parser().parse_args(argv)
     workspace=None
     try:
+        if args.command=="evidence-role":
+            result=evidence_roles.query(args.root,parse_json(args.file.read_bytes()))
+            print(json.dumps(result,indent=2,sort_keys=True))
+            return 0 if result["status"]=="COMPUTED" else 2
         if args.command=="verify-test-plan":
             result=test_plans.verify(args.root,args.target,args.file)
             print(json.dumps(result,indent=2,sort_keys=True))
@@ -112,13 +119,14 @@ def main(argv=None):
             tools=MediaTools()
             result={"tools":{name:identity.model_dump() for name,identity in tools.identities.items()},"local_video_only":True,"automated_media_judging":False}
         elif args.command=="schema":
-            result={"dataset_manifest_schema":PilotDataset.model_json_schema(),"record_schemas":{cls.__name__:cls.model_json_schema() for cls in (*PILOT_TYPES, *assessments.TYPES, *decisions.TYPES, test_plans.TestPlan)},"human_form_schemas":{**{name:cls.model_json_schema() for name,cls in INPUT_TYPES.items()}, "decision-preview": decisions.VerdictInput.model_json_schema()}}
+            result={"dataset_manifest_schema":PilotDataset.model_json_schema(),"record_schemas":{cls.__name__:cls.model_json_schema() for cls in (*PILOT_TYPES, *assessments.TYPES, *decisions.TYPES, *evidence_roles.TYPES, test_plans.TestPlan)},"human_form_schemas":{**{name:cls.model_json_schema() for name,cls in INPUT_TYPES.items()}, "decision-preview": decisions.VerdictInput.model_json_schema()}}
         elif args.command=="draft":
             result=TEMPLATES[args.kind]
         else:
             workspace=PilotWorkspace(args.root)
             p=workspace
             if args.command=="init": result=p.init(args.dataset,args.author)
+            elif args.command in evidence_roles.COMMANDS: result=evidence_roles.record(p.repo,args.command,parse_json(args.file.read_bytes()),args.author)
             elif args.command=="register":
                 clip=p.register(args.dataset,args.clip,args.path,args.author,args.label,args.selection_reason,args.provenance_note,args.rights_status,plan=args.plan,intent=args.intent)
                 result={**clip.model_dump(mode="json"), **generation.audit(p.repo, clip)}
@@ -148,7 +156,7 @@ def main(argv=None):
                 clip=p.clip(args.clip)
                 submissions=[s for s in p.repo.all("PilotSubmission") if s.clip.id==clip.id]
                 result={"clip":clip.model_dump(mode="json"),"ingestion":p.repo.get(clip.ingestion).model_dump(mode="json"),
-                    "submissions":[{"submission":s.model_dump(mode="json"),"artifact":p.repo.get(s.artifact).model_dump(mode="json")} for s in submissions], **generation.audit(p.repo, clip), **assessments.clip_records(p.repo, clip), **decisions.clip_records(p.repo, clip), **test_plans.clip_records(p.repo, clip)}
+                    "submissions":[{"submission":s.model_dump(mode="json"),"artifact":p.repo.get(s.artifact).model_dump(mode="json")} for s in submissions], **generation.audit(p.repo, clip), **assessments.clip_records(p.repo, clip), **decisions.clip_records(p.repo, clip), **test_plans.clip_records(p.repo, clip), **evidence_roles.clip_records(p.repo, clip)}
             elif args.command in ("decision-policy", "terminal-verdict"):
                 result=decisions.record(p,args.author,args.command,json.loads(args.file.read_text()),getattr(args,"clip",None))
             elif args.command in assessments.COMMANDS:

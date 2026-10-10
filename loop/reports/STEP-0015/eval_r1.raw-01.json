@@ -1,0 +1,109 @@
+{
+  "step": 15,
+  "item": "L09",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "5983bb6bd07edfe5cd90ab3b5527403ef8498366badd0c0ac15989e2104c5f13",
+  "summary": "The four headline criteria have meaningful literal test oracles. A material snapshot-closure defect remains: arm-only snapshots omit applicable hypothesis prompting contexts, so replay can change a role.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all of diff.patch and all eight changed files. Changes implement L09 classification, provenance, persistence, private CLI access, snapshots, documentation and tests.",
+        "Compared the diff against the sealed plan and DEFERRED entries D01–D14; found no unrelated implementation."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "test_scrubbed_generated_frame_is_supporting_and_review_does_not_reset_creation exercises actual generated-frame extraction and asserts literal SUPPORTING/NO_FROZEN_ARM results.",
+        "test_literal_acceptance_and_each_test_result_conjunct independently asserts post-freeze hypothesis rejection, post-freeze source acceptance, and existing-source SUPPORTING with its reason. These assertions would fail for incorrect branch results.",
+        "The sealed plan's private replay requirement is unmet: src/eval_lab/evidence_roles.py:252 excludes prompting contexts for hypotheses reached through an arm link when the dataset clip does not carry their intent.",
+        "Inspected I1, I2 and I5–I9 boundaries: the new computation does not author judgments, change evaluations, excuse deviations, aggregate scores or perform confidence arithmetic."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/evidence_roles.py:13 and src/eval_lab/persistence.py:241 provide typed, versioned, append-only context records with checked predecessor and dependency pins.",
+        "src/eval_lab/evidence_roles.py:247 includes links through arm media, but :252 selects prompting contexts only through dataset-clip intents. Forward reference traversal in src/eval_lab/pilot.py:373 cannot recover the omitted incoming association.",
+        "Executed the unmodified roots() function extracted from its AST against stand-in records: the arm link was retained and the applicable HypothesisContext was omitted. This was a focused root-selection check, not an end-to-end repository test.",
+        "Reviewed generic reference validation and the sealed exclusion of L12 lint; no separate lint implementation is required here."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "tests/test_evidence_role_workflow.py:68 tests replay from the original case clip with its intent. Its only HypothesisContext is deliberately unrelated; it cannot detect omission of an applicable prompting context from an arm-only snapshot.",
+        "Inspected the new rejection tests: they generally use specific exception types, message fragments and distinct invalid inputs. Headline role expectations are literals rather than implementation-derived values.",
+        "Full tests were not independently rerun: the available Python lacks Pydantic and the supplied tree contains no virtual environment. gate.json reports 1039 passing tests; that report is not independent execution evidence."
+      ]
+    },
+    "accuracy": {
+      "score": 2,
+      "evidence": [
+        "docs/hypothesis-testing.md:161 claims snapshots retain applicable context histories and cross-clip dependencies for replay. The root-selection omission at src/eval_lab/evidence_roles.py:252 contradicts that claim.",
+        "Checked the Plan's Prior attempts statement against supplied earlier evaluation reports: none identifies L09.",
+        "Checked the Probes against Artifact.created_at, FirstView and the authoring paths: timestamps exist, while pair-level first-view events do not.",
+        "No newly authored external method, performance or standards claim requires outside research."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared every changed path with the sealed plan. The instrument record is declared provenance only; no instrument execution, provider, frontend or other DEFERRED work was added.",
+        "Checked I3, I4 and I10–I16 against the diff: existing tests, dependencies, protected artifacts, public serializers and judge files were not changed; context corrections append revisions and queries use read-only SQLite access.",
+        "Verified the patch SHA-256 independently. Inspected version/hash output and deterministic-order tests for I13; identified the separate snapshot relation defect rather than treating the supplied gate as proof of replay completeness."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "snapshot_prompt_context",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/evidence_roles.py:241-253",
+      "description": "Snapshot roots are not closed over applicable incoming hypothesis contexts. A dataset containing an arm clip with intent=None retains its EvidenceArm through the media match at line 247. That link brings the frozen plan, set and hypothesis into the snapshot, but line 252 omits the hypothesis's HypothesisContext because its intent is absent from the dataset clips. No forward reference leads from the hypothesis to that context. For evidence, hypothesis and prompting observation sharing a timestamp before freeze, the live role is DISCOVERY/PROMPTING_OBSERVATION; replay without the context becomes UNKNOWN/CREATION_ORDER_UNKNOWN. Even where TEST_RESULT remains unchanged, the consulted dependency pins differ. The existing replay test uses the original case clip and never exercises an applicable prompting context.",
+      "required_fix": "Include the applicable HypothesisContext histories for hypotheses reached through retained arm/plan dependencies, together with their exact dependencies, while excluding unrelated contexts. Add an arm-only snapshot regression with a literal DISCOVERY/PROMPTING_OBSERVATION oracle and verify identical live/replayed roles, reasons and dependency pins."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "A frame scrubbed after the hypothesis was created is SUPPORTING.",
+      "lazy_pass": "Return SUPPORTING for every frame, or use media timecodes instead of record creation chronology.",
+      "present_in_diff": false,
+      "evidence": "The generated-frame workflow asserts SUPPORTING after hypothesis creation. Separate literal DISCOVERY and TEST_RESULT cases reject an always-SUPPORTING implementation; compute() compares created_at values."
+    },
+    {
+      "criterion": "A hypothesis added after the freeze never gets TEST_RESULT.",
+      "lazy_pass": "Reject only unknown hypothesis IDs while allowing later revisions or consulting the latest competing set.",
+      "present_in_diff": false,
+      "evidence": "The conjunct tests cover hypothesis timestamps at and after freeze. test_new_revision_of_frozen_member_does_not_inherit_membership and test_exact_member_revision_and_later_set_do_not_float exercise exact revision membership."
+    },
+    {
+      "criterion": "Evidence from a post-freeze arm, created after the freeze, is TEST_RESULT.",
+      "lazy_pass": "Accept any recent evidence or an instrument source label without validating frozen membership, arm provenance and source chronology.",
+      "present_in_diff": false,
+      "evidence": "test_literal_acceptance_and_each_test_result_conjunct falsifies the required predicates separately. test_retained_run_alternative_and_source_label_is_insufficient checks that an instrument label alone does not qualify."
+    },
+    {
+      "criterion": "Evidence from an arm that already existed is SUPPORTING, with its reason.",
+      "lazy_pass": "Return a generic supporting label while treating a later clip revision, repeated view or re-registration of identical bytes as a new source.",
+      "present_in_diff": false,
+      "evidence": "The existing-source fixture asserts literal SUPPORTING/EXISTING_CLIP. test_original_registration_same_bytes_and_late_first_view checks retained byte history, later clip revisions and late viewing."
+    },
+    {
+      "criterion": "Sealed plan: private snapshots retain applicable contexts and reproduce exact-pair results.",
+      "lazy_pass": "Pass replay tests using only an original case clip and a TEST_RESULT example that does not depend on prompting context.",
+      "present_in_diff": true,
+      "evidence": "tests/test_evidence_role_workflow.py:68 uses precisely that restricted fixture. src/eval_lab/evidence_roles.py:252 omits applicable prompting contexts when hypotheses enter an arm-only snapshot through the linked plan."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "Independent full-suite execution unavailable: default Python lacks Pydantic; supplied gate results were inspected but not independently reproduced.",
+    "The independent executable countercheck covered the unmodified roots() function with stand-in records; repository admission and complete snapshot replay were assessed by source tracing."
+  ]
+}

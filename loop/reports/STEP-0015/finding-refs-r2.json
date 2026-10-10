@@ -1,0 +1,65 @@
+{
+  "findings": [],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Checked builder-authored comments, docstrings, documentation, CLI help, Plan and Probes against implementation and tests; found no material contradiction.",
+        "Verified creation timestamps and clip-level FirstView semantics against domain.py, generation.py and pilot.py; pair-level first-view telemetry is correctly disclosed as absent.",
+        "Compared the Plan's Prior attempts statement with earlier-step evaluation reports: none concerns an earlier L09 attempt. Evaluated the current round-1 finding separately.",
+        "Verified L04 and L08 are DONE in supplied state.json. The previously contradicted snapshot documentation is supported by the revised closure and regression.",
+        "Found no newly authored external claim requiring research. Researcher-owned research.json was excluded from builder accuracy scoring."
+      ],
+      "id": "F0015-R2-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "Inspected test_scrubbed_generated_frame_is_supporting_and_review_does_not_reset_creation: actual generated-frame extraction precedes a literal SUPPORTING/NO_FROZEN_ARM assertion.",
+        "Inspected test_literal_acceptance_and_each_test_result_conjunct: separate literal expectations cover post-freeze hypotheses, qualifying post-freeze evidence, existing sources and strict freeze boundaries. Wrong branch results would fail these assertions.",
+        "Checked exact hypothesis revisions, frozen-set membership, instrument provenance and DISCOVERY precedence against compute().",
+        "Checked I1, I2 and I5\u2013I9: computation preserves human records and uncertainty without producing judgments, acceptability decisions, aggregates or confidence arithmetic."
+      ],
+      "id": "F0015-R2-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "Audited new rejection tests for specific exception types, message fragments and fresh IDs/revisions; inspected copied-payload, predecessor, pin, chronology, media, origin and instrument guards.",
+        "Checked that Context.contract, Context.revalidate_copies and validate_admission have negative tests that depend on their validation behavior.",
+        "Inspected CLI import/reopen, read-only query, corruption, missing-workspace, deterministic ordering, snapshot replay and public-boundary tests.",
+        "The new arm-only regression has independent literal expectations and would fail with the former root-selection implementation. Supplied gate.json reports 1040 passing tests; this was not independently reproduced."
+      ],
+      "id": "F0015-R2-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Traced new types through artifact registration, inherited schema versioning, predecessor/digest validation, repository admission and private snapshot closure.",
+        "src/eval_lab/evidence_roles.py:254-261 now discovers exact hypotheses through retained link dependencies and includes their prompting-context histories.",
+        "Executed the actual roots() function with stand-in records: applicable context revisions were retained, unrelated and later-revision contexts were excluded, and enumeration reversal preserved membership. Removing the reached-hypothesis predicate made the literal oracle fail.",
+        "Inspected test_arm_only_snapshot_retains_exact_prompt_history_and_replays_discovery: it asserts literal context membership, DISCOVERY/PROMPTING_OBSERVATION, an explicit dependency set and identical replay hashes.",
+        "Checked generic reference validation and the separately scoped L12 lint item; this change introduces no existing lint integration gap."
+      ],
+      "id": "F0015-R2-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read all 1142 lines of diff.patch and opened all eight changed files under tree. Changes remain on L09's classification, provenance, persistence, CLI, snapshot, documentation and test paths.",
+        "Compared implementation scope with the sealed plan and DEFERRED entries D01\u2013D14; found no unrelated implementation."
+      ],
+      "id": "F0015-R2-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared every changed path with the sealed plan and independently counted 858 changed lines excluding reports, below the 900-line cap.",
+        "Checked I3, I4 and I10\u2013I16: the patch adds append-only contexts, changes no existing tests or dependencies, touches no protected or judge files, and adds no network, instrument execution, frontend or DEFERRED implementation.",
+        "Inspected unchanged public/embed allowlists for I12 and version/hash output plus deterministic replay tests for I13.",
+        "Independently computed the patch SHA-256 and confirmed it matches diff_sha256.txt. No push or merge operation appears in the change."
+      ],
+      "id": "F0015-R2-D-scope"
+    }
+  ]
+}

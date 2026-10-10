@@ -87,6 +87,10 @@
       "retries": 0,
       "status": "DONE"
     },
+    "L09": {
+      "retries": 0,
+      "status": "DONE"
+    },
     "L11": {
       "retries": 0,
       "status": "PENDING"
@@ -97,7 +101,7 @@
       "status": "DONE"
     }
   },
-  "last_integrated_test_count": 970,
+  "last_integrated_test_count": 1040,
   "steps": [
     {
       "auto_approved": [],
@@ -608,6 +612,38 @@
         "scope": 4
       },
       "step": 14
+    },
+    {
+      "auto_approved": [],
+      "calibration": {
+        "accuracy": 2,
+        "intention": 2,
+        "production_quality": 2,
+        "relation": 2,
+        "relevance": 0,
+        "scope": 0
+      },
+      "decision": "INTEGRATE",
+      "flags": [
+        "Independent full-suite execution unavailable: default Python lacks Pydantic, and the supplied tree contains no virtual environment.",
+        "PUBLIC_PROSE",
+        "The independent executable check exercised the actual roots() function with stand-in records and a mutation control; complete repository admission and snapshot replay were assessed by source inspection, not independently executed."
+      ],
+      "gate": true,
+      "item": "L09",
+      "passed": 1040,
+      "research": {},
+      "rounds": 2,
+      "rule": "R6",
+      "scores": {
+        "accuracy": 4,
+        "intention": 4,
+        "production_quality": 4,
+        "relation": 4,
+        "relevance": 4,
+        "scope": 4
+      },
+      "step": 15
     }
   ]
 }

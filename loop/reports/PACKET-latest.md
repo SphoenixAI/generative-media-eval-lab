@@ -2,11 +2,11 @@
 
 step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/O/U | flags
 --- | --- | --- | --- | --- | --- | --- | ---
-0010 | L04 | REVERT | 4 4 4 3 2 4 | 674 | True | 14/0/0/2 | flags: 5
 0011 | L04 | INTEGRATE | 4 4 4 3 4 4 | 698 | True | 16/0/0/1 | flags: 5
 0012 | L05 | INTEGRATE | 4 4 4 4 4 4 | 786 | True | 12/0/0/0 | flags: 5
 0013 | L06 | INTEGRATE | 4 4 4 4 4 4 | 862 | True | 12/0/0/0 | flags: 7
 0014 | L08 | INTEGRATE | 4 4 4 4 4 4 | 970 | True | 6/0/0/0 | flags: 3
+0015 | L09 | INTEGRATE | 4 4 4 4 4 4 | 1040 | True | 0/0/0/0 | flags: 3
 
 ## Loop health
 
@@ -17,8 +17,8 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 
 ## New this step
 
-- Independent validation limitation: available Python lacks Pydantic, SQLAlchemy and pytest. Full product suites were not rerun; gate.json's 970 passing tests remain supplied evidence. Executed probes covered extracted functions, not the complete application.
-- Reviewed I1-I16 against the diff and relevant integration paths; no invariant violation demonstrated. Historical Git actions and external runtime state were not independently verified.
+- Independent full-suite execution unavailable: default Python lacks Pydantic, and the supplied tree contains no virtual environment.
+- The independent executable check exercised the actual roots() function with stand-in records and a mutation control; complete repository admission and snapshot replay were assessed by source inspection, not independently executed.
 
 ## Open issues
 
@@ -31,14 +31,14 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 
 ## Standing limitations
 
-- VALIDATION_LIMITATION: 17 recorded flags.
+- VALIDATION_LIMITATION: 19 recorded flags.
 - RESEARCH_PENDING: 9 recorded flags.
-- PUBLIC_PROSE: 17 recorded flags.
+- PUBLIC_PROSE: 18 recorded flags.
 - HOME_PATH: 4 recorded flags.
 
 Proposals awaiting approval: P0008-1: Normalize unpacked arrays before JsonValue validation; P0009-1: Include applicable RelationClaimV2 history in private dataset snapshots; WP07: Model-based instrument adapters; A3-01: Evidence partitions and withheld-context challenges; A3-02: Decision-relevance router; A3-03: Shared perception cache with evidence lineage; A3-04: Counterfactual tests of stated reasons; A3-05: Backed spans and evidence-carrying judgments; A3-06: Instrument validation ladder; A3-07: Labeling import adapter (Ultralytics, Roboflow, others)
 
-Calibration self-minus-independent mean: 0.5. Reverts: 5/14.
+Calibration self-minus-independent mean: 0.5666666666666667. Reverts: 5/15.
 
 Rubric A2: accuracy covers builder/enhancer content only; scores before and after A2 are not directly comparable.
 
