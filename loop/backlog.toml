@@ -735,3 +735,131 @@ authorized_dependencies = false
 probes = []
 acceptance = ["docs/witness-protocol.md describes only what is built, with the commands to run it.", "It names prior work and states plainly what is not new.", "No superiority claims and no real-media results.", "House style: plain, specific sentences; no em dashes; no hype.", "The document states that instrument authority is scoped by validation and that measurement is evidence, not ground truth.", "Conceptual examples that the lab cannot yet measure, such as a subject that appears to slide, are labelled as hypothesis examples and claim no measured result."]
 notes = "Sphoenix approval 2026-10-09, amendment A2, Sections 5.2 and 5.3.\n\nPrior work to cite. The researcher verifies each item before it is used:\nLinear Sequential Unmasking (Dror et al. 2015) and LSU-E (Dror and Kukucka 2021);\nblind proficiency testing at the Houston Forensic Science Center, and PCAST 2016 on blind testing within casework;\nVideoAlign / VideoReward (arXiv 2501.13918), which scores visual quality before reading the prompt;\nXu, \"Don't Read the Log\" (arXiv 2609.28564), on execution traces contaminating video verifiers;\nLai and Huang (arXiv 2609.00067), on context-blind visual witnesses;\nLMM-JND (arXiv 2507.00490), on just-noticeable differences for multimodal models;\nUniHD (ACL 2024), on tool-based claim verification;\nVideoArgus (arXiv 2608.05485), on rubrics written before outputs are seen;\nEmu Video's JUICE (arXiv 2311.10709), on raters justifying their choices.\nNovelty, as far as the 2026-10-09 search found: independent instruments check the judges' own claims; a real intent reveal is measured for how it changes a judge's observations; disputes are routed on those results. Write \"as far as we found\", never \"first\".\n\nCommon approved constraints (A2 Section 5.3):\n- **I1.** For real clips, the loop never writes statements, changes, legibility matches or assessments. Instruments write InstrumentRun records only, never observations.\n- **I5.** Statements, instrument runs and claim checks never reference intent. Only post-reveal assessments and legibility matches do.\n- **I2.** Anything not measured is UNMEASURABLE or UNKNOWN, never a pass.\n- **I8, exactly as written:** \"No average hides a failure. Aggregates keep the worst case for each dimension. No decision uses a mean.\" Instruments report per-frame values and the worst frame alongside any span mean. Every claim check states which summary it uses, and checks that a failure could hide in use the worst frame.\n- **I9.** No probabilities.\n- **I12.** Canary status, judge identities and witness cards never appear in public or embed payloads.\n- **Snapshots.** New record types are included in private dataset snapshots. This is the gap that failed L11.\n- **Faces.** Instruments measure regions, color, timing and motion. They do no face identification, no expression or emotion reading, no deception scoring and no inference about a person's intent.\n- **Media.** Generate test clips with ffmpeg lavfi in a temp folder at test time. Never commit media files: G6 forbids video extensions, and G7 counts them as changed lines.\n- **Excluded tools.** No cloud media APIs. No new AGPL or GPL dependencies; the pinned ffmpeg build is existing human-installed tooling.\n- **Size.** Split an item with `STEP-N-split.toml` if it will not fit in 900 changed lines.\n\nA2.1 Rule 5: An instrument measurement is evidence whose authority depends on validation. It is never ground truth because a machine produced it. CONTRADICTED means a VALIDATED, in-scope measurement disagrees with the observation. The observation stays stored, unchanged, and is never marked false.\n\nAcceptance:\n- docs/witness-protocol.md describes only what is built, with the commands to run it.\n- It names prior work and states plainly what is not new.\n- No superiority claims and no real-media results.\n- House style: plain, specific sentences; no em dashes; no hype.\n- The document states that instrument authority is scoped by validation and that measurement is evidence, not ground truth.\n- Conceptual examples that the lab cannot yet measure, such as a subject that appears to slide, are labelled as hypothesis examples and claim no measured result."
+
+# A3 proposals only; no implementation authorization.
+
+[[item]]
+id = "A3-01"
+title = "Evidence partitions and withheld-context challenges"
+priority = "P2"
+approval = "PROPOSED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = ["WP01", "WP03", "WP05"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."]
+rationale = "Generalizes the intent reveal to any exposure channel, so the lab measures which evidence a judgment depends on."
+notes = "Proposed 2026-10-09 (A3). A witness statement is sealed under a declared evidence partition: which channels, time spans, regions and views were visible. Then one source is revealed or withheld at a time, and what changes is recorded.\nFresh-context model witnesses first, because each call can start clean. Humans only through fixed, approved cohort protocols (A2.1 Rule 4).\nChallenges include: hide the prompt; hide model identity; withhold a time span or region and ask for a prediction of it; withhold one camera of a multi-view clip and ask for a reconstruction.\nInspired by self-consistency evaluation of world models (SC3-Eval, arXiv 2606.18610: cross-view inpainting, forward-inverse consistency, test-time drift flags) and by the BotNews article \"How to catch a world model lying to you\".\nThe combinatorics grow fast: plan small fixed partition sets, not every subset.\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."
+
+[[item]]
+id = "A3-02"
+title = "Decision-relevance router"
+priority = "P2"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L06", "L08", "WP03"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."]
+rationale = "Run only the instruments and challenges whose results could change the decision, with no probability arithmetic (I9)."
+notes = "Proposed 2026-10-09 (A3). For a claim or an unresolved hypothesis set, consider each candidate instrument or challenge:\n1. Diagnostic: is it diagnostic for the unresolved hypotheses under L08's classes? If NON_DIAGNOSTIC, skip it.\n2. Decision-relevant: re-run the current DecisionPolicy under each of its possible outcomes. If no outcome changes the decision, skip it.\n3. Valid: is the instrument VALIDATED for this input's domain (A2.1 Rule 1)? If not, it cannot settle anything; it can only add MEASURED_UNVALIDATED context.\nTie-break among eligible candidates: validated scope, then existing cached evidence, then cost, then latency.\nDeterministic, auditable, and no expected-information-gain numbers (D08 stays deferred).\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."
+
+[[item]]
+id = "A3-03"
+title = "Shared perception cache with evidence lineage"
+priority = "P2"
+approval = "PROPOSED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = ["WP02", "WP03", "WP07"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."]
+rationale = "One perception pass per clip serves many measurements, while lineage stops reuse from posing as independent evidence."
+notes = "Proposed 2026-10-09 (A3). Per clip, a temporal entity graph: entities (person, object, ground region) with mask tracks, appearance trajectories, pose trajectories, motion and color trajectories, and relations such as standing_on, holding and occluded_by. Downstream measurements (identity drift, position, contact, grade consistency, occlusion) reuse it.\nEvery derived value keeps its evidence roots (A2.1 Rule 3). A tracking error upstream is one witness, not many.\nSemantic grade consistency is the first payoff: a REGION_COLOR measurement on a tracked semantic region (skin, garment, product) through one shot, compared against illumination changes elsewhere in the frame.\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."
+
+[[item]]
+id = "A3-04"
+title = "Counterfactual tests of stated reasons"
+priority = "P2"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["WP04", "WP05", "L11"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."]
+rationale = "Test whether a judge's verdict actually depends on the factor its warrant names."
+notes = "Proposed 2026-10-09 (A3). Take the factor a warrant names (for example, a warm grade). Produce a measured, minimal edit of that factor with the WP04 machinery. Check whether the verdict moves as the warrant predicts. A warrant that survives the edit is backed; one that does not is recorded as an unbacked reason, beside the verdict and never replacing it.\nFor humans this compares stated reasons with revealed preferences; for model judges it tests rationale faithfulness.\nPrior art: explanation-driven counterfactual testing for visual question answering (EDCT, arXiv 2510.00047; EDCT-Bench, arXiv 2609.17953). The 2026-10-09 search found no version for judges of generated media, with measured doses, or for human raters.\nControl for edit seams: small, measured doses, plus a sham edit of equal size on an unrelated region.\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."
+
+[[item]]
+id = "A3-05"
+title = "Backed spans and evidence-carrying judgments"
+priority = "P2"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["WP03", "WP05"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."]
+rationale = "A judgment ships with its evidence path and the spans where its own checks hold."
+notes = "Proposed 2026-10-09 (A3). Output format for a judgment:\njudgment; observation; evidence spans and entities; witness exposure state; instruments with validity status; challenges run and their results; surviving and weakened alternatives; the criterion it bears on; the action.\nEach judge also reports backed spans, where its checks against withheld evidence held, and unbacked spans, which route to a person.\nA score ranks; a judgment that names the failure, and shows whether the naming survived cross-examination, gives a lead.\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."
+
+[[item]]
+id = "A3-06"
+title = "Instrument validation ladder"
+priority = "P2"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "validation"
+depends_on = ["WP02", "WP04"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope and data licenses before implementation."]
+rationale = "Earn instrument authority in order, from exact synthetic ground truth to real multi-view footage to generated media."
+notes = "Proposed 2026-10-09 (A3). Order:\n1. Known-dose lab clips (WP04).\n2. Kubric synthetic scenes (Apache 2.0) with exact masks, depth and optical flow.\n3. Ego-Exo4D (Meta; about 1,286 hours, 4 to 5 synchronized exocentric cameras per take, consented participants, 3D body and hand pose). Access requires accepting its license agreement; Sphoenix reviews it first.\n4. Generated-media-specific validation, because real footage does not validate instruments on generated failures such as melting hands or morphing objects.\nEach step writes ValidationRecords with a scope (A2.1 Rule 1). No instrument is VALIDATED for generated media on the strength of real-footage results alone.\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope and data licenses before implementation."
+
+[[item]]
+id = "A3-07"
+title = "Labeling import adapter (Ultralytics, Roboflow, others)"
+priority = "P2"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["WP02"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."]
+rationale = "Use labeling tools as operator tooling and import neutral formats, so the ontology is not tied to a vendor or its license."
+notes = "Proposed 2026-10-09 (A3). Ultralytics (manual, SAM-assisted and YOLO-assisted annotation), Roboflow and others run outside the repository. The lab imports COCO JSON or YOLO txt through an adapter. Each import records:\n- tool, version, model weights hash, export SHA-256;\n- a versioned class map from tool classes to ontology concepts.\nMachine-proposed labels are instrument outputs with evidence roots (A2.1 Rule 3). Human-corrected labels become human observations.\nNo Ultralytics code or weights enter the repository; its standard stack is AGPL-3.0 unless commercially licensed.\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."

@@ -1105,3 +1105,5 @@ Non-interactive mode: https://learn.chatgpt.com/docs/non-interactive-mode.md
 CLI reference, including codex sandbox: https://learn.chatgpt.com/docs/developer-commands?surface=cli
 Subagents: https://learn.chatgpt.com/docs/agent-configuration/subagents
 Scheduled tasks: https://learn.chatgpt.com/docs/automations
+
+A2.1 Part 2 proposal boundary: A3-01 through A3-07 remain PROPOSED, P2, human_review=true. Never approve, auto-approve or build them without Sphoenix. Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. These proposals must never block approved work or be treated by the evaluator as approved scope.
