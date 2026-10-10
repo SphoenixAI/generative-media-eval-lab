@@ -19,3 +19,5 @@ A2 test-oracle rules:
 2. Expected values are literals authored in the test, never computed by the code under test.
 3. Fixtures use distinct values for every field the test must distinguish.
 4. Each new validator has at least one test that fails when that validator is deleted. Name the test in self-evaluation evidence (or enhancement evidence for the enhancer).
+
+Use repository-relative paths in Plan, Probes and all report text.

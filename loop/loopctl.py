@@ -181,6 +181,22 @@ class Control:
     def step(self, n):
         return read(self.path(n) / 'step.json')
 
+    def clean_text(self,text):
+        from run import sanitize_paths
+        paths=self.config['paths']
+        return sanitize_paths(text,[(self.runs,'<RUNS>'),((self.root/paths.get('env_dir','../Content Evaluator - loop-env')).resolve(),'<ENV>'),
+                            (self.root,'<WT>'),((self.root/paths.get('main_checkout','../Content Evaluator')).resolve(),'<MAIN>'),(Path.home(),'~')])
+
+    def clean_summary(self,value):
+        if isinstance(value,str): return self.clean_text(value)
+        if isinstance(value,list): return [self.clean_summary(v) for v in value]
+        if isinstance(value,dict): return {k:self.clean_summary(v) for k,v in value.items()}
+        return value
+
+    def clean_report(self,text):
+        parts=re.split(r'(?=^## )',text,flags=re.M)
+        return ''.join(part if re.match(r'^## (Plan|Probes)(?:[ \t]*(?:\(|\n))',part) else self.clean_text(part) for part in parts)
+
     def status(self):
         state = self.state(); candidate = next_item(items(self.root), state)
         return {'current': read(self.runs / 'current.json'), 'lock': read(self.runs / 'lock.json'),
@@ -465,6 +481,7 @@ class Control:
             text=replace_section(text,'Proposals filed','; '.join(i['id']+': '+i['title'] for i in items(self.root) if i['id'].startswith(f'P{n:04d}-')) or 'None.')
             candidate=next_item(items(self.root),self.state())
             text=replace_section(text,'Next',candidate['id']+': '+candidate['title'] if candidate else 'No eligible item.')
+        text=self.clean_report(text)
         path.parent.mkdir(parents=True,exist_ok=True); path.write_text(text); (run/'report.md').write_text(text)
         return {'report':step['report']}
 
@@ -511,6 +528,7 @@ class Control:
         research=self.optional_role(n,'research.json','research')
         flags=sorted(set(gate.get('flags',[])+ev.get('flags',[])))
         summary={'step':n,'item':item['id'],'decision':dec['decision'],'rule':dec['rule'],'rounds':rounds,'scores':{d:v['score'] for d,v in ev.get('scores',{}).items()},'passed':gate.get('tests',{}).get('passed',0),'gate':gate.get('passed',False),'flags':flags,'calibration':calibration,'research':dict(Counter(c['verdict'] for c in research.get('claims',[]))),'auto_approved':[]}
+        summary=self.clean_summary(summary)
         if dec['decision']=='INTEGRATE': state['last_integrated_test_count']=summary['passed']
         backlog_text=step['backlog_before']
         for child in read(run/'split.json',[]): backlog_text+='\n'+toml_item(child)
@@ -603,33 +621,57 @@ class Control:
         return event
 
     def packet(self, reason=None):
-        state=self.state(); rows=[]
-        for s in state.get('steps',[]):
-            scores=' '.join(str(s.get('scores',{}).get(d,'?')) for d in DIMS)
-            research='/'.join(str(s.get('research',{}).get(k,0)) for k in ('CONFIRMED','CONTRADICTED','OUTDATED','UNVERIFIABLE'))
-            rows.append(f'{s["step"]:04d} | {s["item"]} | {s["decision"]} | {scores} | {s.get("passed",0)} | {s.get("gate",False)} | {research} | {", ".join(s.get("flags",[]))}')
+        from run import trailing_counts
+        state=self.state(); steps=state.get('steps',[]); rows=[]
+        for row in steps:
+            scores=' '.join(str(row.get('scores',{}).get(d,'?')) for d in DIMS)
+            research='/'.join(str(row.get('research',{}).get(k,0)) for k in ('CONFIRMED','CONTRADICTED','OUTDATED','UNVERIFIABLE'))
+            rows.append(f"{row['step']:04d} | {row['item']} | {row['decision']} | {scores} | {row.get('passed',0)} | {row.get('gate',False)} | {research} | {', '.join(row.get('flags',[]))}")
         header='step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/O/U | flags\n--- | --- | --- | --- | --- | --- | --- | ---\n'
         reports=self.root/'loop/reports'; reports.mkdir(parents=True,exist_ok=True)
-        (reports/'INDEX.md').write_text('# Step index\n\n'+header+'\n'.join(rows)+'\n')
-        steps=state.get('steps',[]); flags=sorted({f for s in steps for f in s.get('flags',[])})
-        proposals=[i['id']+': '+i['title'] for i in items(self.root) if i['approval']=='PROPOSED']
-        recent=[v for s in steps[-5:] for v in s.get('calibration',{}).values()]
-        over=sum(recent)/len(recent) if recent else None
-        text='# Review packet\n\n'+header+'\n'.join(rows[-5:])+'\n\n'
-        text+='Open flags: '+(', '.join(flags) or 'none')+'\n\nProposals awaiting approval: '+('; '.join(proposals) or 'none')+'\n\n'
-        ledger=self.root/'loop/research/ledger.jsonl'
-        unresolved=[c['id'] for c in (json.loads(l) for l in ledger.read_text().splitlines()) if c['verdict']=='CONTRADICTED'] if ledger.exists() else []
-        text+='Contradictions for review: '+(', '.join(unresolved) or 'none')+'\n\n'
-        text+=f'Calibration gaps: {json.dumps([s.get("calibration",{}) for s in steps[-5:]])}. Mean self-minus-independent: {over}.\n\n'
-        if over is not None and over>1: text+='Flag: builder mean overconfidence exceeds 1.0.\n\n'
-        text+=f'Revert rate: {sum(s["decision"]=="REVERT" for s in steps)}/{len(steps)} steps.\n\n'
-        for event in state.get('events',[]):
-            text+=f"Step {event['step']:04d} remains {event['decision']}: {event['reason']}. Product retry charged: {event['product_retry_charged']}.\n\n"
+        (reports/'INDEX.md').write_text(self.clean_text('# Step index\n\n'+header+'\n'.join(rows)+'\n'))
+        # The packet's compact table leaves full flags in INDEX and original role evidence.
+        compact=[' | '.join(row.split(' | ')[:8])+(' | flags: '+str(len(step.get('flags',[])))) for row,step in zip(rows[-5:],steps[-5:])]
+        text='# Review packet\n\n'+header+'\n'.join(compact)+'\n\n'
+        previous=read(self.root/'loop/packet-status.json',{})
+        stop_reason=reason if reason is not None else previous.get('stop_reason','none recorded')
+        if reason is not None: write(self.root/'loop/packet-status.json',{'stop_reason':self.clean_text(reason)})
+        non_integrated,rf=trailing_counts(state)
+        retries=', '.join(f"{key}: {value.get('retries',0)}" for key,value in state.get('items',{}).items() if value.get('retries',0)) or 'none'
+        blocked=', '.join(key for key,value in state.get('items',{}).items() if value.get('status')=='BLOCKED') or 'none'
+        text+='## Loop health\n\n'+f'- Consecutive non-integrations since RESUME: {non_integrated}; trailing RF: {rf}.\n- Product retries: {retries}.\n- BLOCKED: {blocked}.\n- Last stop reason: {stop_reason}.\n\n'
+        old={flag for row in steps[:-1] for flag in row.get('flags',[])}
+        fresh=[flag for flag in (steps[-1].get('flags',[]) if steps else []) if flag not in old]
+        text+='## New this step\n\n'+('\n'.join('- '+self.clean_text(flag)[:300] for flag in fresh) or 'None.')+'\n\n'
+        excluded={event['step'] for event in state.get('events',[]) if event.get('classification','').startswith('HARNESS_')}
+        latest={row['item']:row for row in steps if row['step'] not in excluded}; issues={}
+        for row in latest.values():
+            folder=reports/f"STEP-{row['step']:04d}"; ev=read(folder/f"eval_r{row.get('rounds',1)}.json",{})
+            unresolved={entry['ref'] for entry in ev.get('prior_findings',[]) if entry['status']=='UNRESOLVED'}
+            findings=ev.get('blocking_findings',[])+[finding for finding in read(folder/'eval_r1.json',{}).get('blocking_findings',[]) if finding['id'] in unresolved]
+            for finding in findings:
+                loc=finding['location']; key=self.clean_text(loc); entry=issues.setdefault(key,{'steps':set(),'text':finding['description']}); entry['steps'].add(row['step'])
+            for dimension,score in ev.get('scores',{}).items():
+                if score['score']!=3: continue
+                evidence=score['evidence'][0] if score['evidence'] else 'unspecified evidence'
+                match=re.search(r'(?:tree/)?[\w./-]+:\d+(?:-\d+)?',evidence)
+                loc=match[0] if match else dimension
+                entry=issues.setdefault(self.clean_text(loc),{'steps':set(),'text':f'MINOR {dimension}: '+evidence}); entry['steps'].add(row['step'])
+        text+='## Open issues\n\n'+('\n'.join(f"- {location} (steps {','.join(f'{n:04d}' for n in sorted(issue['steps']))}): {self.clean_text(issue['text'])[:280]}" for location,issue in issues.items()) or 'None recorded.')+'\n\n'
+        flags=[flag for row in steps for flag in row.get('flags',[])]
+        categories={'VALIDATION_LIMITATION':('unavailable','not independently','not rerun','not reproduced','limitation'),
+                    'RESEARCH_PENDING':('research','external claim','source verification'),
+                    'PUBLIC_PROSE':('public_prose',),'HOME_PATH':('/users/','/home/','home_path','<wt>','<runs>','<env>')}
+        text+='## Standing limitations\n\n'+'\n'.join(f"- {category}: {sum(any(word in flag.lower() for word in words) for flag in flags)} recorded flags." for category,words in categories.items())+'\n\n'
+        proposals=[item['id']+': '+item['title'] for item in items(self.root) if item['approval']=='PROPOSED' and state.get('items',{}).get(item['id'],{}).get('status')!='DONE']
+        text+='Proposals awaiting approval: '+('; '.join(proposals) or 'none')+'\n\n'
+        recent=[v for row in steps[-5:] for v in row.get('calibration',{}).values()]; over=sum(recent)/len(recent) if recent else None
+        text+=f'Calibration self-minus-independent mean: {over}. Reverts: {sum(row["decision"]=="REVERT" for row in steps)}/{len(steps)}.\n\n'
         text+='Rubric A2: accuracy covers builder/enhancer content only; scores before and after A2 are not directly comparable.\n\n'
-        if reason: text+='Stop reason: '+reason+'\n\n'
+        for event in state.get('events',[]): text+=f"Step {event['step']:04d} remains {event['decision']}: {event['reason']}. Product retry charged: {event['product_retry_charged']}.\n\n"
         text+='- Which integrated change most likely violates an invariant?\n- Which research verdict is weakest?\n- What should be deferred?\n'
-        (reports/'PACKET-latest.md').write_text(text)
-        return {'packet':'loop/reports/PACKET-latest.md','steps':len(steps),'stop_reason':reason}
+        (reports/'PACKET-latest.md').write_text(self.clean_text(text))
+        return {'packet':'loop/reports/PACKET-latest.md','steps':len(steps),'stop_reason':self.clean_text(stop_reason)}
 
 
 def toml_item(item):

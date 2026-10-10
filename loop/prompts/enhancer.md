@@ -19,3 +19,5 @@ A2 test-oracle rules:
 4. Each new validator has at least one test that fails when that validator is deleted. Name the test in self-evaluation evidence (or enhancement evidence for the enhancer).
 
 Use the canonical finding IDs in eval_r1.json. Optional nonblocking score-note responses use the IDs in finding-refs-r1.json. Research responses use canonical R IDs. Never use a file:dimension label or repeat a resolutions ref. Every distinct mandatory finding requires its own response.
+
+Use repository-relative paths in Plan, Probes and all report text.

@@ -84,6 +84,13 @@ def needs_enhancement(evaluation, research, gate):
             any(c['action_required'] for c in research['claims']))
 
 
+def sanitize_paths(text, roots):
+    """Known sibling roots precede their shorter prefixes; never match partial segments."""
+    for prefix,label in roots:
+        text=re.sub(re.escape(str(prefix))+r"(?=/|$|[\"'\n\r\t:;,\)])",lambda _:label,text)
+    return text
+
+
 def trailing_counts(state):
     after=max((e['after_step'] for e in state.get('events',[]) if e.get('event')=='RESUME'),default=-1)
     history=[s for s in state.get('steps',[]) if s['step']>after]
@@ -188,6 +195,8 @@ class Runner:
             raise LoopError('Remote URL changed during loop')
 
     def commit(self, message):
+        main=(self.root/self.config['paths'].get('main_checkout','../Content Evaluator')).resolve()
+        message=sanitize_paths(message,[(self.runs,'<RUNS>'),(self.environment,'<ENV>'),(self.root,'<WT>'),(main,'<MAIN>'),(Path.home(),'~')])
         self.ensure_branch()
         self.git('add', '-A')
         if self.git('diff', '--cached', '--quiet', check=False).returncode:
@@ -544,7 +553,7 @@ class Runner:
         if self.git_ready and self.step is None:
             self.ctl('packet', live=True)
             packet = self.root / 'loop/reports/PACKET-latest.md'
-            packet.write_text(packet.read_text() + '\nStop reason: ' + reason + '\n')
+            self.ctl('packet','--reason',reason,live=True)
             self.commit('loop: checkpoint (' + reason + ')')
             self.push()
         print(json.dumps({'stopped': reason, 'runs': str(self.runs)}), flush=True)
