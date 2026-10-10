@@ -15,6 +15,7 @@ import socket
 import subprocess
 import sys
 import tomllib
+from prompt_evidence import advisory_result
 
 DIMS = ('relevance', 'intention', 'relation', 'production_quality', 'accuracy', 'scope')
 SECTIONS = ('Plan', 'Probes', 'Changes', 'Deterministic gate', 'Independent evaluation, round 1',
@@ -281,7 +282,7 @@ class Control:
         write(run/'step.json',step); write(self.runs/'current.json',{'step': n,'item':item_id})
         for name in git(self.root,'ls-tree','-r','--name-only',base,'loop').splitlines():
             relative = name.removeprefix('loop/')
-            if relative in ('loopctl.py','run.py','gates.py','config.toml','RUBRIC.md','INVARIANTS.md','NORTH_STAR.md','baseline.json','baseline_tests.txt','protected.sha256','state.json') or relative.startswith(('schemas/','prompts/','tests/')):
+            if relative in ('loopctl.py','run.py','gates.py','prompt_evidence.py','config.toml','RUBRIC.md','INVARIANTS.md','NORTH_STAR.md','baseline.json','baseline_tests.txt','protected.sha256','state.json') or relative.startswith(('schemas/','prompts/','tests/')):
                 target=run/'harness'/relative; target.parent.mkdir(parents=True,exist_ok=True)
                 target.write_bytes(subprocess.check_output(['git','-C',str(self.root),'show',f'{base}:{name}']))
         content = f'# Step {n:04d} · {item_id} · {eligible["title"]}\n\nDecision: pending\n\n' + ''.join(f'## {s}\n\n' for s in SECTIONS)
@@ -805,6 +806,7 @@ def main(argv=None):
             n=args.step or read(ctl.runs/'current.json',{}).get('step')
             if n is None: raise ValueError('gate needs --step')
             result=gates.gate(ctl.root,ctl.path(n),ctl.harness,ctl.step(n),args.round,args.advisory); failed=not result['passed']
+            if args.advisory: result=advisory_result(ctl.path(n),args.round,result)
         elif cmd=='export': result=ctl.export(args.step,args.round)
         elif cmd=='research-view': result=ctl.research_view(args.step)
         elif cmd=='canonicalize-research': result=ctl.canonicalize_research(args.step)
