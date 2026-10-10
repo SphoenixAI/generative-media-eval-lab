@@ -144,13 +144,17 @@
       "retries": 0,
       "status": "DONE"
     },
+    "L12-A2b": {
+      "retries": 0,
+      "status": "DONE"
+    },
     "P-HARNESS-IDS-01": {
       "note": "implemented as operator work, amendment A2",
       "retries": 0,
       "status": "DONE"
     }
   },
-  "last_integrated_test_count": 1858,
+  "last_integrated_test_count": 2955,
   "steps": [
     {
       "auto_approved": [],
@@ -971,6 +975,39 @@
         "scope": 4
       },
       "step": 25
+    },
+    {
+      "auto_approved": [],
+      "calibration": {
+        "accuracy": 0,
+        "intention": 2,
+        "production_quality": 2,
+        "relation": 0,
+        "relevance": 0,
+        "scope": 0
+      },
+      "decision": "INTEGRATE",
+      "flags": [
+        "Full pytest was not independently executed: the available interpreter lacks pytest. The supplied gate reports 2955 passing tests.",
+        "Independent replays used actual preparation/reader/test bodies with a lightweight pytest substitute and substituted artifact-kind registry. SQLite checks used in-memory databases. Repository-admitted representative tests and retained filesystem preservation were not independently executed.",
+        "Independently computed the diff SHA-256 and confirmed it matches diff_sha256.txt.",
+        "Reviewed I1-I16 against the changed code and paths. No real judgment/history writes, UNKNOWN-to-clean conversion, protected artifact changes, intent/measurement conflation, operational mutation, averaging, probability arithmetic, runtime network dependency, test weakening, public serialization change, unsupported determinism claim, deferred implementation or judge edit was established. Main and external filesystem integrity were not independently verified."
+      ],
+      "gate": true,
+      "item": "L12-A2b",
+      "passed": 2955,
+      "research": {},
+      "rounds": 2,
+      "rule": "R6",
+      "scores": {
+        "accuracy": 4,
+        "intention": 4,
+        "production_quality": 4,
+        "relation": 4,
+        "relevance": 4,
+        "scope": 4
+      },
+      "step": 26
     }
   ]
 }

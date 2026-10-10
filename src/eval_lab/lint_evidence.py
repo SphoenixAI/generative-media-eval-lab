@@ -116,6 +116,17 @@ class RawRecord:
         return result
 
 
+    def presence(self, path: PathParts) -> EvidenceResult:
+        """Explicit optional-slot membership; null is absence, never a field value."""
+        parent = self.field(path[:-1], MAPPING)
+        if parent.state != "AVAILABLE":
+            return EvidenceResult(parent.state, self.subject, path, parent.reason)
+        if path[-1] not in parent.value:
+            return EvidenceResult("UNKNOWN", self.subject, path, "missing required field")
+        result = field(parent.value[path[-1]] is not None, (), BOOLEAN, subject=self.subject)
+        return EvidenceResult(result.state, self.subject, path, result.reason, result.value)
+
+
 def _decode(source):
     """Ordinary artifact JSON allows finite fractions, unlike frozen-plan JSON."""
     def pairs(items):

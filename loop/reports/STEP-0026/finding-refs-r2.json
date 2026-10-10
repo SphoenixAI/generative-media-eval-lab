@@ -1,0 +1,58 @@
+{
+  "findings": [],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Read builder-authored Plan, Probes, comments and docstrings; compared behavioral claims with local domain, admission and reader contracts.",
+        "Compared all seven STEP-0023 finding records with the Plan's Prior attempts mapping and checked the referenced STEP-0019 and STEP-0025 handoffs.",
+        "Found no contradicted builder-authored claim or external claim requiring research; excluded harness bookkeeping and researcher-owned context from accuracy scoring."
+      ],
+      "id": "F0026-R2-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "Checked acceptance against test_declared_field_contract, test_semantic_guard, test_frame_attachment_requires_derivative, test_motion_and_full_clip_contract, test_relation_vocabulary_contract and branch-removal controls.",
+        "Replayed 555 direct and 553 in-memory SQLite test cases without failures, subject to the execution limitations in flags.",
+        "Independently removed subject and object endpoint validation separately for each relation version; all eight adapter/version/endpoint experiments failed at the intended diagnostic assertion."
+      ],
+      "id": "F0026-R2-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "Replayed the focused field, semantic, declaration, consumption and mutation controls; expectations identify literal diagnostic subjects, paths, states and reasons.",
+        "Verified test_relation_vocabulary_contract now includes valid and invalid legacy subject/object controls, and independently confirmed their deletion sensitivity.",
+        "Checked that integrated test files are unchanged and direct preservation/reordered-input controls pass."
+      ],
+      "id": "F0026-R2-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Compared relation endpoints and purposes with domain.py and relation_v2.py, including legacy compatibility and the v2 intent-kind branch.",
+        "Replayed exact dependency, revision, digest, pin and media-correspondence controls.",
+        "Checked that Prepared is private transient preparation, not a new authored artifact requiring persistence, versioning or snapshot registration."
+      ],
+      "id": "F0026-R2-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read the complete diff and opened every changed file; verified the new files match their patch contents.",
+        "Compared implementation with STEP-0024/split.json: changes implement the assigned E3/E4/W1/W4/W5 prerequisites without taking over sibling predicates or readiness integration."
+      ],
+      "id": "F0026-R2-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared changed paths with the sealed plan, split allocation and all DEFERRED backlog entries; found no out-of-scope implementation.",
+        "Independently counted exactly 900 product/test changed lines.",
+        "Checked that no dependency, public surface, domain schema, historical report or harness source is changed."
+      ],
+      "id": "F0026-R2-D-scope"
+    }
+  ]
+}

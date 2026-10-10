@@ -2,11 +2,11 @@
 
 step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/O/U | flags
 --- | --- | --- | --- | --- | --- | --- | ---
-0021 | L12-A | SPLIT | ? ? ? ? ? ? | 0 | False | 0/0/0/0 | flags: 0
 0022 | L12-A1 | INTEGRATE | 4 4 4 4 4 4 | 1391 | True | 8/0/0/0 | flags: 2
 0023 | L12-A2 | REVERT | 4 2 2 2 4 4 | 1505 | True | 0/0/0/0 | flags: 4
 0024 | L12-A2 | SPLIT | ? ? ? ? ? ? | 0 | False | 0/0/0/0 | flags: 0
 0025 | L12-A2a | INTEGRATE | 4 4 4 4 4 4 | 1858 | True | 0/0/0/0 | flags: 4
+0026 | L12-A2b | INTEGRATE | 4 4 4 4 4 4 | 2955 | True | 0/0/0/0 | flags: 4
 
 ## Loop health
 
@@ -17,9 +17,9 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 
 ## New this step
 
-- Full pytest was not independently rerun: the available interpreter lacks pytest, pydantic and SQLAlchemy. The supplied gate reports 1858 passing tests.
-- Independent replays used lightweight pytest substitutes, a limited artifact-kind registry and actual reader methods with in-memory SQLite. They do not establish filesystem transaction behavior or full installed-package integration.
-- Reviewed I1-I16 against the patch. No real judgment creation, authored-history writes, operational verdicts, aggregation, probability arithmetic, runtime network access, public serialization changes, existing-test weakening, deferred implementation or judge edits were found. Live main and pilot-loca
+- Full pytest was not independently executed: the available interpreter lacks pytest. The supplied gate reports 2955 passing tests.
+- Independent replays used actual preparation/reader/test bodies with a lightweight pytest substitute and substituted artifact-kind registry. SQLite checks used in-memory databases. Repository-admitted representative tests and retained filesystem preservation were not independently executed.
+- Reviewed I1-I16 against the changed code and paths. No real judgment/history writes, UNKNOWN-to-clean conversion, protected artifact changes, intent/measurement conflation, operational mutation, averaging, probability arithmetic, runtime network dependency, test weakening, public serialization chang
 
 ## Open issues
 
@@ -32,14 +32,14 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 
 ## Standing limitations
 
-- VALIDATION_LIMITATION: 30 recorded flags.
+- VALIDATION_LIMITATION: 33 recorded flags.
 - RESEARCH_PENDING: 9 recorded flags.
 - PUBLIC_PROSE: 23 recorded flags.
 - HOME_PATH: 4 recorded flags.
 
 Proposals awaiting approval: P0008-1: Normalize unpacked arrays before JsonValue validation; P0009-1: Include applicable RelationClaimV2 history in private dataset snapshots; WP07: Model-based instrument adapters; A3-01: Evidence partitions and withheld-context challenges; A3-02: Decision-relevance router; A3-03: Shared perception cache with evidence lineage; A3-04: Counterfactual tests of stated reasons; A3-05: Backed spans and evidence-carrying judgments; A3-06: Instrument validation ladder; A3-07: Labeling import adapter (Ultralytics, Roboflow, others); P0023-1: Decompose L12-A2 acceptance so focused validator controls fit bounded steps
 
-Calibration self-minus-independent mean: 0.3333333333333333. Reverts: 8/25.
+Calibration self-minus-independent mean: 0.4166666666666667. Reverts: 8/26.
 
 Rubric A2: accuracy covers builder/enhancer content only; scores before and after A2 are not directly comparable.
 
