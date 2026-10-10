@@ -1,0 +1,69 @@
+{
+  "findings": [
+    {
+      "description": "The claimed every-active-boundary control deduplicates observations into subject/path sets. It cannot distinguish two declarations checking the same field under different contracts, or detect omission of a repeated obligation. An isolated mutation caching record.field results only by subject/path survived all 261 replayed direct controls and 143 SQLite-path controls. With two declarations for note, one accepting text and the second requiring a different literal, that mutant returned AVAILABLE with no diagnostics; the unchanged implementation correctly rejected the second contract. Thus the current tests do not prove the sealed per-declaration consumption guarantee.",
+      "dimension": "production_quality",
+      "id": "F0025-R1-001"
+    },
+    {
+      "description": "The new dependency-unavailable rejection site lacks its required exact diagnostic assertion and deletion-sensitive control. The Probes ledger explicitly lists this as G02c, but no test asserts the reason 'dependency unavailable' and the mutation list does not remove this guard. Replacing its diagnostic append with pass survived all 261 replayed direct controls and 143 SQLite-path controls because existing rejection assertions are satisfied by other diagnostics.",
+      "dimension": "production_quality",
+      "id": "F0025-R1-002"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Read builder-authored Plan, Probes, comments and docstrings; checked source-contract premises against the supplied reader, models, persistence code, configuration and split.",
+        "Compared all seven STEP-0023 finding records with the Plan's Prior attempts mapping; sibling ownership and the rejected candidate's chronology resolution are represented accurately.",
+        "Separated harness bookkeeping from builder claims. No external factual claim requiring research was identified."
+      ],
+      "id": "F0025-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "src/eval_lab/lint_prerequisites.py:173 introduces a diagnostic whose deletion is not detected by the focused controls.",
+        "tests/test_lint_prerequisites.py:594 collapses boundary observations into sets, leaving skipped repeated declaration checks undetectable.",
+        "These gaps fail the sealed requirements for exact diagnostics, deletion-sensitive tests and actual consumption of every active prerequisite."
+      ],
+      "id": "F0025-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "tests/test_lint_prerequisites.py:435 omits a deletion experiment for the dependency-unavailable diagnostic despite its explicit G02c ledger entry.",
+        "test_shared_every_active_boundary records neither declaration identity nor contract nor occurrence count.",
+        "Removing the dependency diagnostic and separately reusing checks by subject/path both survived isolated replay of 261 direct controls and 143 SQLite-path controls."
+      ],
+      "id": "F0025-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Inspected exact reference resolution, independently checked pins, kind-specific versions and media/intent correspondence.",
+        "Replayed relevant exact-revision, pin, identity and scope controls through direct and in-memory SQLite paths.",
+        "Checked the new types: DirectRecords and _Group are transient private infrastructure, not new authored artifacts requiring persistence or snapshot schemas."
+      ],
+      "id": "F0025-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read the complete diff and all four changed files under tree; changes concern shared prerequisite preparation, its reader seam, focused tests and the current report.",
+        "Compared the implementation with STEP-0024/split.json; sibling rule semantics and readiness remain outside this child."
+      ],
+      "id": "F0025-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared changed paths and implementation with the sealed plan and DEFERRED backlog entries; found no deferred implementation, new dependency, public surface or domain-schema migration.",
+        "Confirmed existing tests are not modified and no protected or harness source is changed.",
+        "The supplied G7 reports 892 changed lines against the 900-line limit."
+      ],
+      "id": "F0025-R1-D-scope"
+    }
+  ]
+}

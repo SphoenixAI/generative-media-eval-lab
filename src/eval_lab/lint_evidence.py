@@ -179,6 +179,19 @@ class RawReader:
         self._db = None
         self._issue = EvidenceResult("UNKNOWN", "store", (), "session unavailable")
 
+    def rows(self):
+        """Private raw enumeration in this same read-only snapshot; never completeness by fiat."""
+        if self._issue is not None: return self._issue
+        try:
+            rows = [dict(r) for r in self._db.execute("SELECT kind,id,revision,sha256,payload FROM artifacts")]
+            return field(rows, (), SEQUENCE, subject="universe")
+        except (OSError, sqlite3.Error) as exc:
+            return self._store_error(exc)
+
+    def _fetch(self, kind, identity, revision):
+        return self._db.execute("SELECT kind,id,revision,sha256,payload FROM artifacts WHERE kind=? AND id=? AND revision=?",
+                                (kind, identity, revision)).fetchmany(2)
+
     def read(self, request: object, *, pinned: bool = False) -> RawRecord:
         """Resolve only this explicit Ref/Pin, never dictionaries inside data."""
         diagnostics = []
@@ -204,8 +217,7 @@ class RawReader:
         subject = f"{kind}:{identity}@{revision}"
         if self._issue is not None: return RawRecord(subject, (self._issue,))
         try:
-            rows = self._db.execute("SELECT kind,id,revision,sha256,payload FROM artifacts WHERE kind=? AND id=? AND revision=?",
-                                    (kind, identity, revision)).fetchmany(2)
+            rows = self._fetch(kind, identity, revision)
             if not rows: return RawRecord(subject, (EvidenceResult("UNKNOWN", subject, (), "missing exact target"),))
             if len(rows) != 1:
                 fail((), "duplicate exact target")
@@ -224,8 +236,9 @@ class RawReader:
                 return RawRecord(subject, tuple(diagnostics))
             check(raw, (), MAPPING)
             if type(raw) is not dict: return RawRecord(subject, tuple(diagnostics))
+            version = 2 if kind in ("IntentSpecV2", "IntentBinding", "RelationClaimV2") else 1
             for name, expected, contract in (("id", identity, TEXT), ("revision", revision, REVISION),
-                                             ("schema_version", 1, Contract((int,), choices=(1,)))):
+                                             ("schema_version", version, Contract((int,), choices=(version,)))):
                 value = check(raw, (name,), contract)
                 if value is not None and value != expected: fail((name,), "payload identity mismatch")
             stored_hash = check(row, ("sha256",), DIGEST)

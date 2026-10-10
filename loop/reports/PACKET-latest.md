@@ -2,22 +2,24 @@
 
 step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/O/U | flags
 --- | --- | --- | --- | --- | --- | --- | ---
-0020 | L12 | SPLIT | ? ? ? ? ? ? | 0 | False | 0/0/0/0 | flags: 0
 0021 | L12-A | SPLIT | ? ? ? ? ? ? | 0 | False | 0/0/0/0 | flags: 0
 0022 | L12-A1 | INTEGRATE | 4 4 4 4 4 4 | 1391 | True | 8/0/0/0 | flags: 2
 0023 | L12-A2 | REVERT | 4 2 2 2 4 4 | 1505 | True | 0/0/0/0 | flags: 4
 0024 | L12-A2 | SPLIT | ? ? ? ? ? ? | 0 | False | 0/0/0/0 | flags: 0
+0025 | L12-A2a | INTEGRATE | 4 4 4 4 4 4 | 1858 | True | 0/0/0/0 | flags: 4
 
 ## Loop health
 
-- Consecutive non-integrations since RESUME: 2; trailing RF: 0.
+- Consecutive non-integrations since RESUME: 0; trailing RF: 0.
 - Product retries: L02: 1, L04: 1, L10: 1, L12: 1, L12-A2: 1.
 - BLOCKED: none.
 - Last stop reason: STOP_AFTER_STEP file exists.
 
 ## New this step
 
-None.
+- Full pytest was not independently rerun: the available interpreter lacks pytest, pydantic and SQLAlchemy. The supplied gate reports 1858 passing tests.
+- Independent replays used lightweight pytest substitutes, a limited artifact-kind registry and actual reader methods with in-memory SQLite. They do not establish filesystem transaction behavior or full installed-package integration.
+- Reviewed I1-I16 against the patch. No real judgment creation, authored-history writes, operational verdicts, aggregation, probability arithmetic, runtime network access, public serialization changes, existing-test weakening, deferred implementation or judge edits were found. Live main and pilot-loca
 
 ## Open issues
 
@@ -30,14 +32,14 @@ None.
 
 ## Standing limitations
 
-- VALIDATION_LIMITATION: 28 recorded flags.
+- VALIDATION_LIMITATION: 30 recorded flags.
 - RESEARCH_PENDING: 9 recorded flags.
 - PUBLIC_PROSE: 23 recorded flags.
 - HOME_PATH: 4 recorded flags.
 
 Proposals awaiting approval: P0008-1: Normalize unpacked arrays before JsonValue validation; P0009-1: Include applicable RelationClaimV2 history in private dataset snapshots; WP07: Model-based instrument adapters; A3-01: Evidence partitions and withheld-context challenges; A3-02: Decision-relevance router; A3-03: Shared perception cache with evidence lineage; A3-04: Counterfactual tests of stated reasons; A3-05: Backed spans and evidence-carrying judgments; A3-06: Instrument validation ladder; A3-07: Labeling import adapter (Ultralytics, Roboflow, others); P0023-1: Decompose L12-A2 acceptance so focused validator controls fit bounded steps
 
-Calibration self-minus-independent mean: 0.16666666666666666. Reverts: 8/24.
+Calibration self-minus-independent mean: 0.3333333333333333. Reverts: 8/25.
 
 Rubric A2: accuracy covers builder/enhancer content only; scores before and after A2 are not directly comparable.
 

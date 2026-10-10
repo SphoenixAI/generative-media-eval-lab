@@ -1,0 +1,122 @@
+{
+  "step": 25,
+  "item": "L12-A2a",
+  "role": "evaluator",
+  "round": 2,
+  "diff_sha256": "176559397e1c3202be2c1858d9e843d6f8666164b3ce35b4eac7666107ae3db3",
+  "summary": "Both round-1 findings are resolved. No additional material issue found within this child's shared-preparation scope. Independent execution was limited to isolated direct and in-memory SQLite controls.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read the complete diff and all four changed files; compared their responsibilities with STEP-0024/split.json.",
+        "Changes implement shared preparation and focused controls without implementing sibling rule semantics or readiness."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "Inspected declaration validation, exact traversal, collection enumeration, identity verification, scope correspondence and checked access against the sealed acceptance.",
+        "Replayed test_shared_every_active_boundary, test_shared_repeated_field_contract and test_shared_dependency_unavailable through direct and in-memory SQLite paths.",
+        "Independently reproduced the intended assertion failures for path-only caching, identical-contract caching and deletion of the dependency-unavailable diagnostic.",
+        "Checked _Group and test_shared_group_cannot_be_all_rule_context: partial preparation exposes no all-rule readiness or verdict interface."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Inspected exact Ref/Pin resolution and replayed non-head revision, independently pinned revisit, identity, version and scope controls.",
+        "Compared kind-specific version handling with IntentSpecV2, IntentBinding and RelationClaimV2 definitions.",
+        "Checked that DirectRecords and _Group are transient infrastructure rather than new authored artifacts requiring persistence, snapshot schemas or artifact lint registration."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "All three changed Python files parsed successfully.",
+        "Isolated replay passed 264 direct controls and 149 in-memory SQLite controls using the actual preparation and reader implementations.",
+        "The three new mutation controls failed at their intended assertions with the required multiplicities: four, two and six failures respectively.",
+        "Inspected literal diagnostic expectations, independent inventory equality, missing/null/malformed/valid controls and guard-deletion coverage. Additional isolated mutation replays produced diagnostic or support assertion failures.",
+        "Verified the existing test_lint_evidence.py hash matches the recorded unchanged baseline."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Read builder/enhancer Plan, Probes, comments and docstrings; checked repository premises against the reader, model versions, persistence code, configuration and split.",
+        "Compared the Plan's mapping with all seven STEP-0023 finding records and the inherited STEP-0019 findings and research handoff; sibling obligations remain explicitly unresolved by this child.",
+        "Excluded harness bookkeeping and researcher-owned research.json from builder accuracy scoring. Identified no new external factual claim requiring research."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared all changed paths and implementation with the sealed plan and DEFERRED backlog entries; found no deferred implementation or unrelated product change.",
+        "Independently counted 882 product additions plus deletions against the 900-line cap.",
+        "Checked the patch for existing-test weakening, new dependencies, protected-file changes and harness-source edits; none were present."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Declare and check traversal through the existing evidence boundary.",
+      "lazy_pass": "List declarations as consumed while checking only distinct field paths.",
+      "present_in_diff": false,
+      "evidence": "test_shared_every_active_boundary now checks literal call multiplicities and ordered contracts. Both caching mutants fail its intended assertion on both replayed adapters."
+    },
+    {
+      "criterion": "Check exact Ref/Pin dependencies.",
+      "lazy_pass": "Resolve the latest revision or reuse a prior target check without validating another pin.",
+      "present_in_diff": false,
+      "evidence": "test_shared_exact_non_head_control and test_shared_data_mapping_is_not_a_reference_and_revisits exercise exact older revisions and independently damaged pins; inspected resolution preserves these obligations."
+    },
+    {
+      "criterion": "Require explicit collection completeness.",
+      "lazy_pass": "Trust complete=true or interpret unavailable enumeration as an empty collection.",
+      "present_in_diff": false,
+      "evidence": "test_shared_collection_completeness includes a forged complete flag and omitted members. test_shared_retained_enumeration asserts specific availability failures; bypassing those failures triggers diagnostic assertions."
+    },
+    {
+      "criterion": "Check raw record identity and integrity.",
+      "lazy_pass": "Construct default-filled authoring models or validate only the outer digest.",
+      "present_in_diff": false,
+      "evidence": "DirectRecords reuses raw verification without constructing authoring models. Identity, version and digest controls use explicit envelopes, with recomputed hashes isolating semantic failures."
+    },
+    {
+      "criterion": "Check scoped media/intent correspondence.",
+      "lazy_pass": "Accept matching IDs despite revision differences, or matching references despite damaged pins.",
+      "present_in_diff": false,
+      "evidence": "test_shared_scope_correspondence distinguishes identity and revision mismatches; test_shared_scope_integrity separately checks wrong kinds and damaged scope pins."
+    },
+    {
+      "criterion": "Provide isolated controls, exact diagnostics and deletion-sensitive tests.",
+      "lazy_pass": "Assert any rejection while another diagnostic masks removal of the intended guard.",
+      "present_in_diff": false,
+      "evidence": "test_shared_dependency_unavailable asserts the complete literal diagnostic tuple. Removing only that diagnostic produces six intended assertion failures while valid controls continue passing."
+    },
+    {
+      "criterion": "Do not expose partial preparation as all-rule readiness.",
+      "lazy_pass": "Rename a partial context while retaining a clean readiness or verdict result.",
+      "present_in_diff": false,
+      "evidence": "Inspected _Group.get, prepare and test_shared_group_cannot_be_all_rule_context: diagnostics deny consumer support, scope is withheld on failure, and no completion or readiness interface is introduced."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0025-R1-001",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0025-R1-002",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "Full pytest was not independently rerun: the available interpreter lacks pytest, pydantic and SQLAlchemy. The supplied gate reports 1858 passing tests.",
+    "Independent replays used lightweight pytest substitutes, a limited artifact-kind registry and actual reader methods with in-memory SQLite. They do not establish filesystem transaction behavior or full installed-package integration.",
+    "Reviewed I1-I16 against the patch. No real judgment creation, authored-history writes, operational verdicts, aggregation, probability arithmetic, runtime network access, public serialization changes, existing-test weakening, deferred implementation or judge edits were found. Live main and pilot-local integrity were not independently inspected outside the permitted folder.",
+    "Independently computed the diff SHA-256 and confirmed it matches diff_sha256.txt."
+  ]
+}
