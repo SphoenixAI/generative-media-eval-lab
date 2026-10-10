@@ -1,0 +1,62 @@
+{
+  "findings": [],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Read builder-authored Plan, Probes, module documentation and test comments; found no claim of completed lint/readiness integration or real-media validity.",
+        "Compared the Prior attempts mapping against all six blocking findings in STEP-0019/eval_r1.json and eval_r2.json, plus R0019-C001: each has explicit ownership consistent with the accepted split.",
+        "Independently verified the three repository source hashes recorded in Probes and confirmed the sealed plan text appears unchanged in the report.",
+        "Routed the four external Python/SQLite behavior claims to claims_for_research without an accuracy penalty."
+      ],
+      "id": "F0022-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "Executed 65 direct test cases using an in-memory runner: missing/null values remain UNKNOWN; wrong types, invalid vocabulary and impossible numeric values produce INTEGRITY_FAILURE; valid false, zero and empty containers remain available under their declared contracts.",
+        "Independent in-memory retained probes confirmed null duration remains UNKNOWN, malformed duration fails integrity, and a bad stored digest blocks otherwise valid field support.",
+        "Inspected test_explicit_reference_components, test_reference_envelope_and_no_latest_fallback and test_exact_revision_pin_and_arbitrary_mapping: their assertions distinguish explicit revisions, absent targets and ordinary data mappings.",
+        "Checked I1/I2/I5/I6/I7/I8/I9: the change introduces no human judgments, readiness decisions, intent exceptions, aggregation or probability arithmetic."
+      ],
+      "id": "F0022-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "Executed 65 direct test cases successfully through a lightweight in-memory runner. Mutations removing missing-value handling, original-type checking, finite-number checking, vocabulary checking, digest-shape checking or defensive copying each caused test failures.",
+        "Read all 441 test lines, including retained corruption, independent outer/frozen digest failures, admitted fractional records, cleanup, read-only access and snapshot controls. Rejection assertions identify states and reason fragments rather than accepting arbitrary failures.",
+        "Checked I4/I10/I11/I12/I13: no existing tests, protected artifacts, dependencies or public serializers change; diagnostic reasons avoid raw exception details; deterministic diagnostics have a repeated-input test.",
+        "The supplied gate reports 177 focused cases and 1391 total passing tests. This is corroborating harness evidence, not an independently reproduced full-suite result."
+      ],
+      "id": "F0022-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Traced RawReader against existing artifact registration, persistence envelopes, schema version 1, Artifact.digest and TestPlan.freeze_digest; exact identities and supplied digest pins are checked before field support is available.",
+        "Inspected test_retained_identity_and_version_contract, test_stored_digest_guard, test_exact_revision_pin_and_arbitrary_mapping and test_frozen_digest_independent_of_outer_hash for distinct failure assertions.",
+        "Confirmed Contract, EvidenceResult and RawRecord are internal transient helpers, not new persisted domain artifacts. Audit persistence, snapshot embedding and ruleset versioning remain explicitly assigned to later split children.",
+        "Checked I3: no existing authored records or history are modified; production access uses SELECT operations."
+      ],
+      "id": "F0022-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Compared all three changed files with the sealed Plan, STEP-0021/split.json and current backlog acceptance: the implementation remains confined to evidence primitives, raw retained reading and focused tests.",
+        "Checked the DEFERRED list in tree/loop/INSTRUCTIONS.md:952; no deferred capability is implemented."
+      ],
+      "id": "F0022-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Counted 253 product additions and 441 test additions: 694 counted changed lines against the configured 900-line maximum, with zero deletions.",
+        "Confirmed the only additional file is the permitted step report; no implementation is hidden in generated report paths.",
+        "Checked I14/I15/I16 against the diff: no deferred work, main manipulation, harness modification or protected evaluation-material changes are present."
+      ],
+      "id": "F0022-R1-D-scope"
+    }
+  ]
+}
