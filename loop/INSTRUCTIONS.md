@@ -940,14 +940,24 @@ one natural discovery clip (FOUND).
 
 Sphoenix also authors every real intent, policy, observation, hypothesis, outcome and verdict.
 
+A2/A2.1 human-only additions:
+- Sphoenix runs instruments and the canary generator on real clips.
+- Blind statements on Sphoenix's own clips need a second person who has not read the intent. Sphoenix's own sessions on those clips are NOT_BLIND by derivation.
+- Sphoenix chooses model-based instruments and accepts their licenses (WP07).
+- Sphoenix writes VALIDATED instrument records and approves any new human reveal protocol.
+
 9.3 DEFERRED (proposals only, never auto-approved)
 live model providers or judges;
+A2/A2.1 (D01): MODEL witness sessions accept TEST-ONLY fixture data only. No model is called.
 running instruments (point tracking, camera pose, segmentation, surprise models);
+A2/A2.1 (D02): WP02 builds the instrument contract and two instruments that need no new dependency and no model weights. Model-based instruments stay DEFERRED; WP07 is a proposal only. WP02 instruments carry scoped validity (A2.1 Rule 1); no instrument result is ground truth.
 the specialist swarm;
 gold sets;
+A2/A2.1 (D04): WP04 builds synthetic known-dose proficiency items. Adjudicated gold sets stay DEFERRED.
 regression and drift engines;
 the VFX engine;
 psychometrics beyond the existing agreement code: blind-retest tooling, G-theory, Rasch, multitrait-multimethod;
+A2/A2.1 (D07): WP04 reports detection counts at each dose and the lowest dose detected in at least k of n trials. WP04's canaries are proficiency items, not test-retest reliability tooling. Blind-retest tooling, curve fitting, Rasch and G-theory stay DEFERRED.
 numeric information gain and probability-mass types;
 calibration-ledger tooling;
 external timestamping;
