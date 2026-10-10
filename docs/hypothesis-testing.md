@@ -46,3 +46,74 @@ changing a set does not erase its earlier constraint, and a newer hypothesis
 revision does not inherit membership. SQLite serializes these admission checks
 inside its write transaction. These declarations establish neither causal truth
 nor empirical completeness, and produce no quality verdict or confidence update.
+
+## Private qualitative test plans
+
+`TestPlan` declares a future test; importing, inspecting, classifying or freezing
+it never runs generation, sampling or a HUMAN/INSTRUMENT measurement. Instrument
+protocols are inert human declarations. No observation, outcome, confidence,
+hypothesis status, evaluation or decision is inferred or modified.
+
+Import complete human JSON with `test-plan --file FILE`. Supply `id`, `author`
+(matching `--author`), `competing_set`, `arms`, `measurement`,
+`outcome_categories` and `predictions`. `revision` defaults to 1; later revisions
+require an immediate same-ID `predecessor`. Both references use
+`{"ref":{"kind":"KIND","id":"ID","revision":1},"sha256":"DIGEST"}`;
+revision is explicit, and SHA-256 is the retained artifact digest. The set kind
+is CompetingSet, the predecessor kind is TestPlan. Neither pin floats to latest.
+`created_at` may be supplied with a timezone; otherwise it is recorded locally.
+
+Each arm has a unique nonblank `id`, nonblank `description`, and an explicit
+`generation_plan_ref`: null or an exact GenerationPlan pin. Any referenced arm
+requires `sample_design`, including mixed null/referenced arms. When supplied,
+sample design has exactly one positive integer `n_per_arm` or nonblank
+`stopping_rule`, plus a nonblank `decision_rule`. This records the human rule;
+it does not judge statistical adequacy. At least one arm and outcome is required.
+Measurement has `kind` (HUMAN or INSTRUMENT) and a nonblank `protocol`.
+
+Outcome categories are unique nonblank strings. Predictions map every named
+hypothesis ID in the exact set revision to a nonempty list of unique declared
+outcome IDs. Unknown IDs, missing members and residual predictions are rejected.
+For example, TEST-ONLY hypotheses A and B predicting respectively X and Y are
+DECISIVE; both predicting X are NON_DIAGNOSTIC; A predicting X,Y with B predicting
+Y is PARTIALLY_DIAGNOSTIC. An unused Z is separately UNPREDICTED in each example.
+These labels describe declared overlap, not empirical power or causal truth.
+
+Classification first checks whether all named prediction sets are identical
+(always true for fewer than two named hypotheses), then whether every outcome
+is compatible with at most one named hypothesis, then returns partial
+classification. One identical pair among three hypotheses is insufficient for
+NON_DIAGNOSTIC. Residuals are excluded and reported as `not testable by this plan`.
+Compatible hypothesis IDs are sorted; outcomes and UNPREDICTED lists preserve
+outcome-category order. Prediction-list order does not change the class.
+
+```sh
+eval-pilot --root ./private-workspace --author YOUR_NAME test-plan --file plan.json
+eval-pilot --root ./private-workspace freeze-test-plan PLAN_ID@1
+eval-pilot --root ./private-workspace verify-test-plan PLAN_ID@2 --file frozen.json
+```
+
+Only explicit freeze appends a frozen successor; stale drafts and already frozen
+versions are rejected. The draft remains unchanged. Imports must omit
+application-owned `frozen_at`, `frozen_digest` and `tool_version`. To revise a
+frozen plan, import a new draft with the next revision and predecessor pin, then
+freeze again. Local timestamps are not authenticated chronology or authorship.
+
+The freeze digest hashes the complete frozen model JSON with only
+`frozen_digest` omitted, using RFC8785 and the existing
+`safe-integer-tokens-v1` profile. Identity, both timestamps, revision, predecessor,
+set/generation pins, authored content, tool version and profile metadata are
+covered. Arrays retain order; object key order and JSON whitespace do not matter.
+Referenced records keep their separate historical artifact digests; confidence
+values and generation settings are not copied into the freeze payload.
+
+Verification reads an existing database without initializing or repairing it.
+It checks retained artifact integrity, freeze digest and exact dependency closure;
+an optional complete frozen file must also match the retained revision, even if
+its altered digest has been recomputed. VERIFIED is integrity only; unavailable
+evidence yields UNKNOWN, corruption yields INTEGRITY_FAILURE, and a draft yields
+NOT_FROZEN. Those three statuses exit 2 and never return a diagnosticity claim.
+Private `show` includes plans tied to the clip's retained intent revisions;
+new snapshots include their histories and pinned dependencies. Old exports stay
+fixed. Public/embed serialization omits these private declarations. `schema`
+exposes the new record contract without modifying stored schema artifacts.

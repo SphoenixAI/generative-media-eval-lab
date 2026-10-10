@@ -1,0 +1,69 @@
+{
+  "findings": [
+    {
+      "description": "Retained TestPlan JSON is parsed and immediately accessed with data.get before its object shape is validated. If corruption replaces the payload with [], null, a number or a string, AttributeError escapes both verify() and the CLI handler. An extracted-function probe using in-memory SQLite reproduced all four cases. This violates sealed criterion 8 and the documented structured corruption response; existing corruption tests only exercise object-shaped payloads or stored hashes.",
+      "dimension": "production_quality",
+      "id": "F0014-R1-001"
+    },
+    {
+      "description": "The new TestPlan paths recursively apply raw_payload's reference heuristic to predictions. A legal competing set containing hypotheses with IDs 'kind' and 'id' requires a prediction map with those keys; raw_payload rejects that map with 'pins require an explicit revision'. These IDs are permitted by the existing Hypothesis contract. Executing the helper on this map reproduced the rejection; adding an unrelated 'revision' hypothesis changes whether the heuristic fires. The plan therefore cannot represent every valid named-hypothesis set.",
+      "dimension": "intention",
+      "id": "F0014-R1-002"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "docs/hypothesis-testing.md:114 promises corruption yields INTEGRITY_FAILURE and line 115 promises exit 2; retained payloads [], null, 42 and a JSON string instead escape verification as AttributeError.",
+        "Compared the report's Plan with plan.md: exact match. Searched supplied earlier step reports for L08; none precedes this step, consistent with its empty Prior attempts mapping.",
+        "External RFC and Python documentation claims are routed to claims_for_research without an additional accuracy penalty."
+      ],
+      "id": "F0014-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "src/eval_lab/test_plans.py:66 delegates arbitrary prediction maps to raw_payload, which rejects valid hypothesis IDs 'kind' and 'id' as an incomplete reference.",
+        "src/eval_lab/test_plans.py:184 assumes retained JSON is an object; non-object corruption escapes the promised INTEGRITY_FAILURE result.",
+        "test_literal_classes_order_and_residual, test_single_and_identical_pair, test_prediction_guards and test_generation_requires_design_in_mixed_arms_and_decision_rule provide meaningful literal or guard-specific oracles for the principal acceptance cases."
+      ],
+      "id": "F0014-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "tests/test_test_plan_workflow.py:55 tests digest corruption and selected object mutations, but omits non-object retained JSON; the verifier consequently has an uncaught AttributeError path.",
+        "tests/test_test_plans.py:12 uses only prefixed hypothesis IDs, missing the prediction-map/reference collision.",
+        "Independently executed extracted classification functions against literal expected labels and verified the literal canonical vector's SHA-256. Full suites were not rerun because the available Python lacks Pydantic; gate.json reports 949 passing tests."
+      ],
+      "id": "F0014-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Traced TestPlan registration, schema version, immediate predecessor pins, transactional admission, dependency traversal and persisted reference edges through test_plans.py, persistence.py and intent_v2.py.",
+        "Inspected test_private_histories_snapshot_scope_and_public_omission and the snapshot closure: relevant histories and generation/set/hypothesis dependencies are included; unrelated plan identities are excluded.",
+        "Checked lint applicability: the general lint command and TestPlan rules belong to downstream L12; no existing lint integration was omitted."
+      ],
+      "id": "F0014-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read the complete diff and opened all eight changed files; changes implement L08 declarations, freezing, verification, private integration, tests and documentation.",
+        "Compared the implementation with item.json, the sealed Plan and NORTH_STAR.md; no tangential implementation identified."
+      ],
+      "id": "F0014-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared all changed paths and implementation additions with the sealed Plan's expected files and exclusions.",
+        "Checked DEFERRED D01-D14: no execution of instruments, live models, probability arithmetic, external timestamping, studies or frontend was added.",
+        "Inspected the diff for protected files, dependencies, existing-test weakening and judge edits; none appears."
+      ],
+      "id": "F0014-R1-D-scope"
+    }
+  ]
+}

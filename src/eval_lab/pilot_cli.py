@@ -12,7 +12,8 @@ from .media import MediaError, MediaTools, within
 from .pilot import PilotWorkspace, TEMPLATES, INPUT_TYPES, read_human_form
 from .pilot_domain import PILOT_TYPES, PilotDataset
 from .seals import seal_intent, verify_seal
-from . import generation, assessments, decisions
+from . import generation, assessments, decisions, test_plans
+from .canonical_json import parse_json
 from sqlalchemy.exc import SQLAlchemyError
 
 
@@ -27,6 +28,12 @@ def parser():
     seal.add_argument("--git-remote", help="Declared remote URL; requires --git-commit; no remote access")
     verify=sub.add_parser("verify-seal", help="Verify local seal integrity", description="Perform read-only verification by exact seal ID or original intent FILE path (all its seals against one captured source result). Missing evidence is UNKNOWN; corruption is INTEGRITY_FAILURE. Both exit nonzero; integrity is not a quality verdict.")
     verify.add_argument("target", metavar="ID|FILE")
+    tp=sub.add_parser("test-plan", help="Import a private human-authored test plan", description="Append a complete private declaration with exact revision/digest pins and matching author. sample_design is required for generation arms. Omit application-owned frozen_at, frozen_digest and tool_version. See docs/hypothesis-testing.md; no measurement is run.")
+    tp.add_argument("--file", type=Path, required=True)
+    fr=sub.add_parser("freeze-test-plan", help="Explicitly freeze a current draft", description="Append a frozen successor of current draft ID@REV, preserving authored content and dependency pins. Never updates a draft in place.")
+    fr.add_argument("target", metavar="ID@REV")
+    vf=sub.add_parser("verify-test-plan", help="Verify an exact frozen revision", description="Perform read-only verification of ID@REV and optional candidate file. Missing evidence is UNKNOWN; corruption is INTEGRITY_FAILURE; drafts are NOT_FROZEN. All exit nonzero. Integrity does not establish quality.")
+    vf.add_argument("target", metavar="ID@REV"); vf.add_argument("--file", type=Path)
     sub.add_parser("doctor")
     sc=sub.add_parser("schema"); sc.add_argument("--output",type=Path)
     dr=sub.add_parser("draft"); dr.add_argument("kind",choices=TEMPLATES); dr.add_argument("--output",type=Path,required=True)
@@ -48,7 +55,7 @@ def parser():
         if cmd=="manifest": sp.add_argument("--output",type=Path)
     fr=sub.add_parser("frames", help="Log first verified access attempt before extraction"); fr.add_argument("clip"); fr.add_argument("--at",type=float,nargs="+",required=True)
     op=sub.add_parser("open", help="Log first verified access attempt before launch; external viewing is undetectable"); op.add_argument("clip"); op.add_argument("--at",type=float)
-    show=sub.add_parser("show", help="Show private submissions, observations, assessments, terminal verdict history and lifecycle context"); show.add_argument("clip")
+    show=sub.add_parser("show", help="Show private submissions, test plan histories and diagnosticity, observations, assessments, terminal verdict history and lifecycle context"); show.add_argument("clip")
     for cmd in ("decision-policy", "terminal-verdict", "decision-preview"):
         sp=sub.add_parser(cmd, help="Private human decision records and read-only preview", description="Use exact revision and digest pins. Import complete human-authored JSON; preview writes nothing. No default real policy. Corrections require predecessor and revision_reason. tool_version is application recorded. See docs/decision-policies.md.")
         if cmd != "decision-policy": sp.add_argument("clip")
@@ -67,7 +74,7 @@ def parser():
     start=sub.add_parser("start"); start.add_argument("clip")
     for cmd in ("pause","resume","finish"):
         sp=sub.add_parser(cmd); sp.add_argument("session")
-    snap=sub.add_parser("snapshot", description="Freeze private records, including terminal verdict histories and policy dependencies, technical observations, criterion assessments, checksum-linked intent binding history, plans, origins, selections, first-access events, contexts and pinned dependencies and seals for those exact intent revisions.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
+    snap=sub.add_parser("snapshot", description="Freeze private records, including test plan histories and exact dependencies, terminal verdict histories and policy dependencies, technical observations, criterion assessments, checksum-linked intent binding history, plans, origins, selections, first-access events, contexts and pinned dependencies and seals for those exact intent revisions.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
     exp=sub.add_parser("export-snapshot", description="Export a frozen private snapshot with its pinned binding history, lifecycle records and retained seal events.", help="Export frozen private snapshot records"); exp.add_argument("id"); exp.add_argument("--output",type=Path)
     return p
 
@@ -89,6 +96,10 @@ def main(argv=None):
     args=parser().parse_args(argv)
     workspace=None
     try:
+        if args.command=="verify-test-plan":
+            result=test_plans.verify(args.root,args.target,args.file)
+            print(json.dumps(result,indent=2,sort_keys=True))
+            return 0 if result["status"]=="VERIFIED" else 2
         if args.command=="verify-seal":
             result=verify_seal(args.root,args.target)
             print(json.dumps(result,indent=2,sort_keys=True))
@@ -101,7 +112,7 @@ def main(argv=None):
             tools=MediaTools()
             result={"tools":{name:identity.model_dump() for name,identity in tools.identities.items()},"local_video_only":True,"automated_media_judging":False}
         elif args.command=="schema":
-            result={"dataset_manifest_schema":PilotDataset.model_json_schema(),"record_schemas":{cls.__name__:cls.model_json_schema() for cls in (*PILOT_TYPES, *assessments.TYPES, *decisions.TYPES)},"human_form_schemas":{**{name:cls.model_json_schema() for name,cls in INPUT_TYPES.items()}, "decision-preview": decisions.VerdictInput.model_json_schema()}}
+            result={"dataset_manifest_schema":PilotDataset.model_json_schema(),"record_schemas":{cls.__name__:cls.model_json_schema() for cls in (*PILOT_TYPES, *assessments.TYPES, *decisions.TYPES, test_plans.TestPlan)},"human_form_schemas":{**{name:cls.model_json_schema() for name,cls in INPUT_TYPES.items()}, "decision-preview": decisions.VerdictInput.model_json_schema()}}
         elif args.command=="draft":
             result=TEMPLATES[args.kind]
         else:
@@ -112,6 +123,8 @@ def main(argv=None):
                 clip=p.register(args.dataset,args.clip,args.path,args.author,args.label,args.selection_reason,args.provenance_note,args.rights_status,plan=args.plan,intent=args.intent)
                 result={**clip.model_dump(mode="json"), **generation.audit(p.repo, clip)}
             elif args.command=="plan": result=generation.pin(generation.record_plan(p.repo,json.loads(args.file.read_text())))
+            elif args.command=="test-plan": result=test_plans.record(p.repo,parse_json(args.file.read_bytes()),args.author)
+            elif args.command=="freeze-test-plan": result=test_plans.freeze(p.repo,args.target)
             elif args.command=="selection": result=generation.record_selection(p.repo,p.latest("PilotDataset",args.dataset),json.loads(args.file.read_text()))
             elif args.command=="bind-intent":
                 binding=generation.bind_intent(p.repo,p.clip(args.clip),generation.exact(p.repo,args.intent),args.prompt_only)
@@ -135,7 +148,7 @@ def main(argv=None):
                 clip=p.clip(args.clip)
                 submissions=[s for s in p.repo.all("PilotSubmission") if s.clip.id==clip.id]
                 result={"clip":clip.model_dump(mode="json"),"ingestion":p.repo.get(clip.ingestion).model_dump(mode="json"),
-                    "submissions":[{"submission":s.model_dump(mode="json"),"artifact":p.repo.get(s.artifact).model_dump(mode="json")} for s in submissions], **generation.audit(p.repo, clip), **assessments.clip_records(p.repo, clip), **decisions.clip_records(p.repo, clip)}
+                    "submissions":[{"submission":s.model_dump(mode="json"),"artifact":p.repo.get(s.artifact).model_dump(mode="json")} for s in submissions], **generation.audit(p.repo, clip), **assessments.clip_records(p.repo, clip), **decisions.clip_records(p.repo, clip), **test_plans.clip_records(p.repo, clip)}
             elif args.command in ("decision-policy", "terminal-verdict"):
                 result=decisions.record(p,args.author,args.command,json.loads(args.file.read_text()),getattr(args,"clip",None))
             elif args.command in assessments.COMMANDS:

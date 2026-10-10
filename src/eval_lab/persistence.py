@@ -11,7 +11,7 @@ from sqlalchemy.pool import StaticPool
 from .domain import ARTIFACT_TYPES, Artifact, Ref, Value, Evidence, HumanRating, AgentAssessment, EvaluationRound, PairwiseRating, ModelRun, EvaluatorVersion, HypothesisGraph, Hypothesis, RelationClaim, EvaluationCase
 from . import pilot_domain  # register additive Pilot 0 types without altering v1 snapshots
 from .domain import CompetingSet
-from . import intent_v2, seals, generation, assessments, decisions
+from . import intent_v2, seals, generation, assessments, decisions, test_plans
 
 metadata = MetaData()
 artifacts = Table("artifacts", metadata,
@@ -212,8 +212,8 @@ class Repository:
                     raise ValueError("compatible_with conflicts with an exclusive competing set's pinned members")
 
     @staticmethod
-    def _validate_intent_admission(conn, item):
-        if not isinstance(item, (intent_v2.IntentSpecV2, intent_v2.IntentBinding, seals.SealRecord, *generation.TYPES, *assessments.TYPES, *decisions.TYPES)):
+    def _validate_intent_admission(conn, item, freeze_test_plan=False):
+        if not isinstance(item, (intent_v2.IntentSpecV2, intent_v2.IntentBinding, seals.SealRecord, *generation.TYPES, *assessments.TYPES, *decisions.TYPES, test_plans.TestPlan)):
             return
         def get(ref):
             row = conn.execute(select(artifacts).where(Repository.key(ref))).mappings().one()
@@ -224,6 +224,8 @@ class Repository:
         rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == "IntentBinding")).scalars()
         history = tuple(intent_v2.IntentBinding.model_validate_json(row) for row in rows)
         intent_v2.validate_admission(item, get, history)
+        if isinstance(item, test_plans.TestPlan):
+            test_plans.validate_admission(item, get, freeze_test_plan)
         if isinstance(item, (*assessments.TYPES, *decisions.TYPES)):
             rows = conn.execute(select(artifacts.c.id, artifacts.c.revision).where(artifacts.c.kind == "BindingContext"))
             contexts = tuple(get(Ref(kind="BindingContext", id=r.id, revision=r.revision)) for r in rows)
@@ -233,11 +235,14 @@ class Repository:
             rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == item.ref.kind)).scalars()
             generation.validate_admission(item, get, tuple(type(item).model_validate_json(row) for row in rows))
 
-    def put(self, item: Artifact) -> str:
+    def put(self, item: Artifact, *, _freeze_test_plan=False) -> str:
         if type(item).__name__ not in ARTIFACT_TYPES:
             raise TypeError("unregistered artifact")
         # Revalidate even if a caller used Pydantic model_copy(update=...).
-        item = type(item).model_validate(assessments.raw_payload(item) if isinstance(item, (*assessments.TYPES, *decisions.TYPES)) else item.model_dump(mode="json"))
+        if isinstance(item, test_plans.TestPlan):
+            item = test_plans.TestPlan.model_validate(item)
+        else:
+            item = type(item).model_validate(assessments.raw_payload(item) if isinstance(item, (*assessments.TYPES, *decisions.TYPES)) else item.model_dump(mode="json"))
         try:
             existing = self.get(item.ref)
         except KeyError:
@@ -265,7 +270,7 @@ class Repository:
             if item.revision != (max(revisions, default=0) + 1):
                 raise ValueError("revisions must be appended without gaps")
             self._validate_competing_admission(conn, item)
-            self._validate_intent_admission(conn, item)
+            self._validate_intent_admission(conn, item, _freeze_test_plan)
             conn.execute(artifacts.insert().values(kind=item.ref.kind, id=item.id, revision=item.revision, sha256=item.digest, payload=item.canonical()))
             if isinstance(item, (HumanRating, PairwiseRating)):
                 unit = item.model_run.model_dump(mode="json") if isinstance(item, HumanRating) else "pair"
