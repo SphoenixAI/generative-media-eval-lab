@@ -283,9 +283,6 @@ class Runner:
             output.write_text('SYNTHETIC DRY-RUN plan installed.\n')
             return
         data = read_json(folder / ('duplicate_research.json' if role=='researcher' else output.name))
-        if role=='evaluator':
-            duplicate=read_json(folder / 'duplicate_research.json')
-            if duplicate: data['claims_for_research']=[{'id':'C1','claim':duplicate['claims'][1]['claim'],'location':'TEST-ONLY fixture'}]
         if data is None:
             raise RoleError(f'Missing fixture {output.name}')
         meta = read_json(self.step_dir / 'step.json')
@@ -294,6 +291,9 @@ class Runner:
             data['prior_findings'] = [{'ref': f'F{self.step:04d}-R1-001', 'status':'UNRESOLVED'}] if round_number == 2 else []
         if self.r0p_fixture and role == 'enhancer':
             data = {'resolutions':[{'ref':f'F{self.step:04d}-R1-001','action':'REJECTED_WITH_REASON','evidence':'TEST-ONLY intentional R0P rollback probe'}],'amendments':[]}
+        if role=='evaluator':
+            duplicate=read_json(folder / 'duplicate_research.json')
+            if duplicate: data['claims_for_research']=[{'id':'C1','claim':duplicate['claims'][1]['claim'],'location':'TEST-ONLY fixture'}]
         if 'step' in data:
             data['step'] = self.step
             data['item'] = meta['item']['id']

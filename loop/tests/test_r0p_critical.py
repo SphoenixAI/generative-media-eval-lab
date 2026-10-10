@@ -176,6 +176,17 @@ class CriticalPathTests(unittest.TestCase):
 class RunnerBoundaryTests(unittest.TestCase):
     setUp=runners.RunnerTests.setUp
     tearDown=runners.RunnerTests.tearDown
+    def test_r0p_fixture_preserves_requested_research_coverage(self):
+        self.runner.r0p_fixture=True; self.runner.step=20; self.runner.step_dir=self.root
+        self.runner.harness=controls.ROOT
+        run.write_json(self.root/'step.json',{'item':{'id':'L00'}})
+        (self.root/'diff_sha256.txt').write_text('TEST-ONLY exact')
+        self.runner.fixture('evaluator',self.root/'eval_r1.json',self.root,1)
+        self.runner.fixture('researcher',self.root/'research.json',self.root,1)
+        ev=run.read_json(self.root/'eval_r1.json'); research=run.read_json(self.root/'research.json')
+        self.assertEqual(ev['scores']['intention']['score'],0)
+        self.assertEqual([v['claim'] for v in ev['claims_for_research']],[v['claim'] for v in research['claims'] if v['origin']=='evaluator'])
+
     def test_r0p_continues_and_r0_stops(self):
         for rule,expected in [('R0P',2),('R0',1)]:
             self.runner.preflight=Mock(); self.runner.ensure_branch=Mock(); self.runner.sync=Mock(); self.runner.stop=Mock(); self.runner.pause=Mock()
