@@ -36,3 +36,9 @@ Calibration. state.json keeps, for each dimension, the gap between the builder's
 
 
 A2 accuracy boundary: harness-written report sections and researcher-owned verdicts are separate context, never builder accuracy evidence. Scores before and after A2 are not directly comparable.
+
+A2 test-oracle rules:
+1. Every rejection test asserts the specific error type and a message fragment, and uses fresh ids and revisions so no other rejection path can satisfy it.
+2. Expected values are literals authored in the test, never computed by the code under test.
+3. Fixtures use distinct values for every field the test must distinguish.
+4. Each new validator has at least one test that fails when that validator is deleted. Name the test in self-evaluation evidence (or enhancement evidence for the enhancer).

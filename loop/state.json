@@ -54,6 +54,11 @@
     "L11": {
       "retries": 0,
       "status": "PENDING"
+    },
+    "P-HARNESS-IDS-01": {
+      "note": "implemented as operator work, amendment A2",
+      "retries": 0,
+      "status": "DONE"
     }
   },
   "last_integrated_test_count": 548,

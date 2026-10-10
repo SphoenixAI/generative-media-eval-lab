@@ -284,6 +284,7 @@ class Control:
         for name in ('RUBRIC.md','INVARIANTS.md'): shutil.copy2(run/'harness'/name,target/name)
         if r==2:
             for name in ('eval_r1.json','enhancement.json','research.json'): shutil.copy2(run/name,target/name)
+            write(target/'finding-refs-r1.json',self.finding_references(n))
             (target/'research-context.txt').write_text('Researcher-owned verdicts, supplied as separate context. Do not score these as builder or enhancer accuracy.\n')
         write(run/f'export_r{r}.json',{'diff_sha256':digest(diff)})
         return {'view':str(target),'diff_sha256':digest(diff)}
@@ -309,6 +310,29 @@ class Control:
                 if any(c['claim']==row.get('claim') for c in claims): relevant.append(row)
         (view/'ledger.jsonl').write_text(''.join(json.dumps(c)+'\n' for c in relevant))
         return {'view':str(view),'claims':len(claims),'landscape_required':n%5==0}
+
+    def finding_references(self,n,r=1):
+        ev=read(self.path(n)/f'eval_r{r}.json',{})
+        return {'findings':[{k:f[k] for k in ('id','dimension','description')} for f in ev.get('blocking_findings',[])],
+                'score_notes':[{'id':f'F{n:04d}-R{r}-D-{d}','dimension':d,'evidence':v['evidence']} for d,v in ev.get('scores',{}).items()]}
+
+    def canonicalize_evaluation(self,n,r):
+        run=self.path(n); path=run/f'eval_r{r}.json'; value=read(path)
+        validate(value,read(run/'harness/schemas/evaluation.schema.json'))
+        raw=path.read_bytes(); marker=run/f'eval_r{r}.normalization.json'
+        if marker.exists() and read(marker)['canonical_sha256']==digest(raw): return self.role(n,path.name,'evaluation')
+        index=1
+        while (run/f'eval_r{r}.raw-{index:02d}.json').exists(): index+=1
+        (run/f'eval_r{r}.raw-{index:02d}.json').write_bytes(raw)
+        value['blocking_findings']=[{**f,'id':f'F{n:04d}-R{r}-{i:03d}'} for i,f in enumerate(value['blocking_findings'],1)]
+        write(path,value)
+        write(run/f'finding-refs-r{r}.json',self.finding_references(n,r))
+        write(marker,{'canonical_sha256':digest(path.read_bytes()),'raw_file':f'eval_r{r}.raw-{index:02d}.json'})
+        return self.role(n,path.name,'evaluation')
+
+    def response_references(self,n):
+        refs=self.finding_references(n)
+        return {f['id'] for f in refs['findings']+refs['score_notes']} | {c['id'] for c in read(self.path(n)/'research.json',{}).get('claims',[])}
 
     def canonicalize_research(self,n):
         run=self.path(n); source=run/'research.raw.json'; marker=run/'research-normalization.json'
@@ -372,10 +396,19 @@ class Control:
         if kind=='enhancement':
             research=self.role(n,'research.json','research')
             claim_ids={c['id'] for c in research['claims']}
-            finding_ids={f['id'] for f in read(self.path(n)/'eval_r1.json',{}).get('blocking_findings',[])}
+            finding_ids=self.response_references(n)
+            if len({r['ref'] for r in value['resolutions']})!=len(value['resolutions']): raise ValueError('duplicate enhancement resolution reference')
             if any(a['claim_id'] not in claim_ids for a in value['amendments']): raise ValueError('plan amendment requires canonical research claim ID')
             if any(r['ref'] not in claim_ids | finding_ids for r in value['resolutions']): raise ValueError('unresolved enhancement reference')
         if kind=='evaluation':
+            if name!='self_eval.json':
+                r=2 if name=='eval_r2.json' else 1
+                ids=[f['id'] for f in value['blocking_findings']]
+                if (self.path(n)/f'eval_r{r}.normalization.json').exists() and ids!=[f'F{n:04d}-R{r}-{i:03d}' for i in range(1,len(ids)+1)]: raise ValueError('noncanonical finding identity')
+                refs=[p['ref'] for p in value['prior_findings']]
+                if len(set(refs))!=len(refs): raise ValueError('duplicate prior-finding reference')
+                if r==1 and refs: raise ValueError('round one has no prior findings')
+                if r==2 and any(ref not in self.response_references(n) for ref in refs): raise ValueError('unknown prior-finding reference')
             expected_role='builder' if name=='self_eval.json' else 'evaluator'
             expected_round=2 if name=='eval_r2.json' else 1
             if value['role']!=expected_role or value['round']!=expected_round: raise ValueError('role or round mismatch')
@@ -607,7 +640,7 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root',default=str(Path.cwd())); parser.add_argument('--runs')
     sub=parser.add_subparsers(dest='command',required=True)
-    for name in ('bootstrap','status','next','start','split','seal-plan','gate','export','research-view','canonicalize-research','report','decide','finish','abort-step','packet','classify-policy-false-revert','resume'):
+    for name in ('bootstrap','status','next','start','split','seal-plan','gate','export','research-view','canonicalize-research','canonicalize-evaluation','report','decide','finish','abort-step','packet','classify-policy-false-revert','resume'):
         p=sub.add_parser(name)
         if name=='bootstrap': p.add_argument('--rebaseline',action='store_true')
         if name=='start': p.add_argument('--item',required=True)
@@ -617,8 +650,8 @@ def main(argv=None):
         if name=='classify-policy-false-revert':
             p.add_argument('--step',type=int,required=True); p.add_argument('--rule',required=True)
         if name=='resume': p.add_argument('--after-step',type=int,required=True)
-        if name in ('split','seal-plan','gate','export','research-view','canonicalize-research','report','decide','finish'): p.add_argument('--step',type=int,required=name!='gate')
-        if name in ('gate','export','report'): p.add_argument('--round',type=int,default=1)
+        if name in ('split','seal-plan','gate','export','research-view','canonicalize-research','canonicalize-evaluation','report','decide','finish'): p.add_argument('--step',type=int,required=name!='gate')
+        if name in ('gate','export','report','canonicalize-evaluation'): p.add_argument('--round',type=int,default=1)
         if name=='gate': p.add_argument('--advisory',action='store_true')
         if name=='packet': p.add_argument('--reason')
     args=parser.parse_args(argv)
@@ -642,6 +675,7 @@ def main(argv=None):
         elif cmd=='export': result=ctl.export(args.step,args.round)
         elif cmd=='research-view': result=ctl.research_view(args.step)
         elif cmd=='canonicalize-research': result=ctl.canonicalize_research(args.step)
+        elif cmd=='canonicalize-evaluation': result=ctl.canonicalize_evaluation(args.step,args.round)
         elif cmd=='report': result=ctl.report(args.step,args.round)
         elif cmd=='decide': result=ctl.decide(args.step)
         elif cmd=='finish': result=ctl.finish(args.step)

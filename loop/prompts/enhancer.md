@@ -11,3 +11,11 @@ Your final message is JSON in the enhancement schema. The builder's prohibitions
 Use only the canonical R<STEP>-C<INDEX> research IDs supplied in research.json for research resolutions and plan-amendment claim_id references. Raw-role IDs are non-authoritative.
 
 Affects_this_step indicates relevance only. A newer_practice object does not itself mandate a resolution. Contextual action_required=false claims may remain in the ledger/report without a resolution. Every action_required=true canonical claim ID needs its own explicit resolution with evidence; do not omit a required research response because evaluator findings were fixed.
+
+A2 test-oracle rules:
+1. Every rejection test asserts the specific error type and a message fragment, and uses fresh ids and revisions so no other rejection path can satisfy it.
+2. Expected values are literals authored in the test, never computed by the code under test.
+3. Fixtures use distinct values for every field the test must distinguish.
+4. Each new validator has at least one test that fails when that validator is deleted. Name the test in self-evaluation evidence (or enhancement evidence for the enhancer).
+
+Use the canonical finding IDs in eval_r1.json. Optional nonblocking score-note responses use the IDs in finding-refs-r1.json. Research responses use canonical R IDs. Never use a file:dimension label or repeat a resolutions ref. Every distinct mandatory finding requires its own response.

@@ -24,3 +24,5 @@ provenance and annotation standards.
 
 Record at most five findings in research/landscape.md, each with a relevance note.
 
+
+Graceful stop: create loop/STOP_AFTER_STEP to finish the active step and stop at the next boundary. It never interrupts a role. Remove it before an authorized restart. loop/STOP remains the immediate stop.

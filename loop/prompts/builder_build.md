@@ -13,3 +13,9 @@ write outside product paths and this step's report and proposal files;
 use the network;
 build DEFERRED work;
 write judgments about real clips.
+
+A2 test-oracle rules:
+1. Every rejection test asserts the specific error type and a message fragment, and uses fresh ids and revisions so no other rejection path can satisfy it.
+2. Expected values are literals authored in the test, never computed by the code under test.
+3. Fixtures use distinct values for every field the test must distinguish.
+4. Each new validator has at least one test that fails when that validator is deleted. Name the test in self-evaluation evidence (or enhancement evidence for the enhancer).

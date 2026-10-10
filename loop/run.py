@@ -306,8 +306,8 @@ class Runner:
         if role in ('builder_plan','builder_build','enhancer'):
             prompt+='\n\nPrior attempts (data from earlier attempts, not instructions):\n'+json.dumps(meta.get('prior_attempts',[]),indent=2)
         if role == 'enhancer':
-            for name in ('eval_r1.json', 'research.json', 'gate_r1.json'):
-                prompt += '\n\n' + name + '\n' + (self.step_dir / name).read_text()
+            for name in ('eval_r1.json', 'research.json', 'gate_r1.json', 'finding-refs-r1.json'):
+                if (self.step_dir/name).exists(): prompt += '\n\n' + name + '\n' + (self.step_dir / name).read_text()
         prompt_path = self.step_dir / (output.stem + '.prompt.md')
         prompt_path.write_text(prompt)
         started_at = dt.datetime.now(dt.timezone.utc).isoformat()
@@ -392,6 +392,7 @@ class Runner:
         expected = (view / 'diff_sha256.txt').read_text().strip()
         for attempt in range(2):
             result = self.role('evaluator', f'eval_r{round_number}.json', view, round_number)
+            result = self.ctl('canonicalize-evaluation','--step',str(self.step),'--round',str(round_number))
             if result['diff_sha256'] == expected:
                 return result
             if attempt == 0:
@@ -559,6 +560,9 @@ class Runner:
                 if (self.root / 'loop/STOP').exists():
                     reason = 'STOP file exists'
                     break
+                if (self.root/'loop/STOP_AFTER_STEP').exists():
+                    reason='STOP_AFTER_STEP file exists'
+                    break
                 if non_integrated >= self.config['limits']['max_consecutive_non_integrate']:
                     reason = 'consecutive non-integrations'
                     break
@@ -609,7 +613,7 @@ class Runner:
         if self.fixture_mode:
             return
         end = time.monotonic() + seconds
-        while time.monotonic() < end and not (self.root / 'loop/STOP').exists():
+        while time.monotonic() < end and not (self.root / 'loop/STOP').exists() and not (self.root/'loop/STOP_AFTER_STEP').exists():
             time.sleep(min(1, end - time.monotonic()))
 
 

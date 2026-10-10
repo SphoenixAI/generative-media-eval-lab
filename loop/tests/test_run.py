@@ -129,13 +129,13 @@ max_consecutive_non_integrate = 3
         (view / 'diff_sha256.txt').write_text('actual')
         events = []
         self.runner.ensure_branch = Mock()
-        self.runner.ctl = lambda name, *a, **k: events.append(name)
+        self.runner.ctl = lambda name, *a, **k: (events.append(name) or {'diff_sha256':'wrong'})
         def role(*args):
             run.write_json(self.runner.step_dir / 'eval_r1.json', {'diff_sha256': 'wrong'})
             return {'diff_sha256': 'wrong'}
         self.runner.role = Mock(side_effect=role)
         result = self.runner.evaluate(1)
-        self.assertEqual(events, ['gate', 'export'])
+        self.assertEqual(events, ['gate', 'export','canonicalize-evaluation','canonicalize-evaluation'])
         self.assertEqual(self.runner.role.call_count, 2)
         self.assertEqual(result['diff_sha256'], 'wrong')
         self.assertTrue((self.runner.step_dir / 'eval_r1_hash_mismatch.json').exists())
@@ -147,7 +147,7 @@ max_consecutive_non_integrate = 3
         view.mkdir(parents=True)
         (view / 'diff_sha256.txt').write_text('actual')
         self.runner.ensure_branch = Mock()
-        self.runner.ctl = Mock()
+        self.runner.ctl = Mock(return_value={'diff_sha256':'actual'})
         self.runner.role = Mock(return_value={'diff_sha256': 'actual'})
         self.runner.evaluate(1)
         self.assertEqual(self.runner.role.call_count, 1)
