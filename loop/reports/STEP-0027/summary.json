@@ -1,0 +1,34 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 0,
+    "intention": 2,
+    "production_quality": 2,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "REVERT",
+  "flags": [
+    "Isolated probes executed repository preparation and reader functions with a substituted artifact-kind registry and repository-derived Dimension enum. SQLite used an in-memory retained table; seal parsing was not exercised. These probes are not full installed-package integration tests.",
+    "Reviewed I1-I16 against the changed paths and relevant behavior. Found no authored-history writes, human judgment creation, readiness/verdict emission, policy execution, aggregation, probability arithmetic, runtime networking, public serialization changes, existing-test weakening, deferred work or harness edits. No score-zero invariant violation is asserted.",
+    "The supplied gate reports 5088 passing tests. These are harness results, not an independently rerun suite."
+  ],
+  "gate": true,
+  "item": "L12-A2c",
+  "passed": 5088,
+  "research": {
+    "CONFIRMED": 2
+  },
+  "rounds": 1,
+  "rule": "RF",
+  "scores": {
+    "accuracy": 4,
+    "intention": 2,
+    "production_quality": 2,
+    "relation": 4,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 27
+}

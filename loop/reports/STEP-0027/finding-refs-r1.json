@@ -1,0 +1,66 @@
+{
+  "findings": [
+    {
+      "description": "The new hypothesis-intent and intent-endpoint correspondence guards apply to legacy and v2 relations, but their semantic negative controls exercise only v2. The legacy tests mutate endpoint kinds or media scope, so they cannot detect acceptance of an existing, correctly typed endpoint belonging to a different intent. The sealed Plan explicitly requires separate legacy/v2 witnesses. In an isolated execution using the actual preparation and reader functions, disabling rejection for the legacy hypothesis correspondence made the mismatched relation usable with no diagnostics, while the existing legacy scope, endpoint-kind and partial-support controls still passed on direct and SQLite-reader paths. This is a coverage failure, not a claim that the unmodified guard currently accepts the mismatch.",
+      "dimension": "production_quality",
+      "id": "F0027-R1-001"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Read builder-authored Plan, Probes, comments and docstrings; checked local contract descriptions against the corresponding implementation.",
+        "Compared the Prior attempts mapping with all seven supplied STEP-0023 finding records and checked the stated STEP-0025/0026 resolution statuses.",
+        "Independently recomputed all six source/test hashes reported in Probes and confirmed their agreement.",
+        "Routed the external Python datetime claim to claims_for_research without a score penalty; treated gate results as harness evidence."
+      ],
+      "id": "F0027-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "loop/reports/STEP-0027-L12-A2c.md:55 and :71 require separate legacy/v2 witnesses for applicable shared branches.",
+        "tests/test_lint_warrant_prerequisites.py:149 exercises hypothesis intent correspondence only through v2 root r; :404 likewise tests intent endpoint correspondence only through v2.",
+        "The existing legacy controls at :446 and :456 check endpoint kinds and media scope, not same-kind intent mismatches."
+      ],
+      "id": "F0027-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "tests/test_lint_warrant_prerequisites.py:106-149 and :373-404 omit legacy same-kind intent-correspondence negative controls.",
+        "An isolated legacy-only rejection bypass admitted mismatched hypothesis intent while the existing legacy scope, endpoint-kind and partial-support controls continued to pass through direct and SQLite-reader paths.",
+        "Parsed both added Python files successfully. Full pytest execution was unavailable because the accessible Python lacks pydantic."
+      ],
+      "id": "F0027-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Compared content, binding, seal, origin, assessment and relation correspondence checks against intent_v2.py, generation.py, seals.py, assessments.py, decisions.py and relation_v2.py.",
+        "Inspected exact-pin resolution and the isolated FirstView equal-time/different-content controls, including removal of its correspondence guard.",
+        "Confirmed Prepared and Instant are transient preparation helpers, not new persisted artifacts; this child adds no domain schema or snapshot type.",
+        "An isolated direct/SQLite-reader probe confirmed that the current implementation rejects a legacy hypothesis intent mismatch with the exact expected diagnostic."
+      ],
+      "id": "F0027-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read the complete patch and all three changed files; verified that every added patch body matches its opened tree file.",
+        "Compared implementation responsibilities with STEP-0024/split.json: changes remain within E1/E2/E2w/E7 prerequisite preparation."
+      ],
+      "id": "F0027-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared all changed paths with the sealed plan and D01-D14 DEFERRED entries; found no deferred implementation or unrelated product work.",
+        "Confirmed 279 implementation lines plus 606 additive test lines, totaling 885 counted lines against the 900-line cap.",
+        "Verified the patch adds files only and does not alter existing tests, dependencies, public surfaces, domain schemas or harness files."
+      ],
+      "id": "F0027-R1-D-scope"
+    }
+  ]
+}

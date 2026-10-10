@@ -1,0 +1,127 @@
+{
+  "blocking_findings": [
+    {
+      "description": "The new hypothesis-intent and intent-endpoint correspondence guards apply to legacy and v2 relations, but their semantic negative controls exercise only v2. The legacy tests mutate endpoint kinds or media scope, so they cannot detect acceptance of an existing, correctly typed endpoint belonging to a different intent. The sealed Plan explicitly requires separate legacy/v2 witnesses. In an isolated execution using the actual preparation and reader functions, disabling rejection for the legacy hypothesis correspondence made the mismatched relation usable with no diagnostics, while the existing legacy scope, endpoint-kind and partial-support controls still passed on direct and SQLite-reader paths. This is a coverage failure, not a claim that the unmodified guard currently accepts the mismatch.",
+      "dimension": "production_quality",
+      "id": "F0027-R1-001",
+      "invariant": null,
+      "location": "tests/test_lint_warrant_prerequisites.py:149,404,444-468; src/eval_lab/lint_warrant_prerequisites.py:226-230",
+      "required_fix": "Add isolated legacy same-kind hypothesis-intent and intent-endpoint mismatch controls with valid references, exact literal diagnostics and valid counterparts. Exercise both adapters and demonstrate that bypassing each legacy correspondence rejection fails its ordinary control while preserving reference consumption.",
+      "severity": "MATERIAL"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by their represented instants, including equality of 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z.",
+      "id": "C27-001",
+      "location": "loop/reports/STEP-0027-L12-A2c.md:77-79"
+    }
+  ],
+  "diff_sha256": "32e3f308c2904f263dc3e8081a159db070d74eca44452114025fa572a2e70f31",
+  "flags": [
+    "The supplied gate reports 5088 passing tests. These are harness results, not an independently rerun suite.",
+    "Isolated probes executed repository preparation and reader functions with a substituted artifact-kind registry and repository-derived Dimension enum. SQLite used an in-memory retained table; seal parsing was not exercised. These probes are not full installed-package integration tests.",
+    "Reviewed I1-I16 against the changed paths and relevant behavior. Found no authored-history writes, human judgment creation, readiness/verdict emission, policy execution, aggregation, probability arithmetic, runtime networking, public serialization changes, existing-test weakening, deferred work or harness edits. No score-zero invariant violation is asserted."
+  ],
+  "item": "L12-A2c",
+  "loophole_audit": [
+    {
+      "criterion": "Declare and check warrant, provenance and override prerequisites through the shared boundary.",
+      "evidence": "Inspected value, edge, collection and presence paths; test_warrant_inventory_exact and test_warrant_boundary_consumption check declaration equality and active obligation multiplicity.",
+      "lazy_pass": "Publish declarations while accessing active operands outside the evidence boundary.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Establish exact FirstView and registration content identity.",
+      "evidence": "content checks ingestion/media and source/checksum correspondence; test_first_view_content_correspondence changes content while equalizing every chronology operand, and test_first_view_deletion removes only the identity guard.",
+      "lazy_pass": "Accept valid individual pins and equal timestamps without comparing content.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Check seal, plan and origin correspondence.",
+      "evidence": "Reviewed binding and seal checks against existing admission contracts; CASES and REMAINING provide literal correspondence and guard-removal expectations.",
+      "lazy_pass": "Traverse dependencies without comparing their anchors, embedded evidence or presence.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Compare chronology as instants while preserving raw payloads and pinned digests.",
+      "evidence": "instant creates temporary aware datetimes. test_binding_timestamp_instants, test_different_instant_offsets, test_provenance_chronology_boundaries and preservation controls cover equivalence, inequality, strict boundaries and source retention.",
+      "lazy_pass": "Compare timestamp strings or normalize retained records before checking.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Check active override reasons and metadata.",
+      "evidence": "verdict checks explicit presence before mapping/reason/author/action consumption; test_override_prerequisite_contract and override activation/consumption deletion controls target these paths.",
+      "lazy_pass": "Treat omitted or malformed override metadata as no override.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Every new rejection guard has isolated literal diagnostics and deletion-sensitive direct and retained controls.",
+      "evidence": "Hypothesis and intent-endpoint mismatch controls use root r only. The isolated legacy rejection bypass survived the existing legacy scope, endpoint-kind and partial-support controls.",
+      "lazy_pass": "Test a shared correspondence guard only through v2 and use legacy endpoint-kind tests as evidence for legacy semantic coverage.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Preserve the assigned subset, existing tests and incomplete/readiness distinction.",
+      "evidence": "prepare returns explicitly partial prerequisites without a readiness surface; existing tests are unchanged and final predicates, persisted audits and snapshots remain assigned to later children.",
+      "lazy_pass": "Present successful partial preparation as complete lint or defer newly required focused controls to A3.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [],
+  "role": "evaluator",
+  "round": 1,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Read builder-authored Plan, Probes, comments and docstrings; checked local contract descriptions against the corresponding implementation.",
+        "Compared the Prior attempts mapping with all seven supplied STEP-0023 finding records and checked the stated STEP-0025/0026 resolution statuses.",
+        "Independently recomputed all six source/test hashes reported in Probes and confirmed their agreement.",
+        "Routed the external Python datetime claim to claims_for_research without a score penalty; treated gate results as harness evidence."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "loop/reports/STEP-0027-L12-A2c.md:55 and :71 require separate legacy/v2 witnesses for applicable shared branches.",
+        "tests/test_lint_warrant_prerequisites.py:149 exercises hypothesis intent correspondence only through v2 root r; :404 likewise tests intent endpoint correspondence only through v2.",
+        "The existing legacy controls at :446 and :456 check endpoint kinds and media scope, not same-kind intent mismatches."
+      ],
+      "score": 2
+    },
+    "production_quality": {
+      "evidence": [
+        "tests/test_lint_warrant_prerequisites.py:106-149 and :373-404 omit legacy same-kind intent-correspondence negative controls.",
+        "An isolated legacy-only rejection bypass admitted mismatched hypothesis intent while the existing legacy scope, endpoint-kind and partial-support controls continued to pass through direct and SQLite-reader paths.",
+        "Parsed both added Python files successfully. Full pytest execution was unavailable because the accessible Python lacks pydantic."
+      ],
+      "score": 2
+    },
+    "relation": {
+      "evidence": [
+        "Compared content, binding, seal, origin, assessment and relation correspondence checks against intent_v2.py, generation.py, seals.py, assessments.py, decisions.py and relation_v2.py.",
+        "Inspected exact-pin resolution and the isolated FirstView equal-time/different-content controls, including removal of its correspondence guard.",
+        "Confirmed Prepared and Instant are transient preparation helpers, not new persisted artifacts; this child adds no domain schema or snapshot type.",
+        "An isolated direct/SQLite-reader probe confirmed that the current implementation rejects a legacy hypothesis intent mismatch with the exact expected diagnostic."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Read the complete patch and all three changed files; verified that every added patch body matches its opened tree file.",
+        "Compared implementation responsibilities with STEP-0024/split.json: changes remain within E1/E2/E2w/E7 prerequisite preparation."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Compared all changed paths with the sealed plan and D01-D14 DEFERRED entries; found no deferred implementation or unrelated product work.",
+        "Confirmed 279 implementation lines plus 606 additive test lines, totaling 885 counted lines against the 900-line cap.",
+        "Verified the patch adds files only and does not alter existing tests, dependencies, public surfaces, domain schemas or harness files."
+      ],
+      "score": 4
+    }
+  },
+  "step": 27,
+  "summary": "The implementation addresses the earlier identity and chronology gaps, but focused coverage remains incomplete: legacy relation intent-correspondence guards lack the separately required negative and deletion-sensitive controls."
+}
