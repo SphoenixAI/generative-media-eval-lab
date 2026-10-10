@@ -1,0 +1,52 @@
+{
+  "claims": [
+    {
+      "action_required": false,
+      "affects_this_step": true,
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants, so 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z compare equal when parsed as aware datetimes.",
+      "id": "R0029-C001",
+      "newer_practice": {
+        "date": "2026-10-09",
+        "summary": "Python 3.15 retains the same aware-datetime comparison rule. This reinforces the claim and does not change this step. Release date verified from the [official release page](https://www.python.org/downloads/release/python-3150/); both pages accessed 2026-10-10.",
+        "url": "https://docs.python.org/3.15/library/datetime.html#datetime-objects"
+      },
+      "origin": "plan",
+      "recommended_action": "No change required. Retain the planned equality expectation and its explicit aware, fixed-offset qualification. The documented comparison rule and UTC conversion establish that these timestamps represent the same instant.",
+      "sources": [
+        {
+          "accessed": "2026-10-10",
+          "quote": "the comparison acts as comparands were first converted to UTC datetimes",
+          "title": "datetime \u2014 Basic date and time types \u2014 Python 3.12.15 documentation",
+          "url": "https://docs.python.org/3.12/library/datetime.html#datetime-objects"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "action_required": false,
+      "affects_this_step": true,
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants; parsed 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z therefore compare equal.",
+      "id": "R0029-C002",
+      "newer_practice": {
+        "date": "2026-10-09",
+        "summary": "Python 3.15 retains the same aware-datetime comparison rule. This reinforces the evaluator's statement and does not change this step. Release date verified from the [official release page](https://www.python.org/downloads/release/python-3150/); both pages accessed 2026-10-10.",
+        "url": "https://docs.python.org/3.15/library/datetime.html#datetime-objects"
+      },
+      "origin": "evaluator",
+      "recommended_action": "No correction required to this evaluator statement. Under its stated aware, fixed-offset conditions, both parsed values represent 2026-10-01T00:00:01Z and compare equal. This verifies the external semantics, without asserting that the implementation was inspected or executed.",
+      "sources": [
+        {
+          "accessed": "2026-10-10",
+          "quote": "the comparison acts as comparands were first converted to UTC datetimes",
+          "title": "datetime \u2014 Basic date and time types \u2014 Python 3.12.15 documentation",
+          "url": "https://docs.python.org/3.12/library/datetime.html#datetime-objects"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    }
+  ],
+  "item": "L12-A2c",
+  "proposals": [],
+  "step": 29,
+  "summary": "Both claims are confirmed by Python 3.12 documentation. Applying its comparison rule, adding seven hours to the -07:00 timestamp yields 2026-10-01T00:00:01Z. The ledger excerpt is empty. The last-18-month search found reinforcing newer documentation, with no material change required. Landscape scanning was not required."
+}

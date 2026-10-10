@@ -159,7 +159,7 @@
     },
     "L12-A2c": {
       "retries": 0,
-      "status": "PENDING"
+      "status": "DONE"
     },
     "P-HARNESS-IDS-01": {
       "note": "implemented as operator work, amendment A2",
@@ -167,7 +167,7 @@
       "status": "DONE"
     }
   },
-  "last_integrated_test_count": 2955,
+  "last_integrated_test_count": 5100,
   "steps": [
     {
       "auto_approved": [],
@@ -1088,6 +1088,38 @@
         "scope": 4
       },
       "step": 28
+    },
+    {
+      "auto_approved": [],
+      "calibration": {
+        "accuracy": 0,
+        "intention": 0,
+        "production_quality": 0,
+        "relation": 0,
+        "relevance": 0,
+        "scope": 0
+      },
+      "decision": "INTEGRATE",
+      "flags": [
+        "Independent pytest execution was unavailable: the accessible Python interpreter lacks pytest, Pydantic and SQLAlchemy. Test outcomes cited here are supplied gate evidence; assertions and mutation controls were independently inspected."
+      ],
+      "gate": true,
+      "item": "L12-A2c",
+      "passed": 5100,
+      "research": {
+        "CONFIRMED": 2
+      },
+      "rounds": 1,
+      "rule": "R6",
+      "scores": {
+        "accuracy": 4,
+        "intention": 4,
+        "production_quality": 4,
+        "relation": 4,
+        "relevance": 4,
+        "scope": 4
+      },
+      "step": 29
     }
   ]
 }

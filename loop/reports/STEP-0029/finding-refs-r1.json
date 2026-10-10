@@ -1,0 +1,62 @@
+{
+  "findings": [],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Reviewed builder-authored Plan, Probes, docstrings and comments separately from harness bookkeeping.",
+        "Recomputed source/test and shared-source hashes quoted in the Plan and Probes; they match the supplied files. Recomputed the diff hash and confirmed the reported child test counts against gate.json.",
+        "Checked repository-local premises against their cited implementations. Partial-result and non-readiness descriptions agree with prepare() and its tests.",
+        "Routed the Python 3.12 datetime method claim to research without treating unverified external documentation as an accuracy defect."
+      ],
+      "id": "F0029-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "Traced declared fields through value(), edge(), collection(), RawRecord and the shared evidence boundary; diagnostics deny support.",
+        "Audited test_warrant_context_correspondence, test_remaining_correspondence, test_first_view_content_correspondence, test_binding_timestamp_instants, test_provenance_chronology_boundaries and test_override_prerequisite_contract against the acceptance requirements.",
+        "Checked the Plan's mapping against every blocking finding in STEP-0023/eval_r1.json and eval_r2.json and F0027-R1-001: owned remedies and remaining sibling obligations are explicitly distinguished.",
+        "Reviewed I1-I16 against the changed paths and behavior: no human-record writes, provenance upgrades, operational decisions, averaging, confidence arithmetic, runtime networking, public serialization, existing-test changes or harness changes were introduced."
+      ],
+      "id": "F0029-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "Parsed both added Python files successfully and audited the literal declaration inventory, field matrix, optional-slot controls, dependency diagnostics and consumption multiplicities.",
+        "Inspected deletion controls: semantic guard bypasses must fail the intended diagnostic assertion; field, declaration, branch, vocabulary and repeated-read mutations have named failure assertions.",
+        "Independently counted supplied gate entries: 2,145 child nodes, including 1,023 direct, 1,023 retained and 394 deletion/mutation nodes. The gate records 5,100 total passing tests.",
+        "Reviewed test_warrant_inputs_preserved and test_retained_bytes_preserved for repeated/reordered results and raw payload, pin and SQLite-byte preservation. Runtime rerun limitation is recorded in flags."
+      ],
+      "id": "F0029-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Compared registration, FirstView, origin, seal, plan, assessment and relation correspondence checks with intent_v2.py, generation.py, seals.py, assessments.py and relation_v2.py.",
+        "Verified exact Ref/Pin resolution inherits kind, revision, stored-digest and supplied-digest checks; no latest-revision fallback is added.",
+        "Inspected the two new helper types: Instant is an evidence contract and Prepared is a transient partial result, not a new persisted domain artifact. Existing artifact versions and pins remain in use; snapshot/readiness integration remains assigned to L12-C.",
+        "Audited independent legacy and v2 same-kind mismatch controls and their targeted deletion tests, including preserved dependency reads."
+      ],
+      "id": "F0029-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read the diff and all three changed files; independently verified that each file exactly matches its complete added content in diff.patch.",
+        "Compared implementation with L12-A2c and the sealed Plan: changes prepare E1/E2/E2w/E7 prerequisites without implementing final rule evaluation or readiness."
+      ],
+      "id": "F0029-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Confirmed exactly the three planned added paths, comprising 279 production lines and 621 test lines, with no deletions or edits to integrated tests.",
+        "Compared the diff with the sealed exclusions and DEFERRED D01-D14 list; found no deferred implementation, dependency, frontend, public surface, schema migration or CLI expansion.",
+        "Verified that remaining prerequisite conjunction, exhaustive matrix, final predicates and snapshot/readiness work are not represented as completed by this child."
+      ],
+      "id": "F0029-R1-D-scope"
+    }
+  ]
+}
