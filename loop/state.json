@@ -56,6 +56,15 @@
       "product_retry_charged": false,
       "reason": "Step 0019 reviewed: genuine L12 I2 failure reverted; fail-closed contract, standing rule and R0P validated.",
       "step": 19
+    },
+    {
+      "after_step": 28,
+      "authorized_by": "Sphoenix, 2026-10-10",
+      "decision": "RESUME",
+      "event": "RESUME",
+      "product_retry_charged": false,
+      "reason": "Steps 0027\u20130028 RF caused by the enhancer prompt-size harness defect, fixed in fa775547f6c1a0e8e42eeed8db4eb4831c244bd1; not Codex or product failures.",
+      "step": 28
     }
   ],
   "items": {

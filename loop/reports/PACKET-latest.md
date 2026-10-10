@@ -10,7 +10,7 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 
 ## Loop health
 
-- Consecutive non-integrations since RESUME: 2; trailing RF: 2.
+- Consecutive non-integrations since RESUME: 0; trailing RF: 0.
 - Product retries: L02: 1, L04: 1, L10: 1, L12: 1, L12-A2: 1.
 - BLOCKED: none.
 - Last stop reason: STOP_AFTER_STEP file exists.
@@ -50,6 +50,8 @@ Step 0010 remains REVERT: HARNESS_POLICY_FALSE_REVERT: evaluator accuracy scored
 Step 0010 remains RESUME: A2 groups A-C validated; authorized recovery of L04. Product retry charged: False.
 
 Step 0019 remains RESUME: Step 0019 reviewed: genuine L12 I2 failure reverted; fail-closed contract, standing rule and R0P validated.. Product retry charged: False.
+
+Step 0028 remains RESUME: Steps 0027–0028 RF caused by the enhancer prompt-size harness defect, fixed in fa775547f6c1a0e8e42eeed8db4eb4831c244bd1; not Codex or product failures.. Product retry charged: False.
 
 - Which integrated change most likely violates an invariant?
 - Which research verdict is weakest?
