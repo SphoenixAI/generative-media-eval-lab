@@ -23,6 +23,30 @@
       },
       "rule": "R4",
       "step": 5
+    },
+    {
+      "authorized_by": "Sphoenix, amendment A2, 2026-10-09",
+      "classification": "HARNESS_POLICY_FALSE_REVERT",
+      "decision": "REVERT",
+      "historical_decision_sha256": "00e05efb7d8b2ee6640f44949f897d80757c2dbbe26efed3c0453f78d438b4dc",
+      "item": "L04",
+      "product_retry_charged": false,
+      "reason": "HARNESS_POLICY_FALSE_REVERT: evaluator accuracy scored harness-written research bookkeeping",
+      "retry_correction": {
+        "after": 1,
+        "before": 2
+      },
+      "rule": "R3",
+      "step": 10
+    },
+    {
+      "after_step": 10,
+      "authorized_by": "Sphoenix, amendment A2, 2026-10-09",
+      "decision": "RESUME",
+      "event": "RESUME",
+      "product_retry_charged": false,
+      "reason": "A2 groups A-C validated; authorized recovery of L04",
+      "step": 10
     }
   ],
   "items": {
@@ -44,8 +68,8 @@
       "status": "DONE"
     },
     "L04": {
-      "retries": 2,
-      "status": "BLOCKED"
+      "retries": 1,
+      "status": "PENDING"
     },
     "L07": {
       "retries": 0,
