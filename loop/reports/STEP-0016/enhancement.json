@@ -1,0 +1,15 @@
+{
+  "resolutions": [
+    {
+      "ref": "F0016-R1-001",
+      "action": "FIXED",
+      "evidence": "Transactional admission now verifies an application-issued timestamp receipt. tests/test_resolutions.py::test_direct_admission_rejects_altered_application_timestamp covers initial and successor revisions, specific rejection messages, and unchanged history. Removing the validator makes these tests fail."
+    },
+    {
+      "ref": "F0016-R1-002",
+      "action": "FIXED",
+      "evidence": "tests/test_resolution_workflow.py::test_associated_resolutions_are_private_in_each_presentation_state verifies exact intent association and omission across public/embed and blind/revealed states. Deliberate associated-data disclosure fails all four cases. Advisory gate passed: 1,125 tests; sealed Plan unchanged. Evidence recorded in loop/reports/STEP-0016-L10.md. Full controller verification remains pending.\n"
+    }
+  ],
+  "amendments": []
+}

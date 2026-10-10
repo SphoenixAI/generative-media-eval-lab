@@ -91,6 +91,10 @@
       "retries": 0,
       "status": "DONE"
     },
+    "L10": {
+      "retries": 1,
+      "status": "PENDING"
+    },
     "L11": {
       "retries": 0,
       "status": "PENDING"
@@ -644,6 +648,40 @@
         "scope": 4
       },
       "step": 15
+    },
+    {
+      "auto_approved": [],
+      "calibration": {
+        "accuracy": 0,
+        "intention": 2,
+        "production_quality": 2,
+        "relation": 0,
+        "relevance": 0,
+        "scope": 0
+      },
+      "decision": "REVERT",
+      "flags": [
+        "Computed diff.patch SHA-256 matches diff_sha256.txt.",
+        "Independent full-suite execution was unavailable: accessible Python lacks pydantic, and the workspace is read-only. gate.json reports 1125 passing tests; that count was not independently reproduced.",
+        "Independently parsed all changed Python files and executed the extracted timestamp-receipt function: identical identities remain stable, while timestamp and revision changes invalidate the receipt. This did not execute Pydantic or repository admission.",
+        "PUBLIC_PROSE",
+        "tests/test_resolution_workflow.py:157-175 does not independently prove run-revision collapse: its rejection repeats the same submitted evidence, and the original link sorts before the revision alias. A revision-sensitive unit implementation could still pass that rejection case."
+      ],
+      "gate": true,
+      "item": "L10",
+      "passed": 1125,
+      "research": {},
+      "rounds": 2,
+      "rule": "R3",
+      "scores": {
+        "accuracy": 2,
+        "intention": 2,
+        "production_quality": 2,
+        "relation": 4,
+        "relevance": 4,
+        "scope": 4
+      },
+      "step": 16
     }
   ]
 }
