@@ -1,0 +1,199 @@
+{
+  "step": 13,
+  "item": "L06",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "c364d9b5315709d22000759324ec34d633b4bf5c1147ac00ca4a8148de92596a",
+  "summary": "The parent acceptance cases have meaningful literal decision assertions. Two material verification gaps remain: assessment-context rejection is masked by an earlier check, and the actual decision input envelope lacks an independent hash oracle. These are test defects, not demonstrated failures of the current implementation.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all 1,120 diff lines and opened all nine changed files. Changes implement L06 policy, verdict, persistence, private workflow and associated tests/documentation.",
+        "Checked the changed paths against the sealed plan and DEFERRED backlog; found no unrelated implementation."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "test_identical_catastrophic_geometry_acceptance_matrix asserts literal actions, rule IDs, flags and identical observation payloads.",
+        "tests/test_decision_workflow.py:69 changes the verdict intent rather than the selected assessment, leaving sealed criterion 3's assessment-context protection independently unproved.",
+        "tests/test_decisions.py:199 tests a manually constructed envelope, leaving sealed criterion 8's actual input-envelope contract without an independent literal oracle."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Traced DecisionPolicy and TerminalVerdict registration, schema versions, policy version/revision equality, predecessor pins, repository admission and SQL reference persistence.",
+        "Traced private snapshot discovery through decisions.roots and refs_in; policies and selected input dependencies enter the snapshot closure.",
+        "Checked test_private_cli_snapshot_and_public_isolation for direct admissions, historical verdicts, unrelated-record exclusion and frozen exports.",
+        "Checked backlog L12: domain lint is a subsequent item; this change supplies relevant admission guards without implementing that later item."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "tests/test_decision_workflow.py:69-72 cannot detect deletion of the assessment-context guard at src/eval_lab/decisions.py:168 because the binding-context check rejects first.",
+        "tests/test_decisions.py:199-205 bypasses derive; workflow hash comparisons use outputs of the same implementation and do not independently establish the complete envelope.",
+        "Independently executed the extracted canonicalization/hash oracle and all six literal deviation-threshold cases successfully. Full pytest execution was unavailable because the available interpreter lacks pytest."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Checked the Plan and Probes against scoring.py:13-45: the unchanged legacy engine reads applicability and authority, and critical failure precedes missing-evidence handling.",
+        "Checked new documentation, docstrings and CLI help against implementation. No checkable builder-authored contradiction was established.",
+        "Verified the report's Plan matches plan.md. Inspected earlier evaluation reports: none is an earlier L06 attempt, consistent with the Prior attempts mapping.",
+        "Routed six dependency/standard claims to claims_for_research without treating unverified external claims as accuracy failures."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Independently counted 802 changed lines outside report paths, below the sealed 900-line ceiling.",
+        "Verified no existing-test removals and no changes to dependencies, scoring.py, protected schema/output files, harness, rubric or invariants.",
+        "Checked DEFERRED items D01-D10 against the diff; none is implemented."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "L06-R1-01",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tests/test_decision_workflow.py:69-72; src/eval_lab/decisions.py:155,168",
+      "description": "The context rejection test changes candidate.intent while retaining the original binding. It therefore raises 'assessment context mismatch: binding' at line 155, satisfying the test's shared message fragment before the selected assessment is examined. Removing the assessment-context comparison at line 168 leaves this test satisfied. No other new test selects a foreign-context assessment while keeping the verdict's own clip, media, intent and binding valid. Thus the test does not prove the sealed requirement that assessments match the exact verdict context.",
+      "required_fix": "Add an otherwise-valid verdict with a selected assessment from a different pinned intent/binding context, retaining compatible criterion and observation inputs so earlier checks cannot mask the intended rejection. Assert the specific rejection and demonstrate that removing the assessment-context guard makes the test fail."
+    },
+    {
+      "id": "L06-R1-02",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tests/test_decisions.py:199-205; tests/test_decision_workflow.py:104-116; src/eval_lab/decisions.py:204-212",
+      "description": "The literal envelope test verifies canonicalize/input_digest on a hand-built dictionary, never the envelope produced by derive. Actual verdict hashes are compared with other results from derive, with changes limited to observations, fulfillment, salvage, policy and clip identity. For example, omitting author or relevance from derive's envelope would leave the inspected assertions satisfied, including the literal codec test and replay tests. This leaves the promised complete input digest vulnerable to a self-consistent omission that the tests cannot detect.",
+      "required_fix": "Add an independent literal canonical-envelope or final-digest oracle for an actual verdict derivation with fixed, distinct inputs and nonempty relevance. Exercise declaration and pin changes that preserve the operational decision, and verify that omission of author or relevance from the envelope fails the test."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Identical CATASTROPHIC-geometry observations across acceptance cases",
+      "lazy_pass": "Change the observations for each case while retaining the same deviation label.",
+      "present_in_diff": false,
+      "evidence": "test_identical_catastrophic_geometry_acceptance_matrix compares complete canonical observation payloads and digests. The hypothesis case uses the same fixture construction."
+    },
+    {
+      "criterion": "Dream fixture, SEALED intent: SHIP",
+      "lazy_pass": "Return SHIP based on a fixture name or rationale keyword.",
+      "present_in_diff": false,
+      "evidence": "The matrix asserts SHIP and rule 'accepted'; derive/matches reads typed assessment and provenance inputs, not fixture names or rationale prose."
+    },
+    {
+      "criterion": "Dream fixture, CONTEMPORANEOUS intent: SHIP with a flag",
+      "lazy_pass": "Return SHIP but discard the provenance warning.",
+      "present_in_diff": false,
+      "evidence": "The matrix asserts the exact CONTEMPORANEOUS_INTENT flag, and admission recomputes flags."
+    },
+    {
+      "criterion": "Dream fixture, RECONSTRUCTED or PROMPT_ONLY intent: HOLD",
+      "lazy_pass": "Make only the fixture policy hold while allowing a permissive policy to excuse the material deviation.",
+      "present_in_diff": false,
+      "evidence": "The matrix asserts HOLD for both classes; test_policy_cannot_bypass_material_provenance also exercises permissive SHIP policies."
+    },
+    {
+      "criterion": "Product-demo fixture: REGENERATE",
+      "lazy_pass": "Use the product fixture's name as the decision switch.",
+      "present_in_diff": false,
+      "evidence": "The matrix supplies a pinned VIOLATED MUST assessment and asserts REGENERATE with rule 'violation'; production code has no product-name branch."
+    },
+    {
+      "criterion": "Two unresolved hypotheses violating a MUST criterion: REGENERATE without resolution",
+      "lazy_pass": "Resolve the hypotheses or ignore their count while returning the expected action.",
+      "present_in_diff": false,
+      "evidence": "test_hypotheses_remain_unresolved checks distinct rule IDs for two, one, zero, supported and irrelevant hypotheses, plus canonical payloads, digests, confidence and replay."
+    },
+    {
+      "criterion": "UNKNOWN evidence on a MUST criterion: HOLD",
+      "lazy_pass": "Treat missing support as known or allow a default SHIP policy to bypass UNKNOWN.",
+      "present_in_diff": false,
+      "evidence": "The acceptance matrix and test_unknown_must_and_ship_guard cover UNKNOWN status, omitted/empty/UNKNOWN support, mixed integrity and permissive-policy rejection."
+    },
+    {
+      "criterion": "Override without a reason: rejected",
+      "lazy_pass": "Reject only an omitted reason, accepting empty or whitespace-only text.",
+      "present_in_diff": false,
+      "evidence": "test_override_reason_required covers None, empty and whitespace reasons through construction, JSON validation and copied-object repository admission using fresh identities."
+    },
+    {
+      "criterion": "Phase 2 behavior unchanged",
+      "lazy_pass": "Assert only a happy-path legacy result while changing failure precedence or applicability.",
+      "present_in_diff": false,
+      "evidence": "scoring.py is unchanged; test_phase2_regression_matrix uses literal expectations for failure with missing dimensions, UNKNOWN, PASS, REVIEW, authority and applicability."
+    },
+    {
+      "criterion": "Ordered, versioned policy contract",
+      "lazy_pass": "Provide a nominal rules list while ignoring order, default requirements or permitted operands.",
+      "present_in_diff": false,
+      "evidence": "Inspected policy_contract and matches; test_policy_order_contract, test_typed_condition_operands and test_first_match_default_and_salvage exercise the core contract."
+    },
+    {
+      "criterion": "Exact selected-assessment context",
+      "lazy_pass": "Use a malformed verdict context to obtain the expected error without testing foreign assessments.",
+      "present_in_diff": true,
+      "evidence": "The context case at tests/test_decision_workflow.py:69-72 fails the earlier binding check and cannot prove the assessment comparison at decisions.py:168."
+    },
+    {
+      "criterion": "Complete, independently verified decision input digest",
+      "lazy_pass": "Test a generic hash helper and compare replay outputs from the same incomplete envelope builder.",
+      "present_in_diff": true,
+      "evidence": "test_literal_input_envelope_codec never calls derive; actual verdict hash assertions lack an independent literal envelope/digest and do not distinguish omitted author or relevance."
+    },
+    {
+      "criterion": "Append-only history, private persistence and snapshots",
+      "lazy_pass": "Persist new records individually but omit them from snapshot discovery or overwrite earlier decisions.",
+      "present_in_diff": false,
+      "evidence": "Inspected repository predecessor/digest checks, append-only SQL guards and decisions.roots integration; workflow tests cover direct admissions, history, dependency closure and frozen exports."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "L06-M01",
+      "claim": "Pydantic v2 validation with effective extra='forbid' rejects fields not declared by the model.",
+      "location": "tree/loop/reports/STEP-0013-L06.md:65"
+    },
+    {
+      "id": "L06-M02",
+      "claim": "Pydantic 2.13.5 model_copy(update=...) applies updates without validating supplied values.",
+      "location": "tree/loop/reports/STEP-0013-L06.md:69"
+    },
+    {
+      "id": "L06-M03",
+      "claim": "SQLite permits one simultaneous write transaction per database; BEGIN IMMEDIATE can fail with SQLITE_BUSY when another connection has an active write transaction.",
+      "location": "tree/loop/reports/STEP-0013-L06.md:73"
+    },
+    {
+      "id": "L06-M04",
+      "claim": "RAISE(ABORT, message) in a SQLite trigger terminates the current query and returns SQLITE_CONSTRAINT with the supplied message.",
+      "location": "tree/loop/reports/STEP-0013-L06.md:77"
+    },
+    {
+      "id": "L06-M05",
+      "claim": "Python 3.12 hashlib provides sha256, and hexdigest returns the digest as hexadecimal text.",
+      "location": "tree/loop/reports/STEP-0013-L06.md:81"
+    },
+    {
+      "id": "L06-M06",
+      "claim": "RFC 8785 sorts JSON object property names using unsigned UTF-16 code units and encodes canonical serialization in UTF-8.",
+      "location": "tree/loop/reports/STEP-0013-L06.md:85"
+    }
+  ],
+  "flags": [
+    "Full pytest and runtime mutation testing were not independently executed: the available interpreter lacks pytest. Supplied gate.json reports 859 passing tests; this is supplied evidence.",
+    "Independently executed extracted actual canonicalization/hash functions and six deviation-threshold cases without writing files.",
+    "Reviewed I1-I16 against the diff: no demonstrated invariant violation. I13 verification has the reported oracle gap; no nondeterministic current behavior was demonstrated.",
+    "I15 remote/main behavior cannot be independently established from this read-only evaluation tree; supplied G14 reports unchanged remote main and pilot listing.",
+    "External claims were routed for research; no outside files or sources were read."
+  ]
+}

@@ -2,11 +2,11 @@
 
 step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/O/U | flags
 --- | --- | --- | --- | --- | --- | --- | ---
-0008 | L04 | REVERT | 4 2 4 2 4 4 | 638 | True | 12/0/0/0 | flags: 5
 0009 | L11 | REVERT | 4 4 2 4 4 4 | 700 | True | 0/0/0/0 | flags: 5
 0010 | L04 | REVERT | 4 4 4 3 2 4 | 674 | True | 14/0/0/2 | flags: 5
 0011 | L04 | INTEGRATE | 4 4 4 3 4 4 | 698 | True | 16/0/0/1 | flags: 5
 0012 | L05 | INTEGRATE | 4 4 4 4 4 4 | 786 | True | 12/0/0/0 | flags: 5
+0013 | L06 | INTEGRATE | 4 4 4 4 4 4 | 862 | True | 12/0/0/0 | flags: 7
 
 ## Loop health
 
@@ -17,10 +17,12 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 
 ## New this step
 
-- HASH_VERIFIED: Independently computed SHA-256 of diff.patch matches diff_sha256.txt.
-- INVARIANT_AUDIT: Checked I1-I16 against the complete diff and relevant integration paths. No demonstrated invariant violation found. Real-workspace and remote-main preservation rely on supplied G14 bookkeeping.
-- RESEARCH_PENDING: Six external method claims require independent source verification.
-- RUNTIME_LIMIT: Available python3 lacks Pydantic; the read-only evaluation folder contains no runnable dependency environment. Full tests and runtime mutation probes were not independently reproduced.
+- Checked I1-I9: TEST-ONLY authoring, UNKNOWN preservation, append-only history, protected-file boundaries, pinned acceptability, unchanged epistemic records, provenance guards, worst-case aggregation and absence of probability arithmetic. No demonstrated violation.
+- Checked I10-I14 and I16: no runtime network/dependency additions, baseline-test weakening, public serializer expansion, deferred implementation or judge edits. Deterministic envelope behavior has a literal oracle.
+- External claims were not independently verified outside the folder. research.json reports confirmation, but remains separate researcher-owned context.
+- I15 historical Git actions cannot be independently established from this folder. Supplied G14 reports unchanged remote main and pilot listing.
+- Independent execution did not cover Pydantic validation, repository integration or full pytest fixtures. The extracted-code checks used dependency-free record doubles; gate.json's 862 passing tests are supplied evidence.
+- Independently recomputed the patch SHA-256 and confirmed it matches diff_sha256.txt.
 
 ## Open issues
 
@@ -33,14 +35,14 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 
 ## Standing limitations
 
-- VALIDATION_LIMITATION: 14 recorded flags.
-- RESEARCH_PENDING: 8 recorded flags.
-- PUBLIC_PROSE: 15 recorded flags.
+- VALIDATION_LIMITATION: 15 recorded flags.
+- RESEARCH_PENDING: 9 recorded flags.
+- PUBLIC_PROSE: 16 recorded flags.
 - HOME_PATH: 4 recorded flags.
 
 Proposals awaiting approval: P0008-1: Normalize unpacked arrays before JsonValue validation; P0009-1: Include applicable RelationClaimV2 history in private dataset snapshots; WP07: Model-based instrument adapters; A3-01: Evidence partitions and withheld-context challenges; A3-02: Decision-relevance router; A3-03: Shared perception cache with evidence lineage; A3-04: Counterfactual tests of stated reasons; A3-05: Backed spans and evidence-carrying judgments; A3-06: Instrument validation ladder; A3-07: Labeling import adapter (Ultralytics, Roboflow, others)
 
-Calibration self-minus-independent mean: 0.5333333333333333. Reverts: 5/12.
+Calibration self-minus-independent mean: 0.4. Reverts: 5/13.
 
 Rubric A2: accuracy covers builder/enhancer content only; scores before and after A2 are not directly comparable.
 

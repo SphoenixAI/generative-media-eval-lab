@@ -1,0 +1,15 @@
+{
+  "resolutions": [
+    {
+      "ref": "F0013-R1-001",
+      "action": "FIXED",
+      "evidence": "Added test_selected_assessment_requires_exact_context in tests/test_decision_workflow.py. Preview and admission reject a foreign assessment with ValueError and the exact message. Deleting the context guard makes both cases fail."
+    },
+    {
+      "ref": "F0013-R1-002",
+      "action": "FIXED",
+      "evidence": "Added test_derived_envelope_literal_oracle with literal canonical bytes and SHA-256 for actual derivation. Declaration and pin changes alter the digest while preserving HOLD. Author/relevance omission mutants both fail. Advisory gate passed: 862 tests, 889/900 changed lines; G14 skipped. Evidence recorded in loop/reports/STEP-0013-L06.md.\n\n"
+    }
+  ],
+  "amendments": []
+}

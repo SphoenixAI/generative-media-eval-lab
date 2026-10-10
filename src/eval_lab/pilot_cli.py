@@ -5,13 +5,14 @@ import platform
 from pathlib import Path
 import subprocess
 import sys
+import sqlite3
 
 from .domain import Value
 from .media import MediaError, MediaTools, within
 from .pilot import PilotWorkspace, TEMPLATES, INPUT_TYPES, read_human_form
 from .pilot_domain import PILOT_TYPES, PilotDataset
 from .seals import seal_intent, verify_seal
-from . import generation, assessments
+from . import generation, assessments, decisions
 from sqlalchemy.exc import SQLAlchemyError
 
 
@@ -47,7 +48,11 @@ def parser():
         if cmd=="manifest": sp.add_argument("--output",type=Path)
     fr=sub.add_parser("frames", help="Log first verified access attempt before extraction"); fr.add_argument("clip"); fr.add_argument("--at",type=float,nargs="+",required=True)
     op=sub.add_parser("open", help="Log first verified access attempt before launch; external viewing is undetectable"); op.add_argument("clip"); op.add_argument("--at",type=float)
-    show=sub.add_parser("show", help="Show private submissions, technical observations, criterion assessments and lifecycle context"); show.add_argument("clip")
+    show=sub.add_parser("show", help="Show private submissions, observations, assessments, terminal verdict history and lifecycle context"); show.add_argument("clip")
+    for cmd in ("decision-policy", "terminal-verdict", "decision-preview"):
+        sp=sub.add_parser(cmd, help="Private human decision records and read-only preview", description="Use exact revision and digest pins. Import complete human-authored JSON; preview writes nothing. No default real policy. Corrections require predecessor and revision_reason. tool_version is application recorded. See docs/decision-policies.md.")
+        if cmd != "decision-policy": sp.add_argument("clip")
+        sp.add_argument("--file", type=Path, required=True)
     for cmd in assessments.COMMANDS:
         sp=sub.add_parser(cmd, help="Append a private human record with exact pins", description="Import a complete human-authored record with exact reference revisions and SHA-256 pins. No inferred status. Corrections require predecessor and revision_reason. See docs/criterion-assessments.md; tool_version is application recorded.")
         sp.add_argument("clip"); sp.add_argument("--file", type=Path, required=True)
@@ -62,7 +67,7 @@ def parser():
     start=sub.add_parser("start"); start.add_argument("clip")
     for cmd in ("pause","resume","finish"):
         sp=sub.add_parser(cmd); sp.add_argument("session")
-    snap=sub.add_parser("snapshot", description="Freeze private records, including technical observations, criterion assessments, checksum-linked intent binding history, plans, origins, selections, first-access events, contexts and pinned dependencies and seals for those exact intent revisions.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
+    snap=sub.add_parser("snapshot", description="Freeze private records, including terminal verdict histories and policy dependencies, technical observations, criterion assessments, checksum-linked intent binding history, plans, origins, selections, first-access events, contexts and pinned dependencies and seals for those exact intent revisions.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
     exp=sub.add_parser("export-snapshot", description="Export a frozen private snapshot with its pinned binding history, lifecycle records and retained seal events.", help="Export frozen private snapshot records"); exp.add_argument("id"); exp.add_argument("--output",type=Path)
     return p
 
@@ -90,11 +95,13 @@ def main(argv=None):
             return 0 if result["status"]=="VERIFIED" else 2
         elif args.command=="seal-intent":
             result=seal_intent(args.root,args.file,git_commit=args.git_commit,git_remote=args.git_remote)
+        elif args.command=="decision-preview":
+            result=decisions.preview_file(args.root,args.clip,json.loads(args.file.read_text()))
         elif args.command=="doctor":
             tools=MediaTools()
             result={"tools":{name:identity.model_dump() for name,identity in tools.identities.items()},"local_video_only":True,"automated_media_judging":False}
         elif args.command=="schema":
-            result={"dataset_manifest_schema":PilotDataset.model_json_schema(),"record_schemas":{cls.__name__:cls.model_json_schema() for cls in (*PILOT_TYPES, *assessments.TYPES)},"human_form_schemas":{name:cls.model_json_schema() for name,cls in INPUT_TYPES.items()}}
+            result={"dataset_manifest_schema":PilotDataset.model_json_schema(),"record_schemas":{cls.__name__:cls.model_json_schema() for cls in (*PILOT_TYPES, *assessments.TYPES, *decisions.TYPES)},"human_form_schemas":{**{name:cls.model_json_schema() for name,cls in INPUT_TYPES.items()}, "decision-preview": decisions.VerdictInput.model_json_schema()}}
         elif args.command=="draft":
             result=TEMPLATES[args.kind]
         else:
@@ -128,7 +135,9 @@ def main(argv=None):
                 clip=p.clip(args.clip)
                 submissions=[s for s in p.repo.all("PilotSubmission") if s.clip.id==clip.id]
                 result={"clip":clip.model_dump(mode="json"),"ingestion":p.repo.get(clip.ingestion).model_dump(mode="json"),
-                    "submissions":[{"submission":s.model_dump(mode="json"),"artifact":p.repo.get(s.artifact).model_dump(mode="json")} for s in submissions], **generation.audit(p.repo, clip), **assessments.clip_records(p.repo, clip)}
+                    "submissions":[{"submission":s.model_dump(mode="json"),"artifact":p.repo.get(s.artifact).model_dump(mode="json")} for s in submissions], **generation.audit(p.repo, clip), **assessments.clip_records(p.repo, clip), **decisions.clip_records(p.repo, clip)}
+            elif args.command in ("decision-policy", "terminal-verdict"):
+                result=decisions.record(p,args.author,args.command,json.loads(args.file.read_text()),getattr(args,"clip",None))
             elif args.command in assessments.COMMANDS:
                 result=assessments.record(p,args.clip,args.author,args.command,json.loads(args.file.read_text()))
             elif args.command=="intent": result=p.intent(args.clip,args.author,read_human_form("intent",args.file))
@@ -150,7 +159,7 @@ def main(argv=None):
             print(json.dumps({"written":str(args.output.resolve()),"command":args.command}))
         else: print(json.dumps(result,indent=2,sort_keys=True,allow_nan=False))
         return 0
-    except (ValueError,KeyError,OSError,subprocess.SubprocessError,SQLAlchemyError) as exc:
+    except (ValueError,KeyError,OSError,subprocess.SubprocessError,SQLAlchemyError,sqlite3.Error) as exc:
         print(json.dumps({"error":str(exc),"quality_verdict":"UNKNOWN","no_automatic_judgment":True}),file=sys.stderr)
         return 2
     finally:

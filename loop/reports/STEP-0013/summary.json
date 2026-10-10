@@ -1,0 +1,38 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 0,
+    "intention": 2,
+    "production_quality": 2,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "INTEGRATE",
+  "flags": [
+    "Checked I1-I9: TEST-ONLY authoring, UNKNOWN preservation, append-only history, protected-file boundaries, pinned acceptability, unchanged epistemic records, provenance guards, worst-case aggregation and absence of probability arithmetic. No demonstrated violation.",
+    "Checked I10-I14 and I16: no runtime network/dependency additions, baseline-test weakening, public serializer expansion, deferred implementation or judge edits. Deterministic envelope behavior has a literal oracle.",
+    "External claims were not independently verified outside the folder. research.json reports confirmation, but remains separate researcher-owned context.",
+    "I15 historical Git actions cannot be independently established from this folder. Supplied G14 reports unchanged remote main and pilot listing.",
+    "Independent execution did not cover Pydantic validation, repository integration or full pytest fixtures. The extracted-code checks used dependency-free record doubles; gate.json's 862 passing tests are supplied evidence.",
+    "Independently recomputed the patch SHA-256 and confirmed it matches diff_sha256.txt.",
+    "PUBLIC_PROSE"
+  ],
+  "gate": true,
+  "item": "L06",
+  "passed": 862,
+  "research": {
+    "CONFIRMED": 12
+  },
+  "rounds": 2,
+  "rule": "R6",
+  "scores": {
+    "accuracy": 4,
+    "intention": 4,
+    "production_quality": 4,
+    "relation": 4,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 13
+}
