@@ -11,7 +11,7 @@ from sqlalchemy.pool import StaticPool
 from .domain import ARTIFACT_TYPES, Artifact, Ref, Value, Evidence, HumanRating, AgentAssessment, EvaluationRound, PairwiseRating, ModelRun, EvaluatorVersion, HypothesisGraph, Hypothesis, RelationClaim, EvaluationCase
 from . import pilot_domain  # register additive Pilot 0 types without altering v1 snapshots
 from .domain import CompetingSet
-from . import intent_v2, seals, generation
+from . import intent_v2, seals, generation, assessments
 
 metadata = MetaData()
 artifacts = Table("artifacts", metadata,
@@ -213,7 +213,7 @@ class Repository:
 
     @staticmethod
     def _validate_intent_admission(conn, item):
-        if not isinstance(item, (intent_v2.IntentSpecV2, intent_v2.IntentBinding, seals.SealRecord, *generation.TYPES)):
+        if not isinstance(item, (intent_v2.IntentSpecV2, intent_v2.IntentBinding, seals.SealRecord, *generation.TYPES, *assessments.TYPES)):
             return
         def get(ref):
             row = conn.execute(select(artifacts).where(Repository.key(ref))).mappings().one()
@@ -224,6 +224,10 @@ class Repository:
         rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == "IntentBinding")).scalars()
         history = tuple(intent_v2.IntentBinding.model_validate_json(row) for row in rows)
         intent_v2.validate_admission(item, get, history)
+        if isinstance(item, assessments.TYPES):
+            rows = conn.execute(select(artifacts.c.id, artifacts.c.revision).where(artifacts.c.kind == "BindingContext"))
+            contexts = tuple(get(Ref(kind="BindingContext", id=r.id, revision=r.revision)) for r in rows)
+            assessments.validate_admission(item, get, contexts)
         if isinstance(item, generation.TYPES):
             rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == item.ref.kind)).scalars()
             generation.validate_admission(item, get, tuple(type(item).model_validate_json(row) for row in rows))
@@ -232,7 +236,7 @@ class Repository:
         if type(item).__name__ not in ARTIFACT_TYPES:
             raise TypeError("unregistered artifact")
         # Revalidate even if a caller used Pydantic model_copy(update=...).
-        item = type(item).model_validate(item.model_dump(mode="json"))
+        item = type(item).model_validate(assessments.raw_payload(item) if isinstance(item, assessments.TYPES) else item.model_dump(mode="json"))
         try:
             existing = self.get(item.ref)
         except KeyError:

@@ -11,7 +11,7 @@ from .domain import Value, NonEmpty, Confidence, Criterion, IntentSpec, Evidence
 from .pilot_domain import PilotClip, PilotDataset, PilotSubmission, PilotSession, PilotSnapshot, PinnedArtifact
 from .persistence import Repository, refs_in
 from .intent_v2 import content_identity
-from . import generation
+from . import generation, assessments
 from .media import MediaStore, MediaError, within
 
 
@@ -363,6 +363,9 @@ class PilotWorkspace:
         for binding in self.repo.all("IntentBinding"):
             if content_identity(self.repo.get, binding.media.ref, binding.registration.ref) in identities:
                 roots.append(binding.ref)
+        roots.extend(assessments.roots(self.repo,
+            {generation.pin(self.repo.get(self.repo.get(c).media)) for c in dataset.clips},
+            {generation.pin(self.repo.get(r)) for r in roots if r.kind == "IntentBinding"}))
         seen={}
         while roots:
             ref=roots.pop()

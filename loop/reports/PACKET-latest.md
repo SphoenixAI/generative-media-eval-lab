@@ -2,11 +2,11 @@
 
 step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/O/U | flags
 --- | --- | --- | --- | --- | --- | --- | ---
-0007 | L03 | INTEGRATE | 4 3 4 4 4 4 | 548 | True | 25/0/0/1 | flags: 7
 0008 | L04 | REVERT | 4 2 4 2 4 4 | 638 | True | 12/0/0/0 | flags: 5
 0009 | L11 | REVERT | 4 4 2 4 4 4 | 700 | True | 0/0/0/0 | flags: 5
 0010 | L04 | REVERT | 4 4 4 3 2 4 | 674 | True | 14/0/0/2 | flags: 5
 0011 | L04 | INTEGRATE | 4 4 4 3 4 4 | 698 | True | 16/0/0/1 | flags: 5
+0012 | L05 | INTEGRATE | 4 4 4 4 4 4 | 786 | True | 12/0/0/0 | flags: 5
 
 ## Loop health
 
@@ -17,10 +17,10 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 
 ## New this step
 
-- INVARIANT_AUDIT: Checked I1-I16 against the diff and relevant integration paths. No demonstrated real-judgment authoring, UNKNOWN conversion, history overwrite, protected/judge edit, measurement/acceptability conflation, policy/evaluation coupling, prohibited provenance promotion, averaging, probabi
-- PRIOR_ATTEMPTS_AUDIT: The sealed Plan still lacks an explicit finding-by-finding Prior attempts mapping. Compared all supplied earlier L04 findings directly: Step 8 nested JSON, cross-origin lineage, forged-context masking and selection masking have targeted coverage; Step 10 malformed collection sh
-- RESEARCH_BOUNDARY: External claims retain canonical research IDs. Supplied researcher verdicts were context, not independent verification or builder-authored accuracy evidence.
-- RUNTIME_LIMIT: The supplied gate reports 698 passing tests. Full pytest and repository-level mutation results were not independently reproduced because the available environment lacks Pydantic, SQLAlchemy and pytest. Independent execution covered extracted functions only.
+- HASH_VERIFIED: Independently computed SHA-256 of diff.patch matches diff_sha256.txt.
+- INVARIANT_AUDIT: Checked I1-I16 against the complete diff and relevant integration paths. No demonstrated invariant violation found. Real-workspace and remote-main preservation rely on supplied G14 bookkeeping.
+- RESEARCH_PENDING: Six external method claims require independent source verification.
+- RUNTIME_LIMIT: Available python3 lacks Pydantic; the read-only evaluation folder contains no runnable dependency environment. Full tests and runtime mutation probes were not independently reproduced.
 
 ## Open issues
 
@@ -33,14 +33,14 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 
 ## Standing limitations
 
-- VALIDATION_LIMITATION: 13 recorded flags.
-- RESEARCH_PENDING: 7 recorded flags.
-- PUBLIC_PROSE: 14 recorded flags.
+- VALIDATION_LIMITATION: 14 recorded flags.
+- RESEARCH_PENDING: 8 recorded flags.
+- PUBLIC_PROSE: 15 recorded flags.
 - HOME_PATH: 4 recorded flags.
 
 Proposals awaiting approval: P0008-1: Normalize unpacked arrays before JsonValue validation; P0009-1: Include applicable RelationClaimV2 history in private dataset snapshots; WP07: Model-based instrument adapters; A3-01: Evidence partitions and withheld-context challenges; A3-02: Decision-relevance router; A3-03: Shared perception cache with evidence lineage; A3-04: Counterfactual tests of stated reasons; A3-05: Backed spans and evidence-carrying judgments; A3-06: Instrument validation ladder; A3-07: Labeling import adapter (Ultralytics, Roboflow, others)
 
-Calibration self-minus-independent mean: 0.7333333333333333. Reverts: 5/11.
+Calibration self-minus-independent mean: 0.5333333333333333. Reverts: 5/12.
 
 Rubric A2: accuracy covers builder/enhancer content only; scores before and after A2 are not directly comparable.
 

@@ -1,0 +1,115 @@
+{
+  "step": 12,
+  "item": "L05",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented intent-free technical observations and pinned criterion assessments. Added 88 tests. Advisory gate passed on attempt 1: 786 tests passed, 632 changed product lines, sealed Plan unchanged.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/assessments.py:46 and :62 implement the two requested record types and their separation."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_assessment_workflow.py:39 verifies identical observation pins yield literal SATISFIED and VIOLATED fixture assessments under two SEALED intents.",
+        "tests/test_assessments.py:59 rejects intent-bearing constructor, JSON and copied-object inputs.",
+        "tests/test_assessments.py:107 rejects non-UNKNOWN assessments with empty, unknown or mixed support."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/persistence.py:227 checks admission within the existing writer transaction; src/eval_lab/pilot.py:366 discovers private snapshot roots.",
+        "tests/test_assessments.py:205 verifies predecessor revisions and SQL append-only guards; tests/test_assessment_workflow.py:39 verifies pinned history, reopen and frozen exports."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Advisory attempt 1 passed all blocking checks with 786 passing tests; frozen harness tests and approval check exited 0.",
+        "Observed deletion-sensitive failures: test_nested_injected_fields_survive_admission_validation, test_revision_contract_and_append_only, test_missing_evidence_requires_unknown, test_exact_assessment_pin_kinds and test_unknown_cannot_be_promoted.",
+        "test_import_requires_json_object failed before its guard was added; test_fixed_serialization_literal_oracle checks literal canonical bytes and digest.",
+        "docs/criterion-assessments.md:1 and src/eval_lab/pilot_cli.py:51 document the import contract and CLI help."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0012-L05.md:119 answers the probe with source references before implementation.",
+        "The report records tests-first failures, mutation results, versions, hashes and the advisory-only verification boundary.",
+        "The intent-flip assessments are explicitly authored TEST-ONLY data; no empirical validity or real-clip judgment is claimed."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Gate G7 reports 632 changed product lines against 900; G5, G6 and G10 report no protected-file, forbidden-path or dependency changes.",
+        "G11 confirms the sealed Plan matches. Existing tests remain unchanged; no deferred work was built."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Intent flip",
+      "lazy_pass": "Change observations or infer statuses from intent labels.",
+      "present_in_diff": false,
+      "evidence": "test_intent_flip_private_export_freezes_exact_history checks distinct literal statuses against the same observation reference and digest, including reopen and export."
+    },
+    {
+      "criterion": "Intent-free technical observations",
+      "lazy_pass": "Discard injected fields during serialization before validation.",
+      "present_in_diff": false,
+      "evidence": "raw_payload preserves nested copied fields; constructor, JSON and repository rejection tests cover the boundary, and disposable mutations were detected."
+    },
+    {
+      "criterion": "UNKNOWN propagates",
+      "lazy_pass": "Treat missing support as SATISFIED or NOT_APPLICABLE.",
+      "present_in_diff": false,
+      "evidence": "Empty, all-UNKNOWN and mixed support reject every non-UNKNOWN status; private export tests retain UNKNOWN and separate later media unavailability."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "L05-M01",
+      "claim": "Pydantic extra='forbid' rejects undeclared model fields.",
+      "location": "loop/reports/STEP-0012-L05.md:54"
+    },
+    {
+      "id": "L05-M02",
+      "claim": "Pydantic 2.13.5 model_copy updates are not validated.",
+      "location": "loop/reports/STEP-0012-L05.md:58"
+    },
+    {
+      "id": "L05-M03",
+      "claim": "SQLite permits one simultaneous writer; BEGIN IMMEDIATE starts a write transaction or can return SQLITE_BUSY.",
+      "location": "loop/reports/STEP-0012-L05.md:62"
+    },
+    {
+      "id": "L05-M04",
+      "claim": "SQLite trigger RAISE(ABORT, message) terminates the query with SQLITE_CONSTRAINT.",
+      "location": "loop/reports/STEP-0012-L05.md:66"
+    },
+    {
+      "id": "L05-M05",
+      "claim": "Python hashlib supplies SHA-256 and hexadecimal digest output.",
+      "location": "loop/reports/STEP-0012-L05.md:70"
+    },
+    {
+      "id": "L05-M06",
+      "claim": "RFC 8785 orders property names by UTF-16 code units and encodes canonical output as UTF-8.",
+      "location": "loop/reports/STEP-0012-L05.md:74"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE: docs/criterion-assessments.md.",
+    "ADVISORY_ONLY: G14 was skipped; authoritative gate and independent evaluation remain pending.",
+    "No network use, real-clip judgments or pilot-local writes.",
+    ""
+  ]
+}
