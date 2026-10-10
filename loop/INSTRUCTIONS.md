@@ -906,7 +906,7 @@ Without mpv, print an install hint.
 
 Acceptance: mapping tests on synthetic variable-frame-rate timelines.
 
-L15. Operator guide: the first sealed case. P1 · S · LOW · docs · human review · depends on L12.
+L15. Operator guide: the first sealed case. P0 · S · LOW · docs · human review · depends on L12.
 
 Write docs/pilot0_1.md as a walkthrough of the slide family, in this order:
 
@@ -927,7 +927,7 @@ snapshot.
 
 Use blank forms only.
 
-L16. Synthetic mechanics demo. P1 · M · MEDIUM · human review · depends on L06, L12.
+L16. Synthetic mechanics demo. P0 · M · MEDIUM · human review · depends on L06, L12.
 
 eval-pilot demo intent-flip runs in a temporary workspace built from generated test patterns and TEST-ONLY text. It runs the full pipeline under two synthetic sealed intents and one synthetic policy, then prints both decisions with their rule traces, under this banner: "SYNTHETIC MECHANICS DEMO: no real media, no real judgments."
 
