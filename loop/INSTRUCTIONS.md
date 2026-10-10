@@ -948,6 +948,7 @@ A2/A2.1 human-only additions:
 
 9.3 DEFERRED (proposals only, never auto-approved)
 live model providers or judges;
+A4 (D01): SC01 and SC03 accept MODEL sessions on TEST-ONLY fixtures only; no model is called.
 A2/A2.1 (D01): MODEL witness sessions accept TEST-ONLY fixture data only. No model is called.
 running instruments (point tracking, camera pose, segmentation, surprise models);
 A2/A2.1 (D02): WP02 builds the instrument contract and two instruments that need no new dependency and no model weights. Model-based instruments stay DEFERRED; WP07 is a proposal only. WP02 instruments carry scoped validity (A2.1 Rule 1); no instrument result is ground truth.
