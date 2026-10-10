@@ -1,0 +1,19 @@
+{
+  "canonical_sha256": "e7a9273fa8b39d10a77c44bb3959e2d8e74dc0a8c2999fd60d8b112341cee739",
+  "raw_sha256": "04dcc6037b06fed2d0a7d8965ba0295d0becf4c68df60753fdc026228aafef78",
+  "unresolved_proposals": [],
+  "view_claims": [
+    {
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants, so 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z compare equal when parsed as aware datetimes.",
+      "id": "R0030-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants, including equality of 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z.",
+      "id": "R0030-C002",
+      "location": "loop/reports/STEP-0030-L12-A2d.md:74-76",
+      "origin": "evaluator"
+    }
+  ]
+}

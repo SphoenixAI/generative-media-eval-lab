@@ -1,0 +1,58 @@
+[
+  {
+    "acceptance": [
+      "Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result."
+    ],
+    "approval": "APPROVED",
+    "authorized_dependencies": false,
+    "authorized_protected": [],
+    "authorized_test_changes": [],
+    "category": "domain",
+    "depends_on": [
+      "L05",
+      "L06",
+      "L07",
+      "L08",
+      "L09",
+      "L10",
+      "L11"
+    ],
+    "human_review": false,
+    "id": "L12-A2d1",
+    "notes": "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit.\n\nOperator size decomposition, Sphoenix 2026-10-10 L12 directive: the original all-rule acceptance above is unchanged. These appended subordinate criteria add no new product scope; they make the existing exact-partition split mechanism usable without cutting tests or raising the 900-line cap. Only while planning the unsplit item L12-A2, split before further implementation. Resulting children implement only their assigned acceptance subset; this parent instruction does not request another split of a child whose own scope fits the cap. A practical four-child partition is shared infrastructure; temporal/relation/optional branches; warrant/provenance/override branches; then role/history/frozen/alternative branches plus the original all-rule conjunction. Each child adds focused tests for every new guard; the exhaustive L12-A3 matrix remains a separate, unchanged obligation. Do not present an intermediate subset as complete lint/readiness. Follow the critical-path ordering; no unrelated work may substitute for a blocked prerequisite.\n\nStep 0023 is a genuine evaluated product attempt, preserved with its charged retry. Its rejected candidate and tests are retained in that step's evidence; do not relabel it as harness failure, refund its retry, or treat its green ordinary tests as acceptance. Each child plan must map the findings in loop/reports/STEP-0023/eval_r1.json and eval_r2.json to its owned remedy or remaining sibling obligation. Preserve all previously integrated tests and add the necessary isolated controls; do not remove or loosen controls to meet the cap. Do not use partial coverage deferred to A3 as an excuse for missing tests of newly introduced validators.",
+    "parent": "L12-A2d",
+    "priority": "P0",
+    "probes": [],
+    "risk": "MEDIUM",
+    "size": "S",
+    "title": "Lint declarations and shared evidence-boundary accounting for every rule"
+  },
+  {
+    "acceptance": [
+      "Role, history, frozen-plan and alternative prerequisites for E5, E6, W2 and W3 are declared and checked, including confidence predecessors, evidence/run/arm dependencies, complete scoped collections, exact frozen-plan integrity and residual/alternative membership. Every new rejection guard has isolated literal expected diagnostics and deletion-sensitive controls. After the preceding prerequisite groups exist, verify the original all-rule acceptance as their conjunction; missing declarations or unconsumed declared prerequisites cannot yield a usable complete context."
+    ],
+    "approval": "APPROVED",
+    "authorized_dependencies": false,
+    "authorized_protected": [],
+    "authorized_test_changes": [],
+    "category": "domain",
+    "depends_on": [
+      "L05",
+      "L06",
+      "L07",
+      "L08",
+      "L09",
+      "L10",
+      "L11"
+    ],
+    "human_review": false,
+    "id": "L12-A2d2",
+    "notes": "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit.\n\nOperator size decomposition, Sphoenix 2026-10-10 L12 directive: the original all-rule acceptance above is unchanged. These appended subordinate criteria add no new product scope; they make the existing exact-partition split mechanism usable without cutting tests or raising the 900-line cap. Only while planning the unsplit item L12-A2, split before further implementation. Resulting children implement only their assigned acceptance subset; this parent instruction does not request another split of a child whose own scope fits the cap. A practical four-child partition is shared infrastructure; temporal/relation/optional branches; warrant/provenance/override branches; then role/history/frozen/alternative branches plus the original all-rule conjunction. Each child adds focused tests for every new guard; the exhaustive L12-A3 matrix remains a separate, unchanged obligation. Do not present an intermediate subset as complete lint/readiness. Follow the critical-path ordering; no unrelated work may substitute for a blocked prerequisite.\n\nStep 0023 is a genuine evaluated product attempt, preserved with its charged retry. Its rejected candidate and tests are retained in that step's evidence; do not relabel it as harness failure, refund its retry, or treat its green ordinary tests as acceptance. Each child plan must map the findings in loop/reports/STEP-0023/eval_r1.json and eval_r2.json to its owned remedy or remaining sibling obligation. Preserve all previously integrated tests and add the necessary isolated controls; do not remove or loosen controls to meet the cap. Do not use partial coverage deferred to A3 as an excuse for missing tests of newly introduced validators.",
+    "parent": "L12-A2d",
+    "priority": "P0",
+    "probes": [],
+    "risk": "MEDIUM",
+    "size": "S",
+    "title": "Lint role, history, frozen-plan and alternative semantics with the complete all-rule conjunction"
+  }
+]

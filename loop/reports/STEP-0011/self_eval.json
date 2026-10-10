@@ -1,0 +1,182 @@
+{
+  "step": 11,
+  "item": "L04",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Fresh inspection and 68 focused in-memory checks support the lifecycle implementation and resolution of the prior findings. One material gap remains: several new validators lack targeted negative tests required by the fixed rubric. No files were modified. The full suite, authoritative gates and independent evaluation remain pending.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/generation.py:31-116 implements L04's plans, origins, selection logs, first-view events and binding contexts.",
+        "src/eval_lab/pilot_cli.py:36-49,100-128 connects those records to the requested private CLI workflows.",
+        "The staged product diff contains nine lifecycle implementation, test and documentation paths."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "Fresh execution passed 52 ordering cases from test_stored_ordering_degrades_and_replays, five FOUND/missing-evidence cases and both cross-origin alias cases using SQLite in memory.",
+        "tests/test_generation.py:166-180 now isolates malformed selections with fresh IDs, specific error fragments and non-admission assertions; all six cases passed in memory.",
+        "The fixed harness RUBRIC.md:40-44 requires a deletion-sensitive test for every new validator. ClipOrigin.contract, FirstView.contract and BindingContext.contract lack targeted negative cases, as detailed in L04-S11-R1-F01."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/persistence.py:214-229 routes lifecycle records through digest checks and transaction-scoped admission.",
+        "src/eval_lab/generation.py:233-257 preserves established binding anchors and origin; both cross-origin alias checks passed during this review.",
+        "src/eval_lab/generation.py:278-311 and src/eval_lab/pilot.py:348-391 include lifecycle roots and exact dependencies in private inspection and frozen snapshots; inspected statically.",
+        "test_earliest_seal_and_forged_context_are_independently_checked passed in memory, including fresh-ID chronology rejection and its valid control."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "Executed 68 focused checks through direct test-function calls and one additional JSON/selection check, using only in-memory SQLite repositories; all passed. This was not a full pytest run.",
+        "tests/test_generation.py:270-334 contains media-failure, concurrent-access and entrypoint-ordering coverage; these filesystem/media tests were inspected but not executed.",
+        "The new event validators have no isolated invalid-kind/origin tests. The revision and duplicate-origin tests at tests/test_generation.py:368-371 exercise separate guards.",
+        "git diff --cached --check completed without errors."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "docs/generation-lifecycle.md:38-53 accurately limits access logs to attempts, acknowledges external viewing and timestamp limitations, and describes partial-write retention.",
+        "src/eval_lab/generation.py:309 explicitly retains UNKNOWN quality; provenance classification continues to use the unchanged L02 classifier.",
+        "docs/pilot0.md:19,159-161 distinguishes recorded tool information and requested extraction settings from stronger guarantees. External contracts are routed to research below.",
+        "No historical scores or historical test totals were treated as fresh validation."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "The staged product diff totals 865 additions and 17 deletions: 882 changed lines, below the frozen configuration's 900-line limit by static counting; this is not a gate result.",
+        "The staged paths contain no dependency manifests, existing-test modifications, protected schemas or fixed harness changes.",
+        "Inspection found declaration storage and private workflow integration, with no player, generator, network execution or deferred capability added."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "L04-S11-R1-F01",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/generation.py:60-76,111-116; tests/test_generation.py:368-371; tests/test_generation_cli.py:17-46",
+      "description": "Three new model validators lack targeted negative tests required by the fixed rubric's A2 rule 4. ClipOrigin.contract checks reference kinds, origin/plan agreement and original clip revision, but existing tests supply valid combinations. FirstView.contract and BindingContext.contract likewise receive valid reference kinds. The event revision test fails through Event.revision, duplicate-origin rejection uses validate_admission, and forged-context rejection exercises stored chronology. Those tests therefore do not establish sensitivity to removal of these three validators. This is a static coverage finding, not an executed mutation-test result.",
+      "required_fix": "Add isolated constructor and repository-admission negative cases for these validators, with valid controls, fresh identities, specific validation errors and non-admission assertions. Demonstrate that removing each validator makes its named focused test fail. No harness change is needed."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Ordering and graceful provenance degradation",
+      "lazy_pass": "Always return RECONSTRUCTED or derive expected results with the production classifier.",
+      "present_in_diff": false,
+      "evidence": "tests/test_generation.py:73-111 uses explicit ordering fixtures and expected classes. All 52 ordering and five missing/exact-revision cases passed in memory."
+    },
+    {
+      "criterion": "Nested JSON declarations",
+      "lazy_pass": "Support scalar examples while rejecting nested arrays.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/generation.py:17-18 normalizes the new JSON boundaries. Fresh in-memory construction and repository read-back preserved nested arrays in settings, controlled_factors and random_draw."
+    },
+    {
+      "criterion": "Alias lineage preservation",
+      "lazy_pass": "Test only aliases registered under matching origins.",
+      "present_in_diff": false,
+      "evidence": "tests/test_generation.py:114-132 covers both cross-origin directions and preserved anchors, origin, predecessor and nonpromotion; both cases passed in memory."
+    },
+    {
+      "criterion": "Selection rejection tests",
+      "lazy_pass": "Let immutable-revision conflicts satisfy malformed-selection assertions.",
+      "present_in_diff": false,
+      "evidence": "tests/test_generation.py:166-180 uses TEST-ONLY-invalid, matches the intended error and checks unchanged retained records. All six cases passed in memory."
+    },
+    {
+      "criterion": "Every new validator has a deletion-sensitive test",
+      "lazy_pass": "Count positive construction or unrelated admission failures as negative coverage for event validators.",
+      "present_in_diff": true,
+      "evidence": "ClipOrigin.contract, FirstView.contract and BindingContext.contract lack isolated negative cases; see L04-S11-R1-F01."
+    },
+    {
+      "criterion": "First-view and FOUND workflows",
+      "lazy_pass": "Log only successful launches or omit later FOUND binding, selection and snapshots.",
+      "present_in_diff": false,
+      "evidence": "Static inspection of generation.first_access, PilotWorkspace.frames and pilot_cli.open shows logging before exposure. tests/test_generation.py:222-249,270-334 covers the requested workflows and failure boundaries; those media tests were not executed here."
+    },
+    {
+      "criterion": "Fresh recovery assessment",
+      "lazy_pass": "Reuse historical scores or describe future gates as passed.",
+      "present_in_diff": false,
+      "evidence": "This assessment uses current source inspection and 68 newly executed in-memory checks. Full-suite, gate and independent-evaluator outcomes remain pending."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "L04-R1-F01",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "L04-R1-F02",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "L04-R2-F01",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "TEST_ORACLE_GAP",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "id": "L04-P10-M01",
+      "claim": "Pydantic model_copy(update=...) does not validate supplied updates.",
+      "location": "loop/reports/STEP-0011-L04.md: Method claims and checkable contracts"
+    },
+    {
+      "id": "L04-P10-M02",
+      "claim": "Pydantic 2.13.5 JsonValue distinguishes list, dict, scalar and null variants and has no tuple variant.",
+      "location": "loop/reports/STEP-0011-L04.md: Method claims and checkable contracts"
+    },
+    {
+      "id": "L04-P10-M03",
+      "claim": "SQLite permits one simultaneous writer; BEGIN IMMEDIATE acquires a write transaction or can encounter SQLITE_BUSY.",
+      "location": "loop/reports/STEP-0011-L04.md: Method claims and checkable contracts"
+    },
+    {
+      "id": "L04-P10-M04",
+      "claim": "SQLite trigger RAISE(ABORT, message) terminates the statement with SQLITE_CONSTRAINT.",
+      "location": "loop/reports/STEP-0011-L04.md: Method claims and checkable contracts"
+    },
+    {
+      "id": "L04-P10-M05",
+      "claim": "Python 3.12 hashlib supplies SHA-256 and hexadecimal digest output.",
+      "location": "loop/reports/STEP-0011-L04.md: Method claims and checkable contracts"
+    },
+    {
+      "id": "L04-P10-M06",
+      "claim": "RFC 8785 specifies UTF-16 property ordering and UTF-8 serialization.",
+      "location": "loop/reports/STEP-0011-L04.md: Method claims and checkable contracts"
+    },
+    {
+      "id": "L04-S11-M07",
+      "claim": "The documented executable checksums are attributed to the external provider; current download correspondence and provider authenticity remain unverified.",
+      "location": "docs/pilot0.md:19"
+    },
+    {
+      "id": "L04-S11-M08",
+      "claim": "The cited FFmpeg contracts define noautorotate, explicit mapping, zero-based select-filter n and possible pixel-format fallback.",
+      "location": "docs/pilot0.md:159-161"
+    }
+  ],
+  "flags": [
+    "VALIDATION_BOUNDARY: 68 focused in-memory checks passed under Python 3.12.14, Pydantic 2.13.5 and SQLAlchemy 2.1.3. Full pytest, filesystem reopening, media execution, concurrency tests, mutation tests and authoritative gates were not executed in this review.",
+    "READ_ONLY: No files, reports, history, branches or remotes were modified. No network or real-media operations were performed.",
+    "PUBLIC_PROSE: The restored patch changes lifecycle, provenance and Pilot 0 documentation.",
+    ""
+  ]
+}

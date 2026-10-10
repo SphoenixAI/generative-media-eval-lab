@@ -1,0 +1,15 @@
+{
+  "authorized_by": "Sphoenix direct instruction",
+  "classification": "HARNESS_POLICY_FALSE_REVERT",
+  "decision": "REVERT",
+  "historical_decision_sha256": "3e5ef3607a000099d440881d472fdff52eeeeb75ae894895ded785db4b90b2ad",
+  "item": "L02",
+  "product_retry_charged": false,
+  "reason": "HARNESS_POLICY_FALSE_REVERT: research actionability / enhancer resolution mismatch",
+  "retry_correction": {
+    "after": 1,
+    "before": 2
+  },
+  "rule": "R4",
+  "step": 5
+}

@@ -1,0 +1,141 @@
+{
+  "step": 4,
+  "item": "L07",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "c3841d1908958c626093a5523e0f7fa77751cce50c02db6bb085436b9df7e182",
+  "summary": "Implementation follows the sealed plan, but required relation rejection tests can pass for unrelated reasons. This leaves acceptance criterion 4 inadequately verified. Runtime tests could not be independently rerun because the available Python lacks Pydantic.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all of diff.patch and every changed file; compared changes with L07, plan.md and tree/loop/NORTH_STAR.md. Changes directly implement hypothesis sets and their private authoring path."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "tests/test_competing_sets.py:149 persists the relation before the negative cases at lines 154–159 reuse its identity and revision; these assertions do not prove the required rejection behavior.",
+        "tests/test_competing_sets.py:156 tests observed status with empty evidence, so it cannot distinguish the new hypothesis-claim restriction from the existing evidence requirement."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Traced CompetingSet registration, schema version, exact member references, immediate predecessor validation, SQL reference persistence, submission linkage and snapshot traversal through domain.py, persistence.py, pilot_domain.py and pilot.py.",
+        "Inspected test_revision_admission_uses_exact_pins_and_retains_history and test_private_cli_draft_authoring_sessions_show_and_pinned_exports for pinned historical records.",
+        "Checked lint applicability: L12 introduces the future lint subsystem; the sealed plan explicitly excludes implementing it here."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "test_relation_contract_and_no_inferred_edges contains masked negative assertions at tests/test_competing_sets.py:154–159; removing the new self-relation rejection would not make its self-relation cases fail.",
+        "Parsed all runtime Python modules and the new test module successfully. Supplied gate.json reports 249 passes, but independent execution was unavailable."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Checked added documentation, docstrings and CLI descriptions against implementation: residual structure, exact revision membership, retained constraints, directional refinement and absence of confidence arithmetic agree.",
+        "Independently recomputed the diff hash and all seven product hashes recorded in the report; all match.",
+        "Reviewed numeric confidence fixtures against explicit expected values None, 0.8, 0.9 and 0.95. New documentation makes no empirical completeness or causal-validity claim."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared all eight changed paths with the sealed plan's file list and verified the report's Plan section matches plan.md.",
+        "Inspected D01–D14 in tree/loop/backlog.toml; no deferred capability is introduced.",
+        "Checked the diff for I4, I10, I11 and I16 boundaries: no protected-file, dependency, existing-test or harness edits. Supplied gate.json also reports these checks passing."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "F1",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tree/tests/test_competing_sets.py:149-159",
+      "description": "The relation rejection test first persists edge, then submits modified copies with the same ID and revision under a generic ValueError assertion. If the self-relation guard is removed, both self-relation cases still pass because Repository.put rejects the changed payload as an immutable revision conflict before checking links. Other cases share this masking risk. The observed-status case additionally uses empty evidence, so the pre-existing observed-relation evidence check rejects it even if the new predicates are omitted from the claims-only restriction. Thus these tests would remain green with required behavior broken.",
+      "required_fix": "Give each invalid candidate a fresh identity or test domain validation directly, and assert the intended validation error. Test observed status using otherwise valid, persisted evidence and valid endpoints. Verify that removing the self-relation guard or excluding either new predicate from the claims-only restriction makes the corresponding test fail."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "L07 acceptance: tests.",
+      "lazy_pass": "Add tests that raise an unrelated error and count them as proof of the requested validation.",
+      "present_in_diff": true,
+      "evidence": "tests/test_competing_sets.py:149-159 reuses a persisted revision; generic ValueError assertions mask missing relation validation. See F1."
+    },
+    {
+      "criterion": "Plan 1: registered, persistable sets with valid pinned membership.",
+      "lazy_pass": "Store arbitrary member IDs without resolving their kinds, revisions or intent.",
+      "present_in_diff": false,
+      "evidence": "test_single_named_member_and_supplied_residual and test_set_reference_boundaries_and_copy_revalidation exercise duplicates, wrong kinds, dangling revisions and cross-intent members. Invalid set candidates are not already persisted, avoiding the F1 masking problem."
+    },
+    {
+      "criterion": "Plan 2: explicit flags and exactly one residual when exhaustive.",
+      "lazy_pass": "Always append a residual or silently coerce missing flags.",
+      "present_in_diff": false,
+      "evidence": "test_flags_residual_and_claim_confidence_are_independent checks all four combinations against explicit member lists; test_flags_require_explicit_booleans rejects coercions and omissions; malformed-residual tests include otherwise valid named membership."
+    },
+    {
+      "criterion": "Plan 3: residual is structural and does not create a substantive hypothesis.",
+      "lazy_pass": "Create a synthetic hypothesis carrying confidence or supported status.",
+      "present_in_diff": false,
+      "evidence": "domain.py:308-311 defines only the residual kind and description. tests/test_competing_sets.py:74-84 checks exact serialization, unchanged hypothesis inventory and absent assessments."
+    },
+    {
+      "criterion": "Plan 4: both relation kinds enforce endpoint and epistemic contracts.",
+      "lazy_pass": "Accept the predicates while letting unrelated persistence errors satisfy negative tests.",
+      "present_in_diff": true,
+      "evidence": "test_relation_contract_and_no_inferred_edges proves positive persistence and direction, but its self-relation and observed-status rejection assertions are masked as described in F1."
+    },
+    {
+      "criterion": "Plan 5: exclusivity in both admission orders, including concurrency.",
+      "lazy_pass": "Check exclusivity only in the CLI or only when adding a relation after a set.",
+      "present_in_diff": false,
+      "evidence": "persistence.py:193-244 checks both admission paths inside the writer transaction. test_exclusivity_both_insertion_orders_and_endpoint_orders requires the exclusive-specific error; the concurrent test synchronizes admission and requires exactly one committed record."
+    },
+    {
+      "criterion": "Plan 6: exact retained pins and append-only set revisions.",
+      "lazy_pass": "Consult only the latest set or silently replace old hypothesis pins.",
+      "present_in_diff": false,
+      "evidence": "test_revision_admission_uses_exact_pins_and_retains_history checks retained exclusive constraints, non-inherited membership, rejected conflicting revisions and unchanged old bytes. domain.py:334-336 explicitly requires the immediate predecessor."
+    },
+    {
+      "criterion": "Plan 7: confidence remains claim-local and missing evidence produces no verdict.",
+      "lazy_pass": "Normalize member confidence or assign the residual its complement.",
+      "present_in_diff": false,
+      "evidence": "tests/test_competing_sets.py:69-84 checks explicit independent values and unchanged hypotheses; domain.py:314-319 has no set confidence field. CLI integration asserts UNKNOWN."
+    },
+    {
+      "criterion": "Plan 8: private authoring, session linkage and pinned snapshot exports.",
+      "lazy_pass": "Persist an orphan set or export the latest hypotheses instead of the pinned records.",
+      "present_in_diff": false,
+      "evidence": "test_private_cli_draft_authoring_sessions_show_and_pinned_exports checks draft rejection, CLI submission, session and author, show output, revision resolution, snapshot membership and unchanged earlier exports."
+    },
+    {
+      "criterion": "Plan 9: deterministic serialization, compatibility and privacy.",
+      "lazy_pass": "Only compare an object with itself or expose private records through generic serialization.",
+      "present_in_diff": false,
+      "evidence": "Tests reconstruct fixed-input sets, revalidate JSON and reopen the repository; explicit member lists and old field-name sets supplement round-trip comparisons. Inspected presentation.py's explicit public allowlist and test_public_embed_exclude_sets_and_old_payloads_have_no_new_defaults. No existing tests or protected outputs appear in the diff."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "C1",
+      "claim": "A static-camera regeneration is confounded by changes to the generated sample; multiple controlled replicates should be used instead of attributing causality to one improved clip. This is an existing methodological claim in unchanged context.",
+      "location": "tree/docs/hypothesis-testing.md:7"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE",
+    "Independent runtime verification unavailable: available Python raises ModuleNotFoundError for pydantic; supplied gate results were inspected but not reproduced.",
+    "Inspected I1–I16 for touched behavior. No demonstrated invariant violation; F1 concerns inadequate new tests, not weakening an existing test.",
+    "Supplied gate.json reports G14 passing with unchanged pilot listing and remote main; those external states were not independently accessed."
+  ]
+}

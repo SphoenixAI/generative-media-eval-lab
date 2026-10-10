@@ -1,0 +1,256 @@
+{
+  "step": 13,
+  "item": "L06",
+  "summary": "All 12 requested claims are CONFIRMED from opened primary sources. The ledger excerpt was empty. Searches covered newer practice from 2025-04-09 through 2026-10-09; related developments do not require changing these claims. All sources were accessed on 2026-10-09. Actionability was assessed independently for each occurrence. Implementation conformance was not assessed. No landscape scan was required.",
+  "claims": [
+    {
+      "id": "R0013-C001",
+      "claim": "Pydantic v2 validation with effective extra=\"forbid\" rejects input fields not declared by the model.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://pydantic.dev/docs/validation/latest/api/pydantic/config/#extra",
+          "title": "Configuration | Pydantic Docs",
+          "accessed": "2026-10-09",
+          "quote": "'forbid': Providing extra data is not permitted"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Pydantic 2.12 introduced per-validation extra overrides. This reinforces the claim's qualification that extra='forbid' must be effective for the validation call; no step change is required.",
+        "url": "https://pydantic.dev/articles/pydantic-v2-12-release",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required. Retain the qualification 'effective' because validation-call overrides can replace model configuration.",
+      "action_required": false
+    },
+    {
+      "id": "R0013-C002",
+      "claim": "Pydantic 2.13.5 model_copy(update=...) applies updates without validating the supplied values.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://github.com/pydantic/pydantic/blob/v2.13.5/pydantic/main.py",
+          "title": "Pydantic v2.13.5 source: BaseModel.model_copy",
+          "accessed": "2026-10-09",
+          "quote": "Note: the data is not validated before creating the new model."
+        }
+      ],
+      "newer_practice": {
+        "summary": "The 2.14.0a1 prerelease changes deep copying to exclude fields replaced by updates. This related development does not supersede the verified behavior of version 2.13.5 or require adopting the prerelease.",
+        "url": "https://github.com/pydantic/pydantic/releases/tag/v2.14.0a1",
+        "date": "2026-05-22"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required. Preserve the explicit distinction between copying with updates and validating those updates.",
+      "action_required": false
+    },
+    {
+      "id": "R0013-C003",
+      "claim": "SQLite permits one simultaneous write transaction per database, and BEGIN IMMEDIATE can fail with SQLITE_BUSY when another connection already has an active write transaction.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://sqlite.org/lang_transaction.html",
+          "title": "Transaction — SQLite",
+          "accessed": "2026-10-09",
+          "quote": "one simultaneous write transaction. … BEGIN IMMEDIATE might fail with SQLITE_BUSY"
+        }
+      ],
+      "newer_practice": {
+        "summary": "SQLite 3.50.0 added sqlite3_setlk_timeout(), a separate timeout for builds supporting blocking locks. This adds lock-wait configuration without replacing the single-writer rule or eliminating possible SQLITE_BUSY results; no step change is established.",
+        "url": "https://sqlite.org/releaselog/3_50_0.html",
+        "date": "2025-05-29"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required. Retain both the single-writer constraint and the possibility of SQLITE_BUSY when beginning a competing write transaction.",
+      "action_required": false
+    },
+    {
+      "id": "R0013-C004",
+      "claim": "Executing RAISE(ABORT, message) in a SQLite trigger terminates the current query and returns SQLITE_CONSTRAINT with the supplied message.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://sqlite.org/lang_createtrigger.html",
+          "title": "CREATE TRIGGER — SQLite, section 6: The RAISE() function",
+          "accessed": "2026-10-09",
+          "quote": "RAISE(ABORT,...) … query terminates. … SQLITE_CONSTRAINT … specified error message."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change required. The official trigger documentation directly supports the stated termination and error behavior; no relevant superseding practice was found in the search window.",
+      "action_required": false
+    },
+    {
+      "id": "R0013-C005",
+      "claim": "Python 3.12 hashlib provides sha256, and a hash object's hexdigest method returns its digest as hexadecimal text.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/hashlib.html",
+          "title": "hashlib — Secure hashes and message digests — Python 3.12 documentation",
+          "accessed": "2026-10-09",
+          "quote": "sha256() … returned as a string object … containing only hexadecimal digits."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change required. Keep the version-specific API statement; no relevant replacement for sha256 or hexdigest was found in the search window.",
+      "action_required": false
+    },
+    {
+      "id": "R0013-C006",
+      "claim": "RFC 8785 sorts JSON object property names using unsigned UTF-16 code units and encodes the resulting canonical serialization in UTF-8.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html",
+          "title": "RFC 8785: JSON Canonicalization Scheme (JCS), sections 3.2.3–3.2.4",
+          "accessed": "2026-10-09",
+          "quote": "UTF-16 … code units. … unsigned integers … encoded in UTF-8."
+        }
+      ],
+      "newer_practice": {
+        "summary": "The dated Canonical Payload Binding Internet-Draft uses RFC 8785 JCS without an added normalization pass. This is related work in progress, not a replacement for RFC 8785; it requires no change to this step.",
+        "url": "https://datatracker.ietf.org/doc/draft-mih-sokolov-scitt-payload-binding/02/",
+        "date": "2026-08-24"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required. Retain unsigned UTF-16 ordering and UTF-8 output. This finding verifies the specification statement, not implementation conformance.",
+      "action_required": false
+    },
+    {
+      "id": "R0013-C007",
+      "claim": "Pydantic v2 validation with effective extra='forbid' rejects fields not declared by the model.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://pydantic.dev/docs/validation/latest/api/pydantic/config/#extra",
+          "title": "Configuration | Pydantic Docs",
+          "accessed": "2026-10-09",
+          "quote": "'forbid': Providing extra data is not permitted"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Pydantic 2.12 introduced per-validation extra overrides. The evaluator's 'effective' qualification already accommodates this behavior; no step change is required.",
+        "url": "https://pydantic.dev/articles/pydantic-v2-12-release",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No correction required to this evaluator statement. Preserve its qualification that extra='forbid' is effective for the validation call.",
+      "action_required": false
+    },
+    {
+      "id": "R0013-C008",
+      "claim": "Pydantic 2.13.5 model_copy(update=...) applies updates without validating supplied values.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://github.com/pydantic/pydantic/blob/v2.13.5/pydantic/main.py",
+          "title": "Pydantic v2.13.5 source: BaseModel.model_copy",
+          "accessed": "2026-10-09",
+          "quote": "Note: the data is not validated before creating the new model."
+        }
+      ],
+      "newer_practice": {
+        "summary": "The 2.14.0a1 prerelease adjusts which fields are deep-copied. This does not supersede the evaluator's statement about version 2.13.5 or require a change to this step.",
+        "url": "https://github.com/pydantic/pydantic/releases/tag/v2.14.0a1",
+        "date": "2026-05-22"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No correction required. The tagged 2.13.5 source explicitly documents unvalidated updates and applies them directly.",
+      "action_required": false
+    },
+    {
+      "id": "R0013-C009",
+      "claim": "SQLite permits one simultaneous write transaction per database; BEGIN IMMEDIATE can fail with SQLITE_BUSY when another connection has an active write transaction.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://sqlite.org/lang_transaction.html",
+          "title": "Transaction — SQLite",
+          "accessed": "2026-10-09",
+          "quote": "one simultaneous write transaction. … BEGIN IMMEDIATE might fail with SQLITE_BUSY"
+        }
+      ],
+      "newer_practice": {
+        "summary": "SQLite 3.50.0 added separate blocking-lock timeout configuration through sqlite3_setlk_timeout(). It does not supersede either part of this evaluator statement; no step change is established.",
+        "url": "https://sqlite.org/releaselog/3_50_0.html",
+        "date": "2025-05-29"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No correction required. Retain the single-writer limitation and the conditional SQLITE_BUSY outcome.",
+      "action_required": false
+    },
+    {
+      "id": "R0013-C010",
+      "claim": "RAISE(ABORT, message) in a SQLite trigger terminates the current query and returns SQLITE_CONSTRAINT with the supplied message.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://sqlite.org/lang_createtrigger.html",
+          "title": "CREATE TRIGGER — SQLite, section 6: The RAISE() function",
+          "accessed": "2026-10-09",
+          "quote": "RAISE(ABORT,...) … query terminates. … SQLITE_CONSTRAINT … specified error message."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No correction required. The evaluator accurately states the documented trigger behavior; no relevant superseding practice was found in the search window.",
+      "action_required": false
+    },
+    {
+      "id": "R0013-C011",
+      "claim": "Python 3.12 hashlib provides sha256, and hexdigest returns the digest as hexadecimal text.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/hashlib.html",
+          "title": "hashlib — Secure hashes and message digests — Python 3.12 documentation",
+          "accessed": "2026-10-09",
+          "quote": "sha256() … returned as a string object … containing only hexadecimal digits."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No correction required. Python 3.12 documentation supports both API assertions; no relevant superseding practice was found in the search window.",
+      "action_required": false
+    },
+    {
+      "id": "R0013-C012",
+      "claim": "RFC 8785 sorts JSON object property names using unsigned UTF-16 code units and encodes canonical serialization in UTF-8.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html",
+          "title": "RFC 8785: JSON Canonicalization Scheme (JCS), sections 3.2.3–3.2.4",
+          "accessed": "2026-10-09",
+          "quote": "UTF-16 … code units. … unsigned integers … encoded in UTF-8."
+        }
+      ],
+      "newer_practice": {
+        "summary": "The Canonical Payload Binding Internet-Draft continues to use RFC 8785 JCS without additional normalization. This related draft does not supersede the RFC's sorting or encoding rules and requires no step change.",
+        "url": "https://datatracker.ietf.org/doc/draft-mih-sokolov-scitt-payload-binding/02/",
+        "date": "2026-08-24"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No correction required to the evaluator's specification statement. Keep implementation conformance separate from confirmation of these RFC requirements.",
+      "action_required": false
+    }
+  ],
+  "proposals": []
+}

@@ -1,0 +1,79 @@
+{
+  "canonical_sha256": "1803a8c59c84476c485f00480fd664650aebe473cebfeabf1da963e2f6f3af8d",
+  "raw_sha256": "fac55c95573443cd6775d2822d1fc3c496c19706668f4a83dc0fe1912d3f00fa",
+  "unresolved_proposals": [],
+  "view_claims": [
+    {
+      "claim": "Pydantic v2's extra=\"forbid\" configuration raises a validation error when model validation receives fields not declared by the model.",
+      "id": "R0012-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Pydantic 2.13.5's model_copy(update=...) copies the supplied update values without validating them.",
+      "id": "R0012-C002",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SQLite permits only one simultaneous write transaction, and BEGIN IMMEDIATE starts a write transaction immediately or can fail with SQLITE_BUSY if another connection already has an active write transaction.",
+      "id": "R0012-C003",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SQLite trigger execution of RAISE(ABORT, message) terminates the current query and returns SQLITE_CONSTRAINT with the supplied message.",
+      "id": "R0012-C004",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python 3.12's hashlib provides sha256, whose hexdigest method returns a hexadecimal representation of the digest.",
+      "id": "R0012-C005",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 8785 orders JSON object property names by UTF-16 code units and requires UTF-8 encoding of the resulting canonical serialization.",
+      "id": "R0012-C006",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Pydantic v2 extra=\"forbid\" raises a validation error for undeclared input fields.",
+      "id": "R0012-C007",
+      "location": "tree/loop/reports/STEP-0012-L05.md:52",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Pydantic 2.13.5 model_copy(update=...) copies update values without validating them.",
+      "id": "R0012-C008",
+      "location": "tree/loop/reports/STEP-0012-L05.md:56",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE starts it immediately or can fail with SQLITE_BUSY when another writer is active.",
+      "id": "R0012-C009",
+      "location": "tree/loop/reports/STEP-0012-L05.md:60",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SQLite trigger RAISE(ABORT, message) terminates the current query and returns SQLITE_CONSTRAINT with the supplied message.",
+      "id": "R0012-C010",
+      "location": "tree/loop/reports/STEP-0012-L05.md:64",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Python 3.12 hashlib provides sha256 and hexdigest returns a hexadecimal digest representation.",
+      "id": "R0012-C011",
+      "location": "tree/loop/reports/STEP-0012-L05.md:68",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RFC 8785 orders JSON property names by UTF-16 code units and requires UTF-8 encoding of canonical serialization.",
+      "id": "R0012-C012",
+      "location": "tree/loop/reports/STEP-0012-L05.md:72",
+      "origin": "evaluator"
+    }
+  ]
+}

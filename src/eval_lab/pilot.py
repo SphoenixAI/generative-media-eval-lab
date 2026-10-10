@@ -7,9 +7,11 @@ import uuid
 from typing import Literal
 
 from pydantic import Field, model_validator
-from .domain import Value, NonEmpty, Confidence, Criterion, IntentSpec, Evidence, Hypothesis, RelationClaim, Ref
+from .domain import Value, NonEmpty, Confidence, Criterion, IntentSpec, Evidence, Hypothesis, RelationClaim, Ref, CompetingSet
 from .pilot_domain import PilotClip, PilotDataset, PilotSubmission, PilotSession, PilotSnapshot, PinnedArtifact
 from .persistence import Repository, refs_in
+from .intent_v2 import content_identity
+from . import generation, assessments, decisions, test_plans, evidence_roles, resolutions, relation_v2
 from .media import MediaStore, MediaError, within
 
 
@@ -44,10 +46,16 @@ class HypothesisInput(Value):
     falsifying_observation: NonEmpty
 
 
+class CompetingSetInput(Value):
+    members: tuple[NonEmpty, ...] = Field(min_length=1)
+    exclusive: bool = Field(strict=True)
+    exhaustive: bool = Field(strict=True)
+
+
 class RelationInput(Value):
     subject: NonEmpty  # o1 / h1 / intent; kind specified below
     subject_kind: Literal["Evidence","Hypothesis"]
-    predicate: Literal["supports","contradicts","motivated_by","fulfills","violates","alternative_to"]
+    predicate: Literal["supports","contradicts","motivated_by","fulfills","violates","alternative_to","compatible_with","refines"]
     object: NonEmpty
     object_kind: Literal["Hypothesis","IntentSpec"]
     evidence: tuple[str,...] = ()
@@ -63,13 +71,14 @@ class ConfidenceInput(Value):
     evidence_role: Literal["supporting","contradicting","context_only"]
 
 
-INPUT_TYPES={"intent":IntentInput,"observation":ObservationInput,"hypothesis":HypothesisInput,"relation":RelationInput,"confidence":ConfidenceInput}
+INPUT_TYPES={"intent":IntentInput,"observation":ObservationInput,"hypothesis":HypothesisInput,"relation":RelationInput,"confidence":ConfidenceInput,"competing-set":CompetingSetInput}
 TEMPLATES={
     "intent":{"objective":"","audience":"","context":"","constraints":[],"prohibited_outcomes":[],"criteria":[{"dimension":None,"applicability":"required","rationale":"","acceptance":""}]},
     "observation":{"observation":"","timestamp_start":None,"timestamp_end":None,"confidence":None,"derivative_id":None,"frame_indices":[]},
     "hypothesis":{"observed_problem":"","proposed_cause":"","confidence":None,"supporting_evidence":[],"contradicting_evidence":[],"evidence_required":[""],"discriminating_test":"","predicted_observation":"","falsifying_observation":""},
     "relation":{"subject":"","subject_kind":"Evidence","predicate":"supports","object":"","object_kind":"Hypothesis","evidence":[],"purpose":"","scope":"","confidence":None},
     "confidence":{"confidence":None,"reason":"","new_evidence":[],"evidence_role":None},
+    "competing-set":{"members":[],"exclusive":None,"exhaustive":None},
 }
 
 
@@ -123,7 +132,8 @@ class PilotWorkspace:
         self.repo.put(dataset)
         return dataset
 
-    def register(self,dataset_id,clip_id,path,author,label,selection_reason=None,provenance_note=None,rights_status="unknown"):
+    def register(self,dataset_id,clip_id,path,author,label,selection_reason=None,provenance_note=None,rights_status="unknown", *, plan=None, intent=None):
+        planned, choice = generation.registration_choice(self.repo, plan, intent)
         local_id(clip_id)
         dataset=self.latest("PilotDataset",dataset_id)
         if dataset.state!="draft" or len(dataset.clips)>=20:
@@ -133,11 +143,18 @@ class PilotWorkspace:
         media,ingestion=self.store.ingest(path,rights_status=rights_status)
         if any(self.repo.get(self.repo.get(c).media).checksum==media.checksum for c in dataset.clips):
             raise ValueError("Duplicate bytes cannot count as another pilot clip")
-        self.repo.put(media)
-        self.repo.put(ingestion)
         clip=PilotClip(id=clip_id,media=media.ref,ingestion=ingestion.ref,selected_by=author,label=label,selection_reason=selection_reason,provenance_note=provenance_note)
-        self.repo.put(clip)
-        self.repo.put(dataset.model_copy(update={"revision":dataset.revision+1,"created_at":now(),"clips":dataset.clips+(clip.ref,)}))
+        revised=dataset.model_copy(update={"revision":dataset.revision+1,"created_at":now(),"clips":dataset.clips+(clip.ref,)})
+        retained=[]
+        try:
+            for item in (media, ingestion, clip, revised):
+                self.repo.put(item)
+                retained.append(f"{item.ref.kind}:{item.id}@{item.revision}")
+            origin=generation.record_origin(self.repo, clip, planned)
+            retained.append(f"ClipOrigin:{origin.id}@1")
+            if choice: generation.bind_intent(self.repo, clip, choice)
+        except Exception as exc:
+            raise ValueError(f"registration incomplete; verified file bundle retained; records retained: {retained}; {exc}") from exc
         return clip
 
     def clip(self,id):
@@ -148,6 +165,7 @@ class PilotWorkspace:
 
     def frames(self,clip_id,timestamps):
         clip=self.clip(clip_id)
+        generation.first_access(self, clip)
         manifest=self.store.extract(self.repo.get(clip.ingestion),tuple(timestamps))
         self.repo.put(manifest)
         return manifest
@@ -224,6 +242,21 @@ class PilotWorkspace:
         self.repo.put(hypothesis)
         self._submission(clip,hypothesis,author,session=session_ref)
         return hypothesis
+
+    def competing_set(self,clip_id,author,id,form:CompetingSetInput,session=None):
+        clip=self.clip(clip_id)
+        session_ref=self._session_ref(clip,author,session)
+        if clip.intent is None: raise ValueError("Declare creative intent before competing sets")
+        members=tuple(self._ref(clip,"Hypothesis",member) for member in form.members)
+        identity=f"{clip.id}:competing-set:{local_id(id)}"
+        try: prior=self.latest("CompetingSet",identity)
+        except KeyError: prior=None
+        item=CompetingSet(id=identity,intent=clip.intent,members=members,
+            exclusive=form.exclusive,exhaustive=form.exhaustive,
+            revision=prior.revision+1 if prior else 1,supersedes=prior.ref if prior else None)
+        self.repo.put(item)
+        self._submission(clip,item,author,session=session_ref)
+        return item
 
     def relate(self,clip_id,author,id,form:RelationInput,session=None):
         clip=self.clip(clip_id)
@@ -325,6 +358,18 @@ class PilotWorkspace:
                     self.store.verify(self.repo.get(artifact.ingestion),artifact)
                 elif artifact.clip.id not in ids: continue
                 roots.append(artifact.ref)
+        identities = {content_identity(self.repo.get, self.repo.get(c).media, self.repo.get(c).ingestion) for c in dataset.clips}
+        roots.extend(generation.lifecycle_roots(self.repo, identities, (dataset.id,)))
+        for binding in self.repo.all("IntentBinding"):
+            if content_identity(self.repo.get, binding.media.ref, binding.registration.ref) in identities:
+                roots.append(binding.ref)
+        roots.extend(assessments.roots(self.repo,
+            {generation.pin(self.repo.get(self.repo.get(c).media)) for c in dataset.clips},
+            {generation.pin(self.repo.get(r)) for r in roots if r.kind == "IntentBinding"}))
+        roots.extend(decisions.roots(self.repo, (self.repo.get(c) for c in dataset.clips)))
+        roots.extend(test_plans.roots(self.repo, (self.repo.get(c) for c in dataset.clips)))
+        roots.extend(evidence_roles.roots(self.repo, (self.repo.get(c) for c in dataset.clips)))
+        roots.extend(resolutions.roots(self.repo, (self.repo.get(c) for c in dataset.clips)))
         seen={}
         while roots:
             ref=roots.pop()
@@ -332,6 +377,22 @@ class PilotWorkspace:
             item=self.repo.get(ref)
             seen[ref]=item
             roots.extend(refs_in(item))
+        media = {self.repo.get(c).media for c in dataset.clips}
+        media.update(item.media.ref for item in seen.values() if item.ref.kind == "IntentBinding")
+        roots.extend(relation_v2.incoming_roots(self.repo, seen, media))
+        while roots:
+            ref = roots.pop()
+            if ref in seen: continue
+            item = self.repo.get(ref)
+            seen[ref] = item
+            roots.extend(refs_in(item))
+        # Seal events point back to intents; include only exact pins in this closure.
+        for seal in self.repo.all("SealRecord"):
+            if seal.intent.ref not in seen:
+                continue
+            if seen[seal.intent.ref].digest != seal.intent.sha256:
+                raise ValueError("seal intent pin mismatch")
+            seen[seal.ref] = seal
         ordered=sorted(seen,key=lambda r:(r.kind,r.id,r.revision))
         snapshot=PilotSnapshot(id=id,dataset=dataset.ref,records=tuple(PinnedArtifact(ref=r,sha256=seen[r].digest) for r in ordered))
         self.repo.put(snapshot)

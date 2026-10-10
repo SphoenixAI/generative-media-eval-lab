@@ -1,0 +1,109 @@
+{
+  "canonical_sha256": "bbfa48c1c25d00124fff6e417daaaa863877e74424e41cd72ee415796fcc3b7e",
+  "raw_sha256": "636a15180b3bb1a93986fdbc7b36f09c418119b22a1a15733ec860c98ac4dd0c",
+  "unresolved_proposals": [],
+  "view_claims": [
+    {
+      "claim": "Pydantic v2's model_copy(update=...) does not validate the supplied update values before creating the copied model.",
+      "id": "R0011-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Pydantic 2.13.5's JsonValue union uses a discriminator with list, dict, string, boolean, integer, float and null variants, and has no tuple variant.",
+      "id": "R0011-C002",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction, and BEGIN IMMEDIATE starts a write transaction immediately or can fail with SQLITE_BUSY when another writer is active.",
+      "id": "R0011-C003",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SQLite trigger execution of RAISE(ABORT, message) terminates the triggering statement and returns SQLITE_CONSTRAINT with the supplied message.",
+      "id": "R0011-C004",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python 3.12's standard-library hashlib includes sha256 and supports hexadecimal hash output through hexdigest.",
+      "id": "R0011-C005",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 8785 sorts JSON object property names by UTF-16 code units and requires UTF-8 encoding of the resulting serialization.",
+      "id": "R0011-C006",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "A log limited to this CLI's access attempts and local seal, plan and registration events cannot establish that no earlier external viewing occurred or that media generation followed sealing.",
+      "id": "R0011-C007",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Pydantic v2 model_copy(update=...) does not validate supplied update values.",
+      "id": "R0011-C008",
+      "location": "tree/loop/reports/STEP-0011-L04.md:33",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Pydantic 2.13.5 JsonValue uses list, dict, string, boolean, integer, float and null alternatives, without a tuple alternative.",
+      "id": "R0011-C009",
+      "location": "tree/loop/reports/STEP-0011-L04.md:37",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE starts one immediately or can fail with SQLITE_BUSY.",
+      "id": "R0011-C010",
+      "location": "tree/loop/reports/STEP-0011-L04.md:41",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SQLite trigger RAISE(ABORT, message) terminates the triggering statement and returns SQLITE_CONSTRAINT with the supplied message.",
+      "id": "R0011-C011",
+      "location": "tree/loop/reports/STEP-0011-L04.md:45",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Python 3.12 hashlib includes sha256 and hexadecimal output through hexdigest.",
+      "id": "R0011-C012",
+      "location": "tree/loop/reports/STEP-0011-L04.md:49",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RFC 8785 sorts JSON object property names by UTF-16 code units and requires UTF-8 output encoding.",
+      "id": "R0011-C013",
+      "location": "tree/loop/reports/STEP-0011-L04.md:53",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "OSXExperts publishes the executable checksum values attributed to its checksum page; current download correspondence is explicitly unverified.",
+      "id": "R0011-C014",
+      "location": "tree/docs/pilot0.md:19",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "FFprobe decoded timestamps and time bases support variable-rate frame addressing independently of rounded average FPS.",
+      "id": "R0011-C015",
+      "location": "tree/docs/pilot0.md:157",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "FFmpeg -noautorotate disables automatic rotation, explicit mapping selects the specified stream, and select's n is the zero-based filter-input frame number.",
+      "id": "R0011-C016",
+      "location": "tree/docs/pilot0.md:159",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "FFmpeg can fall back from a requested pixel format.",
+      "id": "R0011-C017",
+      "location": "tree/docs/pilot0.md:161",
+      "origin": "evaluator"
+    }
+  ]
+}

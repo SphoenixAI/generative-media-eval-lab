@@ -1,0 +1,111 @@
+{
+  "step": 29,
+  "item": "L12-A2c",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented private warrant, provenance and override prerequisites. All 5,100 tests passed; advisory gate passed on attempt 1 at exactly 900 changed lines. Sealed Plan preserved.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_warrant_prerequisites.py:264 limits preparation to E1/E2/E2w/E7.",
+        "Only the planned module, its tests and this step's report changed."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_lint_warrant_prerequisites.py:197: test_warrant_field_contract covers every declared field with missing, null, malformed and valid inputs.",
+        "test_presence_contract, test_warrant_dependency_diagnostic, test_warrant_collection_scope and test_override_prerequisite_contract cover activation, exact references, enumeration and override prerequisites.",
+        "loop/reports/STEP-0029-L12-A2c.md:334 records advisory G11 confirming the sealed Plan matches."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "test_warrant_context_correspondence and test_warrant_guard_deletion separately exercise legacy/v2 hypothesis-intent and intent-endpoint mismatches, preserving exact reference reads.",
+        "test_first_view_content_correspondence rejects distinct content at equal times and accepts different registrations of identical bytes.",
+        "test_remaining_correspondence, test_verdict_assessment_context, test_relation_endpoint_contract and test_legacy_scope_contract cover provenance anchors, assessment context, endpoint vocabulary and legacy scope."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Tests preceded product implementation; ten semantic fault-injection witnesses failed at intended assertions without import/setup failures. Evidence: ../Content Evaluator - loop-runs/0029/advisory/builder-red.json.",
+        "Fresh focused suite: 3,886 passed. Full suite: 5,100 passed. Child suite contains 2,145 nodes, including 394 passing deletion/mutation controls.",
+        "Validator witnesses include test_warrant_field_contract, test_warrant_contract_constraints, test_required_chronology_contract, test_relation_warrant_prerequisites and test_excuse_unknown_operands.",
+        "test_binding_timestamp_instants detects raw-string comparison; all 20 corresponding mutation witnesses failed. test_provenance_chronology_boundaries detects each strict-to-inclusive mutation.",
+        "Declaration, boundary, dependency and activation mutations are covered by test_warrant_deleted_declaration, test_warrant_field_deletion, test_warrant_branch_deletion, test_warrant_dependency_propagation_deletion, test_override_consumption_deletion and test_warrant_repeated_read_deletion.",
+        "test_warrant_inputs_preserved and test_retained_bytes_preserved verify repeat/reordered results, raw payloads, pins and retained bytes. Module documentation describes the private API; CLI behavior is untouched."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0029-L12-A2c.md:153 records source-cited probes, versions and hashes before implementation.",
+        "loop/reports/STEP-0029-L12-A2c.md:282 distinguishes intentional mutation failures from ordinary passing tests and records the discarded experiment registration error.",
+        "Advisory evidence reports 5,100 passing tests, no failed/error nodes and no flags; G14 is explicitly recorded as skipped."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Advisory G7 reports 900/900 changed lines: 279 source plus 621 test lines.",
+        "G3/G3b/G5/G6/G10 confirm baseline tests preserved, no protected or forbidden changes, and no dependency changes.",
+        "No complete readiness evaluator, deferred work, real-clip judgments, network access or Git history-changing commands were introduced."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Legacy semantic correspondence",
+      "lazy_pass": "Use v2 or wrong-kind failures as legacy coverage.",
+      "present_in_diff": false,
+      "evidence": "Separate legacy same-kind controls require singleton literal diagnostics; targeted bypasses preserve referenced identities and obligation prefixes."
+    },
+    {
+      "criterion": "Content identity",
+      "lazy_pass": "Treat valid pins and equal timestamps as matching content.",
+      "present_in_diff": false,
+      "evidence": "test_first_view_content_correspondence and test_first_view_deletion distinguish equal-time different content from same-byte different registrations."
+    },
+    {
+      "criterion": "Evidence availability",
+      "lazy_pass": "Declare prerequisites without consuming them.",
+      "present_in_diff": false,
+      "evidence": "Independent inventory equality and test_warrant_boundary_consumption check subjects, paths, contracts and multiplicity; deletion controls detect omitted declarations and reads."
+    },
+    {
+      "criterion": "Chronology",
+      "lazy_pass": "Compare timestamp strings or rewrite retained offsets.",
+      "present_in_diff": false,
+      "evidence": "Equivalent-offset controls detect string comparison; strict-boundary controls and preservation tests retain raw identity."
+    },
+    {
+      "criterion": "Partial scope",
+      "lazy_pass": "Present prepared operands as complete lint or readiness.",
+      "present_in_diff": false,
+      "evidence": "test_warrant_partial_support requires partial prerequisites and forbids ready, complete, verdict and decision attributes."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0027-R1-001",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "id": "C29-01",
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants.",
+      "location": "loop/reports/STEP-0029-L12-A2c.md:92"
+    }
+  ],
+  "flags": [
+    "Advisory validation does not replace authoritative gates; G14 was skipped. Independent evaluation and integration remain pending.",
+    "This child supplies partial prerequisites only; remaining lint/readiness work retains its sealed sibling ownership.",
+    ""
+  ]
+}

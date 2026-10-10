@@ -1,0 +1,108 @@
+{
+  "step": 28,
+  "item": "L12-A2c",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "5da1abaaf7e31a9ff0fe90bd9fdad476dff44565aad302a60b1842d05ad86b15",
+  "summary": "No blocking defect found. The legacy correspondence coverage gap is addressed. Independent execution covered selected reader/preparation paths; the complete pytest suite was not independently rerun.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read the complete added content and verified that all three changed files exactly match diff.patch. Implementation stays within E1/E2/E2w/E7 prerequisite preparation.",
+        "Checked the Plan's Prior attempts mapping against all seven STEP-0023 findings and F0027-R1-001; each has an owned remedy or named sibling obligation."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "Traced registration/content, context/origin, seal/plan, chronology, assessment, relation and override guards to their ordinary and deletion controls in tests/test_lint_warrant_prerequisites.py.",
+        "Independently executed 710 field/presence/dependency controls per adapter using actual preparation and reader functions, with DirectRecords and in-memory SQLite.",
+        "Checked I2 support denial and I5/I6/I7 separation: diagnostics prevent support, observations acquire no intent field, and preparation neither executes policy nor assigns acceptability or provenance."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Inspected inherited exact Ref/Pin resolution, revision/schema/hash validation, complete collection handling and the new correspondence comparisons.",
+        "Independently executed legacy and v2 same-kind intent mismatch controls and targeted guard deletions, including preserved target reads and obligation prefixes.",
+        "Confirmed Prepared is a private transient result, not a new authored artifact. Persistent lint results and snapshot integration remain explicitly assigned to L12-C."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Inspected literal diagnostic oracles, valid counterparts, inventory equality, consumption multiplicity, guard deletions, timestamp boundaries and preservation tests.",
+        "Sixty isolated relation checks passed across DirectRecords and in-memory SQLite, including semantic guard-removal witnesses. Additional registration-offset, FirstView identity and invalid-override checks passed with the seal branch explicitly inactive.",
+        "Verified the patch adds tests without modifying existing test files, addressing I11. Reviewed repeated/reordered-input and retained-byte controls for I3/I13.",
+        "The supplied gate reports 5,100 passing tests; this is supplied evidence, not an independently repeated full-suite result."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Checked builder-authored Plan, Probes, comments and docstrings against the implementation and referenced local contracts in generation.py, intent_v2.py, seals.py, decisions.py, assessments.py and relation_v2.py.",
+        "Independently recomputed the patch, implementation and test hashes; they match the supplied values. Verified 279 implementation lines plus 621 test lines.",
+        "Kept the Python 3.12 documentation claim in claims_for_research; harness bookkeeping was not treated as builder-authored accuracy evidence."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared changed paths with the sealed plan and reviewed all D01-D14 deferred titles. No deferred implementation, dependency, CLI, public serializer or frontend change appears.",
+        "Reviewed I1/I4/I8/I9/I10/I12/I14/I15/I16 exposure: the added runtime code reads evidence without authoring records, averaging judgments, introducing probability arithmetic, networking, publishing data or changing protected/controller files.",
+        "Verified the counted product/test additions equal the 900-line limit."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Declared and checked warrant/provenance/override prerequisites",
+      "lazy_pass": "Declare a field inventory while reading unchecked values or silently skipping active dependencies.",
+      "present_in_diff": false,
+      "evidence": "test_warrant_inventory_exact and test_warrant_boundary_consumption compare independent declarations and subject/path/contract multiplicities; field, declaration, branch and repeated-read deletion controls detect bypasses."
+    },
+    {
+      "criterion": "Exact FirstView and registration content identity",
+      "lazy_pass": "Accept matching timestamps or valid pins without establishing that the content matches.",
+      "present_in_diff": false,
+      "evidence": "content() checks registration media and source checksum; binding() compares content identities. test_first_view_content_correspondence uses different content at equal times and permits identical content through a different registration; test_first_view_deletion targets the content guard."
+    },
+    {
+      "criterion": "Seal/plan/origin and relation correspondence",
+      "lazy_pass": "Check only target kinds or successful lookups, allowing correctly typed records from another intent or context.",
+      "present_in_diff": false,
+      "evidence": "Semantic CASES, remaining-correspondence controls and verdict-assessment controls assert specific correspondence diagnostics. Separate legacy/v2 hypothesis and intent-endpoint cases resolve distinct valid targets and detect targeted guard removal."
+    },
+    {
+      "criterion": "Chronology as instants without changing raw identities",
+      "lazy_pass": "Compare timestamp strings or normalize stored payloads before comparison.",
+      "present_in_diff": false,
+      "evidence": "instant() parses temporary datetime values. test_binding_timestamp_instants, test_different_instant_offsets and test_provenance_chronology_boundaries cover equivalent offsets, unequal instants and strict boundaries; preservation tests check raw records, pins and retained bytes."
+    },
+    {
+      "criterion": "Override reasons and unavailable evidence",
+      "lazy_pass": "Treat a missing override slot as inactive or validate its reason only for a selected policy action.",
+      "present_in_diff": false,
+      "evidence": "verdict() checks explicit slot presence and validates every present override's reason, author and action. test_override_prerequisite_contract and override consumption/branch deletions detect skipped validation."
+    },
+    {
+      "criterion": "Isolated literal diagnostics and deletion-sensitive direct/retained controls",
+      "lazy_pass": "Count incidental exceptions, production-derived expectations or v2-only failures as proof of legacy validation.",
+      "present_in_diff": false,
+      "evidence": "Semantic controls require literal diagnostics; deletion witnesses require the intended assertion failure. The new legacy cases additionally compare successful target reads and obligation prefixes. Independent isolated execution confirmed these witnesses on direct and SQLite-backed reader paths."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "C28-01",
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants, including equality of 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z.",
+      "location": "loop/reports/STEP-0028-L12-A2c.md:65"
+    }
+  ],
+  "flags": [
+    "Available Python lacks pytest. Independent checks used actual reader/preparation functions in a standard-library harness with a supplied artifact-name registry and the locally extracted Dimension enum. SQLite checks were in-memory; they did not exercise RawReader.__enter__, on-disk preservation, Pydantic seal validation or the full admitted-model suite."
+  ]
+}

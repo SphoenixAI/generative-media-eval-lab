@@ -1,0 +1,20 @@
+{
+  "source_step": 5,
+  "new_step": 6,
+  "expected_diff_sha256": "a7db0d4ac8839ecfc117dbeeef15e49cdc197330233ce8d402c0ecd2fbf20bad",
+  "matched": true,
+  "restored_diff_sha256": "a7db0d4ac8839ecfc117dbeeef15e49cdc197330233ce8d402c0ecd2fbf20bad",
+  "product_diff_sha256": "3b866d709c815e96392ad94bd721c3b55cc08faa170f8a1a226c5a9151d96dbd",
+  "product_paths": [
+    "docs/domain-model.md",
+    "docs/intent-provenance.md",
+    "src/eval_lab/intent_v2.py",
+    "src/eval_lab/persistence.py",
+    "src/eval_lab/pilot.py",
+    "src/eval_lab/pilot_cli.py",
+    "tests/test_intent_v2.py"
+  ],
+  "original_base": "ae961c41a82f8562c4f863ff0bac3674be4b2c01",
+  "excluded_historical_report": "loop/reports/STEP-0005-L02.md",
+  "reason": "exact historical full diff reconstructed; matching product patch restored; fresh validation required"
+}

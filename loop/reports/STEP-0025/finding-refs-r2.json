@@ -1,0 +1,61 @@
+{
+  "findings": [],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Read builder/enhancer Plan, Probes, comments and docstrings; checked repository premises against the reader, model versions, persistence code, configuration and split.",
+        "Compared the Plan's mapping with all seven STEP-0023 finding records and the inherited STEP-0019 findings and research handoff; sibling obligations remain explicitly unresolved by this child.",
+        "Excluded harness bookkeeping and researcher-owned research.json from builder accuracy scoring. Identified no new external factual claim requiring research."
+      ],
+      "id": "F0025-R2-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "Inspected declaration validation, exact traversal, collection enumeration, identity verification, scope correspondence and checked access against the sealed acceptance.",
+        "Replayed test_shared_every_active_boundary, test_shared_repeated_field_contract and test_shared_dependency_unavailable through direct and in-memory SQLite paths.",
+        "Independently reproduced the intended assertion failures for path-only caching, identical-contract caching and deletion of the dependency-unavailable diagnostic.",
+        "Checked _Group and test_shared_group_cannot_be_all_rule_context: partial preparation exposes no all-rule readiness or verdict interface."
+      ],
+      "id": "F0025-R2-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "All three changed Python files parsed successfully.",
+        "Isolated replay passed 264 direct controls and 149 in-memory SQLite controls using the actual preparation and reader implementations.",
+        "The three new mutation controls failed at their intended assertions with the required multiplicities: four, two and six failures respectively.",
+        "Inspected literal diagnostic expectations, independent inventory equality, missing/null/malformed/valid controls and guard-deletion coverage. Additional isolated mutation replays produced diagnostic or support assertion failures.",
+        "Verified the existing test_lint_evidence.py hash matches the recorded unchanged baseline."
+      ],
+      "id": "F0025-R2-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Inspected exact Ref/Pin resolution and replayed non-head revision, independently pinned revisit, identity, version and scope controls.",
+        "Compared kind-specific version handling with IntentSpecV2, IntentBinding and RelationClaimV2 definitions.",
+        "Checked that DirectRecords and _Group are transient infrastructure rather than new authored artifacts requiring persistence, snapshot schemas or artifact lint registration."
+      ],
+      "id": "F0025-R2-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read the complete diff and all four changed files; compared their responsibilities with STEP-0024/split.json.",
+        "Changes implement shared preparation and focused controls without implementing sibling rule semantics or readiness."
+      ],
+      "id": "F0025-R2-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared all changed paths and implementation with the sealed plan and DEFERRED backlog entries; found no deferred implementation or unrelated product change.",
+        "Independently counted 882 product additions plus deletions against the 900-line cap.",
+        "Checked the patch for existing-test weakening, new dependencies, protected-file changes and harness-source edits; none were present."
+      ],
+      "id": "F0025-R2-D-scope"
+    }
+  ]
+}

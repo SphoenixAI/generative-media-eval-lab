@@ -1,0 +1,232 @@
+{
+  "step": 10,
+  "item": "L04",
+  "role": "evaluator",
+  "round": 2,
+  "diff_sha256": "ec08e8e49ce309b4857e7d5649a259638260e63cf0120f54478b4c708006da11",
+  "summary": "Round-1 malformed-input finding is resolved. No material implementation defect demonstrated. Selection-order preservation lacks an independent test oracle, and external claims remain independently unverified. Full runtime tests could not be rerun.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all 1,421 lines of diff.patch and opened all ten changed files; compared their changes against the sealed L04 plan.",
+        "Changes implement generation declarations, origins, selection history, first access, bindings, private snapshots and associated tests/documentation."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "Checked the literal 13-case ORDERS oracle and four view conditions in test_stored_ordering_degrades_and_replays; constant provenance or non-strict comparisons would fail.",
+        "Executed the actual extracted parsing functions against 41 malformed shapes: each raised the expected ValueError before repository/model access. Four valid array controls passed.",
+        "Inspected FOUND, alias, nonpromotion, forged-context, append-only and first-access tests against the corresponding implementation paths."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Traced all five new artifact types through ARTIFACT_TYPES registration, inherited schema versions, repository revalidation, reference traversal and digest validation.",
+        "Checked transaction-scoped admission, selection predecessors, binding anchors and private snapshot dependency closure.",
+        "Confirmed applicable lint functionality is a later backlog item; no existing lifecycle lint integration was bypassed."
+      ]
+    },
+    "production_quality": {
+      "score": 3,
+      "evidence": [
+        "tests/test_generation.py:183 checks revision continuity, random_draw and reopened canonical equality, but never compares stored candidate order against independently specified input order.",
+        "Reversing candidates during record_selection would preserve partition checks and the current returned-object/read-back comparisons; the implementation currently preserves order at src/eval_lab/generation.py:271.",
+        "Parsed every changed Python file successfully. Full pytest and mutation reruns were unavailable because Python lacks Pydantic and filesystem access is read-only."
+      ]
+    },
+    "accuracy": {
+      "score": 2,
+      "evidence": [
+        "loop/reports/STEP-0010-L04.md:182-204 adds specific publication, release, numerical and standards claims whose primary-source contents are absent from the permitted evidence.",
+        "The report's CONFIRMED labels are untrusted assertions, not independent verification. External claims are enumerated for research.",
+        "Checked docs/pilot0.md:19 against installer constants and the retained toolchain record, and :159-161 against media.py; the revised documentation appropriately limits checksum correspondence and RGB24 guarantees."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Independently counted 882 changed lines outside reports, within the sealed 900-line limit.",
+        "Compared changes against DEFERRED items D01-D14; none is implemented.",
+        "Confirmed the diff contains no dependency, protected artifact, harness, existing-test or public serializer modifications."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "1. Plans and families",
+      "lazy_pass": "Store plausible declarations while discarding nested JSON or coercing malformed intent collections.",
+      "present_in_diff": false,
+      "evidence": "test_plan_family_json_reopen_and_validation checks literal nested JSON, clock values, family arms and exact intent pins. test_lifecycle_cli_rejects_raw_shapes_without_admission covers malformed collections with valid controls and nonadmission assertions."
+    },
+    {
+      "criterion": "2. Registration and explicit binding",
+      "lazy_pass": "Apply PLANNED/FOUND labels without exact dependencies, or ingest before validating explicit choices.",
+      "present_in_diff": false,
+      "evidence": "Inspected registration_choice before ingestion. test_plan_cli_and_registration_prevalidation asserts no PilotClip or MediaIngestion admission for invalid choices; empty/sole/multiple-intent tests cover binding behavior."
+    },
+    {
+      "criterion": "3. Ordering and graceful degradation",
+      "lazy_pass": "Always return RECONSTRUCTED or treat malformed input as missing evidence.",
+      "present_in_diff": false,
+      "evidence": "test_stored_ordering_degrades_and_replays uses independent literal ordering cases, including equalities and absent views. test_found_missing_and_exact_revision_evidence checks missing, wrong-revision, unlisted, legacy and PROMPT_ONLY cases. Raw malformed shapes now fail before normalization."
+    },
+    {
+      "criterion": "4. Stored evidence and lineage",
+      "lazy_pass": "Trust caller chronology, borrow stronger alias provenance, or mask context rejection with an existing-ID conflict.",
+      "present_in_diff": false,
+      "evidence": "Inspected bind_intent and BindingContext admission. test_earliest_seal_and_forged_context_are_independently_checked uses a fresh invalid context, specific chronology error and valid control. Alias tests cover both origin directions and missing legacy context."
+    },
+    {
+      "criterion": "5. Append-only selection log",
+      "lazy_pass": "Append arbitrary partitions, overwrite corrections, or reorder candidates while passing self-consistent read-back tests.",
+      "present_in_diff": false,
+      "evidence": "SelectionLog.contract enforces unique complete partitions; repository admission checks dataset membership and pinned predecessors. test_selection_history_reopen_sql_and_bad_pins checks append-only storage and SQL guards. Candidate order is preserved by the implementation, but lacks an independent expected-order assertion."
+    },
+    {
+      "criterion": "6. Negative-test sensitivity",
+      "lazy_pass": "Accept an unrelated exception as proof that malformed selection or context data was rejected.",
+      "present_in_diff": false,
+      "evidence": "test_selection_negative_cases_are_not_masked uses fresh IDs, specific errors, valid controls and nonadmission assertions. Forged-context testing likewise isolates its intended failure. Partition/reason mutation outcomes could not be independently rerun."
+    },
+    {
+      "criterion": "7. First-view events",
+      "lazy_pass": "Log after exposure or permit aliases, concurrent calls or backward clocks to replace first access.",
+      "present_in_diff": false,
+      "evidence": "Traced first_access before extraction/launch and uniqueness inside the writer transaction. test_each_access_entrypoint_logs_before_exposure, test_view_failure_boundaries and test_competing_first_access_alias_reopen_and_backward_clock directly target these failures."
+    },
+    {
+      "criterion": "8. FOUND workflow and private audit",
+      "lazy_pass": "Require plans for discovered clips, invent quality, or rebuild frozen exports from current history.",
+      "present_in_diff": false,
+      "evidence": "test_found_cli_private_export_and_public_exclusion exercises registration, viewing, binding, selection and frozen export with literal UNKNOWN assertions. Inspected alias snapshot roots, frozen pins and the unchanged public serializer allowlist."
+    },
+    {
+      "criterion": "9. Evidence limits and reproducibility",
+      "lazy_pass": "Present access attempts as human attention or declared seeds and timestamps as verified generation evidence.",
+      "present_in_diff": false,
+      "evidence": "docs/generation-lifecycle.md:14-15 and :37-46 explicitly bound these claims. Checked application-version fields, retained ingestion fingerprints, controlled-clock ordering tests and frozen-export replay assertions."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "L04-R1-F01",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "R0010-C014",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "R0010-C016",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "id": "L04-R2-C01",
+      "claim": "Pydantic v2 model_copy(update=...) does not validate supplied update values.",
+      "location": "loop/reports/STEP-0010-L04.md:35"
+    },
+    {
+      "id": "L04-R2-C02",
+      "claim": "Pydantic 2.13.5 JsonValue uses list, dict, string, boolean, integer, float and null alternatives, without a tuple alternative.",
+      "location": "loop/reports/STEP-0010-L04.md:39"
+    },
+    {
+      "id": "L04-R2-C03",
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE starts one immediately or can fail with SQLITE_BUSY.",
+      "location": "loop/reports/STEP-0010-L04.md:43"
+    },
+    {
+      "id": "L04-R2-C04",
+      "claim": "SQLite trigger RAISE(ABORT, message) terminates the triggering statement and returns SQLITE_CONSTRAINT with the supplied message.",
+      "location": "loop/reports/STEP-0010-L04.md:47"
+    },
+    {
+      "id": "L04-R2-C05",
+      "claim": "Python 3.12 hashlib includes sha256 and hexadecimal output through hexdigest.",
+      "location": "loop/reports/STEP-0010-L04.md:51"
+    },
+    {
+      "id": "L04-R2-C06",
+      "claim": "RFC 8785 sorts object property names by UTF-16 code units and requires UTF-8 output encoding.",
+      "location": "loop/reports/STEP-0010-L04.md:55"
+    },
+    {
+      "id": "L04-R2-C07",
+      "claim": "OSXExperts publishes the executable checksum values attributed to its checksum page; current download correspondence is explicitly unverified.",
+      "location": "docs/pilot0.md:19"
+    },
+    {
+      "id": "L04-R2-C08",
+      "claim": "FFprobe decoded timestamps and time bases support variable-rate frame addressing independently of rounded average FPS.",
+      "location": "docs/pilot0.md:59,157; loop/reports/STEP-0010-L04.md:203"
+    },
+    {
+      "id": "L04-R2-C09",
+      "claim": "FFmpeg -noautorotate disables automatic rotation, explicit mapping selects the specified stream, and select's n is the zero-based filter-input frame number.",
+      "location": "docs/pilot0.md:159"
+    },
+    {
+      "id": "L04-R2-C10",
+      "claim": "FFmpeg can fall back from a requested pixel format.",
+      "location": "docs/pilot0.md:161"
+    },
+    {
+      "id": "L04-R2-C11",
+      "claim": "CamWorldQA was published on 2026-08-19 and evaluates camera-controlled generated video using 720 videos and an 18-person randomized subjective study.",
+      "location": "loop/reports/STEP-0010-L04.md:182"
+    },
+    {
+      "id": "L04-R2-C12",
+      "claim": "BeyondMasks was published on 2026-08-20 and evaluates object removal against intended effects including shadows and reflections.",
+      "location": "loop/reports/STEP-0010-L04.md:183"
+    },
+    {
+      "id": "L04-R2-C13",
+      "claim": "Certified Selective Automation of LLM Agent Evaluation was published on 2026-09-28, studies correlated samples and task-level calibration, and supplies an approximate bootstrap certificate without a finite-sample theorem.",
+      "location": "loop/reports/STEP-0010-L04.md:184"
+    },
+    {
+      "id": "L04-R2-C14",
+      "claim": "The 2026-09-20 EPUB Annotations 1.0 W3C Working Draft profiles annotation identities, creators, timestamps, targets and selectors.",
+      "location": "loop/reports/STEP-0010-L04.md:185"
+    },
+    {
+      "id": "L04-R2-C15",
+      "claim": "Pydantic 2.14.0, dated 2026-10-08, preserves unvalidated updates while avoiding deep copies of replaced fields and retains the seven JsonValue alternatives.",
+      "location": "loop/reports/STEP-0010-L04.md:189-190"
+    },
+    {
+      "id": "L04-R2-C16",
+      "claim": "SQLite 3.51.3, dated 2026-03-13, fixes a WAL-reset corruption bug.",
+      "location": "loop/reports/STEP-0010-L04.md:191"
+    },
+    {
+      "id": "L04-R2-C17",
+      "claim": "Python 3.14 documentation recommends positional initial-data arguments for hashlib compatibility and deprecates the string keyword spelling.",
+      "location": "loop/reports/STEP-0010-L04.md:193"
+    },
+    {
+      "id": "L04-R2-C18",
+      "claim": "C2PA 2.4, dated April 2026, adds repository receipts attesting manifest ingestion.",
+      "location": "loop/reports/STEP-0010-L04.md:195"
+    },
+    {
+      "id": "L04-R2-C19",
+      "claim": "FFmpeg 9.0.2 was released on 2026-09-18.",
+      "location": "loop/reports/STEP-0010-L04.md:202-204"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE",
+    "MINOR_TEST_ORACLE_GAP: Add a literal expected candidate-order assertion after construction and reopen; existing selection comparisons cannot detect input reordering.",
+    "Independent validation comprised full diff/file inspection, Python syntax parsing, hash and size checks, and execution of extracted parsing guards. The supplied 674-test pass and mutation results were not independently reproduced.",
+    "Checked I1-I16 against the diff and relevant code paths: no demonstrated invariant violation. No real-media authoring, UNKNOWN conversion, history overwrite, protected/harness edit, judgment-engine change, new runtime network/dependency, test weakening, public exposure or DEFERRED implementation was found. External Git state was not verified.",
+    "External claims remain research requests; nothing outside the supplied folder was read. The report also embeds a builder self-assessment; its scores were not used as evidence."
+  ]
+}

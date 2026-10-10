@@ -1,0 +1,156 @@
+{
+  "blocking_findings": [
+    {
+      "description": "The required all-rule composition layer does not exist. The only new implementation returns a partial role group; there is no production rule manifest, checked complete scope, independent expected-consumption inventory or conjunction with the temporal and warrant groups. All 30 conjunction tests stop at the missing-module assertion according to the supplied gate. The proposal explicitly retaining an incomplete attempt does not satisfy the sealed acceptance.",
+      "dimension": "intention",
+      "id": "F0030-R1-001",
+      "invariant": null,
+      "location": "tests/test_lint_context.py:14-16; src/eval_lab/lint_role_prerequisites.py:300-312",
+      "required_fix": "Complete the planned composition and independent declaration/consumption checks, with active and inactive rule coverage and diagnostic propagation, and pass the conjunction tests. If the authorized size contingency prevents completion, keep this attempt incomplete and non-integrable until acceptance-preserving replanning is authorized.",
+      "severity": "SEVERE"
+    },
+    {
+      "description": "Frozen authored-content correspondence uses ordinary Python dictionary equality, which conflates distinct JSON types. In an isolated execution of the actual preparation and digest functions, a draft with sample_design.n_per_arm=true and its frozen successor with n_per_arm=1, with recomputed valid outer hashes, predecessor pin and frozen digest, produced no diagnostics and usable support. This both conceals the changed authored transition and admits the corrupt draft operand. The existing changed-protocol test does not distinguish this case.",
+      "dimension": "intention",
+      "id": "F0030-R1-002",
+      "invariant": null,
+      "location": "src/eval_lab/lint_role_prerequisites.py:60-63,149",
+      "required_fix": "Compare authored content with type-preserving structural or canonical equality and validate the relevant predecessor operands. Add direct and retained raw-data controls for boolean/integer substitutions with otherwise valid hashes and pins, asserting a literal integrity diagnostic and denied support.",
+      "severity": "MATERIAL"
+    },
+    {
+      "description": "The InstrumentRun arm-membership guard lacks its own deletion-sensitive negative control. The unknown-arm case exercises EvidenceArm, while the run/link arm mismatch uses a valid second arm and tests a different guard. Independently disabling only arm membership for InstrumentRun made a run with a nonexistent arm usable without diagnostics, while all 514 parameterized direct role-test cases still passed. The field matrix treats arm as text and cannot detect this semantic omission.",
+      "dimension": "production_quality",
+      "id": "F0030-R1-003",
+      "invariant": null,
+      "location": "src/eval_lab/lint_role_prerequisites.py:176; tests/test_lint_role_prerequisites.py:113,123,279-315",
+      "required_fix": "Add an isolated InstrumentRun-root unknown-arm test with valid surrounding dependencies, exact literal subject/state/path/reason, a valid counterpart and a targeted deletion witness on both adapters. Audit distinct branches sharing guard labels so one branch's control is not counted as coverage for another.",
+      "severity": "MATERIAL"
+    },
+    {
+      "description": "Role timing operands are stored in three group-global dictionary slots and overwritten for every link. The per-pair freeze tuple retains only hypothesis-before-freeze and membership, without the link identity or its registration/evidence/run timing results. An isolated two-evidence resolution probe returned registration_after_freeze=false and run_after_freeze=null in one submitted-evidence order, then true/true when that order was reversed, with no diagnostics in either case. A consumer cannot safely associate these exported operands with each pair.",
+      "dimension": "relation",
+      "id": "F0030-R1-004",
+      "invariant": null,
+      "location": "src/eval_lab/lint_role_prerequisites.py:214-217,284-288,295-296",
+      "required_fix": "Retain the complete checked timing operands under each exact evidence/hypothesis/link/plan/arm association. Add a multi-evidence or multi-link fixture with deliberately different timing results and literal per-association expectations, including reordered-input controls.",
+      "severity": "MATERIAL"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants, including equality of 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z.",
+      "id": "C30-01",
+      "location": "loop/reports/STEP-0030-L12-A2d.md:74-76"
+    }
+  ],
+  "diff_sha256": "ddc8a6b2c0dfc004e5fd1a137365e87d631b27f892c905d94e99b219f9c88619",
+  "flags": [
+    "Full installed-package pytest execution was unavailable: the accessible Python lacks pytest, pydantic and SQLAlchemy. The 6127-pass/30-failure result is supplied harness evidence.",
+    "Independent executions used actual repository preparation, reader, canonicalization and test functions with substituted import wiring and an artifact-kind registry. Test parameterization was invoked manually; SQLite tables were in memory with query_only enabled. These checks do not establish on-disk retained integration.",
+    "Reviewed I1-I16 against the complete diff and relevant behavior. No new human judgment authoring, history writes, protected-file changes, operational policy execution, averaging, probability arithmetic, runtime networking, public serialization, existing-test weakening, deferred implementation or harness modification was found. No score-zero invariant violation is asserted.",
+    "Supplied gate.json also reports blocking G12 approval failure. G5, G6 and G14 pass in that supplied evidence; their external repository/filesystem claims were not independently rechecked outside the permitted folder."
+  ],
+  "item": "L12-A2d",
+  "loophole_audit": [
+    {
+      "criterion": "Declare and check confidence history and exact evidence/run/arm dependencies.",
+      "evidence": "The implementation includes correspondence guards, but InstrumentRun arm-membership rejection can be removed while all 514 direct role cases pass. Existing arm controls cover EvidenceArm membership and run/link equality.",
+      "lazy_pass": "Resolve valid references but omit semantic correspondence or exercise only one branch of a shared guard.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Prepare complete role and captured-resolution operands for each relevant pair.",
+      "evidence": "src/eval_lab/lint_role_prerequisites.py:214-216 overwrites group-global values; the two-evidence resolution probe changes exported timing values when submission order is reversed.",
+      "lazy_pass": "Read every link but expose only the last link's timing results.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Verify exact frozen-plan integrity and unchanged authored transition content.",
+      "evidence": "src/eval_lab/lint_role_prerequisites.py:149 accepts a draft true to frozen 1 substitution with valid recomputed hashes and pins.",
+      "lazy_pass": "Verify hashes and compare decoded containers with equality that ignores JSON type distinctions.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Preserve residual absence and validate exact alternative membership.",
+      "evidence": "Inspected raw competing()/alternatives() paths. test_no_residual_repair and separate legacy/v2 self-edge and intent-correspondence cases passed in the isolated direct and SQLite executions.",
+      "lazy_pass": "Construct normalized domain models that insert a residual, or accept self-edges and wrong-intent alternatives.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Every new rejection guard has isolated literal diagnostics and deletion-sensitive controls.",
+      "evidence": "The InstrumentRun-only membership mutation survives the role suite. test_every_role_declared_field_contract calls value() directly and uses empty mappings as valid reference-container values, leaving reference semantics to other tests.",
+      "lazy_pass": "Use one negative per diagnostic label and count a field-accessor matrix as end-to-end validator coverage.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Verify the all-rule conjunction and reject missing or unconsumed prerequisites.",
+      "evidence": "The required lint_context module is absent. Tests for missing groups, deleted declarations and unconsumed declarations fail before exercising those behaviors.",
+      "lazy_pass": "Supply partial preparers and declaration tables without implementing an independent completeness audit.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Every required evidence field passes through the shared availability boundary.",
+      "evidence": "The role preparer creates its obligation list during reads and derives declared names from that list at :310. The separately planned independent audit is absent; accessor tests cannot detect omitted preparation reads.",
+      "lazy_pass": "Test the boundary in isolation while deriving declared and consumed obligations only from reads that happened.",
+      "present_in_diff": true
+    }
+  ],
+  "prior_findings": [],
+  "role": "evaluator",
+  "round": 1,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Read changed comments, docstrings, Plan and Probes; checked their repository-local premises against the referenced implementations.",
+        "Compared the Plan's Prior attempts mapping with all seven STEP-0023 findings and the additional STEP-0027 finding; the ownership mapping includes each supplied finding.",
+        "Recomputed all seven source/test hashes in Probes and confirmed agreement.",
+        "Routed the external Python datetime claim to claims_for_research without an accuracy penalty; excluded harness bookkeeping from accuracy scoring."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "tests/test_lint_context.py:15 requires eval_lab.lint_context, but that implementation is absent.",
+        "src/eval_lab/lint_role_prerequisites.py:149 accepts a changed authored freeze transition when Python equality considers distinct JSON types equal.",
+        "src/eval_lab/lint_role_prerequisites.py:214 overwrites timing operands needed separately for each evidence/link pair."
+      ],
+      "score": 1
+    },
+    "production_quality": {
+      "evidence": [
+        "Supplied gate.json reports 6127 passed and 30 failed tests; every reported failure is in tests/test_lint_context.py.",
+        "Independently executed 514 parameterized role-test cases with DirectRecords and 514 with an in-memory SQLite RawReader using an isolated standard-library loader.",
+        "All 514 direct role-test cases still passed after disabling only the InstrumentRun arm-membership rejection at src/eval_lab/lint_role_prerequisites.py:176.",
+        "tests/test_lint_role_prerequisites.py:279-315 exercises value() directly and cannot establish that preparation consumes each declared prerequisite."
+      ],
+      "score": 1
+    },
+    "relation": {
+      "evidence": [
+        "src/eval_lab/lint_role_prerequisites.py:214-217 and :284-288 discard the association between each link and its registration/evidence/run timing operands.",
+        "Confirmed Prepared is transient: no new persisted artifact, schema version, snapshot type or runtime dependency is introduced.",
+        "Inspected exact Ref/Pin resolution, confidence predecessors, captured resolution dependencies and existing role/admission contracts."
+      ],
+      "score": 2
+    },
+    "relevance": {
+      "evidence": [
+        "Read all 995 lines of diff.patch, opened all five changed files, and verified their complete contents match the added patch bodies.",
+        "Compared the changes with L12-A2d and the sealed Plan; implementation and tests address the assigned prerequisite work."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Compared all changed paths with the sealed Plan, its size contingency, configuration exceptions and D01-D14 DEFERRED entries; found no deferred implementation.",
+        "Verified 790 counted added lines against the unchanged 900-line cap.",
+        "Confirmed the patch only adds files and does not modify existing tests, dependencies, persisted schemas, public serializers or harness code.",
+        "Verified backlog ownership keeps final rule predicates in L12-B, the exhaustive matrix in L12-A3 and readiness/snapshot integration in L12-C."
+      ],
+      "score": 4
+    }
+  },
+  "step": 30,
+  "summary": "Acceptance is incomplete: the all-rule composition implementation is absent. Independent probes also found an inexact frozen-transition comparison, overwritten per-link role operands, and an InstrumentRun rejection guard whose removal survives all new role tests."
+}

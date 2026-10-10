@@ -1,0 +1,85 @@
+{
+  "step": 23,
+  "item": "L12-A2",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Incomplete. Implemented checked prerequisite preparation; 1,497 tests and both advisory gates pass. However, 19 of 35 guard-deletion mutations survived. Recorded the size stop and an unapplied decomposition proposal.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_prerequisites.py:50 declares all thirteen lint rules within A2's preparation scope."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "loop/reports/STEP-0023-L12-A2.md:159 lists nineteen uncovered rejection controls; A2 rule 4 remains unmet.",
+        "loop/reports/STEP-0023-L12-A2.md:178 confirms the sealed Plan remained unchanged."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_prerequisites.py:216 prepares declared dependencies through the shared boundary.",
+        "tests/test_lint_prerequisites.py:154 test_declared_reference_guards detects deletion of target-kind checking and verifies exact references and pins."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "loop/reports/STEP-0023-L12-A2.md:153 records failing tests before implementation, 283 focused passes and 1,497 full-suite passes.",
+        "tests/test_lint_prerequisites.py:285 test_deleted_discriminant_declaration_cannot_prepare detects a removed dimension declaration.",
+        "loop/reports/STEP-0023-L12-A2.md:155 records 16 detected and 19 surviving guard deletions."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0023-L12-A2.md:125 contains source-cited probes recorded before code changes.",
+        "loop/reports/STEP-0023-L12-A2.md:169 records tool versions and verified hashes; incomplete acceptance is explicit."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0023-L12-A2.md:178 records 869 counted lines, unchanged protected files, no forbidden paths and no removed existing tests.",
+        "loop/proposals/STEP-0023.toml:2 requests decomposition without modifying the backlog or harness."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "B0023-001",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "loop/reports/STEP-0023-L12-A2.md:159",
+      "description": "Nineteen new rejection controls lack deletion-sensitive tests, violating A2 rule 4 despite ordinary tests and advisory gates passing.",
+      "required_fix": "Add isolated tests with literal outcomes and exact diagnostic assertions for every uncovered validator. Fit them within the cap through refactoring, or obtain an approved acceptance decomposition. Preserve existing tests; do not integrate this candidate as completed."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Every new validator has a deletion-sensitive test.",
+      "lazy_pass": "Treat ordinary green tests and gates as sufficient validation.",
+      "present_in_diff": true,
+      "evidence": "The mutation audit exposed nineteen surviving deletions; they are explicitly blocking."
+    },
+    {
+      "criterion": "Unavailable motion and duration prerequisites cannot support usable preparation.",
+      "lazy_pass": "Allow full-clip coverage to bypass dimension or decoded-duration checks.",
+      "present_in_diff": false,
+      "evidence": "tests/test_lint_prerequisites.py:102 covers missing, null, malformed and valid inputs through direct and retained paths."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "INCOMPLETE_DO_NOT_INTEGRATE",
+    "Size-stop evidence and unapplied proposal recorded.",
+    "G14 was skipped by advisory mode.",
+    ""
+  ]
+}

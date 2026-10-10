@@ -1,0 +1,44 @@
+{
+  "calls": [
+    {
+      "role": "builder_plan",
+      "round": 1,
+      "output": "builder_plan.md",
+      "model": "gpt-6-astra",
+      "started_at": "2026-10-10T07:08:44.871349+00:00",
+      "finished_at": "2026-10-10T07:13:17.122507+00:00",
+      "elapsed_seconds": 272.25,
+      "status": "COMPLETED"
+    },
+    {
+      "role": "builder_build",
+      "round": 1,
+      "output": "self_eval.json",
+      "model": "gpt-6-astra",
+      "started_at": "2026-10-10T07:13:17.184876+00:00",
+      "finished_at": "2026-10-10T07:25:43.977618+00:00",
+      "elapsed_seconds": 746.794,
+      "status": "COMPLETED"
+    },
+    {
+      "role": "evaluator",
+      "round": 1,
+      "output": "eval_r1.json",
+      "model": "gpt-6-astra",
+      "started_at": "2026-10-10T07:27:02.114362+00:00",
+      "finished_at": "2026-10-10T07:30:48.979174+00:00",
+      "elapsed_seconds": 226.865,
+      "status": "COMPLETED"
+    },
+    {
+      "role": "researcher",
+      "round": 1,
+      "output": "research.json",
+      "model": "gpt-6-astra",
+      "started_at": "2026-10-10T07:30:49.067880+00:00",
+      "finished_at": "2026-10-10T07:31:05.636593+00:00",
+      "elapsed_seconds": 16.569,
+      "status": "COMPLETED"
+    }
+  ]
+}

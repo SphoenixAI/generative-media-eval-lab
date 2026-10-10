@@ -1,0 +1,79 @@
+{
+  "canonical_sha256": "a4085e24fa78e88e6ac69b1adac5c9b377ac382159b3d818bac8b15cedd5564c",
+  "raw_sha256": "d9d4a4ae0f596471a4778f03a1b0742566ab027aeb6d87c370c4cf8e7abfaf26",
+  "unresolved_proposals": [],
+  "view_claims": [
+    {
+      "claim": "Pydantic v2 validation with effective extra=\"forbid\" rejects input fields not declared by the model.",
+      "id": "R0013-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Pydantic 2.13.5 model_copy(update=...) applies updates without validating the supplied values.",
+      "id": "R0013-C002",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction per database, and BEGIN IMMEDIATE can fail with SQLITE_BUSY when another connection already has an active write transaction.",
+      "id": "R0013-C003",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Executing RAISE(ABORT, message) in a SQLite trigger terminates the current query and returns SQLITE_CONSTRAINT with the supplied message.",
+      "id": "R0013-C004",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python 3.12 hashlib provides sha256, and a hash object's hexdigest method returns its digest as hexadecimal text.",
+      "id": "R0013-C005",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 8785 sorts JSON object property names using unsigned UTF-16 code units and encodes the resulting canonical serialization in UTF-8.",
+      "id": "R0013-C006",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Pydantic v2 validation with effective extra='forbid' rejects fields not declared by the model.",
+      "id": "R0013-C007",
+      "location": "tree/loop/reports/STEP-0013-L06.md:65",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Pydantic 2.13.5 model_copy(update=...) applies updates without validating supplied values.",
+      "id": "R0013-C008",
+      "location": "tree/loop/reports/STEP-0013-L06.md:69",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction per database; BEGIN IMMEDIATE can fail with SQLITE_BUSY when another connection has an active write transaction.",
+      "id": "R0013-C009",
+      "location": "tree/loop/reports/STEP-0013-L06.md:73",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RAISE(ABORT, message) in a SQLite trigger terminates the current query and returns SQLITE_CONSTRAINT with the supplied message.",
+      "id": "R0013-C010",
+      "location": "tree/loop/reports/STEP-0013-L06.md:77",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Python 3.12 hashlib provides sha256, and hexdigest returns the digest as hexadecimal text.",
+      "id": "R0013-C011",
+      "location": "tree/loop/reports/STEP-0013-L06.md:81",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RFC 8785 sorts JSON object property names using unsigned UTF-16 code units and encodes canonical serialization in UTF-8.",
+      "id": "R0013-C012",
+      "location": "tree/loop/reports/STEP-0013-L06.md:85",
+      "origin": "evaluator"
+    }
+  ]
+}

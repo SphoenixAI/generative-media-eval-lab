@@ -1,0 +1,109 @@
+{
+  "step": 22,
+  "item": "L12-A1",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented shared evidence primitives and a read-only exact reader. Final advisory gate passed: 1,391 tests, 694/900 changed lines. Sealed Plan unchanged.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_evidence.py:1 implements only the internal primitives assigned to L12-A1.",
+        "Probe answers were recorded before implementation in loop/reports/STEP-0022-L12-A1.md:111."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "test_shared_field_contract and test_direct_and_retained_prerequisite_contract cover missing, null, malformed and valid evidence with explicit states and reasons.",
+        "test_explicit_unavailability_and_no_mutation_or_truthiness and test_field_and_integrity_diagnostics_separate_and_raw_is_unchecked prevent unavailable or corrupt evidence from supplying checked values.",
+        "Final G11 confirmed the sealed Plan matches; G5/G6 found no unauthorized protected or forbidden changes."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Exact-reference guards: test_explicit_reference_components, test_reference_envelope_and_no_latest_fallback, test_pin_required_components and test_pin_envelope_keys_are_checked_independently.",
+        "Identity and hash guards: test_duplicate_rows_and_row_identity_guard, test_row_identity_not_sql_collation, test_retained_identity_and_version_contract, test_stored_digest_guard and test_exact_revision_pin_and_arbitrary_mapping.",
+        "Independent freeze guards: test_frozen_digest_independent_of_outer_hash and test_draft_freeze_metadata_presence_contract."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "177 focused tests pass; final advisory attempt 2 passed 1,391 product tests, frozen harness tests and the approval fixture.",
+        "Primitive validator tests: test_shared_field_contract, test_numeric_guard, test_revision_guard, test_digest_guard, test_nested_container_guard and test_mapping_key_guard_and_nested_sequence_containers.",
+        "Parser and Unicode tests: test_strict_json_guard, test_corrupt_unicode_retained_guard and test_direct_corrupt_text_guard.",
+        "Store and lifecycle tests: test_store_structure_guard, test_store_open_failure_classification_and_sanitization, test_failed_enter_closes_connection, test_reader_reentry_does_not_leak_session, test_missing_store_readonly_cleanup_and_snapshot and test_success_nonmutation_uri_escaping_and_exception_cleanup.",
+        "28 distinct in-memory guard removals or bypasses were caught. Initial missing-module, Unicode, reentry and extended SQLite-code failures were observed before implementation or fixes.",
+        "Internal API documentation is in src/eval_lab/lint_evidence.py:1. Existing tests and CLI behavior/help remain unchanged."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "test_admitted_fractional_records_and_predictions verifies admitted positive controls; test_repeated_diagnostics_are_stable verifies repeatable diagnostics.",
+        "loop/reports/STEP-0022-L12-A1.md:131 records observed versions, hashes, test counts and both advisory attempts.",
+        "Final source/test hashes and the sealed Plan hash were rechecked after reporting. Advisory evidence is explicitly distinguished from independent evaluation and real-media validity."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Final G7 measured 694 changed lines against the 900-line limit; no split was needed.",
+        "Only src/eval_lab/lint_evidence.py, tests/test_lint_evidence.py and this step's report were added.",
+        "No dependencies, readiness decisions, rule evaluation, snapshots, network access or real-clip judgments were introduced."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Shared evidence states",
+      "lazy_pass": "Treat missing evidence as a default or permit corrupt records to supply checked values.",
+      "present_in_diff": false,
+      "evidence": "Shared parameterized contracts assert explicit UNKNOWN/INTEGRITY_FAILURE diagnostics and value=None; record-integrity barrier tests pass."
+    },
+    {
+      "criterion": "Independent rejection oracles",
+      "lazy_pass": "Let another rejection guard mask deletion of the intended validator.",
+      "present_in_diff": false,
+      "evidence": "Mutation testing exposed overlapping reference-key coverage; separate outer-Pin and inner-Ref tests now catch both deletions. Frozen-hash tests recompute the outer hash."
+    },
+    {
+      "criterion": "900-line budget",
+      "lazy_pass": "Remove or weaken tests to fit.",
+      "present_in_diff": false,
+      "evidence": "G7 reports 694/900 lines; G3/G3b/G4 report no missing, unexecuted or removed existing tests."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "L12-A1-M01",
+      "claim": "Python sqlite3 URI mode=ro opens a read-only connection that rejects writes.",
+      "location": "loop/reports/STEP-0022-L12-A1.md:46"
+    },
+    {
+      "id": "L12-A1-M02",
+      "claim": "An explicit SQLite read transaction retains its established snapshot until the transaction ends.",
+      "location": "loop/reports/STEP-0022-L12-A1.md:49"
+    },
+    {
+      "id": "L12-A1-M03",
+      "claim": "Python JSON object_pairs_hook permits duplicate-key rejection before dictionary construction.",
+      "location": "loop/reports/STEP-0022-L12-A1.md:52"
+    },
+    {
+      "id": "L12-A1-M04",
+      "claim": "Python JSON parse_constant and parse_float hooks permit rejection of nonfinite numeric tokens while preserving finite fractions.",
+      "location": "loop/reports/STEP-0022-L12-A1.md:55"
+    }
+  ],
+  "flags": [
+    "Advisory mode skipped G14; the harness reported no verified workspace-write sandbox profile. Independent evaluation remains controller-owned.",
+    "All-rule declarations, exhaustive rule contracts and readiness integration remain assigned to later accepted children.",
+    ""
+  ]
+}

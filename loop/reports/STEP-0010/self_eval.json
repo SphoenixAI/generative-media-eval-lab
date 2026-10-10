@@ -1,0 +1,111 @@
+{
+  "step": 10,
+  "item": "L04",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented L04. Final advisory gate passed: 633 tests, including 85 new cases; 812/900 changed lines. Both required mutation checks detected the disabled validation.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/generation.py:31 implements plans, origins, selections, views and binding contexts.",
+        "src/eval_lab/pilot_cli.py:34 exposes the requested workflows."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_generation.py:75 covers strict ordering and provenance degradation; :94 covers FOUND and missing evidence.",
+        "Advisory G5/G6/G10/G11 passed; protected files, dependencies and sealed Plan remain unchanged."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/persistence.py:215 validates pins and lifecycle admission within the writer transaction.",
+        "tests/test_generation.py:115, :222, :307 and :385 cover alias lineage, frozen exports and missing legacy context."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Final advisory: 633 passing tests; frozen harness tests and approval check exited 0.",
+        "Independent selection negatives detected both required mutations; docs and CLI help were updated.",
+        "Test-first failures and both advisory results are recorded in loop/reports/STEP-0010-L04.md."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "tests/test_generation.py:75 uses explicit expected classifications; existing L02 classification remains unchanged.",
+        "docs/generation-lifecycle.md:35 documents access-attempt and chronology limits.",
+        "The report records runtime versions, executable hashes and final source hashes; validation used synthetic fixtures only."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Advisory G7 counted 812 changed lines against the 900-line limit.",
+        "No existing tests, protected artifacts, dependencies or Git history were changed; no network or real-clip judgments were used."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Selection validation",
+      "lazy_pass": "Let immutable-revision conflicts mask missing validation.",
+      "present_in_diff": false,
+      "evidence": "tests/test_generation.py:168 uses fresh IDs, specific errors, valid controls and nonadmission checks; both mutations caused intended assertion failures."
+    },
+    {
+      "criterion": "Stored chronology and aliases",
+      "lazy_pass": "Accept forged chronology or borrow a later alias's origin.",
+      "present_in_diff": false,
+      "evidence": "tests/test_generation.py:135 rejects a fresh forged context; :385 preserves absent legacy context."
+    },
+    {
+      "criterion": "JSON preservation",
+      "lazy_pass": "Test scalars while nested arrays fail.",
+      "present_in_diff": false,
+      "evidence": "tests/test_generation.py:51, :183, :222 and :252 cover nested and empty arrays through persistence and CLI input."
+    },
+    {
+      "criterion": "First access",
+      "lazy_pass": "Log after exposure or reset history through concurrent calls.",
+      "present_in_diff": false,
+      "evidence": "tests/test_generation.py:271, :283 and :324 cover failures, concurrency, aliases, backward clocks and all access entrypoints."
+    },
+    {
+      "criterion": "UNKNOWN and privacy",
+      "lazy_pass": "Invent judgments or publish private lifecycle data.",
+      "present_in_diff": false,
+      "evidence": "tests/test_generation.py:222 checks UNKNOWN, frozen private exports and unchanged public/embed output."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "L04-R1-F01",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "L04-R1-F02",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "L04-R2-F01",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "TEST_ORACLE_GAP",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "PUBLIC_PROSE",
+    "ADVISORY_ONLY: G14 was skipped by the advisory harness; authoritative gate and independent evaluation remain pending.",
+    ""
+  ]
+}

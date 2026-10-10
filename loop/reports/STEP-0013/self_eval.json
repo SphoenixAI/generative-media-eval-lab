@@ -1,0 +1,129 @@
+{
+  "step": 13,
+  "item": "L06",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented decision policies and terminal verdicts. All 859 tests passed; advisory gate passed on attempt 1.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/decisions.py:37 implements L06's policy, verdict, trace and override contracts.",
+        "Only L06 product code, tests, documentation and the step report changed."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_decisions.py:65 verifies literal acceptance decisions using identical catastrophic observations.",
+        "tests/test_decision_workflow.py:20 verifies regeneration without resolving hypotheses or changing confidence.",
+        "tests/test_decisions.py:145 rejects missing override reasons; tests/test_decisions.py:179 preserves Phase 2 behavior."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "tests/test_decision_workflow.py:58 verifies exact context, digest pins and derived-field admission.",
+        "tests/test_decision_workflow.py:83 verifies append-only history and SQL mutation refusal.",
+        "tests/test_decision_workflow.py:119 verifies private dependency closure, unrelated-context exclusion and historical replay."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "73 new tests; 859 total passed. Documentation, CLI help and private schemas updated.",
+        "Validator-removal mutations were detected by test_policy_copied_nested_extra_not_discarded, test_policy_order_contract, test_revision_preview_and_context_immutability, test_missing_context_and_foreign_media_are_integrity_errors and test_exact_context_and_trace_admission.",
+        "Additional mutations were detected by test_unknown_must_and_ship_guard, test_first_match_default_and_salvage and test_override_reason_required.",
+        "loop/reports/STEP-0013-L06.md:154 records tests, mutation results and the successful advisory gate."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0013-L06.md:134 answers the probe before code changes and correctly identifies legacy applicability handling.",
+        "tests/test_decisions.py:199 supplies literal canonical-byte and digest expectations.",
+        "Reported results distinguish TEST-ONLY software evidence from unvalidated real-media usefulness and skipped advisory G14 verification."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Advisory G7 measured 802 changed lines against the 900-line limit.",
+        "G5, G6, G10 and G11 confirmed unchanged protected artifacts, no forbidden changes, no dependency changes and an unchanged sealed plan."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Identical observations produce context-dependent decisions",
+      "lazy_pass": "Change observations or branch on fixture names.",
+      "present_in_diff": false,
+      "evidence": "The acceptance matrix checks identical serialized observations and evaluates typed policy inputs."
+    },
+    {
+      "criterion": "UNKNOWN remains UNKNOWN",
+      "lazy_pass": "Allow a permissive default to SHIP missing MUST evidence.",
+      "present_in_diff": false,
+      "evidence": "test_unknown_must_and_ship_guard covers omitted, empty, unknown and mixed support, including direct admission."
+    },
+    {
+      "criterion": "Operational decisions preserve epistemic state",
+      "lazy_pass": "Resolve hypotheses to obtain regeneration.",
+      "present_in_diff": false,
+      "evidence": "test_hypotheses_remain_unresolved checks complete payloads, digests, confidence and replay."
+    },
+    {
+      "criterion": "Rejection tests exercise their intended guards",
+      "lazy_pass": "Let immutable-ID conflicts or unrelated errors satisfy negative tests.",
+      "present_in_diff": false,
+      "evidence": "Specific exception types/messages and isolated candidates are used; eight deliberate mutations were detected."
+    },
+    {
+      "criterion": "Private records remain private",
+      "lazy_pass": "Expose new judgments through public or embed serializers.",
+      "present_in_diff": false,
+      "evidence": "test_private_cli_snapshot_and_public_isolation preserves public/embed output while exercising private records."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "L06-M01",
+      "claim": "Pydantic v2 extra='forbid' rejects undeclared input fields.",
+      "location": "loop/reports/STEP-0013-L06.md:67"
+    },
+    {
+      "id": "L06-M02",
+      "claim": "Pydantic 2.13.5 model_copy(update=...) does not validate supplied updates.",
+      "location": "loop/reports/STEP-0013-L06.md:71"
+    },
+    {
+      "id": "L06-M03",
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE can encounter SQLITE_BUSY.",
+      "location": "loop/reports/STEP-0013-L06.md:75"
+    },
+    {
+      "id": "L06-M04",
+      "claim": "SQLite trigger RAISE(ABORT, message) terminates the query with SQLITE_CONSTRAINT and the supplied message.",
+      "location": "loop/reports/STEP-0013-L06.md:79"
+    },
+    {
+      "id": "L06-M05",
+      "claim": "Python 3.12 hashlib provides SHA-256 and hexadecimal digest output.",
+      "location": "loop/reports/STEP-0013-L06.md:83"
+    },
+    {
+      "id": "L06-M06",
+      "claim": "RFC 8785 sorts property names by unsigned UTF-16 code units and emits UTF-8.",
+      "location": "loop/reports/STEP-0013-L06.md:87"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE",
+    "Advisory G14 was skipped; authoritative verification and independent evaluation remain pending.",
+    "Real-media decision usefulness remains unvalidated. No network, real-clip judgments, commits, pushes or merges were performed.",
+    ""
+  ]
+}

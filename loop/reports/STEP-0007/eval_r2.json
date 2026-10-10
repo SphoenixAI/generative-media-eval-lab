@@ -1,0 +1,204 @@
+{
+  "step": 7,
+  "item": "L03",
+  "role": "evaluator",
+  "round": 2,
+  "diff_sha256": "af7fdc4c9e90d67515ea013ab3b3b0c55deb1dd5da1d92e7438fc16fef55e7be",
+  "summary": "Both round-1 blocking findings are resolved. No new material defect found. One minor lookup-status issue remains. Independently executed 45 canonicalization cases and targeted verification/snapshot probes; full persistence and CLI tests could not be rerun.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all 1290 lines of diff.patch and opened all nine changed files under tree/. Confirmed every diff hunk matches its corresponding file.",
+        "Compared the implementation with L03 and the sealed plan. Canonicalization, sealing, verification and narrow private-snapshot integration directly support the requested behavior."
+      ]
+    },
+    "intention": {
+      "score": 3,
+      "evidence": [
+        "tree/src/eval_lab/seals.py:135 validates rows before filtering their source paths. An unrelated corrupt seal makes an unknown-ID lookup return INTEGRITY_FAILURE instead of the planned UNKNOWN; reproduced with the actual verifier and mocked boundaries.",
+        "Executed 45 canonicalization cases through an assertion adapter. Fixed digests, literal canonical bytes, value mutations and non-ASCII ordering reject constant, raw-byte-hash, selected-field and code-point-ordering mutants.",
+        "Executed the actual verifier with interleaved valid, missing and invalid source results: each source was read once, with consistent per-seal outcomes. Removing the cache produced the former false VERIFIED result.",
+        "Inspected test_copied_invalid_seal_cannot_enter_repository and test_immutable_values_conflicts_sql_guards_and_exact_pin: assignment, revision, persistence-conflict and SQL mutation bypasses have negative assertions."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Traced SealRecord registration, inherited schema version, fixed event revision, exact IntentSpecV2 pin, reference persistence and transactional pin validation through seals.py, persistence.py and intent_v2.py.",
+        "Executed the actual snapshot-selection method with mocked repository/model boundaries: bound and predecessor seals were pinned, unrelated and unbound revisions were excluded, and later seals did not change earlier pins.",
+        "Reviewed test_private_snapshot_retains_exact_seals_and_frozen_exports: it asserts exact membership, digest pins, complete exported payloads and unchanged earlier CLI exports. Omitting seal collection would fail its membership assertion.",
+        "Checked existing lint surfaces and backlog: domain lint is a later item; no existing applicable seal lint integration was omitted."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Reviewed positive, negative and edge-case tests for parsing, numeric remediation, source/store tampering, missing evidence, immutable admission and read-only verification.",
+        "Confirmed test_verification_captures_one_source_despite_interleaved_change asserts explicit outcomes for six rewrite/symlink scenarios, including failed initial reads; it does not derive expected statuses from production code.",
+        "Reviewed subprocess CLI coverage and updated command help/documentation. Parsed all changed Python source successfully.",
+        "Independent execution was limited to the 45 pure cases and mocked-boundary probes; pytest, Pydantic and SQLAlchemy are unavailable, and filesystem access is read-only. Supplied full-suite results were not treated as independent execution."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Checked literal canonical bytes, fixed SHA-256 output, integer boundaries, Unicode escaping, normalization distinctions and supplementary-plane ordering through executable assertions.",
+        "Compared the report's seven-key comparison excerpt with the local test vector; they agree. Primary-source attribution remains listed for research.",
+        "Read changed comments, docstrings, documentation, report and CLI help. Confirmed that file hashes remain distinct from artifact hashes, declared witnesses are not authenticated, and integrity supplies no quality verdict.",
+        "Independently matched all six enhancer-recorded source hashes against tree/. External standards and release claims are enumerated below rather than treated as verified."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Confirmed the report's Plan matches plan.md and independently counted 821 product additions/removals. Snapshot changes implement the explicit new-type relation requirement without a new format or workflow.",
+        "Compared the diff with all DEFERRED backlog entries: no external timestamping, frontend, model provider, instrument, study, calibration or export-standard feature was implemented.",
+        "Checked I1–I16 against affected code and paths: TEST-ONLY fixtures; UNKNOWN retained; append-only admission; no protected/judge or existing-test edits; no acceptability/provenance promotion; worst-status aggregation; no confidence arithmetic, new dependency, network call or Git mutation.",
+        "Inspected public/embed allowlists and their regression test for I12. Checked method/profile/version/hash recording and deterministic tests for I13. Independently recomputed and matched diff_sha256.txt."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "The digest is stable across key order and whitespace.",
+      "lazy_pass": "Return a constant digest or normalize only the demonstrated ASCII input.",
+      "present_in_diff": false,
+      "evidence": "test_fixed_hash_and_equivalent_forms uses an independent fixed digest; test_independent_bytes covers nested structures and arrays. Constant and raw-file-hash mutants failed."
+    },
+    {
+      "criterion": "Any change to a value changes the digest.",
+      "lazy_pass": "Hash selected fields while testing only changes to those fields.",
+      "present_in_diff": false,
+      "evidence": "test_value_mutations_change_digest covers distinct values and types; test_array_order_and_string_whitespace_are_content preserves meaningful differences. The canonicalizer traverses the complete document, and the CLI test mutates objective. Finite coverage is not presented as a collision-free mathematical guarantee."
+    },
+    {
+      "criterion": "Key-ordering vectors with non-ASCII keys pass.",
+      "lazy_pass": "Use code-point sorting and choose only characters whose order agrees with UTF-16.",
+      "present_in_diff": false,
+      "evidence": "test_rfc8785_section_3_2_3_non_ascii_vector includes U+1F600 and U+FB33, asserts literal expected bytes directly and nested, and rejected a code-point-sort mutant."
+    },
+    {
+      "criterion": "Tampering is detected.",
+      "lazy_pass": "Verify only the newest seal, trust stored digests, or reread changing source content separately for each historical seal.",
+      "present_in_diff": false,
+      "evidence": "test_tampered_store_detected changes payloads, identity, source/hash pairs and pinned-intent availability. Historical checks compare against one cached source result at seals.py:142–152. The independent reread mutant falsely passed and was rejected."
+    },
+    {
+      "criterion": "Seals are immutable.",
+      "lazy_pass": "Freeze ordinary assignment while permitting copied invalid models, same-ID replacement or later revisions.",
+      "present_in_diff": false,
+      "evidence": "SealRecord fixes revision to 1; repository admission revalidates serialized input and enforces conflicts. Tests exercise copied values, nested witnesses, borrowed pins and SQL UPDATE/DELETE guards. Full persistence execution was not independently repeated."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "L03-R1-F01",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "L03-R1-F02",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "id": "L03-P7-M01",
+      "claim": "RFC 8785 requires recursive unsigned UTF-16 key ordering with preserved array order; the local seven-key vector and reported comparison match section 3.2.3.",
+      "location": "tree/tests/test_canonical_json.py:32; tree/loop/reports/STEP-0007-L03.md:266"
+    },
+    {
+      "id": "L03-P7-M02",
+      "claim": "RFC 8785 removes insignificant whitespace and encodes canonical output as UTF-8.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:40; tree/src/eval_lab/canonical_json.py:1"
+    },
+    {
+      "id": "L03-P7-M03",
+      "claim": "RFC 8785 preserves Unicode without normalization and rejects duplicate object names and lone surrogates.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:42; tree/docs/intent-seals.md:14"
+    },
+    {
+      "id": "L03-P7-M04",
+      "claim": "RFC 8785 specifies the stated short control escapes, lowercase hexadecimal escapes for other ASCII controls, and quotation-mark/backslash escaping.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:44"
+    },
+    {
+      "id": "L03-P7-M05",
+      "claim": "RFC 8785 uses ECMAScript binary64 serialization, rejects NaN and Infinity, and serializes negative zero as zero.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:46"
+    },
+    {
+      "id": "L03-P7-M06",
+      "claim": "RFC 7493 identifies the inclusive range [-9007199254740991, 9007199254740991] for interoperable exact integer treatment.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:50"
+    },
+    {
+      "id": "L03-P7-M07",
+      "claim": "SHA-256 as specified in FIPS 180-4 produces a 256-bit digest.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:54"
+    },
+    {
+      "id": "L03-P7-M09",
+      "claim": "Python 3.12 supplies hashlib.sha256 for byte hashing and hexdigest for hexadecimal output.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:60"
+    },
+    {
+      "id": "L03-P7-M10",
+      "claim": "Python's default JSON decoder accepts repeated names and non-finite constants, and exposes object_pairs_hook, parse_float and parse_constant.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:64"
+    },
+    {
+      "id": "L03-P7-M11",
+      "claim": "Pydantic v2 model_copy(update=...) does not validate replacement values.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:68; tree/src/eval_lab/persistence.py:231"
+    },
+    {
+      "id": "L03-P7-M12",
+      "claim": "SQLite permits one simultaneous writer; BEGIN IMMEDIATE starts a write transaction immediately or can fail when another writer holds it.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:72"
+    },
+    {
+      "id": "L03-P7-M13",
+      "claim": "SQLite URI mode=ro opens a database read-only and does not create a missing database.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:76; tree/src/eval_lab/seals.py:125"
+    },
+    {
+      "id": "L03-R2-M15",
+      "claim": "RFC 8785 erratum 7920 was verified on 2024-05-15 and recommends rejecting negative zero during parsing.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:223"
+    },
+    {
+      "id": "L03-R2-M16",
+      "claim": "Python 3.14 was released on 2025-10-07 and preserves the cited hashlib APIs and permissive JSON decoding/hooks; its serialization diagnostics do not change those decoding requirements.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:227"
+    },
+    {
+      "id": "L03-R2-M17",
+      "claim": "Pydantic 2.14.0a1's 2026-05-22 changelog changes deep-copy treatment of updated fields while model_copy updates remain unvalidated.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:229"
+    },
+    {
+      "id": "L03-R2-M18",
+      "claim": "SQLite 3.51.3, released 2026-03-13, fixed a WAL-reset corruption bug without changing the cited transaction semantics.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:230"
+    },
+    {
+      "id": "L03-R2-M19",
+      "claim": "C2PA 2.4, dated April 2026, distinguishes trusted RFC 3161 timestamps from non-trusted claimed signing times in sections 10.3.2.5 and 13.2.4.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:232"
+    },
+    {
+      "id": "L03-R2-M20",
+      "claim": "RFC 3161 section 1 and Git commit-tree date documentation support the report's distinction between externally witnessed time and caller-supplied local/Git timestamps.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:232"
+    }
+  ],
+  "flags": [
+    "MINOR: tree/src/eval_lab/seals.py:135 validates unrelated rows before path filtering. Unknown IDs and unrelated paths can report INTEGRITY_FAILURE due to an unrelated corrupt seal. This round-1 minor issue remains.",
+    "VALIDATION_LIMITATION: 45 canonicalization cases ran through an assertion adapter, not pytest. Verification and snapshot probes executed actual extracted functions with mocked boundaries. Full model, persistence, media and CLI tests were not rerun.",
+    "RESEARCH_PENDING: Outside sources were not accessed under the folder-only restriction. The report's research confirmations and release claims remain untrusted source assertions.",
+    "PUBLIC_PROSE: tree/docs/intent-seals.md adds public documentation.",
+    "HOME_PATH: The private step report contains local absolute paths."
+  ]
+}

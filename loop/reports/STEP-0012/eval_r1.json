@@ -1,0 +1,146 @@
+{
+  "blocking_findings": [],
+  "claims_for_research": [
+    {
+      "claim": "Pydantic v2 extra=\"forbid\" raises a validation error for undeclared input fields.",
+      "id": "L05-M01",
+      "location": "tree/loop/reports/STEP-0012-L05.md:52"
+    },
+    {
+      "claim": "Pydantic 2.13.5 model_copy(update=...) copies update values without validating them.",
+      "id": "L05-M02",
+      "location": "tree/loop/reports/STEP-0012-L05.md:56"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE starts it immediately or can fail with SQLITE_BUSY when another writer is active.",
+      "id": "L05-M03",
+      "location": "tree/loop/reports/STEP-0012-L05.md:60"
+    },
+    {
+      "claim": "SQLite trigger RAISE(ABORT, message) terminates the current query and returns SQLITE_CONSTRAINT with the supplied message.",
+      "id": "L05-M04",
+      "location": "tree/loop/reports/STEP-0012-L05.md:64"
+    },
+    {
+      "claim": "Python 3.12 hashlib provides sha256 and hexdigest returns a hexadecimal digest representation.",
+      "id": "L05-M05",
+      "location": "tree/loop/reports/STEP-0012-L05.md:68"
+    },
+    {
+      "claim": "RFC 8785 orders JSON property names by UTF-16 code units and requires UTF-8 encoding of canonical serialization.",
+      "id": "L05-M06",
+      "location": "tree/loop/reports/STEP-0012-L05.md:72"
+    }
+  ],
+  "diff_sha256": "ad56b23ea6363bdb25e45a9e7dc215d6840d69cb9b147325629e9d35e374fb12",
+  "flags": [
+    "RUNTIME_LIMIT: Available python3 lacks Pydantic; the read-only evaluation folder contains no runnable dependency environment. Full tests and runtime mutation probes were not independently reproduced.",
+    "INVARIANT_AUDIT: Checked I1-I16 against the complete diff and relevant integration paths. No demonstrated invariant violation found. Real-workspace and remote-main preservation rely on supplied G14 bookkeeping.",
+    "RESEARCH_PENDING: Six external method claims require independent source verification.",
+    "HASH_VERIFIED: Independently computed SHA-256 of diff.patch matches diff_sha256.txt."
+  ],
+  "item": "L05",
+  "loophole_audit": [
+    {
+      "criterion": "Identical observations under two sealed TEST-ONLY intents produce different assessments.",
+      "evidence": "test_intent_flip_private_export_freezes_exact_history checks literal exported outcomes, exact intent IDs and revisions, binding revisions, shared observation reference/digest, reopen and frozen history. Statuses are explicitly human-authored fixture data, as required by the sealed plan.",
+      "lazy_pass": "Assert two different in-memory status labels without retaining seals, exact shared observations or distinct intent contexts.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "A TechnicalObservation that references intent is rejected.",
+      "evidence": "assessments.raw_payload preserves injected fields before validation. test_intent_free_boundary and test_nested_injected_fields_survive_admission_validation exercise construction and repository admission; wrong reference kinds also have targeted tests.",
+      "lazy_pass": "Forbid a top-level intent field only during ordinary construction while silently dropping injected copied-object or nested fields.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "UNKNOWN propagates.",
+      "evidence": "test_unknown_cannot_be_promoted covers empty, all-UNKNOWN and mixed support against SATISFIED, VIOLATED and NOT_APPLICABLE. test_private_discovery_exact_media_unknown_and_unavailable checks private exports and separate availability UNKNOWN.",
+      "lazy_pass": "Handle empty support but allow UNKNOWN among known observations, or convert missing support to NOT_APPLICABLE.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Exact criterion assessment context.",
+      "evidence": "test_cross_context_rejected, test_exact_assessment_pin_kinds, test_exact_pins_and_rationale and test_missing_retained_binding_context target these failures. Repository admission verifies all Pin digests through intent_v2.validate_admission.",
+      "lazy_pass": "Store plausible-looking pins without verifying their digests, criterion membership, media or observation dimension.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Qualifying provenance for material-deviation excuses.",
+      "evidence": "test_material_excuse_requires_qualifying_provenance covers all four provenance classes and all three material-or-worse deviations. Separate tests require the expected-deviation declaration and contemporaneous flag.",
+      "lazy_pass": "Accept an expected-deviation declaration regardless of provenance, or omit the contemporaneous flag.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Append-only private workflow and snapshot completeness.",
+      "evidence": "assessments.roots enumerates both types and their revisions. Snapshot tests check direct admissions, historical corrections, exact media exclusion and unchanged earlier exports; revision tests check predecessor digests and SQL UPDATE/DELETE refusal.",
+      "lazy_pass": "Persist new records but omit direct admissions or older revisions from snapshots, or resolve historical references to latest.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Compatibility, isolation and reproducibility.",
+      "evidence": "Legacy schemas and public serializers are unchanged. test_public_embed_and_v1_digests_unchanged checks explicit public keys and private sentinels. test_fixed_serialization_literal_oracle supplies literal canonical JSON and a literal SHA-256 digest.",
+      "lazy_pass": "Demonstrate only successful imports while changing legacy payloads, exposing private text or comparing serialization solely against itself.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [],
+  "role": "evaluator",
+  "round": 1,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Checked builder-authored comments, docstrings, documentation, changed CLI help, Plan and Probes against the implementation.",
+        "Verified the Pilot 0 probe against pilot.py:28, :215 and :343 and domain.py:210 and :242: prose evidence and UNKNOWN placeholders are distinct from the older dimension-score model.",
+        "Compared the Plan's empty Prior attempts statement with supplied earlier evaluator item identities: no earlier L05 attempt is present.",
+        "Routed all six external method claims to research without treating supplied source citations as independent verification or lowering accuracy."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "Inspected test_intent_flip_private_export_freezes_exact_history: literal SATISFIED/VIOLATED outcomes, two SEALED bindings, identical observation pins, revision isolation, frozen export and reopen assertions.",
+        "Inspected test_intent_free_boundary and test_nested_injected_fields_survive_admission_validation: fresh identities and specific ValidationError messages cover constructor, JSON, copied-object and nested injection paths.",
+        "Inspected test_missing_evidence_requires_unknown and test_unknown_cannot_be_promoted: empty, all-UNKNOWN and mixed support reject each non-UNKNOWN assessment status with the intended error.",
+        "Traced the corresponding guards in tree/src/eval_lab/assessments.py:29, :54 and :107; removing their rejection behavior would invalidate the focused assertions."
+      ],
+      "score": 4
+    },
+    "production_quality": {
+      "evidence": [
+        "Parsed all six changed Python files successfully with ast.parse.",
+        "Audited rejection tests for fresh identities, specific error types and message fragments; relevant guards have positive controls and targeted negative coverage.",
+        "Inspected test_revision_contract_and_append_only, test_fixed_input_serialization_reopen_and_integrity and test_fixed_serialization_literal_oracle for history, corruption and independently authored serialization expectations.",
+        "Inspected CLI import, schema, help, author/version validation and nonadmission tests in tree/tests/test_assessment_workflow.py:95.",
+        "Supplied gate.json reports 786 passing tests; this is supplied evidence, not an independently reproduced run."
+      ],
+      "score": 4
+    },
+    "relation": {
+      "evidence": [
+        "Traced registration, inherited schema_version, exact digest validation, SQL reference persistence and predecessor continuity through assessments.py:78, persistence.py:215 and intent_v2.py:222.",
+        "Checked snapshot discovery and transitive closure in tree/src/eval_lab/pilot.py:366; tests cover direct admissions, history, foreign media exclusion and same-ID/different-revision exclusion.",
+        "Checked assessment links to media, intent, binding, retained BindingContext, criterion and observation dimension in assessments.py:97.",
+        "Checked lint applicability: the separate L12 lint item depends on L05; current admission enforces the relevant provenance and timeline constraints."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Compared all eight changed paths with the sealed plan and L05: changes implement the two records, private imports, persistence, snapshot discovery, documentation and tests.",
+        "Checked against tree/loop/NORTH_STAR.md: the change supplies the technical and acceptability layers without adding decision policies or empirical study claims."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Compared the complete patch with the sealed plan's expected files and exclusions; no unplanned product area was changed.",
+        "Checked DEFERRED items D01-D14 against the patch: no live providers, instruments, swarm, studies, frontend, probability types or other deferred implementation was added.",
+        "Confirmed no existing tests, dependencies, protected outputs or judge files change; supplied G7 reports 632 counted changed lines against the 900-line ceiling."
+      ],
+      "score": 4
+    }
+  },
+  "step": 12,
+  "summary": "No material defect found through static review of the complete diff, every changed file, and relevant integration paths. Acceptance tests contain targeted rejection assertions and literal outcome checks. Independent runtime verification was unavailable; the supplied gate reports 786 passing tests."
+}

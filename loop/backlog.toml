@@ -1,0 +1,1265 @@
+# Approval fields belong to Sphoenix. loopctl may append proposals only.
+# Exact approved item prose is retained in notes; acceptance strings are not paraphrased.
+
+[[item]]
+id = "L00"
+title = "Verify the bootstrap"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "LOW"
+category = "tooling"
+depends_on = []
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["loop/tests pass.", "The gate passes on unchanged product code.", "baseline.json matches a fresh test run."]
+notes = "Run the loop once over the bootstrap committed in A6. Confirm the recorded commands, the baseline, the protected manifest and the decision about the approval harness. Mark L01 DONE if H1 approved it. No product changes.\n\nAcceptance:\n\nloop/tests pass.\nThe gate passes on unchanged product code.\nbaseline.json matches a fresh test run."
+
+[[item]]
+id = "L01"
+title = "Front-door README"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "LOW"
+category = "docs"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Open with one sentence that states the thesis.", "A dated status block whose numbers are computed from the repository.", "A \"Three minutes\" section: what to read, plus eval-pilot doctor, the test command and eval-pilot --help.", "What exists, and what does not exist yet:", "no live judges;", "no real-media results;", "no superiority claims;", "the intent study is designed but not run.", "A roadmap: Pilot 0.1, then the first three human cases, then validated instruments, then studies.", "A \"How this repository is built\" section, added only after L00 is DONE, that describes the evaluated loop and links loop/reports/INDEX.md.", "No mention of any employer or any application.", "At most 350 words before the first detailed section.", "Every factual statement can be checked against a file, a test or a command.", "House style: plain, specific sentences; no em dashes; no hype; nothing that tells the reader how to feel or announces what comes next."]
+notes = "Done by hand in A4. After that, the loop only updates the status numbers, and each such update raises the PUBLIC_PROSE flag.\n\nContent:\n\nOpen with one sentence that states the thesis.\nA dated status block whose numbers are computed from the repository.\nA \"Three minutes\" section: what to read, plus eval-pilot doctor, the test command and eval-pilot --help.\nWhat exists, and what does not exist yet:\nno live judges;\nno real-media results;\nno superiority claims;\nthe intent study is designed but not run.\nA roadmap: Pilot 0.1, then the first three human cases, then validated instruments, then studies.\nA \"How this repository is built\" section, added only after L00 is DONE, that describes the evaluated loop and links loop/reports/INDEX.md.\nNo mention of any employer or any application.\n\nConstraints:\n\nAt most 350 words before the first detailed section.\nEvery factual statement can be checked against a file, a test or a command.\nHouse style: plain, specific sentences; no em dashes; no hype; nothing that tells the reader how to feel or announces what comes next."
+
+[[item]]
+id = "L02"
+title = "IntentSpec v2 with derived provenance"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L00"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Every derivation case is tested.", "A revision cannot borrow an earlier revision's seal.", "A revision without a reason is rejected.", "No edit can raise a record's provenance."]
+notes = "New fields:\n\nuse_context: surface, audience, and viewing_profile (FEED or STUDIO).\ncriteria[]: id, dimension, priority (MUST, SHOULD, COULD or WONT), acceptance, rejection, tolerance.\nexpected_deviations[]: dimension, description, criterion_id.\nrevision_reason: SERENDIPITY, CLARIFICATION, CORRECTION or SCOPE_CHANGE. Required on every revision.\n\nDo not label any dimension as SENSITIVE or INVARIANT.\n\nProvenance is computed when a clip is bound to an intent revision (L04). It is never typed, with one exception: PROMPT_ONLY may be declared, and only for FOUND clips. Compute it from three times:\n\nthe seal time of that exact revision;\nthe planned time of a plan that lists that revision;\nthe registration time of this clip.\nClass\tCondition\nSEALED\tseal time < plan time < registration time\nCONTEMPORANEOUS\tnot SEALED, and the revision was sealed before the first logged view of this clip\nRECONSTRUCTED\tanything else, including a revision that was never sealed\n\nPilot 0 intents load as RECONSTRUCTED. Document what each class proves and what it does not. In particular, timestamps cannot prove the order of generation without an external witness.\n\nAcceptance:\n\nEvery derivation case is tested.\nA revision cannot borrow an earlier revision's seal.\nA revision without a reason is rejected.\nNo edit can raise a record's provenance."
+
+[[item]]
+id = "L03"
+title = "Seal and verify"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L02"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["The digest is stable across key order and whitespace.", "Any change to a value changes the digest.", "Key-ordering vectors with non-ASCII keys pass.", "Tampering is detected.", "Seals are immutable."]
+notes = "New commands: eval-pilot seal-intent FILE and eval-pilot verify-seal ID|FILE. Sealing works like this:\n\nCanonicalize the file with RFC 8785 (JCS).\nHash the canonical form with SHA-256.\nStore an append-only SealRecord with: the digest, the canonicalization method, sealed_at in UTC, the tool version, the source path, and an optional git_witness (commit and remote URL).\n\nImplement JCS for the JSON subset the schema allows: objects, arrays, strings, integers, booleans and null. Reject non-integer numbers with a message that says what to do. If research favors a vetted dependency instead, propose it; using one needs Sphoenix's approval. External timestamping is deferred.\n\nAcceptance:\n\nThe digest is stable across key order and whitespace.\nAny change to a value changes the digest.\nKey-ordering vectors with non-ASCII keys pass.\nTampering is detected.\nSeals are immutable."
+
+[[item]]
+id = "L04"
+title = "Generation plans, families, selection log, view log"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L02", "L03"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["tests for the ordering rules, provenance degrading rather than failing, the append-only selection log, and FOUND clips."]
+notes = "GenerationPlan fields: family_id, arm, varied_factor, controlled_factors, prompt, model, model_version_string, settings, seed (or null), n_planned, intent_revision_ids, planned_at, notes.\neval-pilot plan records a plan. register --plan binds a clip as PLANNED; without the flag, the clip is FOUND.\nSelection log fields: candidates_considered, rejected[] (ref and reason), random_draw, kept.\nView log: open and frames record a first-view event, and so will play once it exists. Viewing outside the CLI cannot be detected; document that limit.\nDerive provenance at bind time, as L02 defines it. FOUND clips, the natural discovery cases, are fully supported.\n\nAcceptance: tests for the ordering rules, provenance degrading rather than failing, the append-only selection log, and FOUND clips."
+
+[[item]]
+id = "L05"
+title = "Technical observations vs criterion assessments"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L02", "L03", "L04"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["does Pilot 0 record per-clip verdicts or per-dimension scores? Cite file:line."]
+acceptance = ["In the intent-flip fixture, identical observations under two sealed TEST-ONLY intents produce different assessments.", "A TechnicalObservation that references intent is rejected.", "UNKNOWN propagates."]
+notes = "Probe: does Pilot 0 record per-clip verdicts or per-dimension scores? Cite file:line.\n\nTwo record types:\n\nTechnicalObservation: dimension; deviation (NONE, MINOR, MATERIAL, SEVERE, CATASTROPHIC or UNKNOWN); span; evidence refs; viewing_profile. It carries no reference to intent.\nCriterionAssessment: criterion_id plus the pinned intent revision; status (SATISFIED, VIOLATED, NOT_APPLICABLE or UNKNOWN); refs to technical observations; rationale.\n\nAcceptance:\n\nIn the intent-flip fixture, identical observations under two sealed TEST-ONLY intents produce different assessments.\nA TechnicalObservation that references intent is rejected.\nUNKNOWN propagates."
+
+[[item]]
+id = "L06"
+title = "Decision policy and terminal verdict"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L04", "L05"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["how does the Phase 2 hard-fail engine work, and does it read IntentSpec applicability? Cite file:line."]
+acceptance = ["All the CATASTROPHIC-geometry cases below use identical observations:", "Case\tExpected decision", "Dream fixture, SEALED intent\tSHIP", "Dream fixture, CONTEMPORANEOUS intent\tSHIP, with a flag", "Dream fixture, RECONSTRUCTED or PROMPT_ONLY intent\tHOLD", "Product-demo fixture\tREGENERATE", "Two unresolved hypotheses that both violate a MUST criterion\tREGENERATE, and both hypotheses stay unresolved", "UNKNOWN evidence on a MUST criterion\tHOLD", "An override without a reason\tRejected", "A regression test also proves that Phase 2 behavior is unchanged."]
+notes = "Probe: how does the Phase 2 hard-fail engine work, and does it read IntentSpec applicability? Cite file:line.\n\nDecisionPolicy:\n\nAn id, a version, and a scope (the use context it applies to).\nOrdered rules; the first match wins. A default rule is required.\nConditions may read:\ncriterion priority together with assessment status;\nthe worst technical deviation for each dimension;\nthe intent provenance class;\nsalvage_guess;\nthe count of unresolved hypotheses that are relevant to the decision;\nUNKNOWN evidence on a MUST criterion.\nOutputs: SHIP, HOLD, REPAIR, REGENERATE or INVESTIGATE.\n\nVerdict:\n\ntechnical integrity, as the worst value for each dimension;\nintent_fulfillment, written by a human: ACCEPT, REVISE, REJECT or UNKNOWN;\nsalvage_guess, written by a human: POST_FIXABLE, EXPENSIVE_POST_FIX, REGENERATE or UNKNOWN;\nthe decision: policy id and version, the id of the rule that fired, and a hash of the inputs;\nan optional override (action, reason, author). The reason is required.\n\nThe Phase 2 hard-fail engine stays unchanged and is documented as the intent-blind default for records that have no intent.\n\nAcceptance. All the CATASTROPHIC-geometry cases below use identical observations:\n\nCase\tExpected decision\nDream fixture, SEALED intent\tSHIP\nDream fixture, CONTEMPORANEOUS intent\tSHIP, with a flag\nDream fixture, RECONSTRUCTED or PROMPT_ONLY intent\tHOLD\nProduct-demo fixture\tREGENERATE\nTwo unresolved hypotheses that both violate a MUST criterion\tREGENERATE, and both hypotheses stay unresolved\nUNKNOWN evidence on a MUST criterion\tHOLD\nAn override without a reason\tRejected\n\nA regression test also proves that Phase 2 behavior is unchanged."
+
+[[item]]
+id = "L07"
+title = "Hypothesis sets"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L00"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["tests."]
+notes = "CompetingSet fields: members, exclusive, exhaustive.\nAn exhaustive set gets an automatic RESIDUAL member: \"none of the listed causes\".\nNew relation kinds: compatible_with and refines.\nMembers of an exclusive set cannot be compatible_with each other.\nConfidence stays attached to each claim. It is never summed or normalized.\n\nAcceptance: tests."
+
+[[item]]
+id = "L08"
+title = "Test plans with qualitative predictions"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L03", "L04", "L07"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["one fixture per class, an identical-prediction pair, a single-hypothesis plan, rejection of empty predictions, freeze and digest checks, and the sample-design rule."]
+notes = "TestPlan fields:\n\ncompeting_set, plus the set revision pinned at freeze;\narms[]: id, description, and generation_plan_ref or null;\nsample_design: n_per_arm or stopping_rule, plus decision_rule;\nmeasurement: kind (HUMAN or INSTRUMENT) and protocol. An instrument is declared, never run;\noutcome_categories[];\npredictions: a map from hypothesis id to the outcome ids it predicts. Every named hypothesis must predict at least one outcome;\nfrozen_at and frozen_digest (the JCS digest from L03).\n\nRules:\n\nA plan is frozen only by an explicit freeze command.\nAny change after freezing fails digest verification and is rejected. To change a frozen plan, append a new version.\nsample_design is required whenever an arm references a generation plan.\n\nDiagnosticity is computed over the named hypotheses only. The residual is excluded and reported as \"not testable by this plan\". Let compatible(o) be the set of hypotheses whose predictions include outcome o. Check the classes in this order:\n\nClass\tCondition\nNON_DIAGNOSTIC\tEvery named hypothesis predicts the same outcome set. This always holds when there are fewer than two named hypotheses.\nDECISIVE\tEvery compatible(o) has at most one member.\nPARTIALLY_DIAGNOSTIC\tEverything else.\n\nAlso list the UNPREDICTED outcomes: those that no hypothesis predicts.\n\nAcceptance: one fixture per class, an identical-prediction pair, a single-hypothesis plan, rejection of empty predictions, freeze and digest checks, and the sample-design rule."
+
+[[item]]
+id = "L09"
+title = "Evidence roles"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L04", "L08"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["are creation order and first-view events stored for both evidence and hypotheses?"]
+acceptance = ["A frame scrubbed after the hypothesis was created is SUPPORTING.", "A hypothesis added after the freeze never gets TEST_RESULT.", "Evidence from a post-freeze arm, created after the freeze, is TEST_RESULT.", "Evidence from an arm that already existed is SUPPORTING, with its reason."]
+notes = "Probe: are creation order and first-view events stored for both evidence and hypotheses?\n\nThe role is computed for every pair of evidence and hypothesis, and nobody authors it. Check the roles in this order:\n\nTEST_RESULT requires all four:\nthe hypothesis predates frozen_at and is in the set revision pinned at freeze;\nthe evidence is linked to an arm of that frozen plan;\nthe evidence was created after frozen_at;\nthe arm's clip was registered after frozen_at, or the arm is an instrument run made after frozen_at.\nDISCOVERY: the evidence existed when the hypothesis was created, or is cited by the observation that prompted it.\nSUPPORTING: everything else, with a reason recorded (for example, a FOUND arm that already existed).\n\nAcceptance:\n\nA frame scrubbed after the hypothesis was created is SUPPORTING.\nA hypothesis added after the freeze never gets TEST_RESULT.\nEvidence from a post-freeze arm, created after the freeze, is TEST_RESULT.\nEvidence from an arm that already existed is SUPPORTING, with its reason."
+
+[[item]]
+id = "L10"
+title = "Resolution events"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L08", "L09"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["elimination tests, plus rejection of unfrozen plans, non-TEST_RESULT evidence and insufficient samples."]
+notes = "eval-pilot resolve works like this:\n\nIt requires a frozen plan, an outcome from the plan's categories, and TEST_RESULT evidence. A stochastic arm needs n_per_arm TEST_RESULT samples, or a stopping rule that has been met.\nIt computes ELIMINATED or RETAINED for each named hypothesis.\nThe residual is never ELIMINATED. It is RETAINED, and it is the only survivor when no named hypothesis predicted the outcome.\nINDETERMINATE is allowed, with a reason.\nIt appends status events and never overwrites them.\n\nAcceptance: elimination tests, plus rejection of unfrozen plans, non-TEST_RESULT evidence and insufficient samples."
+
+[[item]]
+id = "L11"
+title = "Relation v2"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L02"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["tests.", "Stored v2 relations are included in private dataset snapshots, as roots or through incoming references, and a snapshot test with independently authored literals covers them."]
+notes = "New relation fields:\n\ncreative_anchor: criterion ids from the pinned intent;\nepistemic_purpose: SUPPORT, RULE_OUT, DISCRIMINATE, LOCALIZE, EXPLAIN, QUALIFY, SCOPE or OPERATIONALIZE;\noperational_purpose: SHIP, REPAIR, REGENERATE, REVISE_RUBRIC, ADD_GOLD, RETRAIN_SIGNAL or INVESTIGATE;\nwarrant, required for supports and contradicts;\nqualifier;\nrebuttal.\n\nLegacy relations load with UNSPECIFIED purposes.\n\nAcceptance: tests.\n\nA2 appended acceptance:\n- Stored v2 relations are included in private dataset snapshots, as roots or through incoming references, and a snapshot test with independently authored literals covers them."
+
+[[item]]
+id = "L12"
+title = "Lint"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.", "Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.", "The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.", "Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.", "One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.", "Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.", "Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."]
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."
+
+[[item]]
+id = "L13"
+title = "Viewing profile and first-view salience"
+priority = "P1"
+approval = "APPROVED"
+size = "S"
+risk = "LOW"
+category = "domain"
+depends_on = ["L05"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Add viewing_profile (FEED or STUDIO) to observations, and an optional first_view with three fields: noticed, time_to_notice_s (or null) and plays."]
+notes = "Add viewing_profile (FEED or STUDIO) to observations, and an optional first_view with three fields: noticed, time_to_notice_s (or null) and plays."
+
+[[item]]
+id = "L14"
+title = "One-keystroke timestamp marking"
+priority = "P1"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L04"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["how many manual steps does it take to capture one timestamp today?"]
+acceptance = ["mapping tests on synthetic variable-frame-rate timelines."]
+notes = "Probe: how many manual steps does it take to capture one timestamp today?\n\neval-pilot play CLIP launches mpv, if installed, with a bundled Lua binding.\nPressing m appends the time position, the displayed frame index and the wall time to the clip's marks file in the operator workspace.\nThe displayed frame index follows the floor rule: the last frame whose onset is at or before t. open --at uses a different rule (the first frame at or after t); document why each rule fits its command.\neval-pilot marks CLIP lists the marks so drafts can reference them.\nWithout mpv, print an install hint.\n\nAcceptance: mapping tests on synthetic variable-frame-rate timelines."
+
+[[item]]
+id = "L15"
+title = "Operator guide: the first sealed case"
+priority = "P0"
+approval = "APPROVED"
+size = "S"
+risk = "LOW"
+category = "docs"
+depends_on = ["L12"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Write docs/pilot0_1.md as a walkthrough of the slide family, in this order:\n\nintent;\nseal;\ntwo plans: locked-off and tracking;\ncommit and push, as a public witness;\ngenerate;\nregister;\na FEED observation, then a STUDIO observation;\nthe competing set;\nfreeze;\nresolve;\nassessments;\npolicy and verdict;\nlint;\nsnapshot.\n\nUse blank forms only."]
+notes = "Write docs/pilot0_1.md as a walkthrough of the slide family, in this order:\n\nintent;\nseal;\ntwo plans: locked-off and tracking;\ncommit and push, as a public witness;\ngenerate;\nregister;\na FEED observation, then a STUDIO observation;\nthe competing set;\nfreeze;\nresolve;\nassessments;\npolicy and verdict;\nlint;\nsnapshot.\n\nUse blank forms only."
+
+[[item]]
+id = "L16"
+title = "Synthetic mechanics demo"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L06", "L12"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["the output is deterministic, and a test asserts SHIP for one intent and REGENERATE for the other.", "eval-pilot demo intent-flip --json writes the same bytes on every run, validates against a versioned schema in schemas/, and contains only synthetic demo data: no real media, private notes, absolute paths or judge identities."]
+notes = "eval-pilot demo intent-flip runs in a temporary workspace built from generated test patterns and TEST-ONLY text. It runs the full pipeline under two synthetic sealed intents and one synthetic policy, then prints both decisions with their rule traces, under this banner: \"SYNTHETIC MECHANICS DEMO: no real media, no real judgments.\"\n\nAcceptance: the output is deterministic, and a test asserts SHIP for one intent and REGENERATE for the other.\n\nA2 appended acceptance:\n- eval-pilot demo intent-flip --json writes the same bytes on every run, validates against a versioned schema in schemas/, and contains only synthetic demo data: no real media, private notes, absolute paths or judge identities."
+
+[[item]]
+id = "D01"
+title = "live model providers or judges"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved.\n\nA2/A2.1 narrowed scope: MODEL witness sessions accept TEST-ONLY fixture data only. No model is called.\n\nSC01 and SC03 accept MODEL sessions on TEST-ONLY fixtures only; no model is called."
+
+[[item]]
+id = "D02"
+title = "running instruments (point tracking, camera pose, segmentation, surprise models)"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved.\n\nA2/A2.1 narrowed scope: WP02 builds the instrument contract and two instruments that need no new dependency and no model weights. Model-based instruments stay DEFERRED; WP07 is a proposal only. WP02 instruments carry scoped validity (A2.1 Rule 1); no instrument result is ground truth."
+
+[[item]]
+id = "D03"
+title = "the specialist swarm"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D04"
+title = "gold sets"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved.\n\nA2/A2.1 narrowed scope: WP04 builds synthetic known-dose proficiency items. Adjudicated gold sets stay DEFERRED."
+
+[[item]]
+id = "D05"
+title = "regression and drift engines"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D06"
+title = "the VFX engine"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D07"
+title = "psychometrics beyond the existing agreement code: blind-retest tooling, G-theory, Rasch, multitrait-multimethod"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved.\n\nA2/A2.1 narrowed scope: WP04 reports detection counts at each dose and the lowest dose detected in at least k of n trials. WP04's canaries are proficiency items, not test-retest reliability tooling. Blind-retest tooling, curve fitting, Rasch and G-theory stay DEFERRED."
+
+[[item]]
+id = "D08"
+title = "numeric information gain and probability-mass types"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D09"
+title = "calibration-ledger tooling"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D10"
+title = "external timestamping"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D11"
+title = "JSON-LD and W3C exports"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D12"
+title = "imports of external benchmarks"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D13"
+title = "public or randomized studies"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "D14"
+title = "any frontend"
+priority = "P2"
+approval = "DEFERRED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Deferred: requires explicit approval from Sphoenix before implementation."]
+notes = "Section 9.3: proposals only, never auto-approved."
+
+[[item]]
+id = "P-HARNESS-IDS-01"
+title = "Canonical evaluator finding and response identities"
+priority = "P1"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "tooling"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["Inspect repeated evaluator blocking_findings.id, prior_findings.ref and enhancement resolutions.ref across rounds."]
+acceptance = ["Repeated finding labels cannot collapse distinct findings or satisfy two findings with one resolution.", "Round-two statuses and resolutions bind unambiguously to harness-assigned finding identities.", "Unknown and duplicate response references cannot overwrite another response silently."]
+rationale = "loopctl.decision currently uses sets keyed by evaluator finding IDs and dictionaries keyed by prior-finding and resolution references. Reused model labels could collapse distinct findings or overwrite a response. Correctness requires a cross-round identity contract; it is outside the bounded research-ID hotfix. Proposal IDs are already harness-generated."
+
+[[item]]
+id = "P0007-1"
+title = "Qualify the unsupported test-vector matching assertion"
+rationale = "The RFC establishes the reference vector, but the permitted inputs contain no local vector for comparison. Mark the assertion unverified until the relevant test excerpt supplies that evidence."
+priority = "P2"
+approval = "AUTO_APPROVED"
+size = "S"
+risk = "LOW"
+category = "validation"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["The RFC establishes the reference vector, but the permitted inputs contain no local vector for comparison. Mark the assertion unverified until the relevant test excerpt supplies that evidence."]
+
+[[item]]
+id = "P0008-1"
+title = "Normalize unpacked arrays before JsonValue validation"
+rationale = "The version-tagged dependency source confirms the rejection underlying L04-R1-F01. Normalize tuples recursively at the reported boundary and verify nested and empty array cases so valid JSON-array content can reach generation."
+priority = "P2"
+approval = "PROPOSED"
+size = "S"
+risk = "LOW"
+category = "bugfix"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["The version-tagged dependency source confirms the rejection underlying L04-R1-F01. Normalize tuples recursively at the reported boundary and verify nested and empty array cases so valid JSON-array content can reach generation."]
+
+[[item]]
+id = "P0009-1"
+title = "Include applicable RelationClaimV2 history in private dataset snapshots"
+rationale = "R1-F1 identifies a real integration gap: PilotWorkspace.snapshot follows outgoing references from dataset roots, and PilotSubmission rejects RelationClaimV2. Stored v2 relations therefore remain absent from ordinary private dataset exports. The sealed L11 Plan explicitly excludes private snapshot discovery; implementing it during enhancement would exceed that scope. This proposal requires a separately approved item and sealed plan before implementation."
+priority = "P2"
+approval = "PROPOSED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Define dataset applicability using exact included evidence/intent revisions and retained bindings; exclude unrelated datasets and same-ID but different intent revisions.", "Privately discover applicable stored RelationClaimV2 records without creating judgments; pin each relation, its predecessor history, and all exact transitive reference and digest dependencies.", "A TEST-ONLY generated-media dataset test stores a v2 relation, snapshots and exports the dataset, and independently asserts its reference, digest, purposes, creative anchors, warrant, qualifier and rebuttal.", "After appending a successor, a new snapshot includes the appropriate retained history while the earlier exported snapshot remains byte-for-byte unchanged; deterministic fixed-input replay is tested.", "Test unrelated-dataset exclusion, missing or mismatched dependencies, unchanged v1 payloads and hashes, and unchanged public/embed serialization. Use temporary TEST-ONLY fixtures, no pilot-local writes, no protected-file or dependency changes, and no test weakening."]
+notes = "superseded by the L11 acceptance added in amendment A2"
+
+# Approved witness layer: A2 and A2.1. WP07 remains a proposal.
+
+[[item]]
+id = "WP01"
+title = "Witness sessions with sequential unmasking"
+priority = "P0"
+approval = "APPROVED"
+size = "L"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L03", "L04", "L05"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["Which L04 records and commands log a judge's views? Cite file:line.", "Confirm that IntentSpecV2 has no author field. Cite file:line."]
+acceptance = ["A reveal before the blind statement is sealed is rejected.", "A post-reveal change without a reason, or timed before the reveal, is rejected.", "Blind statements and post-reveal changes are append-only, and tampering with a sealed statement fails verification.", "Blindness is derived, never typed: a logged view of the revealed intent lineage before the seal, or an authorship record for that intent, yields NOT_BLIND; otherwise BLIND. Each case has a test.", "A blind statement that references intent is rejected.", "In a TEST-ONLY fixture where a judge adds a camera-move observation after the reveal, the session reports one ADDED change in the CAMERA dimension.", "A MODEL session is accepted only for TEST-ONLY fixture clips, and no model is called.", "Witness records are included in private dataset snapshots and absent from public and embed payloads.", "Each sealed blind statement stores the set of exposed channels at sealing time, derived from append-only ExposureEvents; tests cover CLI-logged and declared exposures.", "A declared exposure can only add to the exposure set; nothing removes an exposure.", "Blindness is derived per channel, and A2's BLIND and NOT_BLIND refer to the INTENT channel.", "A reveal of any channel other than INTENT is rejected with a message naming proposal A3-01.", "A HUMAN session must use a named fixed protocol; a second session by the same judge on the same clip derives blindness from that judge's full exposure history, so it is NOT_BLIND on every channel the judge has already seen."]
+notes = "Sphoenix approval 2026-10-09, amendment A2, Sections 5.2 and 5.3. Not D01: MODEL sessions are fixture-only.\n\nRecords:\nWitnessSession: id; judge_ref (an opaque id, no personal data); judge_kind (HUMAN or MODEL); clip ref; protocol_version; created_at.\nBlindStatement: session ref; observations in the L05 TechnicalObservation shape, with no intent refs; an optional intent_inference made of two strings, action and reason (\"This clip wants the viewer to <action> because <reason>\"); an optional list of the dimensions the judge thinks matter. Sealed with the L03 mechanism when it is created.\nIntentViewEvent: judge_ref; intent revision id; viewed_at. Appended whenever the CLI shows an intent to a named judge.\nIntentAuthorship, append-only: judge_ref; intent id; recorded_at. IntentSpecV2 has no author field, so authorship is recorded here, for example when an intent is sealed with --author.\nRevealEvent: session ref; the intent revision revealed; revealed_at.\nPostRevealChange, append-only: session ref; kind ADDED, CHANGED or WITHDRAWN; the observation, or a ref to the blind one; reason, required; created_at.\nAfter the reveal, assessments are ordinary L05 CriterionAssessments pinned to the revealed revision.\n\nBlindness is derived the way provenance is. BLIND means no recorded exposure. Viewing outside the CLI cannot be detected; document that limit as L04 does.\nReport per session: counts of ADDED, CHANGED and WITHDRAWN by dimension. No aggregation across sessions or judges.\nCLI, names may differ: eval-pilot witness start, blind, reveal, change, show.\n\nCommon approved constraints (A2 Section 5.3):\n- **I1.** For real clips, the loop never writes statements, changes, legibility matches or assessments. Instruments write InstrumentRun records only, never observations.\n- **I5.** Statements, instrument runs and claim checks never reference intent. Only post-reveal assessments and legibility matches do.\n- **I2.** Anything not measured is UNMEASURABLE or UNKNOWN, never a pass.\n- **I8, exactly as written:** \"No average hides a failure. Aggregates keep the worst case for each dimension. No decision uses a mean.\" Instruments report per-frame values and the worst frame alongside any span mean. Every claim check states which summary it uses, and checks that a failure could hide in use the worst frame.\n- **I9.** No probabilities.\n- **I12.** Canary status, judge identities and witness cards never appear in public or embed payloads.\n- **Snapshots.** New record types are included in private dataset snapshots. This is the gap that failed L11.\n- **Faces.** Instruments measure regions, color, timing and motion. They do no face identification, no expression or emotion reading, no deception scoring and no inference about a person's intent.\n- **Media.** Generate test clips with ffmpeg lavfi in a temp folder at test time. Never commit media files: G6 forbids video extensions, and G7 counts them as changed lines.\n- **Excluded tools.** No cloud media APIs. No new AGPL or GPL dependencies; the pinned ffmpeg build is existing human-installed tooling.\n- **Size.** Split an item with `STEP-N-split.toml` if it will not fit in 900 changed lines.\n\nA2.1 additions (override A2 where they conflict):\nExposure channels:\n- PIXELS\n- AUDIO\n- PROMPT\n- INTENT\n- MODEL_IDENTITY\n- OTHER_JUDGE_STATEMENT\n- INSTRUMENT_RESULT\n\nExposureEvent, append-only: judge_ref; channel; target ref; source (CLI_LOGGED or DECLARED); at. It replaces A2's IntentViewEvent, which becomes the ExposureEvent for channel INTENT.\n\nA judge may declare an exposure the CLI could not see, for example \"I read the prompt elsewhere\". Declarations can only add exposure, never remove it.\n\nEach BlindStatement stores the exposure set at sealing time, derived from the events. Blindness is derived per channel. A2's BLIND and NOT_BLIND now mean blindness on the INTENT channel, and every A2 rule that names them keeps that meaning.\n\nA RevealEvent names one channel. The CLI implements only the INTENT reveal for now. Revealing any other channel is rejected with a message saying it is deferred to proposal A3-01.\n\n`protocol_version` names a fixed protocol. Only one human protocol exists now:\n\nHUMAN_MEDIA_FIRST_V1:\n1. PIXELS and AUDIO only;\n2. seal the blind statement;\n3. reveal INTENT;\n4. log post-reveal changes;\n5. write assessments.\n\nA later cohort protocol, such as media plus prompt before sealing, needs Sphoenix's approval.\n\nAcceptance:\n- A reveal before the blind statement is sealed is rejected.\n- A post-reveal change without a reason, or timed before the reveal, is rejected.\n- Blind statements and post-reveal changes are append-only, and tampering with a sealed statement fails verification.\n- Blindness is derived, never typed: a logged view of the revealed intent lineage before the seal, or an authorship record for that intent, yields NOT_BLIND; otherwise BLIND. Each case has a test.\n- A blind statement that references intent is rejected.\n- In a TEST-ONLY fixture where a judge adds a camera-move observation after the reveal, the session reports one ADDED change in the CAMERA dimension.\n- A MODEL session is accepted only for TEST-ONLY fixture clips, and no model is called.\n- Witness records are included in private dataset snapshots and absent from public and embed payloads.\n- Each sealed blind statement stores the set of exposed channels at sealing time, derived from append-only ExposureEvents; tests cover CLI-logged and declared exposures.\n- A declared exposure can only add to the exposure set; nothing removes an exposure.\n- Blindness is derived per channel, and A2's BLIND and NOT_BLIND refer to the INTENT channel.\n- A reveal of any channel other than INTENT is rejected with a message naming proposal A3-01.\n- A HUMAN session must use a named fixed protocol; a second session by the same judge on the same clip derives blindness from that judge's full exposure history, so it is NOT_BLIND on every channel the judge has already seen.\n\nPriority raised to P0 by A4, 2026-10-09."
+
+[[item]]
+id = "WP02"
+title = "Instrument contract with two dependency-free instruments"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L03"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["How does media.py decode frames and record ToolIdentity, and can it decode at a fixed size in rgb24? Cite file:line.", "Is tests/fixtures/ciede2000_sharma2005.tsv present, with its source and SHA-256 header? If not, report it and leave the first acceptance string unmet."]
+acceptance = ["CIEDE2000 matches every pair in tests/fixtures/ciede2000_sharma2005.tsv to within 0.0001.", "On synthetic clips encoded losslessly with FFV1 in an RGB pixel format, a known color change inside a region gives mean CIELAB values within 1.0 of the computed expectation on each component and a CIEDE2000 difference within 0.5 of it, and an unchanged region stays below 0.5 on every frame.", "Frame cadence finds two duplicated frames and one dropped frame at their exact indices in a synthetic clip.", "Two runs on the same inputs produce identical run records apart from created_at, and a different ffmpeg hash changes the instrument identity.", "An instrument run cannot reference intent, and no instrument creates an observation.", "An empty or out-of-frame region, or a span outside the decoded timeline, yields UNMEASURABLE with a reason.", "Instrument runs report per-frame values and the worst frame as well as span means, and are included in private dataset snapshots.", "Instrument validity is derived from append-only ValidationRecords; a spec with no record is UNVALIDATED, and no record is ever edited in place.", "A VALIDATED record without calibration evidence (test ids, fixture SHA-256s and code version) is rejected.", "Every instrument run records whether its inputs fall inside the instrument's validated domain and conditions, with the reason when they do not."]
+notes = "Sphoenix approval 2026-10-09, amendment A2, Sections 5.2 to 5.4. Narrowed from D02: no new dependency, no model weights.\n\nInstrumentSpec: id; version; measurand (REGION_COLOR or FRAME_CADENCE for now); units; method; parameters; tolerance policy; executable identity (reuse pilot_domain.ToolIdentity); spec digest using the L03 canonical digest.\nInstrumentRun, append-only: spec ref and digest; clip ref (media checksum); inputs (region, spans); outputs with units; status COMPLETED, UNMEASURABLE (with a reason) or FAILED; created_at; run digest.\n\nREGION_COLOR: decode with the pinned ffmpeg at a fixed small size as rgb24. Average sRGB inside a rectangle given in normalized coordinates, or inside an optional external grayscale mask file decoded by ffmpeg; nothing here generates masks. Convert to CIELAB (D65). Report the per-frame Lab, the per-span mean Lab, the per-frame CIEDE2000 against a reference span, and the worst frame. Implement CIEDE2000 in the repository.\nFRAME_CADENCE: from frame timestamps and decoded-frame digests, report duplicated frames, suspected drops (a timestamp gap above 1.5 times the median frame interval) and the effective frame rate.\n\nGenerate test clips with lavfi at test time in a temp folder; never commit media.\nInstrument outputs are measurements, not observations. WP03 links them to a witness's claims.\nWhy color first: the 2026-10-09 search found no benchmark that scores grade or shot-to-shot color consistency in generated video. VBench's color dimension checks only whether colors match the prompt. Treat this as a research claim.\n\nCommon approved constraints (A2 Section 5.3):\n- **I1.** For real clips, the loop never writes statements, changes, legibility matches or assessments. Instruments write InstrumentRun records only, never observations.\n- **I5.** Statements, instrument runs and claim checks never reference intent. Only post-reveal assessments and legibility matches do.\n- **I2.** Anything not measured is UNMEASURABLE or UNKNOWN, never a pass.\n- **I8, exactly as written:** \"No average hides a failure. Aggregates keep the worst case for each dimension. No decision uses a mean.\" Instruments report per-frame values and the worst frame alongside any span mean. Every claim check states which summary it uses, and checks that a failure could hide in use the worst frame.\n- **I9.** No probabilities.\n- **I12.** Canary status, judge identities and witness cards never appear in public or embed payloads.\n- **Snapshots.** New record types are included in private dataset snapshots. This is the gap that failed L11.\n- **Faces.** Instruments measure regions, color, timing and motion. They do no face identification, no expression or emotion reading, no deception scoring and no inference about a person's intent.\n- **Media.** Generate test clips with ffmpeg lavfi in a temp folder at test time. Never commit media files: G6 forbids video extensions, and G7 counts them as changed lines.\n- **Excluded tools.** No cloud media APIs. No new AGPL or GPL dependencies; the pinned ffmpeg build is existing human-installed tooling.\n- **Size.** Split an item with `STEP-N-split.toml` if it will not fit in 900 changed lines.\n\nA2.1 additions (override A2 where they conflict):\nValidationRecord, append-only:\n- instrument spec ref and digest;\n- status: UNVALIDATED, PILOT or VALIDATED;\n- validated_measurand;\n- validated_domain (for example: 8-bit SDR, rgb24 decode, the codecs covered, a resolution range, a minimum region size in pixels);\n- validated_conditions;\n- known_blind_spots;\n- calibration_evidence: test ids, fixture SHA-256s and the code version;\n- authored_by and recorded_at.\n\nAn instrument's current status is derived from its latest ValidationRecord. A spec with no record is UNVALIDATED.\n\nWho may write records:\n- In tests, records exist only as TEST-ONLY fixtures.\n- For real use, only Sphoenix writes VALIDATED records, with a CLI command such as `eval-pilot instrument validate`.\n- The loop may write PILOT records whose evidence is synthetic tests only.\n\nEvery InstrumentRun records its upstream inputs:\n- the clip;\n- any mask or label file, as an imported-artifact ref with its SHA-256 and producing tool;\n- any earlier run whose outputs it consumed.\n\nIts evidence roots are the set of clip, import and root-run refs it descends from.\n\nAcceptance:\n- CIEDE2000 matches every pair in tests/fixtures/ciede2000_sharma2005.tsv to within 0.0001.\n- On synthetic clips encoded losslessly with FFV1 in an RGB pixel format, a known color change inside a region gives mean CIELAB values within 1.0 of the computed expectation on each component and a CIEDE2000 difference within 0.5 of it, and an unchanged region stays below 0.5 on every frame.\n- Frame cadence finds two duplicated frames and one dropped frame at their exact indices in a synthetic clip.\n- Two runs on the same inputs produce identical run records apart from created_at, and a different ffmpeg hash changes the instrument identity.\n- An instrument run cannot reference intent, and no instrument creates an observation.\n- An empty or out-of-frame region, or a span outside the decoded timeline, yields UNMEASURABLE with a reason.\n- Instrument runs report per-frame values and the worst frame as well as span means, and are included in private dataset snapshots.\n- Instrument validity is derived from append-only ValidationRecords; a spec with no record is UNVALIDATED, and no record is ever edited in place.\n- A VALIDATED record without calibration evidence (test ids, fixture SHA-256s and code version) is rejected.\n- Every instrument run records whether its inputs fall inside the instrument's validated domain and conditions, with the reason when they do not.\n\nPriority raised to P0 by A4, 2026-10-09."
+
+[[item]]
+id = "WP03"
+title = "Cross-examination: checking witness claims against instruments"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["WP01", "WP02"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["TEST-ONLY fixtures cover SUPPORTED, CONTRADICTED and UNMEASURABLE checks, and the GUIDED_NOTICE, SUGGESTED, UNRESOLVED, CORRECTED and ABANDONED_TRUE classes.", "A claim whose predicate has no instrument is UNMEASURABLE, never SUPPORTED or CONTRADICTED.", "Claim checks are append-only, and a re-check never overwrites an earlier one.", "Every claim check records which summary it used, and a claim that no shift occurs is checked against the worst frame.", "An assessment that cites a CONTRADICTED observation is flagged, and the flag never changes a stored assessment or a decision.", "The witness report is deterministic for fixed inputs, and claim records and checks are included in private dataset snapshots.", "A check by an UNVALIDATED or PILOT instrument, or by a VALIDATED instrument outside its validated domain or conditions, yields MEASURED_UNVALIDATED and never SUPPORTED or CONTRADICTED; each case has a test.", "MEASURED_UNVALIDATED keeps the measured value in the check record and in the witness report.", "Two checks whose runs share an evidence root count as one dependency family, and corroboration counts in reports and witness cards are family counts; a test uses two checks derived from one mask file.", "No check, class or report edits, hides or marks false any witness observation; CONTRADICTED is recorded beside the observation."]
+notes = "Sphoenix approval 2026-10-09, amendment A2, Sections 5.2 and 5.3.\n\nClaimRecord: a checkable predicate attached to one witness observation, blind or post-reveal, from a closed vocabulary, each mapped to an existing Dimension:\nREGION_COLOR_SHIFT (region, span_a, span_b, and min_delta_e or max_delta_e): LIGHTING.\nFRAME_CADENCE_DEFECT (span; DUPLICATE or DROP): TEMPORAL.\nPRESENCE: SEMANTIC. POSITION: COMPOSITION. BODY_MOTION: MOTION. CAMERA_MOVE: CAMERA. These four are accepted and stay UNMEASURABLE until an instrument for them exists.\nClaimCheck, append-only: claim ref; instrument run ref; result SUPPORTED, CONTRADICTED or UNMEASURABLE; the summary used; measured value, threshold and margin; the tolerance policy used.\n\nClasses for post-reveal changes, from their checks:\nGUIDED_NOTICE: added or changed after the reveal, and SUPPORTED. The reveal pointed the judge at something real.\nSUGGESTED: added or changed after the reveal, and CONTRADICTED. The judge reported what the intent asked for, not what is there.\nCORRECTED: a withdrawn blind claim that is CONTRADICTED.\nABANDONED_TRUE: a withdrawn blind claim that is SUPPORTED. The reveal talked the judge out of something real.\nUNRESOLVED: no check, or UNMEASURABLE.\neval-pilot witness report SESSION lists claims, checks, classes and flags.\n\nCommon approved constraints (A2 Section 5.3):\n- **I1.** For real clips, the loop never writes statements, changes, legibility matches or assessments. Instruments write InstrumentRun records only, never observations.\n- **I5.** Statements, instrument runs and claim checks never reference intent. Only post-reveal assessments and legibility matches do.\n- **I2.** Anything not measured is UNMEASURABLE or UNKNOWN, never a pass.\n- **I8, exactly as written:** \"No average hides a failure. Aggregates keep the worst case for each dimension. No decision uses a mean.\" Instruments report per-frame values and the worst frame alongside any span mean. Every claim check states which summary it uses, and checks that a failure could hide in use the worst frame.\n- **I9.** No probabilities.\n- **I12.** Canary status, judge identities and witness cards never appear in public or embed payloads.\n- **Snapshots.** New record types are included in private dataset snapshots. This is the gap that failed L11.\n- **Faces.** Instruments measure regions, color, timing and motion. They do no face identification, no expression or emotion reading, no deception scoring and no inference about a person's intent.\n- **Media.** Generate test clips with ffmpeg lavfi in a temp folder at test time. Never commit media files: G6 forbids video extensions, and G7 counts them as changed lines.\n- **Excluded tools.** No cloud media APIs. No new AGPL or GPL dependencies; the pinned ffmpeg build is existing human-installed tooling.\n- **Size.** Split an item with `STEP-N-split.toml` if it will not fit in 900 changed lines.\n\nA2.1 additions (override A2 where they conflict):\nA new check result: MEASURED_UNVALIDATED. The instrument produced a value, but it is not VALIDATED, or this input is outside its validated domain or conditions. The value is kept and shown. It never supports or contradicts anything.\n\nNow:\n- SUPPORTED and CONTRADICTED require a VALIDATED instrument, used inside its validated scope.\n- UNMEASURABLE still means no value could be produced.\n- Post-reveal changes whose only checks are MEASURED_UNVALIDATED are classed UNRESOLVED.\n\nEvery ClaimCheck carries the evidence roots of its run. When several checks bear on one claim, the report groups them into dependency families: checks whose roots overlap form one family. Corroboration is counted in families, not checks. Witness cards count families.\n\nA2.1 Rule 5: An instrument measurement is evidence whose authority depends on validation. It is never ground truth because a machine produced it. CONTRADICTED means a VALIDATED, in-scope measurement disagrees with the observation. The observation stays stored, unchanged, and is never marked false.\n\nAcceptance:\n- TEST-ONLY fixtures cover SUPPORTED, CONTRADICTED and UNMEASURABLE checks, and the GUIDED_NOTICE, SUGGESTED, UNRESOLVED, CORRECTED and ABANDONED_TRUE classes.\n- A claim whose predicate has no instrument is UNMEASURABLE, never SUPPORTED or CONTRADICTED.\n- Claim checks are append-only, and a re-check never overwrites an earlier one.\n- Every claim check records which summary it used, and a claim that no shift occurs is checked against the worst frame.\n- An assessment that cites a CONTRADICTED observation is flagged, and the flag never changes a stored assessment or a decision.\n- The witness report is deterministic for fixed inputs, and claim records and checks are included in private dataset snapshots.\n- A check by an UNVALIDATED or PILOT instrument, or by a VALIDATED instrument outside its validated domain or conditions, yields MEASURED_UNVALIDATED and never SUPPORTED or CONTRADICTED; each case has a test.\n- MEASURED_UNVALIDATED keeps the measured value in the check record and in the witness report.\n- Two checks whose runs share an evidence root count as one dependency family, and corroboration counts in reports and witness cards are family counts; a test uses two checks derived from one mask file.\n- No check, class or report edits, hides or marks false any witness observation; CONTRADICTED is recorded beside the observation.\n\nPriority raised to P0 by A4, 2026-10-09."
+
+[[item]]
+id = "WP04"
+title = "Known-dose proficiency items"
+priority = "P0"
+approval = "APPROVED"
+size = "L"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["WP01", "WP02"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["Which filters in the pinned ffmpeg build can recolor a rectangle, drop or duplicate frames, and retime a clip? Run ffmpeg -filters and cite the output."]
+acceptance = ["The same source clip, dose and ffmpeg hash produce byte-identical variants.", "Every REGION_COLOR variant's CIEDE2000 dose, measured on the worst frame by the WP02 instrument, is within 0.5 of the requested dose for doses up to 3 and within 15 percent above 3; variants outside that are rejected.", "A canary manifest revealed before every blind statement in its queue is sealed is rejected.", "The detection report for a TEST-ONLY detection table matches hand-computed values, including INSUFFICIENT levels.", "Canary status never appears in public or embed payloads, and queues and manifests are included in private dataset snapshots.", "A dose measured by an instrument that is not VALIDATED for that clip's domain is recorded as UNVERIFIED_DOSE, and such canaries are excluded from detection thresholds."]
+notes = "Sphoenix approval 2026-10-09, amendment A2, Sections 5.2 and 5.3. Narrowed from D04 and D07: synthetic known-dose proficiency items and detection counts only; these are not test-retest reliability tooling.\n\nQueue: an ordered list of clip refs assigned to one judge for blind statements.\nPerturbations, each with one declared dose:\nREGION_COLOR: shift a rectangle by a target CIEDE2000, for example 1, 2, 3, 5 and 8, along a declared axis (warmer, cooler, lighter or darker).\nFRAME_CADENCE: drop or duplicate k frames at a declared index, for k = 1, 2 or 3.\nSPEED: retime by a declared percentage.\nREFRAME: shift the picture by N pixels. Record its dose from the transform as UNVERIFIED_DOSE until a position instrument exists.\n\nCanaryManifest: the queue; which items are canaries; source; requested and measured doses; k and n for the detection rule (default 3 of 4). Sealed with the L03 mechanism before the first session on the queue, and revealed only after every blind statement in the queue is sealed. Private.\n\nDetection: a blind observation in the matching dimension, whose span overlaps the dosed span, with deviation MINOR or worse, counts as DETECTED; otherwise MISSED. Matching by region waits for an observation format that carries regions.\nReport per judge and measurand: detected and total at each dose, and the lowest dose detected in at least k of n trials. A level with fewer than n trials is INSUFFICIENT. No curve fitting and no probability statements.\nOn real clips only Sphoenix runs the generator, and its outputs go to the operator workspace. Tests use lavfi sources generated at test time.\n\nCommon approved constraints (A2 Section 5.3):\n- **I1.** For real clips, the loop never writes statements, changes, legibility matches or assessments. Instruments write InstrumentRun records only, never observations.\n- **I5.** Statements, instrument runs and claim checks never reference intent. Only post-reveal assessments and legibility matches do.\n- **I2.** Anything not measured is UNMEASURABLE or UNKNOWN, never a pass.\n- **I8, exactly as written:** \"No average hides a failure. Aggregates keep the worst case for each dimension. No decision uses a mean.\" Instruments report per-frame values and the worst frame alongside any span mean. Every claim check states which summary it uses, and checks that a failure could hide in use the worst frame.\n- **I9.** No probabilities.\n- **I12.** Canary status, judge identities and witness cards never appear in public or embed payloads.\n- **Snapshots.** New record types are included in private dataset snapshots. This is the gap that failed L11.\n- **Faces.** Instruments measure regions, color, timing and motion. They do no face identification, no expression or emotion reading, no deception scoring and no inference about a person's intent.\n- **Media.** Generate test clips with ffmpeg lavfi in a temp folder at test time. Never commit media files: G6 forbids video extensions, and G7 counts them as changed lines.\n- **Excluded tools.** No cloud media APIs. No new AGPL or GPL dependencies; the pinned ffmpeg build is existing human-installed tooling.\n- **Size.** Split an item with `STEP-N-split.toml` if it will not fit in 900 changed lines.\n\nAcceptance:\n- The same source clip, dose and ffmpeg hash produce byte-identical variants.\n- Every REGION_COLOR variant's CIEDE2000 dose, measured on the worst frame by the WP02 instrument, is within 0.5 of the requested dose for doses up to 3 and within 15 percent above 3; variants outside that are rejected.\n- A canary manifest revealed before every blind statement in its queue is sealed is rejected.\n- The detection report for a TEST-ONLY detection table matches hand-computed values, including INSUFFICIENT levels.\n- Canary status never appears in public or embed payloads, and queues and manifests are included in private dataset snapshots.\n- A dose measured by an instrument that is not VALIDATED for that clip's domain is recorded as UNVERIFIED_DOSE, and such canaries are excluded from detection thresholds.\n\nPriority raised to P0 by A4, 2026-10-09."
+
+[[item]]
+id = "WP05"
+title = "Disagreement classes and the senior queue"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["WP03", "WP04", "L11"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["What does disagreement.py compute today, and which callers depend on it? Cite file:line."]
+acceptance = ["One TEST-ONLY fixture per class: SUGGESTION, PERCEPTION, THRESHOLD, TASTE and INSUFFICIENT.", "Only TASTE disputes enter the senior queue, each with the measured facts, both sides' warrants, qualifiers and rebuttals, and both witness cards.", "A dispute involving a NOT_BLIND session is never SUGGESTION or TASTE.", "A fixture that satisfies two classes gets the first one in the documented order.", "Existing disagreement tests pass unchanged, and a regression test shows that disagreement.py output is unchanged.", "Disputes, classes and witness cards are included in private dataset snapshots and absent from public and embed payloads.", "PERCEPTION and THRESHOLD require VALIDATED, in-scope checks; with only MEASURED_UNVALIDATED evidence the dispute is INSUFFICIENT."]
+notes = "Sphoenix approval 2026-10-09, amendment A2, Sections 5.2 and 5.3.\n\nA dispute: two or more witness sessions on the same clip and criterion whose post-reveal assessments differ in status.\nClasses, checked in this order, first match wins:\nSUGGESTION: every session in the dispute is BLIND, and an observation a side cites is SUGGESTED or one of its withdrawn blind claims is ABANDONED_TRUE.\nPERCEPTION: one side cites a CONTRADICTED observation and the other side a SUPPORTED one.\nTHRESHOLD: the measured size of the disputed property falls between the two judges' lowest reliable doses for that measurand.\nTASTE: every session is BLIND; both sides cite only SUPPORTED or UNMEASURABLE observations; both judges have proficiency records for the dimension; and none of the classes above applies.\nINSUFFICIENT: everything else.\nOrder rationale: suggestion and perception are explained by evidence the system already holds, so they are settled first. Taste is what remains when nothing measurable explains the dispute.\n\nWitness card per judge: sessions by blindness; claims checked and contradicted, by dimension; post-reveal classes; lowest reliable doses by measurand. Counts only, kept separate by dimension.\nClasses never change an assessment, a decision or a policy (I6).\n\nCommon approved constraints (A2 Section 5.3):\n- **I1.** For real clips, the loop never writes statements, changes, legibility matches or assessments. Instruments write InstrumentRun records only, never observations.\n- **I5.** Statements, instrument runs and claim checks never reference intent. Only post-reveal assessments and legibility matches do.\n- **I2.** Anything not measured is UNMEASURABLE or UNKNOWN, never a pass.\n- **I8, exactly as written:** \"No average hides a failure. Aggregates keep the worst case for each dimension. No decision uses a mean.\" Instruments report per-frame values and the worst frame alongside any span mean. Every claim check states which summary it uses, and checks that a failure could hide in use the worst frame.\n- **I9.** No probabilities.\n- **I12.** Canary status, judge identities and witness cards never appear in public or embed payloads.\n- **Snapshots.** New record types are included in private dataset snapshots. This is the gap that failed L11.\n- **Faces.** Instruments measure regions, color, timing and motion. They do no face identification, no expression or emotion reading, no deception scoring and no inference about a person's intent.\n- **Media.** Generate test clips with ffmpeg lavfi in a temp folder at test time. Never commit media files: G6 forbids video extensions, and G7 counts them as changed lines.\n- **Excluded tools.** No cloud media APIs. No new AGPL or GPL dependencies; the pinned ffmpeg build is existing human-installed tooling.\n- **Size.** Split an item with `STEP-N-split.toml` if it will not fit in 900 changed lines.\n\nAcceptance:\n- One TEST-ONLY fixture per class: SUGGESTION, PERCEPTION, THRESHOLD, TASTE and INSUFFICIENT.\n- Only TASTE disputes enter the senior queue, each with the measured facts, both sides' warrants, qualifiers and rebuttals, and both witness cards.\n- A dispute involving a NOT_BLIND session is never SUGGESTION or TASTE.\n- A fixture that satisfies two classes gets the first one in the documented order.\n- Existing disagreement tests pass unchanged, and a regression test shows that disagreement.py output is unchanged.\n- Disputes, classes and witness cards are included in private dataset snapshots and absent from public and embed payloads.\n- PERCEPTION and THRESHOLD require VALIDATED, in-scope checks; with only MEASURED_UNVALIDATED evidence the dispute is INSUFFICIENT.\n\nPriority raised to P0 by A4, 2026-10-09."
+
+[[item]]
+id = "WP06"
+title = "Intent legibility"
+priority = "P1"
+approval = "APPROVED"
+size = "S"
+risk = "LOW"
+category = "domain"
+depends_on = ["WP01"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Match records exist only for MUST and SHOULD criteria of the revealed revision.", "A match recorded before the reveal is rejected.", "UNKNOWN propagates, and nothing defaults to MISSED.", "FEED and STUDIO results are never pooled.", "Match records are included in private dataset snapshots."]
+notes = "Sphoenix approval 2026-10-09, amendment A2, Sections 5.2 and 5.3. Not D01: matches are written by people.\n\nAfter the reveal, a human (the judge or Sphoenix) records, for each MUST and SHOULD criterion of the revealed revision, whether the blind intent_inference recovered it: RECOVERED, PARTIAL, MISSED or UNKNOWN. Automatic text matching would be a judge (D01).\nReport: counts by status and criterion priority, separately for each viewing profile.\nIn a feed nobody reads the brief. Legibility asks whether the clip carries its intent without it.\nThe docs name two borrowings: the message-takeaway checks of advertising copy testing, and the action-and-reason format of the Pitt Ads dataset (Hussain et al., CVPR 2017). The format only; importing that dataset stays deferred (D12).\n\nCommon approved constraints (A2 Section 5.3):\n- **I1.** For real clips, the loop never writes statements, changes, legibility matches or assessments. Instruments write InstrumentRun records only, never observations.\n- **I5.** Statements, instrument runs and claim checks never reference intent. Only post-reveal assessments and legibility matches do.\n- **I2.** Anything not measured is UNMEASURABLE or UNKNOWN, never a pass.\n- **I8, exactly as written:** \"No average hides a failure. Aggregates keep the worst case for each dimension. No decision uses a mean.\" Instruments report per-frame values and the worst frame alongside any span mean. Every claim check states which summary it uses, and checks that a failure could hide in use the worst frame.\n- **I9.** No probabilities.\n- **I12.** Canary status, judge identities and witness cards never appear in public or embed payloads.\n- **Snapshots.** New record types are included in private dataset snapshots. This is the gap that failed L11.\n- **Faces.** Instruments measure regions, color, timing and motion. They do no face identification, no expression or emotion reading, no deception scoring and no inference about a person's intent.\n- **Media.** Generate test clips with ffmpeg lavfi in a temp folder at test time. Never commit media files: G6 forbids video extensions, and G7 counts them as changed lines.\n- **Excluded tools.** No cloud media APIs. No new AGPL or GPL dependencies; the pinned ffmpeg build is existing human-installed tooling.\n- **Size.** Split an item with `STEP-N-split.toml` if it will not fit in 900 changed lines.\n\nAcceptance:\n- Match records exist only for MUST and SHOULD criteria of the revealed revision.\n- A match recorded before the reveal is rejected.\n- UNKNOWN propagates, and nothing defaults to MISSED.\n- FEED and STUDIO results are never pooled.\n- Match records are included in private dataset snapshots."
+
+[[item]]
+id = "WP07"
+title = "Model-based instrument adapters"
+priority = "P2"
+approval = "PROPOSED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = ["WP02", "WP03"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides the tools, their licenses and any optional dependencies before implementation."]
+rationale = "Fills the UNMEASURABLE predicates from WP03 with local instruments."
+notes = "Candidates checked on 2026-10-09; verify again before approval.\nMediaPipe pose and hand landmarkers (Apache 2.0, native arm64 wheels): BODY_MOTION.\nOpenCV DIS optical flow (Apache 2.0, CPU): CAMERA_MOVE for pan, tilt and zoom. CameraBench (2025) found that geometric methods miss tracking shots, so those stay UNMEASURABLE.\nRF-DETR sizes N to L, or OWLv2 (both Apache 2.0): PRESENCE. Not RF-DETR XL or 2XL, which use the Platform Model License.\nSAM 3.1 (SAM License): POSITION, and masks for REGION_COLOR. The official code targets CUDA. Mac ports are community builds at about 2 to 3 seconds per frame, so run on keyframes only and pin the port commit and the weight hash.\nDINOv3 (DINOv3 License): drift in object identity inside masks.\nExcluded: Ultralytics YOLO and YOLOE (AGPL-3.0); YOLO-World (GPL-3.0); cloud APIs, because media stays local; V-JEPA surprise as a claim instrument, because 2026 work found it near chance as a direct detector of physics violations; anything that reads faces for identity, expression or emotion.\nThe SAM and DINOv3 licenses restrict ITAR-covered activities and military or warfare end uses; read both before approval.\nShape: an optional extra, adapters behind the WP02 contract, and fakes in tests. Sphoenix installs the weights and runs the adapters.\n\nCommon approved constraints (A2 Section 5.3):\n- **I1.** For real clips, the loop never writes statements, changes, legibility matches or assessments. Instruments write InstrumentRun records only, never observations.\n- **I5.** Statements, instrument runs and claim checks never reference intent. Only post-reveal assessments and legibility matches do.\n- **I2.** Anything not measured is UNMEASURABLE or UNKNOWN, never a pass.\n- **I8, exactly as written:** \"No average hides a failure. Aggregates keep the worst case for each dimension. No decision uses a mean.\" Instruments report per-frame values and the worst frame alongside any span mean. Every claim check states which summary it uses, and checks that a failure could hide in use the worst frame.\n- **I9.** No probabilities.\n- **I12.** Canary status, judge identities and witness cards never appear in public or embed payloads.\n- **Snapshots.** New record types are included in private dataset snapshots. This is the gap that failed L11.\n- **Faces.** Instruments measure regions, color, timing and motion. They do no face identification, no expression or emotion reading, no deception scoring and no inference about a person's intent.\n- **Media.** Generate test clips with ffmpeg lavfi in a temp folder at test time. Never commit media files: G6 forbids video extensions, and G7 counts them as changed lines.\n- **Excluded tools.** No cloud media APIs. No new AGPL or GPL dependencies; the pinned ffmpeg build is existing human-installed tooling.\n- **Size.** Split an item with `STEP-N-split.toml` if it will not fit in 900 changed lines.\n\nAcceptance:\n- Proposal only: Sphoenix decides the tools, their licenses and any optional dependencies before implementation."
+
+[[item]]
+id = "WP08"
+title = "Witness protocol documentation"
+priority = "P1"
+approval = "APPROVED"
+size = "S"
+risk = "LOW"
+category = "docs"
+depends_on = ["WP05", "WP06"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["docs/witness-protocol.md describes only what is built, with the commands to run it.", "It names prior work and states plainly what is not new.", "No superiority claims and no real-media results.", "House style: plain, specific sentences; no em dashes; no hype.", "The document states that instrument authority is scoped by validation and that measurement is evidence, not ground truth.", "Conceptual examples that the lab cannot yet measure, such as a subject that appears to slide, are labelled as hypothesis examples and claim no measured result.", "The document explains how SC3-Eval's three consistency checks (arXiv 2606.18610) map onto the witness layer, covering SC01 to SC04 only if they are DONE when WP08 runs and naming them as not yet built otherwise."]
+notes = "Sphoenix approval 2026-10-09, amendment A2, Sections 5.2 and 5.3.\n\nPrior work to cite. The researcher verifies each item before it is used:\nLinear Sequential Unmasking (Dror et al. 2015) and LSU-E (Dror and Kukucka 2021);\nblind proficiency testing at the Houston Forensic Science Center, and PCAST 2016 on blind testing within casework;\nVideoAlign / VideoReward (arXiv 2501.13918), which scores visual quality before reading the prompt;\nXu, \"Don't Read the Log\" (arXiv 2609.28564), on execution traces contaminating video verifiers;\nLai and Huang (arXiv 2609.00067), on context-blind visual witnesses;\nLMM-JND (arXiv 2507.00490), on just-noticeable differences for multimodal models;\nUniHD (ACL 2024), on tool-based claim verification;\nVideoArgus (arXiv 2608.05485), on rubrics written before outputs are seen;\nEmu Video's JUICE (arXiv 2311.10709), on raters justifying their choices.\nNovelty, as far as the 2026-10-09 search found: independent instruments check the judges' own claims; a real intent reveal is measured for how it changes a judge's observations; disputes are routed on those results. Write \"as far as we found\", never \"first\".\n\nCommon approved constraints (A2 Section 5.3):\n- **I1.** For real clips, the loop never writes statements, changes, legibility matches or assessments. Instruments write InstrumentRun records only, never observations.\n- **I5.** Statements, instrument runs and claim checks never reference intent. Only post-reveal assessments and legibility matches do.\n- **I2.** Anything not measured is UNMEASURABLE or UNKNOWN, never a pass.\n- **I8, exactly as written:** \"No average hides a failure. Aggregates keep the worst case for each dimension. No decision uses a mean.\" Instruments report per-frame values and the worst frame alongside any span mean. Every claim check states which summary it uses, and checks that a failure could hide in use the worst frame.\n- **I9.** No probabilities.\n- **I12.** Canary status, judge identities and witness cards never appear in public or embed payloads.\n- **Snapshots.** New record types are included in private dataset snapshots. This is the gap that failed L11.\n- **Faces.** Instruments measure regions, color, timing and motion. They do no face identification, no expression or emotion reading, no deception scoring and no inference about a person's intent.\n- **Media.** Generate test clips with ffmpeg lavfi in a temp folder at test time. Never commit media files: G6 forbids video extensions, and G7 counts them as changed lines.\n- **Excluded tools.** No cloud media APIs. No new AGPL or GPL dependencies; the pinned ffmpeg build is existing human-installed tooling.\n- **Size.** Split an item with `STEP-N-split.toml` if it will not fit in 900 changed lines.\n\nA2.1 Rule 5: An instrument measurement is evidence whose authority depends on validation. It is never ground truth because a machine produced it. CONTRADICTED means a VALIDATED, in-scope measurement disagrees with the observation. The observation stays stored, unchanged, and is never marked false.\n\nAcceptance:\n- docs/witness-protocol.md describes only what is built, with the commands to run it.\n- It names prior work and states plainly what is not new.\n- No superiority claims and no real-media results.\n- House style: plain, specific sentences; no em dashes; no hype.\n- The document states that instrument authority is scoped by validation and that measurement is evidence, not ground truth.\n- Conceptual examples that the lab cannot yet measure, such as a subject that appears to slide, are labelled as hypothesis examples and claim no measured result.\n\nA4 appended acceptance:\n- The document explains how SC3-Eval's three consistency checks (arXiv 2606.18610) map onto the witness layer, covering SC01 to SC04 only if they are DONE when WP08 runs and naming them as not yet built otherwise."
+
+# A3 proposals only; no implementation authorization.
+
+[[item]]
+id = "A3-01"
+title = "Evidence partitions and withheld-context challenges"
+priority = "P2"
+approval = "PROPOSED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = ["WP01", "WP03", "WP05"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."]
+rationale = "Generalizes the intent reveal to any exposure channel, so the lab measures which evidence a judgment depends on."
+notes = "Proposed 2026-10-09 (A3). A witness statement is sealed under a declared evidence partition: which channels, time spans, regions and views were visible. Then one source is revealed or withheld at a time, and what changes is recorded.\nFresh-context model witnesses first, because each call can start clean. Humans only through fixed, approved cohort protocols (A2.1 Rule 4).\nChallenges include: hide the prompt; hide model identity; withhold a time span or region and ask for a prediction of it; withhold one camera of a multi-view clip and ask for a reconstruction.\nInspired by self-consistency evaluation of world models (SC3-Eval, arXiv 2606.18610: cross-view inpainting, forward-inverse consistency, test-time drift flags) and by the BotNews article \"How to catch a world model lying to you\".\nThe combinatorics grow fast: plan small fixed partition sets, not every subset.\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist.\n\nNarrowed slice approved as SC01 (A4, 2026-10-09). The remainder stays PROPOSED."
+
+[[item]]
+id = "A3-02"
+title = "Decision-relevance router"
+priority = "P2"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L06", "L08", "WP03"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."]
+rationale = "Run only the instruments and challenges whose results could change the decision, with no probability arithmetic (I9)."
+notes = "Proposed 2026-10-09 (A3). For a claim or an unresolved hypothesis set, consider each candidate instrument or challenge:\n1. Diagnostic: is it diagnostic for the unresolved hypotheses under L08's classes? If NON_DIAGNOSTIC, skip it.\n2. Decision-relevant: re-run the current DecisionPolicy under each of its possible outcomes. If no outcome changes the decision, skip it.\n3. Valid: is the instrument VALIDATED for this input's domain (A2.1 Rule 1)? If not, it cannot settle anything; it can only add MEASURED_UNVALIDATED context.\nTie-break among eligible candidates: validated scope, then existing cached evidence, then cost, then latency.\nDeterministic, auditable, and no expected-information-gain numbers (D08 stays deferred).\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist.\n\nNarrowed slice approved as SC02 (A4, 2026-10-09)."
+
+[[item]]
+id = "A3-03"
+title = "Shared perception cache with evidence lineage"
+priority = "P2"
+approval = "PROPOSED"
+size = "L"
+risk = "HIGH"
+category = "domain"
+depends_on = ["WP02", "WP03", "WP07"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."]
+rationale = "One perception pass per clip serves many measurements, while lineage stops reuse from posing as independent evidence."
+notes = "Proposed 2026-10-09 (A3). Per clip, a temporal entity graph: entities (person, object, ground region) with mask tracks, appearance trajectories, pose trajectories, motion and color trajectories, and relations such as standing_on, holding and occluded_by. Downstream measurements (identity drift, position, contact, grade consistency, occlusion) reuse it.\nEvery derived value keeps its evidence roots (A2.1 Rule 3). A tracking error upstream is one witness, not many.\nSemantic grade consistency is the first payoff: a REGION_COLOR measurement on a tracked semantic region (skin, garment, product) through one shot, compared against illumination changes elsewhere in the frame.\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."
+
+[[item]]
+id = "A3-04"
+title = "Counterfactual tests of stated reasons"
+priority = "P2"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["WP04", "WP05", "L11"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."]
+rationale = "Test whether a judge's verdict actually depends on the factor its warrant names."
+notes = "Proposed 2026-10-09 (A3). Take the factor a warrant names (for example, a warm grade). Produce a measured, minimal edit of that factor with the WP04 machinery. Check whether the verdict moves as the warrant predicts. A warrant that survives the edit is backed; one that does not is recorded as an unbacked reason, beside the verdict and never replacing it.\nFor humans this compares stated reasons with revealed preferences; for model judges it tests rationale faithfulness.\nPrior art: explanation-driven counterfactual testing for visual question answering (EDCT, arXiv 2510.00047; EDCT-Bench, arXiv 2609.17953). The 2026-10-09 search found no version for judges of generated media, with measured doses, or for human raters.\nControl for edit seams: small, measured doses, plus a sham edit of equal size on an unrelated region.\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist.\n\nNarrowed slice approved as SC03 (A4, 2026-10-09). The human counterfactual protocol stays PROPOSED."
+
+[[item]]
+id = "A3-05"
+title = "Backed spans and evidence-carrying judgments"
+priority = "P2"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["WP03", "WP05"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."]
+rationale = "A judgment ships with its evidence path and the spans where its own checks hold."
+notes = "Proposed 2026-10-09 (A3). Output format for a judgment:\njudgment; observation; evidence spans and entities; witness exposure state; instruments with validity status; challenges run and their results; surviving and weakened alternatives; the criterion it bears on; the action.\nEach judge also reports backed spans, where its checks against withheld evidence held, and unbacked spans, which route to a person.\nA score ranks; a judgment that names the failure, and shows whether the naming survived cross-examination, gives a lead.\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist.\n\nNarrowed slice approved as SC04 (A4, 2026-10-09)."
+
+[[item]]
+id = "A3-06"
+title = "Instrument validation ladder"
+priority = "P2"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "validation"
+depends_on = ["WP02", "WP04"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope and data licenses before implementation."]
+rationale = "Earn instrument authority in order, from exact synthetic ground truth to real multi-view footage to generated media."
+notes = "Proposed 2026-10-09 (A3). Order:\n1. Known-dose lab clips (WP04).\n2. Kubric synthetic scenes (Apache 2.0) with exact masks, depth and optical flow.\n3. Ego-Exo4D (Meta; about 1,286 hours, 4 to 5 synchronized exocentric cameras per take, consented participants, 3D body and hand pose). Access requires accepting its license agreement; Sphoenix reviews it first.\n4. Generated-media-specific validation, because real footage does not validate instruments on generated failures such as melting hands or morphing objects.\nEach step writes ValidationRecords with a scope (A2.1 Rule 1). No instrument is VALIDATED for generated media on the strength of real-footage results alone.\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope and data licenses before implementation."
+
+[[item]]
+id = "A3-07"
+title = "Labeling import adapter (Ultralytics, Roboflow, others)"
+priority = "P2"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["WP02"]
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."]
+rationale = "Use labeling tools as operator tooling and import neutral formats, so the ontology is not tied to a vendor or its license."
+notes = "Proposed 2026-10-09 (A3). Ultralytics (manual, SAM-assisted and YOLO-assisted annotation), Roboflow and others run outside the repository. The lab imports COCO JSON or YOLO txt through an adapter. Each import records:\n- tool, version, model weights hash, export SHA-256;\n- a versioned class map from tool classes to ontology concepts.\nMachine-proposed labels are instrument outputs with evidence roots (A2.1 Rule 3). Human-corrected labels become human observations.\nNo Ultralytics code or weights enter the repository; its standard stack is AGPL-3.0 unless commercially licensed.\n\nA2.1 Part 2: Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. Do not approve, auto-approve or build this proposal. It never blocks approved items and never expands their evaluation scope.\n\nAcceptance:\n- Proposal only: Sphoenix decides scope after L04 to L12 are integrated and the first three human cases exist."
+
+# A4 approved SC3 self-consistency track, fixtures only.
+
+[[item]]
+id = "SC01"
+title = "Evidence partitions and withheld-evidence predictions"
+priority = "P0"
+approval = "APPROVED"
+size = "L"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["WP01", "WP03"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["How does WP01 store exposure sets and reveal events, and how does WP03 route a claim to an instrument? Cite file:line."]
+acceptance = [
+  "A HUMAN session sealed under any partition other than the one HUMAN_MEDIA_FIRST_V1 defines is rejected.",
+  "A MODEL partition session is accepted only for TEST-ONLY fixture clips, and no model is called.",
+  "A withheld-evidence prediction must be sealed before the withheld evidence is revealed; a prediction timed after the reveal is rejected.",
+  "Prediction checks follow WP03 and A2.1 Rule 1: SUPPORTED or CONTRADICTED only with VALIDATED, in-scope instruments, otherwise MEASURED_UNVALIDATED or UNMEASURABLE.",
+  "In a TEST-ONLY fixture with two MODEL partitions that differ only in the PROMPT channel, a claim present only under the PROMPT-visible partition is reported as dependent on PROMPT.",
+  "Partitions, predictions and dependence reports are included in private dataset snapshots and absent from public and embed payloads.",
+]
+notes = """Sphoenix approval 2026-10-09, amendment A4. Narrowed from A3-01. Not D01: MODEL sessions are fixture-only.
+SC3-Eval analogue: cross-view consistency (each view filled in from the others).
+
+EvidencePartition: id; visible channels (the WP01 channel set); visible time spans (a list of [start_s, end_s] or ALL); visible regions (normalized rectangles or ALL); visible views (view ids or ALL); digest using the L03 canonical digest.
+A partition session is a WP01 WitnessSession whose blind statement is sealed under a declared EvidencePartition.
+WithheldPrediction: session ref; target (a withheld span, region, view or channel); a predicate from the WP03 vocabulary; the predicted value or class; sealed with the L03 mechanism before the reveal.
+After the reveal, each prediction is checked like a WP03 claim, with dependency families (A2.1 Rule 3).
+Dependence report: for one clip and judge kind, compare statements across partitions and list each claim that appears only when a given channel, span, region or view is visible. This is the record of which evidence an answer depends on.
+Human use of partitions other than HUMAN_MEDIA_FIRST_V1 waits for a protocol Sphoenix approves."""
+
+[[item]]
+id = "SC02"
+title = "Decision-relevance router"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["L06", "L08", "L10", "WP03"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["Which L06 policy inputs change when L10 eliminates or retains hypotheses? Cite file:line."]
+acceptance = [
+  "A candidate whose outcomes are NON_DIAGNOSTIC for the unresolved named hypotheses is skipped, with that reason.",
+  "A candidate none of whose possible outcomes changes the decision, when the decision policy is re-run on the hypothesis states L10 would produce for each outcome, is skipped, with that reason.",
+  "A candidate whose instrument is not VALIDATED for the input's domain is marked CONTEXT_ONLY and never ranked as able to settle the dispute.",
+  "Eligible candidates are ranked by validated scope, then existing equivalent evidence, then declared cost, then declared latency; one fixture checks each tie-break.",
+  "Identical inputs produce byte-identical routing plans.",
+  "The router only plans: it never runs an instrument, a challenge or a model.",
+  "No routing record contains a probability, an expected value or an information-gain field.",
+]
+notes = """Sphoenix approval 2026-10-09, amendment A4. Narrowed from A3-02.
+Decides which SC3-style checks are worth running.
+
+Inputs: an unresolved competing set (L07) with a frozen test plan or declared candidate tests (L08 predictions: hypothesis to outcome ids); the current decision and its policy (L06); candidate tests, each either an instrument spec (WP02) or a declared challenge, with outcome categories, declared cost in seconds and declared latency.
+For each candidate:
+1. Diagnosticity, using L08's classes over named hypotheses.
+2. Decision relevance: for each possible outcome, compute the hypothesis states L10 would assign (ELIMINATED or RETAINED; the residual is never eliminated), re-run the L06 policy with those states, and compare the decision.
+3. Validity: is the instrument VALIDATED for this input's domain (A2.1 Rule 1)?
+Output: a RoutingPlan record listing every candidate with its verdict (RUN_FIRST, RUN_LATER, CONTEXT_ONLY or SKIP) and the reason. Deterministic, digest-pinned, private."""
+
+[[item]]
+id = "SC03"
+title = "Counterfactual tests of stated reasons"
+priority = "P0"
+approval = "APPROVED"
+size = "L"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["WP04", "WP05", "L11"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = ["Which WP04 perturbation kinds can serve as a counterfactual edit and as a sham edit, and how are their doses verified? Cite file:line."]
+acceptance = [
+  "A reason prediction must be sealed before the counterfactual and sham variants are generated; a prediction timed after generation is rejected.",
+  "Every test has both a counterfactual edit of the named factor and a sham edit of equal declared dose on an unrelated region or span; a test without a sham is INCONCLUSIVE.",
+  "A variant whose dose is UNVERIFIED_DOSE makes the test INCONCLUSIVE.",
+  "TEST-ONLY fixtures cover BACKED, UNBACKED and INCONCLUSIVE.",
+  "Results are recorded beside the warrant; nothing edits a warrant, a relation, an assessment or a decision.",
+  "HUMAN sessions are rejected until Sphoenix approves a human counterfactual protocol; MODEL sessions are accepted only for TEST-ONLY fixture clips, and no model is called.",
+  "Tests and results are included in private dataset snapshots and absent from public and embed payloads.",
+]
+notes = """Sphoenix approval 2026-10-09, amendment A4. Narrowed from A3-04. Not D01: MODEL sessions are fixture-only.
+SC3-Eval analogue: forward-inverse consistency. A stated reason has to predict what happens when the thing it names is changed.
+
+ReasonPrediction: assessment ref; the Relation v2 warrant it tests; the named factor mapped to a WP04 measurand (REGION_COLOR, FRAME_CADENCE, SPEED or REFRAME); direction and dose; the predicted effect (the verdict changes to a named status, or does not change). Sealed with the L03 mechanism.
+The WP04 generator produces the counterfactual variant and a sham variant. Doses are measured, and only VALIDATED, in-scope measurements verify them.
+Results:
+BACKED: the verdict moved as predicted under the counterfactual edit and did not move under the sham.
+UNBACKED: the verdict did not move under the counterfactual edit, or moved under the sham as well.
+INCONCLUSIVE: no sham, an unverified dose, or missing assessments.
+Prior art for visual question answering: EDCT (arXiv 2510.00047) and EDCT-Bench (arXiv 2609.17953). The researcher verifies before docs cite them."""
+
+[[item]]
+id = "SC04"
+title = "Backed spans and evidence-carrying judgments"
+priority = "P0"
+approval = "APPROVED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = ["WP03", "WP05", "L06", "L10"]
+human_review = false
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = [
+  "Every span of a session's clip is classed BACKED, CONTESTED or UNBACKED from its claim checks, with dependency families counted once; one fixture per class, including two checks from one mask file counting as one family.",
+  "An evidence-carrying judgment export validates against a versioned schema in schemas/ and is byte-identical across runs for fixed inputs.",
+  "UNBACKED and CONTESTED spans are listed for human review, and nothing acts on them automatically.",
+  "Exports are private: they never appear in public or embed payloads, and they are included in private dataset snapshots.",
+  "Nothing in this item changes an assessment, a decision or a policy.",
+]
+notes = """Sphoenix approval 2026-10-09, amendment A4. Narrowed from A3-05.
+SC3-Eval analogue: test-time consistency, which stops a rollout where frames drift from actions.
+
+Span classes:
+BACKED: at least one dependency family of VALIDATED, in-scope SUPPORTED checks, and no CONTRADICTED check.
+CONTESTED: any CONTRADICTED check.
+UNBACKED: only MEASURED_UNVALIDATED or UNMEASURABLE checks, or no checkable claims.
+
+Evidence-carrying judgment export: the judgment; observations; evidence spans and entities; the witness exposure state; instruments with their validity status; challenges and outcomes (SC01 and SC03 if present); alternatives with their L10 states; the criterion; the decision with its policy rule (L06); and the span classes.
+A score ranks. This record names the failure and shows whether the naming survived cross-examination."""
+
+[[item]]
+acceptance = ["Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.", "The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.", "One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.", "Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."
+parent = "L12"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "M"
+title = "Lint: shared evidence boundary, all-rule prerequisites and contract tests"
+
+[[item]]
+acceptance = ["one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-B"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."
+parent = "L12"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "M"
+title = "Lint: complete rule evaluator and TEST-ONLY trigger and clean graphs"
+
+[[item]]
+acceptance = ["Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.", "Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-C"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."
+parent = "L12"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "M"
+title = "Lint: fail-closed retained query, readiness, snapshots and context regressions"
+
+[[item]]
+acceptance = ["The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.", "Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A1"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."
+parent = "L12-A"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "M"
+title = "Lint evidence primitives: shared states, raw exact reader and focused contracts"
+
+[[item]]
+acceptance = ["Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.", "Shared preparation infrastructure declares and checks traversal, exact Ref/Pin dependencies, explicit collection completeness, raw record identity and integrity, and scoped media/intent correspondence through the existing evidence boundary. Its new validators have isolated missing/null/malformed and valid controls, exact diagnostics, and deletion-sensitive tests. It does not expose a partially populated all-rule context as ready.", "Temporal, relation and optional-branch prerequisites for E3, E4, W1, W4 and W5 are declared and checked, including frame-attachment derivative requirements and exact selected-index/media correspondence, decoded timeline bounds, motion dimensions, relation vocabulary and purposes, and stochastic sample-design branches. Every new rejection guard has an isolated failing and valid control and a named test that fails when the guard is removed, on direct and retained paths where applicable.", "Warrant, provenance and override prerequisites for E1, E2, E2w and E7 are declared and checked, including exact first-view and registration content identity, seal/plan/origin correspondence, chronology compared as instants without changing raw payloads or pinned digests, and override reasons. Every new rejection guard has isolated literal expected diagnostics and deletion-sensitive direct and retained controls, including equivalent-offset positive cases and distinct-content equal-time negative cases.", "Role, history, frozen-plan and alternative prerequisites for E5, E6, W2 and W3 are declared and checked, including confidence predecessors, evidence/run/arm dependencies, complete scoped collections, exact frozen-plan integrity and residual/alternative membership. Every new rejection guard has isolated literal expected diagnostics and deletion-sensitive controls. After the preceding prerequisite groups exist, verify the original all-rule acceptance as their conjunction; missing declarations or unconsumed declared prerequisites cannot yield a usable complete context."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A2"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit.\n\nOperator size decomposition, Sphoenix 2026-10-10 L12 directive: the original all-rule acceptance above is unchanged. These appended subordinate criteria add no new product scope; they make the existing exact-partition split mechanism usable without cutting tests or raising the 900-line cap. Only while planning the unsplit item L12-A2, split before further implementation. Resulting children implement only their assigned acceptance subset; this parent instruction does not request another split of a child whose own scope fits the cap. A practical four-child partition is shared infrastructure; temporal/relation/optional branches; warrant/provenance/override branches; then role/history/frozen/alternative branches plus the original all-rule conjunction. Each child adds focused tests for every new guard; the exhaustive L12-A3 matrix remains a separate, unchanged obligation. Do not present an intermediate subset as complete lint/readiness. Follow the critical-path ordering; no unrelated work may substitute for a blocked prerequisite.\n\nStep 0023 is a genuine evaluated product attempt, preserved with its charged retry. Its rejected candidate and tests are retained in that step's evidence; do not relabel it as harness failure, refund its retry, or treat its green ordinary tests as acceptance. Each child plan must map the findings in loop/reports/STEP-0023/eval_r1.json and eval_r2.json to its owned remedy or remaining sibling obligation. Preserve all previously integrated tests and add the necessary isolated controls; do not remove or loosen controls to meet the cap. Do not use partial coverage deferred to A3 as an excuse for missing tests of newly introduced validators."
+parent = "L12-A"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "M"
+title = "Lint prerequisites: all-rule field declarations and checked branch preparation"
+
+[[item]]
+acceptance = ["One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A3"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."
+parent = "L12-A"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "M"
+title = "Lint contracts: independent all-rule matrix through direct and retained paths"
+
+[[item]]
+id = "P0023-1"
+title = "Decompose L12-A2 acceptance so focused validator controls fit bounded steps"
+rationale = "The current L12-A2 candidate has 858 product/test changed lines and nineteen rejection guards whose deletion survives the focused suite. A2 rule 4 remains unmet. The exact-partition split mechanism cannot divide one acceptance string into multiple nonempty children. Sphoenix should approve a finer acceptance breakdown and new sealed plans before further implementation. Preserve all existing controls; do not move necessary focused tests to A3 or treat this partial candidate as integrated acceptance. Evidence: loop/reports/STEP-0023-L12-A2.md, Changes."
+priority = "P2"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Approve separate criteria for shared checked traversal and scope contracts; temporal, relation and optional branches; warrant and provenance dependencies; and role, history and frozen-plan dependencies, each including its own focused deletion-sensitive validator controls.", "Preserve the original all-rule acceptance as the final conjunction, the existing exhaustive A3 matrix, all existing tests, and the 900 changed-line cap for each resulting step."]
+
+[[item]]
+acceptance = ["Shared preparation infrastructure declares and checks traversal, exact Ref/Pin dependencies, explicit collection completeness, raw record identity and integrity, and scoped media/intent correspondence through the existing evidence boundary. Its new validators have isolated missing/null/malformed and valid controls, exact diagnostics, and deletion-sensitive tests. It does not expose a partially populated all-rule context as ready."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A2a"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit.\n\nOperator size decomposition, Sphoenix 2026-10-10 L12 directive: the original all-rule acceptance above is unchanged. These appended subordinate criteria add no new product scope; they make the existing exact-partition split mechanism usable without cutting tests or raising the 900-line cap. Only while planning the unsplit item L12-A2, split before further implementation. Resulting children implement only their assigned acceptance subset; this parent instruction does not request another split of a child whose own scope fits the cap. A practical four-child partition is shared infrastructure; temporal/relation/optional branches; warrant/provenance/override branches; then role/history/frozen/alternative branches plus the original all-rule conjunction. Each child adds focused tests for every new guard; the exhaustive L12-A3 matrix remains a separate, unchanged obligation. Do not present an intermediate subset as complete lint/readiness. Follow the critical-path ordering; no unrelated work may substitute for a blocked prerequisite.\n\nStep 0023 is a genuine evaluated product attempt, preserved with its charged retry. Its rejected candidate and tests are retained in that step's evidence; do not relabel it as harness failure, refund its retry, or treat its green ordinary tests as acceptance. Each child plan must map the findings in loop/reports/STEP-0023/eval_r1.json and eval_r2.json to its owned remedy or remaining sibling obligation. Preserve all previously integrated tests and add the necessary isolated controls; do not remove or loosen controls to meet the cap. Do not use partial coverage deferred to A3 as an excuse for missing tests of newly introduced validators."
+parent = "L12-A2"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "S"
+title = "Lint prerequisites: shared checked preparation infrastructure"
+
+[[item]]
+acceptance = ["Temporal, relation and optional-branch prerequisites for E3, E4, W1, W4 and W5 are declared and checked, including frame-attachment derivative requirements and exact selected-index/media correspondence, decoded timeline bounds, motion dimensions, relation vocabulary and purposes, and stochastic sample-design branches. Every new rejection guard has an isolated failing and valid control and a named test that fails when the guard is removed, on direct and retained paths where applicable."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A2b"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit.\n\nOperator size decomposition, Sphoenix 2026-10-10 L12 directive: the original all-rule acceptance above is unchanged. These appended subordinate criteria add no new product scope; they make the existing exact-partition split mechanism usable without cutting tests or raising the 900-line cap. Only while planning the unsplit item L12-A2, split before further implementation. Resulting children implement only their assigned acceptance subset; this parent instruction does not request another split of a child whose own scope fits the cap. A practical four-child partition is shared infrastructure; temporal/relation/optional branches; warrant/provenance/override branches; then role/history/frozen/alternative branches plus the original all-rule conjunction. Each child adds focused tests for every new guard; the exhaustive L12-A3 matrix remains a separate, unchanged obligation. Do not present an intermediate subset as complete lint/readiness. Follow the critical-path ordering; no unrelated work may substitute for a blocked prerequisite.\n\nStep 0023 is a genuine evaluated product attempt, preserved with its charged retry. Its rejected candidate and tests are retained in that step's evidence; do not relabel it as harness failure, refund its retry, or treat its green ordinary tests as acceptance. Each child plan must map the findings in loop/reports/STEP-0023/eval_r1.json and eval_r2.json to its owned remedy or remaining sibling obligation. Preserve all previously integrated tests and add the necessary isolated controls; do not remove or loosen controls to meet the cap. Do not use partial coverage deferred to A3 as an excuse for missing tests of newly introduced validators."
+parent = "L12-A2"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "S"
+title = "Lint prerequisites: temporal, relation and optional branches"
+
+[[item]]
+acceptance = ["Warrant, provenance and override prerequisites for E1, E2, E2w and E7 are declared and checked, including exact first-view and registration content identity, seal/plan/origin correspondence, chronology compared as instants without changing raw payloads or pinned digests, and override reasons. Every new rejection guard has isolated literal expected diagnostics and deletion-sensitive direct and retained controls, including equivalent-offset positive cases and distinct-content equal-time negative cases."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A2c"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit.\n\nOperator size decomposition, Sphoenix 2026-10-10 L12 directive: the original all-rule acceptance above is unchanged. These appended subordinate criteria add no new product scope; they make the existing exact-partition split mechanism usable without cutting tests or raising the 900-line cap. Only while planning the unsplit item L12-A2, split before further implementation. Resulting children implement only their assigned acceptance subset; this parent instruction does not request another split of a child whose own scope fits the cap. A practical four-child partition is shared infrastructure; temporal/relation/optional branches; warrant/provenance/override branches; then role/history/frozen/alternative branches plus the original all-rule conjunction. Each child adds focused tests for every new guard; the exhaustive L12-A3 matrix remains a separate, unchanged obligation. Do not present an intermediate subset as complete lint/readiness. Follow the critical-path ordering; no unrelated work may substitute for a blocked prerequisite.\n\nStep 0023 is a genuine evaluated product attempt, preserved with its charged retry. Its rejected candidate and tests are retained in that step's evidence; do not relabel it as harness failure, refund its retry, or treat its green ordinary tests as acceptance. Each child plan must map the findings in loop/reports/STEP-0023/eval_r1.json and eval_r2.json to its owned remedy or remaining sibling obligation. Preserve all previously integrated tests and add the necessary isolated controls; do not remove or loosen controls to meet the cap. Do not use partial coverage deferred to A3 as an excuse for missing tests of newly introduced validators."
+parent = "L12-A2"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "S"
+title = "Lint prerequisites: warrant, provenance and override branches"
+
+[[item]]
+acceptance = ["Role, history, frozen-plan and alternative prerequisites for E5, E6, W2 and W3 are declared and checked, including confidence predecessors, evidence/run/arm dependencies, complete scoped collections, exact frozen-plan integrity and residual/alternative membership. Every new rejection guard has isolated literal expected diagnostics and deletion-sensitive controls. After the preceding prerequisite groups exist, verify the original all-rule acceptance as their conjunction; missing declarations or unconsumed declared prerequisites cannot yield a usable complete context.", "Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A2d"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit.\n\nOperator size decomposition, Sphoenix 2026-10-10 L12 directive: the original all-rule acceptance above is unchanged. These appended subordinate criteria add no new product scope; they make the existing exact-partition split mechanism usable without cutting tests or raising the 900-line cap. Only while planning the unsplit item L12-A2, split before further implementation. Resulting children implement only their assigned acceptance subset; this parent instruction does not request another split of a child whose own scope fits the cap. A practical four-child partition is shared infrastructure; temporal/relation/optional branches; warrant/provenance/override branches; then role/history/frozen/alternative branches plus the original all-rule conjunction. Each child adds focused tests for every new guard; the exhaustive L12-A3 matrix remains a separate, unchanged obligation. Do not present an intermediate subset as complete lint/readiness. Follow the critical-path ordering; no unrelated work may substitute for a blocked prerequisite.\n\nStep 0023 is a genuine evaluated product attempt, preserved with its charged retry. Its rejected candidate and tests are retained in that step's evidence; do not relabel it as harness failure, refund its retry, or treat its green ordinary tests as acceptance. Each child plan must map the findings in loop/reports/STEP-0023/eval_r1.json and eval_r2.json to its owned remedy or remaining sibling obligation. Preserve all previously integrated tests and add the necessary isolated controls; do not remove or loosen controls to meet the cap. Do not use partial coverage deferred to A3 as an excuse for missing tests of newly introduced validators."
+parent = "L12-A2"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "S"
+title = "Lint prerequisites: role, history, frozen-plan and alternative branches; all-rule conjunction"
+
+[[item]]
+id = "P0030-1"
+title = "Replan the remaining role controls and independent all-rule conjunction without reducing acceptance"
+rationale = "The candidate already uses 781 product/test lines before the all-rule composition implementation. Thirty new conjunction tests are red, and further branch, consumption, history and mutation controls remain necessary. Only 119 lines remain before this proposal is counted. The builder has not established a correct implementation fitting that remainder and stops under the sealed Plan size contingency. This is an incomplete product attempt, not a harness failure or an accepted partial implementation. Preserve all tests and the charged attempt. Do not integrate the role subset as completed L12-A2d."
+priority = "P2"
+approval = "PROPOSED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Sphoenix reviews an acceptance-preserving decomposition of L12-A2d before another implementation attempt. Keep the original all-rule criterion unchanged, retain every authored test, preserve the 900-line cap, and explicitly assign all remaining focused controls and the independent declaration/consumption audit; do not move new-validator controls to L12-A3.", "Use the existing exact-partition mechanism only after the acceptance entries support the intended partition. The current first entry combines role/history/frozen/alternative preparation with the conjunction, so the builder cannot split those responsibilities by rewriting that sealed criterion. No backlog, Plan, harness or state change is authorized by this proposal."]
+
+[[item]]
+id = "P0030-2"
+title = "Preserve blocking F0030-R1-001 and authorize an acceptance-preserving replan"
+rationale = "F0030-R1-001 remains valid and unresolved. The enhancer fixes frozen JSON type correspondence, adds predecessor validation and an isolated InstrumentRun arm deletion control, and preserves per-association timing. The resulting candidate leaves fewer than 25 of 900 counted lines for the absent composition and its remaining tests; the sealed Plan estimated 80 implementation lines alone. This is a bounded feasibility assessment, not a proof of a minimum implementation size. Rewriting acceptance, moving controls or increasing the cap is outside enhancer authorization. Retain this as an incomplete, non-integrable product attempt with all 30 conjunction tests intact; no retry refund or harness-failure relabeling."
+priority = "P2"
+approval = "PROPOSED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Sphoenix authorizes an exact-partition-compatible decomposition before further construction. Preserve the full role/history/frozen/alternative and independent all-rule conjunction acceptance, every existing test and the 900-line cap. Assign checked complete scope, active/inactive rule manifest, independent expected obligation inventory, contract/dependency/multiplicity auditing and diagnostic propagation, plus all outstanding isolated branch controls. Do not transfer new-validator controls to L12-A3 or integrate the partial role candidate as complete."]
+
+[[item]]
+acceptance = ["Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A2d1"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit.\n\nOperator size decomposition, Sphoenix 2026-10-10 L12 directive: the original all-rule acceptance above is unchanged. These appended subordinate criteria add no new product scope; they make the existing exact-partition split mechanism usable without cutting tests or raising the 900-line cap. Only while planning the unsplit item L12-A2, split before further implementation. Resulting children implement only their assigned acceptance subset; this parent instruction does not request another split of a child whose own scope fits the cap. A practical four-child partition is shared infrastructure; temporal/relation/optional branches; warrant/provenance/override branches; then role/history/frozen/alternative branches plus the original all-rule conjunction. Each child adds focused tests for every new guard; the exhaustive L12-A3 matrix remains a separate, unchanged obligation. Do not present an intermediate subset as complete lint/readiness. Follow the critical-path ordering; no unrelated work may substitute for a blocked prerequisite.\n\nStep 0023 is a genuine evaluated product attempt, preserved with its charged retry. Its rejected candidate and tests are retained in that step's evidence; do not relabel it as harness failure, refund its retry, or treat its green ordinary tests as acceptance. Each child plan must map the findings in loop/reports/STEP-0023/eval_r1.json and eval_r2.json to its owned remedy or remaining sibling obligation. Preserve all previously integrated tests and add the necessary isolated controls; do not remove or loosen controls to meet the cap. Do not use partial coverage deferred to A3 as an excuse for missing tests of newly introduced validators."
+parent = "L12-A2d"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "S"
+title = "Lint declarations and shared evidence-boundary accounting for every rule"
+
+[[item]]
+acceptance = ["Role, history, frozen-plan and alternative prerequisites for E5, E6, W2 and W3 are declared and checked, including confidence predecessors, evidence/run/arm dependencies, complete scoped collections, exact frozen-plan integrity and residual/alternative membership. Every new rejection guard has isolated literal expected diagnostics and deletion-sensitive controls. After the preceding prerequisite groups exist, verify the original all-rule acceptance as their conjunction; missing declarations or unconsumed declared prerequisites cannot yield a usable complete context."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A2d2"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit.\n\nOperator size decomposition, Sphoenix 2026-10-10 L12 directive: the original all-rule acceptance above is unchanged. These appended subordinate criteria add no new product scope; they make the existing exact-partition split mechanism usable without cutting tests or raising the 900-line cap. Only while planning the unsplit item L12-A2, split before further implementation. Resulting children implement only their assigned acceptance subset; this parent instruction does not request another split of a child whose own scope fits the cap. A practical four-child partition is shared infrastructure; temporal/relation/optional branches; warrant/provenance/override branches; then role/history/frozen/alternative branches plus the original all-rule conjunction. Each child adds focused tests for every new guard; the exhaustive L12-A3 matrix remains a separate, unchanged obligation. Do not present an intermediate subset as complete lint/readiness. Follow the critical-path ordering; no unrelated work may substitute for a blocked prerequisite.\n\nStep 0023 is a genuine evaluated product attempt, preserved with its charged retry. Its rejected candidate and tests are retained in that step's evidence; do not relabel it as harness failure, refund its retry, or treat its green ordinary tests as acceptance. Each child plan must map the findings in loop/reports/STEP-0023/eval_r1.json and eval_r2.json to its owned remedy or remaining sibling obligation. Preserve all previously integrated tests and add the necessary isolated controls; do not remove or loosen controls to meet the cap. Do not use partial coverage deferred to A3 as an excuse for missing tests of newly introduced validators."
+parent = "L12-A2d"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "S"
+title = "Lint role, history, frozen-plan and alternative semantics with the complete all-rule conjunction"

@@ -1,0 +1,25 @@
+{
+  "resolutions": [
+    {
+      "ref": "F0030-R1-001",
+      "action": "DEFERRED_AS_PROPOSAL",
+      "evidence": "Appended L12-A2d-enhancer-replan in loop/proposals/STEP-0030.toml under the sealed size contingency. Candidate: 882/900 lines. Repartitioning acceptance requires authorization outside this step. Conjunction remains unmet and non-integrable: advisory/gate_r1-attempt-003.json reports 6,179 passed, 30 conjunction failures, blocking G1/G12, and G14 skipped."
+    },
+    {
+      "ref": "F0030-R1-002",
+      "action": "FIXED",
+      "evidence": "Added type-preserving authored comparison and predecessor validation. In tests/test_lint_role_prerequisites.py, test_freeze_json_types_and_predecessor_validation and test_freeze_predecessor_required_sample_input pass on both adapters, including deletion-sensitive and missing/null/malformed controls."
+    },
+    {
+      "ref": "F0030-R1-003",
+      "action": "FIXED",
+      "evidence": "tests/test_lint_role_prerequisites.py::test_instrument_run_unknown_arm_isolated verifies the literal diagnostic, denied support, valid counterpart, and InstrumentRun-only guard deletion on both adapters. Shared-label audit recorded in loop/reports/STEP-0030-L12-A2d.md."
+    },
+    {
+      "ref": "F0030-R1-004",
+      "action": "FIXED",
+      "evidence": "Timing operands now retain exact evidence/hypothesis/link/plan/arm associations. tests/test_lint_role_prerequisites.py::test_resolution_timing_keeps_exact_associations passes with literal expectations and reversed evidence, dependency and source order on both adapters."
+    }
+  ],
+  "amendments": []
+}

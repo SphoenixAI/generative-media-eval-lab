@@ -1,0 +1,97 @@
+{
+  "step": 19,
+  "item": "L12",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented offline lint, readiness blocking, and pinned snapshot results. Final advisory passed: 1281 tests, 789/900 changed lines, sealed Plan unchanged.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint.py:99 implements the approved L12 structural rules.",
+        "docs/lint.md:1 documents the offline CLI and its limits."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_lint.py:112 asserts all 13 rules exactly once, literal levels and subjects, a clean graph, and repeat/shuffle determinism.",
+        "tests/test_lint_workflow.py:37 verifies isolated readiness rejection; tests/test_lint_workflow.py:48 verifies warning-only success.",
+        "tests/test_lint.py:275 preserves missing and UNKNOWN observations as incomplete."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/pilot.py:356 shares existing snapshot discovery; src/eval_lab/pilot.py:405 pins the versioned lint artifact.",
+        "tests/test_lint_workflow.py:85 verifies saved results survive later revisions and reopening without recomputation, while old snapshot bytes remain unchanged.",
+        "tests/test_lint_workflow.py:108 verifies raw diagnostics and unrelated-dataset exclusion."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Final targeted suite: 67 passed. Final advisory product suite: 1281 passed.",
+        "test_all_rules_exactly_once_and_clean_graph detects deletion of each of the 13 rule diagnostics.",
+        "test_graph_integrity_guards_have_specific_errors, test_e5_uncheckable_is_unknown, test_ready_rechecks_under_writer_lock, and test_satisfied_assessment_missing_observations_remains_unknown detect their guard-removal mutations; 20/20 mutations detected.",
+        "loop/reports/STEP-0019-L12.md:125 records tests-first failures, fixes, and validation."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0019-L12.md:116 records repository-cited probes before implementation.",
+        "loop/reports/STEP-0019-L12.md:138 records all three advisory outcomes and explicitly identifies G14 as skipped.",
+        "docs/lint.md:34 bounds results to structural checks; no real-media validity is claimed."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Final advisory reports 789/900 changed product lines and no protected, forbidden, dependency, or existing-test changes.",
+        "Changes are limited to lint, its persistence/workflow integration, new tests, documentation, and this step's report."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "All-rule acceptance oracle",
+      "lazy_pass": "Derive expectations from the implementation or assert only a finding count.",
+      "present_in_diff": false,
+      "evidence": "tests/test_lint.py:112 uses literal rule, level, subject, and revision expectations."
+    },
+    {
+      "criterion": "Readiness blocking",
+      "lazy_pass": "Let an unrelated clip-count or intent prerequisite explain rejection.",
+      "present_in_diff": false,
+      "evidence": "Workflow fixtures register 12 distinct generated clips with intent; rejection asserts the specific lint error."
+    },
+    {
+      "criterion": "UNKNOWN preservation",
+      "lazy_pass": "Treat an empty finding list as success despite missing context.",
+      "present_in_diff": false,
+      "evidence": "Missing records, timelines, prior confidence, frozen members, and observation severity have explicit incomplete-result tests."
+    },
+    {
+      "criterion": "Historical snapshot results",
+      "lazy_pass": "Recompute lint during export or alter old snapshots.",
+      "present_in_diff": false,
+      "evidence": "tests/test_lint_workflow.py:85 forbids recomputation and checks unchanged historical bytes after reopening."
+    },
+    {
+      "criterion": "Admission and test integrity",
+      "lazy_pass": "Relax admission or weaken existing tests to accommodate malformed fixtures.",
+      "present_in_diff": false,
+      "evidence": "Malformed fixtures remain isolated; advisory reports no removed existing-test lines or unauthorized protected changes."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "PUBLIC_PROSE: docs/lint.md.",
+    "G14 was skipped in advisory mode. Independent evaluation and non-advisory verification remain runner-owned.",
+    ""
+  ]
+}

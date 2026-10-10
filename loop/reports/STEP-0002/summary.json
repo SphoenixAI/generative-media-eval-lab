@@ -1,0 +1,31 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 0,
+    "intention": 0,
+    "production_quality": 2,
+    "relation": 2,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "ABANDONED",
+  "flags": [
+    "Independent full-suite execution unavailable: the available Python lacks Pydantic. Supplied gate results were inspected, not independently reproduced.",
+    "PUBLIC_PROSE"
+  ],
+  "gate": true,
+  "item": "L02",
+  "passed": 428,
+  "research": {},
+  "rounds": 1,
+  "rule": "ABANDONED",
+  "scores": {
+    "accuracy": 4,
+    "intention": 4,
+    "production_quality": 2,
+    "relation": 2,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 2
+}

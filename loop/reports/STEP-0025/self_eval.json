@@ -1,0 +1,125 @@
+{
+  "step": 25,
+  "item": "L12-A2a",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented shared checked preparation. Final advisory gate passed: 1,843 tests, 892 changed lines, no flags. All 44 guard-mutation checks passed. The sealed Plan is unchanged.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_prerequisites.py:1 limits the implementation to shared scoped preparation.",
+        "Changed only the two planned product modules, additive tests and this step's report."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_lint_prerequisites.py:89, :216, :249 and :265 cover declaration, raw identity, collection completeness and scope contracts with explicit diagnostics.",
+        "test_shared_group_cannot_be_all_rule_context and test_shared_group_identifies_only_checked_scope prevent partial preparation from representing all-rule readiness."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_evidence.py:195 supplies shared exact Ref/Pin, identity and digest verification for both adapters.",
+        "test_shared_v2_versions, test_shared_exact_non_head_control and test_shared_scope_correspondence verify kind-specific versions, exact revisions and independently pinned correspondence."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Final advisory gate reports 1,843 passing tests, valid JUnit evidence and successful frozen harness/approval checks.",
+        "test_shared_guard_deletion passed all 44 named mutations; the report maps guards to focused tests and observed assertion failures.",
+        "test_shared_inventory_exact and test_shared_every_active_boundary check independent inventory equality and actual boundary consumption.",
+        "Preservation and repeated/reordered-input controls pass; previously integrated tests remain unchanged."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0025-L12-A2a.md records probes before implementation, observed failing tests, mutation evidence, tool versions, hashes and both advisory results.",
+        "Product docstrings describe the private API and its limits. No CLI behavior changed.",
+        "Evidence establishes TEST-ONLY software behavior, not real-media validity or complete lint readiness."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Final G7 reports 892 changed lines against the 900-line limit.",
+        "G5/G6/G10 report no protected, forbidden or dependency changes; G11 confirms the sealed Plan matches.",
+        "No sibling implementation, DEFERRED work, network use, real-clip judgments or history-changing Git commands were performed."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Unavailable or corrupt prerequisites cannot supply checked support.",
+      "lazy_pass": "Convert missing inputs into empty collections or usable defaults.",
+      "present_in_diff": false,
+      "evidence": "Missing/null/malformed matrices assert exact EvidenceResult type, subject, path, state and reason; checked access rejects failed groups."
+    },
+    {
+      "criterion": "Exact references preserve scope correspondence.",
+      "lazy_pass": "Check existence while ignoring revision, pin or contextual identity.",
+      "present_in_diff": false,
+      "evidence": "Exact non-head, wrong-pin, repeated-reference and media/intent identity/revision controls pass."
+    },
+    {
+      "criterion": "Collection completeness is explicitly verified.",
+      "lazy_pass": "Trust complete=true or silently accept unavailable enumeration.",
+      "present_in_diff": false,
+      "evidence": "Direct inventory is compared with verified universe membership; retained enumeration uses the reader transaction. Forged completeness, omitted members and enumeration failures have isolated controls."
+    },
+    {
+      "criterion": "Declared prerequisites are actually checked.",
+      "lazy_pass": "Use a partial inventory or representative boundary observations.",
+      "present_in_diff": false,
+      "evidence": "Independent inventory equality, complete active-boundary tracing and 44 guard mutations detect omitted declarations, bypassed checks and missing consumption."
+    },
+    {
+      "criterion": "Intermediate preparation cannot claim full readiness.",
+      "lazy_pass": "Expose a partially populated all-rule context as complete.",
+      "present_in_diff": false,
+      "evidence": "The private group exposes checked scope and diagnostics without readiness, verdict or all-rule completion APIs."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0023-R1-001",
+      "status": "DEFERRAL_ACCEPTED"
+    },
+    {
+      "ref": "F0023-R2-001",
+      "status": "DEFERRAL_ACCEPTED"
+    },
+    {
+      "ref": "F0023-R1-002",
+      "status": "DEFERRAL_ACCEPTED"
+    },
+    {
+      "ref": "F0023-R2-002",
+      "status": "DEFERRAL_ACCEPTED"
+    },
+    {
+      "ref": "F0023-R1-003",
+      "status": "DEFERRAL_ACCEPTED"
+    },
+    {
+      "ref": "F0023-R1-004",
+      "status": "DEFERRAL_ACCEPTED"
+    },
+    {
+      "ref": "F0023-R2-003",
+      "status": "DEFERRAL_ACCEPTED"
+    }
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "Two advisory attempts were used. G14 is explicitly skipped in advisory mode; independent evaluation and integration approval remain outstanding.",
+    "Prior-finding deferrals follow the approved split. Shared coverage remedies are implemented here; attachment, provenance, chronology and remaining rule-group obligations stay with their assigned siblings.",
+    ""
+  ]
+}

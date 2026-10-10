@@ -1,0 +1,36 @@
+{
+  "step": 19,
+  "item": "L12",
+  "summary": "The fixture-specific equivalence claim is UNVERIFIABLE. RFC 8785 requires serialization, encoding, and sorting rules beyond independently sorting JSON. Neither the fixture nor its serialization settings appears in the permitted evidence, and the ledger is empty. Searched the last 18 months; recent W3C guidance reinforces RFC 8785 without superseding it. No landscape scan was required.",
+  "claims": [
+    {
+      "id": "R0019-C001",
+      "claim": "The independently sorted JSON used for this frozen-plan fixture equals RFC 8785 canonicalization.",
+      "origin": "evaluator",
+      "verdict": "UNVERIFIABLE",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html",
+          "title": "RFC 8785: JSON Canonicalization Scheme (JCS)",
+          "accessed": "2026-10-10",
+          "quote": "Property name strings to be sorted are formatted as arrays of UTF-16 [UNICODE] code units."
+        },
+        {
+          "url": "https://www.w3.org/TR/vc-di-eddsa/#transformation-eddsa-jcs-2022",
+          "title": "Data Integrity EdDSA Cryptosuites v1.0",
+          "accessed": "2026-10-10",
+          "quote": "Let canonicalDocument be the result of applying the JSON Canonicalization Scheme [RFC8785] to a JSON serialization of the unsecuredDocument."
+        }
+      ],
+      "newer_practice": {
+        "summary": "The W3C Recommendation explicitly applies RFC 8785 before hashing in eddsa-jcs-2022. This reinforces using the specified canonicalization procedure; it neither establishes this fixture's equivalence nor introduces an additional change for this step.",
+        "url": "https://www.w3.org/TR/vc-di-eddsa/#transformation-eddsa-jcs-2022",
+        "date": "2025-05-15"
+      },
+      "affects_this_step": true,
+      "recommended_action": "Remove the unverified equivalence assertion or explicitly mark it as an assumption. To retain it as fact, document a byte-for-byte comparison of the exact frozen-plan fixture against an independent RFC 8785 implementation. Check applicable input constraints, recursive UTF-16 property ordering, primitive serialization, whitespace removal, and UTF-8 encoding. A restricted fixture can match JCS, so the available evidence does not establish an implementation defect; it does establish that the evaluator's assertion lacks support.",
+      "action_required": true
+    }
+  ],
+  "proposals": []
+}

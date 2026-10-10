@@ -1,0 +1,87 @@
+{
+  "step": 15,
+  "item": "L09",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented evidence roles. All 69 focused tests and 1,039 product tests pass. Final advisory gate passed; sealed Plan unchanged.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/evidence_roles.py:139 computes exact-pair roles using the required precedence."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_evidence_roles.py:62 independently tests all four acceptance criteria and each TEST_RESULT condition.",
+        "tests/test_evidence_roles.py:289 prevents newer hypothesis revisions inheriting frozen membership."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "tests/test_evidence_role_workflow.py:68 verifies pinned histories, distinct cross-clip sources, snapshot replay and public omission.",
+        "tests/test_evidence_role_workflow.py:144 verifies unlinked run histories remain snapshot roots."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Final advisory gate: 1,039 tests passed; all blocking checks passed.",
+        "Deleting Context.revalidate_copies breaks test_link_admission_guards_are_isolated[nested-Extra inputs are not permitted-ValidationError].",
+        "Deleting Context.contract breaks test_correction_contract_without_conflicting_revision[reason-revision reason required].",
+        "Bypassing validate_admission breaks test_link_admission_guards_are_isolated[arm-arm absent from pinned plan-ValueError]."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0015-L09.md:117 answers the chronology probe before implementation.",
+        "docs/hypothesis-testing.md:121 documents UNKNOWN, declared provenance and first-view limitations; reported product hashes were verified."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Final gate counted 799/900 changed lines; no protected, forbidden or dependency changes, and no existing tests weakened."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "A frame scrubbed after hypothesis creation is SUPPORTING.",
+      "lazy_pass": "Treat later viewing of old content as a test result.",
+      "present_in_diff": false,
+      "evidence": "tests/test_evidence_role_workflow.py:131 uses a generated frame and verifies SUPPORTING without resetting creation."
+    },
+    {
+      "criterion": "A hypothesis added after freeze never gets TEST_RESULT.",
+      "lazy_pass": "Ignore chronology or substitute newer set membership.",
+      "present_in_diff": false,
+      "evidence": "tests/test_evidence_roles.py:62 tests freeze boundaries; :72 and :289 test exact revisions."
+    },
+    {
+      "criterion": "Post-freeze arm evidence is TEST_RESULT.",
+      "lazy_pass": "Accept an instrument source label without retained provenance.",
+      "present_in_diff": false,
+      "evidence": "tests/test_evidence_roles.py:100 distinguishes an unsupported source label from a checked retained run."
+    },
+    {
+      "criterion": "An existing arm produces SUPPORTING with its reason.",
+      "lazy_pass": "Reset source age through re-registration or a later clip revision.",
+      "present_in_diff": false,
+      "evidence": "tests/test_evidence_roles.py:113 verifies EXISTING_CLIP despite identical-byte re-registration and later viewing."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "PUBLIC_PROSE",
+    "Advisory G14 was skipped; non-advisory integrity verification remains for the controller.",
+    "Local chronology and run provenance remain declarations, not authenticated execution or instrument validity.",
+    ""
+  ]
+}

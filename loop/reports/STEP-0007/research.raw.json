@@ -1,0 +1,552 @@
+{
+  "step": 7,
+  "item": "L03",
+  "summary": "Verified all 26 requested occurrences against opened primary sources: 25 CONFIRMED and 1 UNVERIFIABLE. R0007-C015's assertion about the local test requires qualification because its contents were not supplied in the permitted files. The ledger was empty. Searched for relevant developments from 2025-04-09 through 2026-10-09; contextual updates are recorded below. Landscape scanning was not required. Quotations are short excerpts; supporting sections are identified in source titles. No implementation files were inspected.",
+  "claims": [
+    {
+      "id": "R0007-C001",
+      "claim": "RFC 8785 requires recursive object-key sorting by unsigned UTF-16 code units while preserving array order.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.2.3",
+          "title": "RFC 8785: JSON Canonicalization Scheme — §3.2.3",
+          "accessed": "2026-10-09",
+          "quote": "unsigned integers"
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: the stated ordering contract matches §3.2.3.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C002",
+      "claim": "RFC 8785 emits no insignificant whitespace and encodes canonical output as UTF-8.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.2.1",
+          "title": "RFC 8785: JSON Canonicalization Scheme — §§3.2.1 and 3.2.4",
+          "accessed": "2026-10-09",
+          "quote": "MUST NOT … UTF-8"
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: both output requirements are explicitly specified.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C003",
+      "claim": "RFC 8785 preserves Unicode string data without normalization and rejects duplicate object names and lone surrogates.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.1",
+          "title": "RFC 8785: JSON Canonicalization Scheme — §§3.1 and 3.2.2.2",
+          "accessed": "2026-10-09",
+          "quote": "as is"
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: preservation and both input restrictions match the specification.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C004",
+      "claim": "RFC 8785 uses short escapes for backspace, tab, newline, form feed and carriage return, lowercase hexadecimal escapes for other ASCII controls, and escapes quotation marks and backslashes.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.2.2.2",
+          "title": "RFC 8785: JSON Canonicalization Scheme — §3.2.2.2",
+          "accessed": "2026-10-09",
+          "quote": "lowercase hexadecimal"
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: the complete escaping list matches §3.2.2.2.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C005",
+      "claim": "RFC 8785 bases number serialization on ECMAScript binary64 behavior, rejects NaN and Infinity, and serializes negative zero as zero.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.2.2.3",
+          "title": "RFC 8785: JSON Canonicalization Scheme — §3.2.2.3 and Appendix B",
+          "accessed": "2026-10-09",
+          "quote": "Minus zero"
+        },
+        {
+          "url": "https://errata.rfc-editor.org/search/?rfc_number=8785&presentation=records",
+          "title": "RFC 8785 verified technical erratum 7920",
+          "accessed": "2026-10-09",
+          "quote": "parser following this specification SHOULD generate an error"
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change to serialization. Erratum 7920, verified 2024-05-15, separately recommends rejecting -0 during parsing; this claim does not assert parser acceptance.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C006",
+      "claim": "RFC 7493 states that a receiver cannot be expected to treat integers outside the inclusive range [-9007199254740991, 9007199254740991] as exact values.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc7493.html#section-2.2",
+          "title": "RFC 7493: The I-JSON Message Format — §2.2",
+          "accessed": "2026-10-09",
+          "quote": "outside the range [-(2**53)+1, (2**53)-1]) as an exact value."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: retain this interoperability boundary. It does not mean that every individual integer outside it is unrepresentable.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C007",
+      "claim": "SHA-256 as specified in FIPS 180-4 produces a 256-bit message digest.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf",
+          "title": "FIPS 180-4: Secure Hash Standard, August 2015 — §6.2",
+          "accessed": "2026-10-09",
+          "quote": "The final result of SHA-256 is a 256-bit message digest."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: the digest width is correct; no superseding SHA-256 width specification was found.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C008",
+      "claim": "A fixed 256-bit digest cannot be injective over more than 2^256 distinct messages, so SHA-256 cannot guarantee a different digest for every possible value change.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf",
+          "title": "FIPS 180-4: Secure Hash Standard — Explanation and §6.2",
+          "accessed": "2026-10-09",
+          "quote": "with a very high probability"
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: retain the collision caveat. The cardinality conclusion follows mathematically from 2^256 possible outputs and a larger input domain.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C009",
+      "claim": "Python 3.12's standard library provides hashlib.sha256 for hashing bytes and hexdigest for hexadecimal digest output.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/hashlib.html",
+          "title": "Python 3.12 documentation: hashlib — Usage and Hash Objects",
+          "accessed": "2026-10-09",
+          "quote": "hashlib.sha256(b\"Nobody inspects the spammish repetition\").hexdigest()"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.14, released 2025-10-07, retains this API and behavior. This reinforces the claim and does not require a runtime migration for this step.",
+        "url": "https://docs.python.org/3.14/library/hashlib.html",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change: the version-specific Python 3.12 API claim remains correct.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C010",
+      "claim": "Python's json decoder accepts repeated object names and non-finite constants by default, and provides object_pairs_hook, parse_float and parse_constant hooks for stricter decoding.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/json.html",
+          "title": "Python 3.12 documentation: json — json.load and Standard Compliance",
+          "accessed": "2026-10-09",
+          "quote": "Infinite and NaN number values are accepted … Repeated names"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.14 retains permissive decoding and the customization hooks. Its new serialization diagnostics do not supply strict decoding or change this step.",
+        "url": "https://docs.python.org/3.14/library/json.html",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change: retain the explicit decoding-hook requirements; default decoding does not enforce the stated restrictions.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C011",
+      "claim": "Pydantic v2 model_copy(update=...) does not validate update values before creating the copied model.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://pydantic.dev/docs/validation/latest/api/pydantic/base_model/",
+          "title": "Pydantic BaseModel API — model_copy, update parameter",
+          "accessed": "2026-10-09",
+          "quote": "no validation is performed on updated values."
+        }
+      ],
+      "newer_practice": {
+        "summary": "The 2.14.0a1 changelog records a change to deep-copy only fields not being updated. Current documentation still excludes update validation, so this copy optimization does not change the step's validation requirement.",
+        "url": "https://pydantic.dev/docs/validation/latest/get-started/changelog/#v2140a1-2026-05-22",
+        "date": "2026-05-22"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change: preserve the distinction between copying a model and validating replacement data.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C012",
+      "claim": "SQLite allows only one simultaneous write transaction, and BEGIN IMMEDIATE starts one immediately or can fail when another connection already holds a write transaction.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://sqlite.org/lang_transaction.html",
+          "title": "SQLite Transaction — §§2.1 and 2.2",
+          "accessed": "2026-10-09",
+          "quote": "only one simultaneous write transaction … BEGIN IMMEDIATE might fail with SQLITE_BUSY"
+        }
+      ],
+      "newer_practice": {
+        "summary": "SQLite 3.51.3 fixed a WAL-reset corruption bug. This does not supersede the transaction semantics; the supplied claims establish neither affected runtime versions nor WAL usage, so no step change is established.",
+        "url": "https://sqlite.org/changes.html#version_3_51_3",
+        "date": "2026-03-13"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change to the transaction claim. The WAL-specific release fix does not establish a defect in this step from the supplied evidence.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C013",
+      "claim": "SQLite's URI mode=ro opens a database for read-only access and does not create a missing database.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://sqlite.org/uri.html",
+          "title": "SQLite Uniform Resource Identifiers — §3.3, mode parameter",
+          "accessed": "2026-10-09",
+          "quote": "opened read-only"
+        },
+        {
+          "url": "https://www.sqlite.org/c3ref/open.html",
+          "title": "SQLite Opening A New Database Connection — SQLITE_OPEN_READONLY and URI mode",
+          "accessed": "2026-10-09",
+          "quote": "If the database does not already exist, an error is returned."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: with URI interpretation enabled, mode=ro maps to read-only opening and fails for a missing database.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C014",
+      "claim": "A local content digest, local clock reading and declared Git commit/remote pair do not independently prove authorship, generation order or externally witnessed existence at the recorded time.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc3161.html#section-1",
+          "title": "RFC 3161: Internet X.509 Public Key Infrastructure Time-Stamp Protocol — §1",
+          "accessed": "2026-10-09",
+          "quote": "A time-stamping service supports assertions of proof that a datum existed before a particular time."
+        },
+        {
+          "url": "https://git-scm.com/docs/git-commit-tree",
+          "title": "Git git-commit-tree documentation — Date Formats",
+          "accessed": "2026-10-09",
+          "quote": "The GIT_AUTHOR_DATE and GIT_COMMITTER_DATE environment variables support the following date formats:"
+        }
+      ],
+      "newer_practice": {
+        "summary": "C2PA 2.4 distinguishes trusted RFC 3161 timestamps from a non-trusted claimed signing time in §§10.3.2.5 and 13.2.4. This reinforces the evidence limitation without requiring C2PA integration.",
+        "url": "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html",
+        "date": "2026-04"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change: retain these evidence limits. This is an inference from content hashing, caller-supplied Git metadata, and the separate trust required for witnessed timestamps.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C015",
+      "claim": "RFC 8785 requires recursive object-key ordering by unsigned UTF-16 code units while preserving array order; the test's section 3.2.3 vector matches the published vector.",
+      "origin": "evaluator",
+      "verdict": "UNVERIFIABLE",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.2.3",
+          "title": "RFC 8785: JSON Canonicalization Scheme — §3.2.3 ordering rules and published vector",
+          "accessed": "2026-10-09",
+          "quote": "Carriage Return"
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "The RFC portion is confirmed, but neither permitted file contains the local test vector. Remove or mark the matching assertion as unverified until a supplied excerpt is compared with the RFC's seven-key vector and expected order.",
+      "action_required": true
+    },
+    {
+      "id": "R0007-C016",
+      "claim": "RFC 8785 removes insignificant whitespace and encodes canonical output as UTF-8.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.2.1",
+          "title": "RFC 8785: JSON Canonicalization Scheme — §§3.2.1 and 3.2.4",
+          "accessed": "2026-10-09",
+          "quote": "MUST NOT … UTF-8"
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: the external specification claim is correct.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C017",
+      "claim": "RFC 8785 preserves Unicode without normalization and rejects duplicate object names and lone surrogates.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.1",
+          "title": "RFC 8785: JSON Canonicalization Scheme — §§3.1 and 3.2.2.2",
+          "accessed": "2026-10-09",
+          "quote": "lone surrogates"
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: all three stated requirements are supported.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C018",
+      "claim": "RFC 8785 requires the stated short control escapes, lowercase hexadecimal escapes for remaining ASCII controls, and quotation-mark/backslash escaping.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.2.2.2",
+          "title": "RFC 8785: JSON Canonicalization Scheme — §3.2.2.2",
+          "accessed": "2026-10-09",
+          "quote": "lowercase hexadecimal"
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: the escaping requirements match the specification.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C019",
+      "claim": "RFC 8785 uses ECMAScript binary64 number serialization, rejects NaN and Infinity, and serializes negative zero as zero.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.2.2.3",
+          "title": "RFC 8785: JSON Canonicalization Scheme — §3.2.2.3 and Appendix B",
+          "accessed": "2026-10-09",
+          "quote": "Minus zero"
+        },
+        {
+          "url": "https://errata.rfc-editor.org/search/?rfc_number=8785&presentation=records",
+          "title": "RFC 8785 verified technical erratum 7920",
+          "accessed": "2026-10-09",
+          "quote": "parser following this specification SHOULD generate an error"
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change to serialization. The 2024 erratum's separate parser recommendation does not contradict this claim.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C020",
+      "claim": "RFC 7493 identifies the inclusive integer range [-9007199254740991, 9007199254740991] for interoperable exact integer treatment.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc7493.html#section-2.2",
+          "title": "RFC 7493: The I-JSON Message Format — §2.2",
+          "accessed": "2026-10-09",
+          "quote": "outside the range [-(2**53)+1, (2**53)-1]) as an exact value."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: retain the range as an interoperability boundary, without claiming that every larger integer is inexact.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C021",
+      "claim": "SHA-256 as specified in FIPS 180-4 produces a 256-bit message digest.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf",
+          "title": "FIPS 180-4: Secure Hash Standard, August 2015 — §6.2",
+          "accessed": "2026-10-09",
+          "quote": "The final result of SHA-256 is a 256-bit message digest."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: the stated digest width is correct.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C022",
+      "claim": "Python 3.12 provides hashlib.sha256 for byte hashing and hexdigest for hexadecimal output.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/hashlib.html",
+          "title": "Python 3.12 documentation: hashlib — Usage and Hash Objects",
+          "accessed": "2026-10-09",
+          "quote": "hashlib.sha256(b\"Nobody inspects the spammish repetition\").hexdigest()"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.14 retains the same hashing and hexadecimal-output API. Its release does not invalidate the Python 3.12 claim or require changing this step.",
+        "url": "https://docs.python.org/3.14/library/hashlib.html",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change: the Python 3.12 documentation directly supports both API capabilities.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C023",
+      "claim": "Python's default JSON decoder accepts repeated names and non-finite constants, and supports object_pairs_hook, parse_float and parse_constant for stricter decoding.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/json.html",
+          "title": "Python 3.12 documentation: json — json.load and Standard Compliance",
+          "accessed": "2026-10-09",
+          "quote": "Infinite and NaN number values are accepted … Repeated names"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.14 preserves these defaults and hooks. New serialization diagnostics do not replace custom strict decoding, so the step's requirements remain unchanged.",
+        "url": "https://docs.python.org/3.14/library/json.html",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change: the default behavior and all three customization hooks are documented.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C024",
+      "claim": "Pydantic v2 model_copy(update=...) does not validate update values.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://pydantic.dev/docs/validation/latest/api/pydantic/base_model/",
+          "title": "Pydantic BaseModel API — model_copy, update parameter",
+          "accessed": "2026-10-09",
+          "quote": "no validation is performed on updated values."
+        }
+      ],
+      "newer_practice": {
+        "summary": "The 2.14.0a1 changelog changes which fields are deep-copied, while current model_copy documentation still excludes validation of updates. This does not change the step's validation requirement.",
+        "url": "https://pydantic.dev/docs/validation/latest/get-started/changelog/#v2140a1-2026-05-22",
+        "date": "2026-05-22"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change: continue treating model_copy as a copy operation rather than a validation boundary.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C025",
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE acquires the write transaction immediately or can fail when another writer holds it.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://sqlite.org/lang_transaction.html",
+          "title": "SQLite Transaction — §§2.1 and 2.2",
+          "accessed": "2026-10-09",
+          "quote": "only one simultaneous write transaction … BEGIN IMMEDIATE might fail with SQLITE_BUSY"
+        }
+      ],
+      "newer_practice": {
+        "summary": "SQLite 3.51.3 fixed a WAL-reset corruption bug without changing these transaction semantics. Affected runtime versions and WAL usage are not established by the permitted inputs, so no step change is established.",
+        "url": "https://sqlite.org/changes.html#version_3_51_3",
+        "date": "2026-03-13"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change: both the single-writer rule and possible SQLITE_BUSY outcome are documented.",
+      "action_required": false
+    },
+    {
+      "id": "R0007-C026",
+      "claim": "SQLite URI mode=ro opens a database read-only and does not create a missing database.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://sqlite.org/uri.html",
+          "title": "SQLite Uniform Resource Identifiers — §3.3, mode parameter",
+          "accessed": "2026-10-09",
+          "quote": "opened read-only"
+        },
+        {
+          "url": "https://www.sqlite.org/c3ref/open.html",
+          "title": "SQLite Opening A New Database Connection — SQLITE_OPEN_READONLY and URI mode",
+          "accessed": "2026-10-09",
+          "quote": "If the database does not already exist, an error is returned."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change: the claim correctly describes mode=ro when URI interpretation is enabled.",
+      "action_required": false
+    }
+  ],
+  "proposals": [
+    {
+      "title": "Qualify the unsupported test-vector matching assertion",
+      "rationale": "The RFC establishes the reference vector, but the permitted inputs contain no local vector for comparison. Mark the assertion unverified until the relevant test excerpt supplies that evidence.",
+      "size": "S",
+      "risk": "LOW",
+      "category": "validation",
+      "relevance": 4,
+      "claim_id": "R0007-C015"
+    }
+  ]
+}

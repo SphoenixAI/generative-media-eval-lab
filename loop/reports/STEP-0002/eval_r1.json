@@ -1,0 +1,124 @@
+{
+  "step": 2,
+  "item": "L02",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "59b4797889ebf309f62209d58015bbfe113d1caf293acc6bf77ed8caef0e18d5",
+  "summary": "Core provenance and revision rules have meaningful tests. One material integration gap remains: existing dataset snapshots silently omit the new bindings and their v2 intents. Independently verified the diff hash, source hashes, sealed plan, and complete 13-order timestamp matrix. Full tests were not rerun because the available Python lacks Pydantic; the supplied gate reports 428 passes.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read the entire diff and all six changed files; changes directly implement L02's domain contracts, persistence validation, tests, and documentation.",
+        "Compared implementation with the sealed plan and backlog DEFERRED entries; no deferred functionality was added."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "Independently enumerated all weak orderings and confirmed tests/test_intent_v2.py:70 contains all 13 exactly once, with only seal < plan < registration marked SEALED.",
+        "Inspected test_evidence_must_match_exact_revision_and_bound_plan and test_new_intent_cannot_borrow_seal_and_degradation_is_appended: matching by intent ID alone would fail their explicit expected classifications.",
+        "Inspected test_missing_or_invalid_reason_even_on_copied_objects: omitted, null, blank, and unknown reasons are rejected for initial and subsequent revisions.",
+        "Inspected test_ceiling_even_when_registration_and_plan_are_unchanged: otherwise qualifying promotions must fail specifically at the historical ceiling check.",
+        "Checked I1–I16 against the diff: no demonstrated invariant violation; no real judgments, weakened existing tests, runtime networking, protected artifact changes, decision logic, or judge edits."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/intent_v2.py:56 and :170 version the new artifacts; :212 verifies nested pins; persistence.py:221 enforces binding history.",
+        "src/eval_lab/pilot.py:315 collects dataset references and selected legacy record kinds, but never roots IntentBinding records. References point from bindings to media, so recursive traversal from media cannot discover bindings.",
+        "src/eval_lab/pilot_domain.py:150 and :192 prevent the existing submission and clip intent paths from linking the new types. No snapshot integration test appears in tests/test_intent_v2.py."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "tests/test_intent_v2.py:239 verifies repository round trips, and :369 verifies file reopening and concurrent admission; neither exercises dataset snapshot collection or export.",
+        "The missing snapshot integration test permits the material omission described in L02-R1-01.",
+        "Supplied gate.json reports 428 passing tests; independent runtime execution was unavailable because Python could not import Pydantic."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Recomputed the diff SHA-256 and all five product source/document hashes listed in the report; they match.",
+        "Independently checked the documented count of 13 timestamp weak orderings.",
+        "Compared documented classifications, strict inequalities, missing-view behavior, and generation-order limitations with implementation and fixed test expectations.",
+        "External method claims are identified separately for research; no external verification is claimed here."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared report Plan text with plan.md programmatically; they match exactly.",
+        "Checked changed paths and implementation against the sealed exclusions: no seal lifecycle, generation-plan persistence, event collection, CLI expansion, frontend, dependencies, or DEFERRED work was implemented."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "L02-R1-01",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/intent_v2.py:170; src/eval_lab/pilot.py:315-336; tests/test_intent_v2.py:239",
+      "description": "The new artifacts persist individually but are omitted by the existing dataset snapshot path. PilotWorkspace.snapshot roots only the dataset, submissions, sessions, and derivatives. IntentBinding points to MediaAsset and IntentSpecV2, but neither is reachable through a reverse traversal from a dataset clip. Existing PilotClip and PilotSubmission contracts also cannot reference these new types. Consequently, snapshotting a dataset after storing a binding for its media silently excludes the binding, its provenance evidence, and its v2 intent. Repository round-trip tests do not prove snapshot inclusion.",
+      "required_fix": "Include the relevant IntentBinding revisions and their pinned dependency closure in the supported private dataset snapshot path, without changing historical snapshots. Add a test that persists a binding for selected media, creates and exports a snapshot, checks exact binding/intent references and digests, and verifies that later revisions cannot alter that export."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Every derivation case is tested.",
+      "lazy_pass": "Test one happy path per class, or compute expected values using the production classifier.",
+      "present_in_diff": false,
+      "evidence": "test_all_orderings_and_view_boundaries uses an explicit 13-row ordering oracle crossed with four view states and two origins. Additional tests cover missing evidence, declaration restrictions, wrong revisions, plan mismatch, and digest errors. Independently verified ordering completeness."
+    },
+    {
+      "criterion": "A revision cannot borrow an earlier revision's seal.",
+      "lazy_pass": "Match seals by intent ID while ignoring revision and digest.",
+      "present_in_diff": false,
+      "evidence": "derive_provenance compares the entire intent pin at src/eval_lab/intent_v2.py:159. test_evidence_must_match_exact_revision_and_bound_plan and test_new_intent_cannot_borrow_seal_and_degradation_is_appended assert RECONSTRUCTED when a new revision carries the old seal."
+    },
+    {
+      "criterion": "A revision without a reason is rejected.",
+      "lazy_pass": "Require a reason only in a constructor or UI, permitting copied objects to bypass persistence validation.",
+      "present_in_diff": false,
+      "evidence": "revision_reason is mandatory at src/eval_lab/intent_v2.py:67; Repository.put revalidates serialized input at persistence.py:194. test_missing_or_invalid_reason_even_on_copied_objects exercises constructors and copied-object admission."
+    },
+    {
+      "criterion": "No edit can raise a record's provenance.",
+      "lazy_pass": "Freeze assignment while allowing a successor, changed binding ID, or revised intent to reset the provenance ceiling.",
+      "present_in_diff": false,
+      "evidence": "test_no_edit_can_promote_binding covers four admission routes. Its broad rejection assertions are supplemented by test_ceiling_even_when_registration_and_plan_are_unchanged, which isolates the ceiling and requires its specific error. Historical bytes are checked after rejection."
+    },
+    {
+      "criterion": "New types are persisted, versioned, pinned, linked, and included in snapshots.",
+      "lazy_pass": "Register types and demonstrate individual database round trips while leaving the real snapshot collector unaware of them.",
+      "present_in_diff": true,
+      "evidence": "IntentSpecV2 and IntentBinding are registered and pinned, but PilotWorkspace.snapshot has no binding roots. No test creates or exports a dataset snapshot containing either new type; see L02-R1-01. Lint implementation belongs to a later backlog item."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "L02-M01",
+      "claim": "Pydantic v2 BaseModel.model_copy(update=...) does not validate supplied updates, including nested copied values.",
+      "location": "loop/reports/STEP-0002-L02.md:35-37; src/eval_lab/intent_v2.py:154"
+    },
+    {
+      "id": "L02-M02",
+      "claim": "RFC 3161 timestamping supplies evidence that a datum existed before a particular time, requires a trustworthy time source, and does not inspect the datum's meaning.",
+      "location": "loop/reports/STEP-0002-L02.md:39-41"
+    },
+    {
+      "id": "L02-M03",
+      "claim": "Local seal-plan-registration timestamps cannot establish actual generation order without an external witness; witnessing intent existence alone does not witness generation.",
+      "location": "loop/reports/STEP-0002-L02.md:43-45; docs/intent-provenance.md:53-57"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE",
+    "Independent full-suite execution unavailable: the available Python lacks Pydantic. Supplied gate results were inspected, not independently reproduced."
+  ]
+}

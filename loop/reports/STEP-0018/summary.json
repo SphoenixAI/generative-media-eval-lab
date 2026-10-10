@@ -1,0 +1,32 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 2,
+    "intention": 2,
+    "production_quality": 2,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "INTEGRATE",
+  "flags": [
+    "Independent runtime and mutation suites were not executed: available Python lacks pytest, Pydantic and SQLAlchemy, and the evaluation workspace is read-only. gate.json reports 1214 passing tests; that result is supplied evidence, not independently reproduced.",
+    "Minor oracle limitation: tests/test_resolution_workflow.py:164-169 can reject through repeated Evidence identity even if later instrument-run revisions receive incorrect unit identities.",
+    "PUBLIC_PROSE"
+  ],
+  "gate": true,
+  "item": "L10",
+  "passed": 1214,
+  "research": {},
+  "rounds": 2,
+  "rule": "R6",
+  "scores": {
+    "accuracy": 4,
+    "intention": 4,
+    "production_quality": 3,
+    "relation": 4,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 18
+}

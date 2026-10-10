@@ -1,0 +1,70 @@
+{
+  "claims": [
+    {
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by their represented instants, so 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z compare equal when parsed as aware datetimes.",
+      "id": "R0028-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "The existing evidence boundary in src/eval_lab/lint_evidence.py distinguishes AVAILABLE, UNKNOWN and INTEGRITY_FAILURE and checks optional-slot presence separately from required-field availability.",
+      "id": "R0028-C002",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "The existing content_identity function in src/eval_lab/intent_v2.py checks ingestion.media and source_sha256 against the exact media record before returning its content hash.",
+      "id": "R0028-C003",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "BindingContext admission in src/eval_lab/generation.py checks origin anchors, origin category, FirstView content identity, seal intent and embedded versus retained chronology correspondence.",
+      "id": "R0028-C004",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "The provenance classifier in src/eval_lab/intent_v2.py uses strict seal-before-plan-before-registration and seal-before-first-view comparisons.",
+      "id": "R0028-C005",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "V2 relation admission in src/eval_lab/relation_v2.py checks exact intent, creative anchors, evidence scope, hypothesis intent and intent endpoints, and its model requires a warrant for supports and contradicts.",
+      "id": "R0028-C006",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SealRecord integrity in src/eval_lab/seals.py checks canonical source/file digest, source intent pin and event-time correspondence using the existing local canonicalization contract.",
+      "id": "R0028-C007",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "src/eval_lab/decisions.py defines override action, reason and author separately from the retained decision trace, while src/eval_lab/assessments.py checks pinned assessment context and observation media/dimension correspondence.",
+      "id": "R0028-C008",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "The adapter fixture in tests/test_lint_prerequisites.py exercises DirectRecords and disposable SQLite data read through RawReader.",
+      "id": "R0028-C009",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "loop/config.toml caps counted additions plus deletions at 900 lines, and loop/reports/STEP-0027/gate_r1.json records 885 counted lines for the rejected A2c candidate.",
+      "id": "R0028-C010",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants, including equality of 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z.",
+      "id": "R0028-C011",
+      "location": "loop/reports/STEP-0028-L12-A2c.md:65",
+      "origin": "evaluator"
+    }
+  ]
+}

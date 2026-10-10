@@ -1,0 +1,55 @@
+{
+  "canonical_sha256": "b160c3123a1d4bef794424c3e1c1e5cb7750eccbb7d454c0297ea6175a07091a",
+  "raw_sha256": "a72f55235bc014b3a0207b4c5cc97acd0b306def58169fb5072e14fe83916033",
+  "unresolved_proposals": [],
+  "view_claims": [
+    {
+      "claim": "Python 3.12 sqlite3.connect with uri=True accepts a SQLite file URI with mode=ro to open a read-only database connection that rejects writes.",
+      "id": "R0022-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "After its first read establishes a snapshot, an explicit SQLite read transaction continues to see that snapshot rather than changes made by another connection until that transaction ends.",
+      "id": "R0022-C002",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python 3.12 json decoding supplies each object's ordered name/value pairs to object_pairs_hook, permitting a caller to reject duplicate keys before constructing a dictionary.",
+      "id": "R0022-C003",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python 3.12 json decoding accepts NaN and infinity tokens by default, and parse_constant can reject those tokens while parse_float controls conversion of JSON fractional numbers.",
+      "id": "R0022-C004",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python 3.12 sqlite3.connect with uri=True accepts a SQLite file URI using mode=ro and rejects database writes.",
+      "id": "R0022-C005",
+      "location": "tree/loop/reports/STEP-0022-L12-A1.md:43",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "After its first read establishes a snapshot, an explicit SQLite read transaction continues to see that snapshot until the transaction ends.",
+      "id": "R0022-C006",
+      "location": "tree/loop/reports/STEP-0022-L12-A1.md:46",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Python 3.12 JSON decoding supplies ordered object name/value pairs to object_pairs_hook, permitting duplicate-key rejection before dictionary construction.",
+      "id": "R0022-C007",
+      "location": "tree/loop/reports/STEP-0022-L12-A1.md:49",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Python 3.12 JSON decoding accepts NaN and infinity tokens by default; parse_constant can reject them and parse_float controls fractional-number conversion.",
+      "id": "R0022-C008",
+      "location": "tree/loop/reports/STEP-0022-L12-A1.md:52",
+      "origin": "evaluator"
+    }
+  ]
+}

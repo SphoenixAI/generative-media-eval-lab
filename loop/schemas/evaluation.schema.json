@@ -15,11 +15,7 @@
       ]
     },
     "round": {
-      "type": "integer",
-      "enum": [
-        1,
-        2
-      ]
+      "type": "integer"
     },
     "diff_sha256": {
       "type": "string"
@@ -219,10 +215,37 @@
           "severity": {
             "type": "string",
             "enum": [
-              "MINOR",
               "MATERIAL",
               "SEVERE",
               "CATASTROPHIC"
+            ]
+          },
+          "invariant": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "I1",
+                  "I2",
+                  "I3",
+                  "I4",
+                  "I5",
+                  "I6",
+                  "I7",
+                  "I8",
+                  "I9",
+                  "I10",
+                  "I11",
+                  "I12",
+                  "I13",
+                  "I14",
+                  "I15",
+                  "I16"
+                ]
+              },
+              {
+                "type": "null"
+              }
             ]
           },
           "location": {
@@ -239,6 +262,7 @@
           "id",
           "dimension",
           "severity",
+          "invariant",
           "location",
           "description",
           "required_fix"
@@ -273,6 +297,54 @@
         "additionalProperties": false
       }
     },
+    "prior_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "RESOLVED",
+              "UNRESOLVED",
+              "REJECTION_ACCEPTED",
+              "DEFERRAL_ACCEPTED"
+            ]
+          }
+        },
+        "required": [
+          "ref",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "claims_for_research": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "claim": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "claim",
+          "location"
+        ],
+        "additionalProperties": false
+      }
+    },
     "flags": {
       "type": "array",
       "items": {
@@ -290,6 +362,8 @@
     "scores",
     "blocking_findings",
     "loophole_audit",
+    "prior_findings",
+    "claims_for_research",
     "flags"
   ],
   "additionalProperties": false

@@ -1,0 +1,15 @@
+{
+  "resolutions": [
+    {
+      "ref": "R1-F1",
+      "action": "DEFERRED_AS_PROPOSAL",
+      "evidence": "Filed loop/proposals/STEP-0009.toml with exact dependency pinning, authored-field export, dataset isolation, and frozen-export acceptance tests. The sealed Plan explicitly excludes private snapshot discovery. Snapshot integration remains unimplemented; Plan unchanged."
+    },
+    {
+      "ref": "eval_r1.json:production_quality",
+      "action": "FIXED",
+      "evidence": "Added independent literal-payload tests at tests/test_relation_v2.py:443 covering distinct purpose/warrant values, raw storage, hashes, reopening, and successor preservation. Both cases detect purpose-for-warrant substitution. Advisory gate passed with 700 product tests; G14 was skipped. Existing tests remain intact."
+    }
+  ],
+  "amendments": []
+}

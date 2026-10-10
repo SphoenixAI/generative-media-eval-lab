@@ -1,0 +1,25 @@
+{
+  "resolutions": [
+    {
+      "ref": "F0011-R1-001",
+      "action": "FIXED",
+      "evidence": "tests/test_generation.py::test_lifecycle_contract_constructor_and_copied_admission adds 22 isolated cases with specific ValidationError messages, valid dependency digests, nonadmission checks and valid controls. Deleting ClipOrigin.contract, FirstView.contract and BindingContext.contract causes 10, 4 and 8 failures respectively. Advisory gate passed: 698 tests, 891/900 changed lines; G14 skipped."
+    },
+    {
+      "ref": "R0011-C014",
+      "action": "FIXED",
+      "evidence": "docs/pilot0.md:19 explicitly qualifies exact checksum attribution and version/architecture pairing as unverified, retaining the separate current-download disclaimer."
+    },
+    {
+      "ref": "F0011-R1-D-intention",
+      "action": "FIXED",
+      "evidence": "src/eval_lab/generation.py:174 requires a colon before selecting the parsed suffix. test_exact_unprefixed_kind_name_ids reproduced both failures and now passes for IntentSpecV2 and PilotClip."
+    },
+    {
+      "ref": "F0011-R1-D-production_quality",
+      "action": "FIXED",
+      "evidence": "Strengthened rejection assertions, added literal candidate-order checks after reopening, and distinguished settings from controlled_factors. All eight mutation probes were detected. Evidence and hashes are recorded in loop/reports/STEP-0011-L04.md; the sealed Plan remains unchanged."
+    }
+  ],
+  "amendments": []
+}
