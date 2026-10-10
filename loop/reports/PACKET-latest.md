@@ -13,7 +13,7 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 - Consecutive non-integrations since RESUME: 0; trailing RF: 0.
 - Product retries: L02: 1, L04: 1.
 - BLOCKED: none.
-- Last stop reason: consecutive non-integrations after step 0010; subsequently authorized to resume under A2.
+- Last stop reason: STOP_AFTER_STEP file exists.
 
 ## New this step
 
