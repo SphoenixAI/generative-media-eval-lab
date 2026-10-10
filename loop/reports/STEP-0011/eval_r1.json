@@ -1,0 +1,185 @@
+{
+  "blocking_findings": [
+    {
+      "description": "The rubric requires a test that fails when each new validator is deleted. ClipOrigin.contract, FirstView.contract and BindingContext.contract lack such tests. Every exercised origin has consistent origin/plan fields and an original clip; every exercised view/context has correctly typed pins. The forged-context test exercises stored chronology, while duplicate-origin and concurrent-view tests exercise separate admission checks. Removing these model validators therefore leaves those tests satisfied. In particular, no test independently proves rejection of PLANNED without a plan, FOUND with a plan, a non-original origin clip, or wrong-kind view/context pins. This conclusion follows from the inspected test inputs and control flow; full runtime mutation testing was unavailable.",
+      "dimension": "production_quality",
+      "id": "F0011-R1-001",
+      "invariant": null,
+      "location": "tree/src/eval_lab/generation.py:60-76,111-116; tree/tests/test_generation.py",
+      "required_fix": "Add focused constructor and copied-model admission cases for these validators, using otherwise valid fixtures, existing referenced artifacts with correct digests, and fresh record IDs. Assert the specific validation error and message, verify nonadmission where applicable, and demonstrate that deleting each validator makes its corresponding test fail. Replace broad rejection assertions in the new tests with targeted errors.",
+      "severity": "MATERIAL"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "claim": "Pydantic v2 model_copy(update=...) does not validate supplied update values.",
+      "id": "C01",
+      "location": "tree/loop/reports/STEP-0011-L04.md:33"
+    },
+    {
+      "claim": "Pydantic 2.13.5 JsonValue uses list, dict, string, boolean, integer, float and null alternatives, without a tuple alternative.",
+      "id": "C02",
+      "location": "tree/loop/reports/STEP-0011-L04.md:37"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE starts one immediately or can fail with SQLITE_BUSY.",
+      "id": "C03",
+      "location": "tree/loop/reports/STEP-0011-L04.md:41"
+    },
+    {
+      "claim": "SQLite trigger RAISE(ABORT, message) terminates the triggering statement and returns SQLITE_CONSTRAINT with the supplied message.",
+      "id": "C04",
+      "location": "tree/loop/reports/STEP-0011-L04.md:45"
+    },
+    {
+      "claim": "Python 3.12 hashlib includes sha256 and hexadecimal output through hexdigest.",
+      "id": "C05",
+      "location": "tree/loop/reports/STEP-0011-L04.md:49"
+    },
+    {
+      "claim": "RFC 8785 sorts JSON object property names by UTF-16 code units and requires UTF-8 output encoding.",
+      "id": "C06",
+      "location": "tree/loop/reports/STEP-0011-L04.md:53"
+    },
+    {
+      "claim": "OSXExperts publishes the executable checksum values attributed to its checksum page; current download correspondence is explicitly unverified.",
+      "id": "C07",
+      "location": "tree/docs/pilot0.md:19"
+    },
+    {
+      "claim": "FFprobe decoded timestamps and time bases support variable-rate frame addressing independently of rounded average FPS.",
+      "id": "C08",
+      "location": "tree/docs/pilot0.md:157"
+    },
+    {
+      "claim": "FFmpeg -noautorotate disables automatic rotation, explicit mapping selects the specified stream, and select's n is the zero-based filter-input frame number.",
+      "id": "C09",
+      "location": "tree/docs/pilot0.md:159"
+    },
+    {
+      "claim": "FFmpeg can fall back from a requested pixel format.",
+      "id": "C10",
+      "location": "tree/docs/pilot0.md:161"
+    }
+  ],
+  "diff_sha256": "146bafb3c0980cc7997f8051909be6121e99e908ac7fcfae598450707a73f9fb",
+  "flags": [
+    "PUBLIC_PROSE",
+    "RUNTIME_LIMIT: The supplied gate reports 674 passing tests; these were not independently reproduced. Independent execution covered extracted parsing guards and classification logic, not full Pydantic/repository integration.",
+    "MINOR_REFERENCE_BUG: generation.py:174 selects rest whenever target == prefix, even without a colon. Use the presence of an explicit prefix when choosing the ID; add literal cases for valid IDs IntentSpecV2 and PilotClip.",
+    "MINOR_ORACLE_GAPS: Candidate order is not independently asserted in test_selection_history_reopen_sql_and_bad_pins; identical settings/controlled_factors fixtures cannot detect field swapping.",
+    "PRIOR_ATTEMPTS_AUDIT: The sealed Plan has no explicit Prior attempts mapping. Compared the supplied earlier findings directly: Step 8 JSON-array and cross-origin defects have targeted current coverage; Step 8 selection masking is fixed by fresh-ID cases; Step 10 malformed shapes are addressed by 41 rejection cases independently exercised here. Step 10's candidate-order oracle note remains unresolved.",
+    "INVARIANT_AUDIT: Checked I1-I16 against the diff and relevant integration paths. No demonstrated invariant violation: no real judgment authoring, UNKNOWN conversion, history overwrite, protected/judge edit, evaluation-policy coupling, averaging, probability arithmetic, runtime network/dependency addition, existing-test weakening, public exposure or DEFERRED implementation was found. Historical Git actions were not independently verified."
+  ],
+  "item": "L04",
+  "loophole_audit": [
+    {
+      "criterion": "1. Plans and families",
+      "evidence": "Inspected record_plan's field forwarding. test_plan_family_json_reopen_and_validation checks nested JSON, timestamps, intent pins and distinct arms. However, settings and controlled_factors use identical fixtures, so swapping them would escape the current assertions.",
+      "lazy_pass": "Store the field names while dropping nested JSON or substituting default declarations.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "2. Registration and explicit binding",
+      "evidence": "registration_choice runs before ingestion; test_plan_cli_and_registration_prevalidation checks that invalid choices admit no clip or ingestion. Empty, sole and multiple-intent paths are covered. The valid-ID parsing edge case at generation.py:174 remains.",
+      "lazy_pass": "Apply origin labels without exact dependencies, or ingest before checking explicit plan/intent choices.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "3. Ordering and graceful degradation",
+      "evidence": "test_stored_ordering_degrades_and_replays uses an independently authored 13-order fixture crossed with four view conditions. Independently executed all 52 cases and confirmed that a non-strict ordering mutant fails 12 cases. Missing, wrong-revision, unlisted, legacy and PROMPT_ONLY evidence have explicit expected classes.",
+      "lazy_pass": "Always return RECONSTRUCTED or compare the classifier with itself.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "4. Stored evidence and lineage",
+      "evidence": "BindingContext.contract has no wrong-kind negative test. test_earliest_seal_and_forged_context_are_independently_checked correctly isolates chronology validation, but would still pass if the structural context validator were deleted. Both cross-origin alias directions and nonpromotion are otherwise covered.",
+      "lazy_pass": "Cover valid references and chronology mismatches while leaving structural pin validators untested.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "5. Append-only selection log",
+      "evidence": "The implementation preserves input order and validates partitions. test_selection_history_reopen_sql_and_bad_pins checks predecessors, conflicts, digests, SQL guards and reopening; fresh-ID partition tests are sensitive to missing rejection. Candidate-order preservation still lacks a literal expected-order assertion.",
+      "lazy_pass": "Return self-consistent records while reordering candidates or accepting invalid partitions.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "6. Negative-test sensitivity",
+      "evidence": "test_selection_negative_cases_are_not_masked uses fresh IDs, relevant error fragments, valid controls and nonadmission checks. The forged-context test likewise uses a fresh context and matches the chronology error. These address the earlier masking findings.",
+      "lazy_pass": "Let immutable-revision conflicts satisfy malformed selection or forged-context rejection tests.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "7. First-view events",
+      "evidence": "Traced first_access before extraction/launch and uniqueness within writer admission. test_each_access_entrypoint_logs_before_exposure, test_view_failure_boundaries and test_competing_first_access_alias_reopen_and_backward_clock target these behaviors. FirstView's structural validator remains uncovered as described in F1.",
+      "lazy_pass": "Log only successful exposure, or permit aliases and competing calls to create replacement first events.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "8. FOUND workflow and private audit",
+      "evidence": "test_found_cli_private_export_and_public_exclusion covers plan-free registration, viewing, binding, selection and export with literal UNKNOWN assertions. Inspected alias roots, frozen dependency pins and the unchanged public serializer allowlist.",
+      "lazy_pass": "Require a plan for discovered media, invent quality, or rebuild frozen exports from current records.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "9. Evidence limits and reproducibility",
+      "evidence": "docs/generation-lifecycle.md explicitly limits attention, external-view detection, chronology and regeneration claims. Inspected event version fields, retained ingestion fingerprints, controlled-clock tests and frozen-export comparisons.",
+      "lazy_pass": "Present access attempts as confirmed attention, or declared timestamps and seeds as verified generation evidence.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [],
+  "role": "evaluator",
+  "round": 1,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Compared lifecycle documentation and CLI help against implemented origin mapping, provenance derivation, UNKNOWN preservation, access-attempt semantics and frozen exports.",
+        "Checked revised installer/checksum descriptions against scripts/install_media_tools.py and the retained toolchain record; checked extraction options against media.py.",
+        "Applied the A2 boundary: external dependency and standards claims are research requests, without an accuracy penalty; harness bookkeeping and earlier researcher claims were not graded as current builder claims."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "tree/src/eval_lab/generation.py:174 incorrectly parses valid unprefixed IDs equal to the default kind. Independently executing the extracted function showed IntentSpecV2@1 and PilotClip@1 resolve to an empty ID.",
+        "Executed the extracted classifier against all 52 supplied chronology cases: zero mismatches. Replacing strict ordering with non-strict comparisons produced 12 mismatches.",
+        "test_selection_negative_cases_are_not_masked and test_found_cli_private_export_and_public_exclusion directly exercise selection rejection and the FOUND workflow."
+      ],
+      "score": 3
+    },
+    "production_quality": {
+      "evidence": [
+        "tree/src/eval_lab/generation.py:60-76 and :111-116 introduce model validators without deletion-sensitive negative tests; see F1.",
+        "tree/tests/test_generation.py:66, :69, :262 and :369 accept broad exceptions without the message fragments required by the rubric.",
+        "tree/tests/test_generation.py:183-200 never asserts candidate order against an independently specified expected sequence.",
+        "All six changed Python files passed AST parsing. Full pytest and mutation reruns were unavailable because the available Python lacks Pydantic, SQLAlchemy and pytest."
+      ],
+      "score": 2
+    },
+    "relation": {
+      "evidence": [
+        "Traced all five new artifact types through registration, inherited schema versions, reference traversal, digest validation and transaction-scoped admission.",
+        "Inspected selection predecessors, binding anchors, both cross-origin alias directions and private snapshot dependency closure.",
+        "Checked backlog L12: dedicated graph lint is later work; existing applicable admission checks are integrated."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Compared all ten changed files against L04 and the sealed plan: changes concern plans, origins, bindings, selections, access events, private snapshots and associated documentation/tests."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Independently counted 882 changed lines outside reports, within the sealed 900-line limit.",
+        "Compared the implementation against DEFERRED items D01-D14; none is implemented.",
+        "Confirmed no changes to dependencies, existing tests, protected schemas, public serializers or fixed judge implementation."
+      ],
+      "score": 4
+    }
+  },
+  "step": 11,
+  "summary": "Material negative-test coverage gap remains. Also found a minor exact-reference parsing defect. Read the complete diff and every changed file; independently verified the hash, Python syntax, parsing guards and chronology oracle. Full runtime tests were unavailable."
+}

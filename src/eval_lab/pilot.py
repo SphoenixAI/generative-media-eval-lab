@@ -11,6 +11,7 @@ from .domain import Value, NonEmpty, Confidence, Criterion, IntentSpec, Evidence
 from .pilot_domain import PilotClip, PilotDataset, PilotSubmission, PilotSession, PilotSnapshot, PinnedArtifact
 from .persistence import Repository, refs_in
 from .intent_v2 import content_identity
+from . import generation
 from .media import MediaStore, MediaError, within
 
 
@@ -131,7 +132,8 @@ class PilotWorkspace:
         self.repo.put(dataset)
         return dataset
 
-    def register(self,dataset_id,clip_id,path,author,label,selection_reason=None,provenance_note=None,rights_status="unknown"):
+    def register(self,dataset_id,clip_id,path,author,label,selection_reason=None,provenance_note=None,rights_status="unknown", *, plan=None, intent=None):
+        planned, choice = generation.registration_choice(self.repo, plan, intent)
         local_id(clip_id)
         dataset=self.latest("PilotDataset",dataset_id)
         if dataset.state!="draft" or len(dataset.clips)>=20:
@@ -141,11 +143,18 @@ class PilotWorkspace:
         media,ingestion=self.store.ingest(path,rights_status=rights_status)
         if any(self.repo.get(self.repo.get(c).media).checksum==media.checksum for c in dataset.clips):
             raise ValueError("Duplicate bytes cannot count as another pilot clip")
-        self.repo.put(media)
-        self.repo.put(ingestion)
         clip=PilotClip(id=clip_id,media=media.ref,ingestion=ingestion.ref,selected_by=author,label=label,selection_reason=selection_reason,provenance_note=provenance_note)
-        self.repo.put(clip)
-        self.repo.put(dataset.model_copy(update={"revision":dataset.revision+1,"created_at":now(),"clips":dataset.clips+(clip.ref,)}))
+        revised=dataset.model_copy(update={"revision":dataset.revision+1,"created_at":now(),"clips":dataset.clips+(clip.ref,)})
+        retained=[]
+        try:
+            for item in (media, ingestion, clip, revised):
+                self.repo.put(item)
+                retained.append(f"{item.ref.kind}:{item.id}@{item.revision}")
+            origin=generation.record_origin(self.repo, clip, planned)
+            retained.append(f"ClipOrigin:{origin.id}@1")
+            if choice: generation.bind_intent(self.repo, clip, choice)
+        except Exception as exc:
+            raise ValueError(f"registration incomplete; verified file bundle retained; records retained: {retained}; {exc}") from exc
         return clip
 
     def clip(self,id):
@@ -156,6 +165,7 @@ class PilotWorkspace:
 
     def frames(self,clip_id,timestamps):
         clip=self.clip(clip_id)
+        generation.first_access(self, clip)
         manifest=self.store.extract(self.repo.get(clip.ingestion),tuple(timestamps))
         self.repo.put(manifest)
         return manifest
@@ -349,6 +359,7 @@ class PilotWorkspace:
                 elif artifact.clip.id not in ids: continue
                 roots.append(artifact.ref)
         identities = {content_identity(self.repo.get, self.repo.get(c).media, self.repo.get(c).ingestion) for c in dataset.clips}
+        roots.extend(generation.lifecycle_roots(self.repo, identities, (dataset.id,)))
         for binding in self.repo.all("IntentBinding"):
             if content_identity(self.repo.get, binding.media.ref, binding.registration.ref) in identities:
                 roots.append(binding.ref)

@@ -11,6 +11,7 @@ from .media import MediaError, MediaTools, within
 from .pilot import PilotWorkspace, TEMPLATES, INPUT_TYPES, read_human_form
 from .pilot_domain import PILOT_TYPES, PilotDataset
 from .seals import seal_intent, verify_seal
+from . import generation
 from sqlalchemy.exc import SQLAlchemyError
 
 
@@ -32,11 +33,20 @@ def parser():
     reg=sub.add_parser("register"); reg.add_argument("dataset"); reg.add_argument("clip"); reg.add_argument("path",type=Path)
     reg.add_argument("--label",required=True); reg.add_argument("--selection-reason"); reg.add_argument("--provenance-note")
     reg.add_argument("--rights-status",choices=("unknown","owner_asserted","licensed"),default="unknown")
+    reg.add_argument("--plan", help="Exact generation plan ID; PLANNED origin, otherwise FOUND")
+    reg.add_argument("--intent", help="Existing intent ID@REV; required for a multi-intent plan")
+    for cmd in ("plan", "selection"):
+        sp=sub.add_parser(cmd, help="Append private human declarations; time and pins are application derived", description="See docs/generation-lifecycle.md for JSON fields and exact ID@REV references. Plans return a reference and digest; repeated selection IDs append corrections. No generation or sampling is performed.")
+        if cmd=="selection": sp.add_argument("dataset")
+        sp.add_argument("--file", type=Path, required=True)
+    bi=sub.add_parser("bind-intent", help="Bind existing ID@REV; provenance is computed, quality remains UNKNOWN")
+    bi.add_argument("clip"); bi.add_argument("--intent", required=True)
+    bi.add_argument("--prompt-only", action="store_true", help="Explicit FOUND/v2 declaration; cannot promote a lineage")
     for cmd in ("status","ready","manifest"):
         sp=sub.add_parser(cmd); sp.add_argument("dataset",nargs="?",default="pilot0")
         if cmd=="manifest": sp.add_argument("--output",type=Path)
-    fr=sub.add_parser("frames"); fr.add_argument("clip"); fr.add_argument("--at",type=float,nargs="+",required=True)
-    op=sub.add_parser("open"); op.add_argument("clip"); op.add_argument("--at",type=float)
+    fr=sub.add_parser("frames", help="Log first verified access attempt before extraction"); fr.add_argument("clip"); fr.add_argument("--at",type=float,nargs="+",required=True)
+    op=sub.add_parser("open", help="Log first verified access attempt before launch; external viewing is undetectable"); op.add_argument("clip"); op.add_argument("--at",type=float)
     show=sub.add_parser("show"); show.add_argument("clip")
     descriptions={
         "competing-set":"Record a private hypothesis set with explicit exclusive/exhaustive flags. Members use IDs or ID@revision; repeating --id appends a pinned revision. Exhaustive sets add a structural RESIDUAL, without confidence arithmetic.",
@@ -49,8 +59,8 @@ def parser():
     start=sub.add_parser("start"); start.add_argument("clip")
     for cmd in ("pause","resume","finish"):
         sp=sub.add_parser(cmd); sp.add_argument("session")
-    snap=sub.add_parser("snapshot", description="Freeze private records, including checksum-linked intent binding history, pinned dependencies and seals for those exact intent revisions.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
-    exp=sub.add_parser("export-snapshot", description="Export a frozen private snapshot with its pinned binding history and retained seal events.", help="Export frozen private snapshot records"); exp.add_argument("id"); exp.add_argument("--output",type=Path)
+    snap=sub.add_parser("snapshot", description="Freeze private records, including checksum-linked intent binding history, plans, origins, selections, first-access events, contexts and pinned dependencies and seals for those exact intent revisions.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
+    exp=sub.add_parser("export-snapshot", description="Export a frozen private snapshot with its pinned binding history, lifecycle records and retained seal events.", help="Export frozen private snapshot records"); exp.add_argument("id"); exp.add_argument("--output",type=Path)
     return p
 
 
@@ -88,7 +98,14 @@ def main(argv=None):
             workspace=PilotWorkspace(args.root)
             p=workspace
             if args.command=="init": result=p.init(args.dataset,args.author)
-            elif args.command=="register": result=p.register(args.dataset,args.clip,args.path,args.author,args.label,args.selection_reason,args.provenance_note,args.rights_status)
+            elif args.command=="register":
+                clip=p.register(args.dataset,args.clip,args.path,args.author,args.label,args.selection_reason,args.provenance_note,args.rights_status,plan=args.plan,intent=args.intent)
+                result={**clip.model_dump(mode="json"), **generation.audit(p.repo, clip)}
+            elif args.command=="plan": result=generation.pin(generation.record_plan(p.repo,json.loads(args.file.read_text())))
+            elif args.command=="selection": result=generation.record_selection(p.repo,p.latest("PilotDataset",args.dataset),json.loads(args.file.read_text()))
+            elif args.command=="bind-intent":
+                binding=generation.bind_intent(p.repo,p.clip(args.clip),generation.exact(p.repo,args.intent),args.prompt_only)
+                result={"binding":binding.model_dump(mode="json"), **generation.audit(p.repo,p.clip(args.clip))}
             elif args.command=="status": result=p.status(args.dataset)
             elif args.command=="ready": result=p.ready(args.dataset)
             elif args.command=="manifest": result=p.latest("PilotDataset",args.dataset)
@@ -96,6 +113,7 @@ def main(argv=None):
             elif args.command=="open":
                 clip=p.clip(args.clip)
                 if args.at is None:
+                    generation.first_access(p, clip)
                     path=p.verify_clip(clip)
                     result={"path":str(path),"view":"original_clip","time_origin":"first decoded video frame; source stream offset is in ingestion metadata"}
                 else:
@@ -107,7 +125,7 @@ def main(argv=None):
                 clip=p.clip(args.clip)
                 submissions=[s for s in p.repo.all("PilotSubmission") if s.clip.id==clip.id]
                 result={"clip":clip.model_dump(mode="json"),"ingestion":p.repo.get(clip.ingestion).model_dump(mode="json"),
-                    "submissions":[{"submission":s.model_dump(mode="json"),"artifact":p.repo.get(s.artifact).model_dump(mode="json")} for s in submissions],"quality_verdict":"UNKNOWN"}
+                    "submissions":[{"submission":s.model_dump(mode="json"),"artifact":p.repo.get(s.artifact).model_dump(mode="json")} for s in submissions], **generation.audit(p.repo, clip)}
             elif args.command=="intent": result=p.intent(args.clip,args.author,read_human_form("intent",args.file))
             elif args.command=="observe": result=p.observe(args.clip,args.author,args.id,read_human_form("observation",args.file),args.session)
             elif args.command=="hypothesis": result=p.hypothesize(args.clip,args.author,args.id,read_human_form("hypothesis",args.file),args.session)

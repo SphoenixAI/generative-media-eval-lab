@@ -69,7 +69,7 @@
     },
     "L04": {
       "retries": 1,
-      "status": "PENDING"
+      "status": "DONE"
     },
     "L07": {
       "retries": 0,
@@ -85,7 +85,7 @@
       "status": "DONE"
     }
   },
-  "last_integrated_test_count": 548,
+  "last_integrated_test_count": 698,
   "steps": [
     {
       "auto_approved": [],
@@ -451,6 +451,43 @@
         "scope": 4
       },
       "step": 10
+    },
+    {
+      "auto_approved": [],
+      "calibration": {
+        "accuracy": 0,
+        "intention": -1,
+        "production_quality": 0,
+        "relation": 0,
+        "relevance": 0,
+        "scope": 0
+      },
+      "decision": "INTEGRATE",
+      "flags": [
+        "INVARIANT_AUDIT: Checked I1-I16 against the diff and relevant integration paths. No demonstrated real-judgment authoring, UNKNOWN conversion, history overwrite, protected/judge edit, measurement/acceptability conflation, policy/evaluation coupling, prohibited provenance promotion, averaging, probability arithmetic, runtime network/dependency addition, existing-test weakening, public exposure or DEFERRED implementation. Historical Git actions were not independently verified.",
+        "PRIOR_ATTEMPTS_AUDIT: The sealed Plan still lacks an explicit finding-by-finding Prior attempts mapping. Compared all supplied earlier L04 findings directly: Step 8 nested JSON, cross-origin lineage, forged-context masking and selection masking have targeted coverage; Step 10 malformed collection shapes and candidate-order coverage are addressed.",
+        "PUBLIC_PROSE",
+        "RESEARCH_BOUNDARY: External claims retain canonical research IDs. Supplied researcher verdicts were context, not independent verification or builder-authored accuracy evidence.",
+        "RUNTIME_LIMIT: The supplied gate reports 698 passing tests. Full pytest and repository-level mutation results were not independently reproduced because the available environment lacks Pydantic, SQLAlchemy and pytest. Independent execution covered extracted functions only."
+      ],
+      "gate": true,
+      "item": "L04",
+      "passed": 698,
+      "research": {
+        "CONFIRMED": 16,
+        "UNVERIFIABLE": 1
+      },
+      "rounds": 2,
+      "rule": "R6",
+      "scores": {
+        "accuracy": 4,
+        "intention": 4,
+        "production_quality": 3,
+        "relation": 4,
+        "relevance": 4,
+        "scope": 4
+      },
+      "step": 11
     }
   ]
 }

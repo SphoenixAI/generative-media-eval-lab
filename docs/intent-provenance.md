@@ -36,8 +36,8 @@ repo.close()
 `created_at` is the registration anchor. Its `provenance` property is computed, never an
 input field. Optional `SealEvidence` and `PlanEvidence` are immutable embedded values:
 they pin exact intent revisions; the plan also pins its bound registration. They are an
-internal seam for later lifecycle work, not authenticated seals or a generation-plan
-workflow. No CLI accepts trusted timestamps or computed provenance. Event instants must
+internal chronology values assembled from retained seals and generation plans by the
+[private lifecycle workflow](generation-lifecycle.md). They are not authenticated witnesses. No CLI accepts trusted timestamps or computed provenance. Event instants must
 include timezones and normalize to UTC; absent optional facts remain absent.
 
 | Class | What it records | What it does not prove |
