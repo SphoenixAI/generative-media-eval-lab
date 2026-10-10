@@ -97,7 +97,7 @@
     },
     "L11": {
       "retries": 0,
-      "status": "PENDING"
+      "status": "DONE"
     },
     "P-HARNESS-IDS-01": {
       "note": "implemented as operator work, amendment A2",
@@ -105,7 +105,7 @@
       "status": "DONE"
     }
   },
-  "last_integrated_test_count": 1040,
+  "last_integrated_test_count": 1112,
   "steps": [
     {
       "auto_approved": [],
@@ -682,6 +682,41 @@
         "scope": 4
       },
       "step": 16
+    },
+    {
+      "auto_approved": [],
+      "calibration": {
+        "accuracy": 0,
+        "intention": 0,
+        "production_quality": 1,
+        "relation": 0,
+        "relevance": 0,
+        "scope": 0
+      },
+      "decision": "INTEGRATE",
+      "flags": [
+        "FILE-LIST VARIANCE: tree/src/eval_lab/pilot_cli.py was not in the sealed Plan's estimated file list; its changes are limited to snapshot/export help.",
+        "Independent pytest execution was unavailable; supplied gate results are reported evidence, not an independent rerun.",
+        "Lint integration remains assigned to L12; no existing lint integration point was found.",
+        "MINOR TEST GAP: direct-reference discovery needs an assertion that cannot also pass through intent/media matching.",
+        "PUBLIC_PROSE",
+        "PUBLIC_PROSE: tree/docs/relations-v2.md."
+      ],
+      "gate": true,
+      "item": "L11",
+      "passed": 1112,
+      "research": {},
+      "rounds": 1,
+      "rule": "R6",
+      "scores": {
+        "accuracy": 4,
+        "intention": 4,
+        "production_quality": 3,
+        "relation": 4,
+        "relevance": 4,
+        "scope": 4
+      },
+      "step": 17
     }
   ]
 }

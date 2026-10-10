@@ -77,8 +77,8 @@ def parser():
     start=sub.add_parser("start"); start.add_argument("clip")
     for cmd in ("pause","resume","finish"):
         sp=sub.add_parser(cmd); sp.add_argument("session")
-    snap=sub.add_parser("snapshot", description="Freeze private records, including test plan histories and exact dependencies, terminal verdict histories and policy dependencies, technical observations, criterion assessments, checksum-linked intent binding history, plans, origins, selections, first-access events, contexts and pinned dependencies and seals for those exact intent revisions.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
-    exp=sub.add_parser("export-snapshot", description="Export a frozen private snapshot with its pinned binding history, lifecycle records and retained seal events.", help="Export frozen private snapshot records"); exp.add_argument("id"); exp.add_argument("--output",type=Path)
+    snap=sub.add_parser("snapshot", description="Freeze private records, including applicable relation v2 histories and exact dependencies (docs/relations-v2.md), test plan histories and exact dependencies, terminal verdict histories and policy dependencies, technical observations, criterion assessments, checksum-linked intent binding history, plans, origins, selections, first-access events, contexts and pinned dependencies and seals for those exact intent revisions.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
+    exp=sub.add_parser("export-snapshot", description="Export a frozen private snapshot with pinned relation v2 history (docs/relations-v2.md), binding history, lifecycle records and retained seal events.", help="Export frozen private snapshot records"); exp.add_argument("id"); exp.add_argument("--output",type=Path)
     return p
 
 

@@ -11,7 +11,7 @@ from .domain import Value, NonEmpty, Confidence, Criterion, IntentSpec, Evidence
 from .pilot_domain import PilotClip, PilotDataset, PilotSubmission, PilotSession, PilotSnapshot, PinnedArtifact
 from .persistence import Repository, refs_in
 from .intent_v2 import content_identity
-from . import generation, assessments, decisions, test_plans, evidence_roles
+from . import generation, assessments, decisions, test_plans, evidence_roles, relation_v2
 from .media import MediaStore, MediaError, within
 
 
@@ -375,6 +375,15 @@ class PilotWorkspace:
             if ref in seen: continue
             item=self.repo.get(ref)
             seen[ref]=item
+            roots.extend(refs_in(item))
+        media = {self.repo.get(c).media for c in dataset.clips}
+        media.update(item.media.ref for item in seen.values() if item.ref.kind == "IntentBinding")
+        roots.extend(relation_v2.incoming_roots(self.repo, seen, media))
+        while roots:
+            ref = roots.pop()
+            if ref in seen: continue
+            item = self.repo.get(ref)
+            seen[ref] = item
             roots.extend(refs_in(item))
         # Seal events point back to intents; include only exact pins in this closure.
         for seal in self.repo.all("SealRecord"):

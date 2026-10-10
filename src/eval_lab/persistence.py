@@ -11,7 +11,7 @@ from sqlalchemy.pool import StaticPool
 from .domain import ARTIFACT_TYPES, Artifact, Ref, Value, Evidence, HumanRating, AgentAssessment, EvaluationRound, PairwiseRating, ModelRun, EvaluatorVersion, HypothesisGraph, Hypothesis, RelationClaim, EvaluationCase
 from . import pilot_domain  # register additive Pilot 0 types without altering v1 snapshots
 from .domain import CompetingSet
-from . import intent_v2, seals, generation, assessments, decisions, test_plans, evidence_roles
+from . import intent_v2, seals, generation, assessments, decisions, test_plans, evidence_roles, relation_v2
 
 metadata = MetaData()
 artifacts = Table("artifacts", metadata,
@@ -151,7 +151,7 @@ class Repository:
         if isinstance(item, CompetingSet):
             if any(self.get(member).intent != item.intent for member in item.members if isinstance(member, Ref)):
                 raise ValueError("competing set members must share its pinned intent")
-        if isinstance(item, RelationClaim):
+        if isinstance(item, RelationClaim) and not isinstance(item, relation_v2.RelationClaimV2):
             evidence_refs = set(item.evidence) | ({item.subject} if item.subject.kind == "Evidence" else set())
             for evidence_ref in evidence_refs:
                 media = self.get(evidence_ref).media
@@ -195,8 +195,8 @@ class Repository:
         """Read retained constraints inside the writer transaction, never via latest."""
         if isinstance(item, CompetingSet) and item.exclusive:
             sets = (item,)
-            rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == "RelationClaim")).scalars()
-            claims = tuple(RelationClaim.model_validate_json(row) for row in rows)
+            rows = conn.execute(select(artifacts.c.kind, artifacts.c.payload).where(artifacts.c.kind.in_(("RelationClaim", "RelationClaimV2"))))
+            claims = tuple(ARTIFACT_TYPES[row.kind].model_validate_json(row.payload) for row in rows)
         elif isinstance(item, RelationClaim) and item.predicate == "compatible_with":
             claims = (item,)
             rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == "CompetingSet")).scalars()
@@ -213,7 +213,7 @@ class Repository:
 
     @staticmethod
     def _validate_intent_admission(conn, item, freeze_test_plan=False):
-        if not isinstance(item, (intent_v2.IntentSpecV2, intent_v2.IntentBinding, seals.SealRecord, *generation.TYPES, *assessments.TYPES, *decisions.TYPES, *evidence_roles.TYPES, test_plans.TestPlan)):
+        if not isinstance(item, (intent_v2.IntentSpecV2, intent_v2.IntentBinding, seals.SealRecord, *generation.TYPES, *assessments.TYPES, *decisions.TYPES, *evidence_roles.TYPES, test_plans.TestPlan, relation_v2.RelationClaimV2)):
             return
         def get(ref):
             row = conn.execute(select(artifacts).where(Repository.key(ref))).mappings().one()
@@ -224,6 +224,16 @@ class Repository:
         rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == "IntentBinding")).scalars()
         history = tuple(intent_v2.IntentBinding.model_validate_json(row) for row in rows)
         intent_v2.validate_admission(item, get, history)
+        if isinstance(item, relation_v2.RelationClaimV2):
+            def media_has_intent(media, intent):
+                for name in ("ModelRun", "PilotClip"):
+                    rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == name)).scalars()
+                    for payload in rows:
+                        record = ARTIFACT_TYPES[name].model_validate_json(payload)
+                        if record.media == media and (get(record.prompt).intent if name == "ModelRun" else record.intent) == intent:
+                            return True
+                return False
+            relation_v2.validate_admission(item, get, history, media_has_intent)
         if isinstance(item, evidence_roles.TYPES):
             evidence_roles.validate_admission(item, get)
         if isinstance(item, test_plans.TestPlan):
