@@ -631,7 +631,7 @@ class Control:
         reports=self.root/'loop/reports'; reports.mkdir(parents=True,exist_ok=True)
         (reports/'INDEX.md').write_text(self.clean_text('# Step index\n\n'+header+'\n'.join(rows)+'\n'))
         # The packet's compact table leaves full flags in INDEX and original role evidence.
-        compact=[' | '.join(row.split(' | ')[:8])+(' | flags: '+str(len(step.get('flags',[])))) for row,step in zip(rows[-5:],steps[-5:])]
+        compact=[' | '.join(row.split(' | ')[:7])+(' | flags: '+str(len(step.get('flags',[])))) for row,step in zip(rows[-5:],steps[-5:])]
         text='# Review packet\n\n'+header+'\n'.join(compact)+'\n\n'
         previous=read(self.root/'loop/packet-status.json',{})
         stop_reason=reason if reason is not None else previous.get('stop_reason','none recorded')
@@ -643,8 +643,8 @@ class Control:
         old={flag for row in steps[:-1] for flag in row.get('flags',[])}
         fresh=[flag for flag in (steps[-1].get('flags',[]) if steps else []) if flag not in old]
         text+='## New this step\n\n'+('\n'.join('- '+self.clean_text(flag)[:300] for flag in fresh) or 'None.')+'\n\n'
-        excluded={event['step'] for event in state.get('events',[]) if event.get('classification','').startswith('HARNESS_')}
-        latest={row['item']:row for row in steps if row['step'] not in excluded}; issues={}
+        # A policy classification does not erase the evaluator's resolved findings.
+        latest={row['item']:row for row in steps}; issues={}
         for row in latest.values():
             folder=reports/f"STEP-{row['step']:04d}"; ev=read(folder/f"eval_r{row.get('rounds',1)}.json",{})
             unresolved={entry['ref'] for entry in ev.get('prior_findings',[]) if entry['status']=='UNRESOLVED'}

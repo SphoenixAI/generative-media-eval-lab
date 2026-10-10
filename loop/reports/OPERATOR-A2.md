@@ -10,7 +10,7 @@ Authority: Sphoenix supplied BUILD_LOOP_AMENDMENT_2.md and BUILD_LOOP_AMENDMENT_
 | B: M4-M6 | ab7f6ba | 124 passed | PASS, INTEGRATE/R6 |
 | C: M7-M8 | 2890543, addbefb | 128 passed | PASS, INTEGRATE/R6 |
 
-The earlier harness suite had 107 tests. A2 adds 21. Dry runs use authored role fixtures, real gates and disposable Git repositories; they make zero model calls. They do not establish real-media validity. Group A's first check exposed a JSON-key-order assertion issue; Group C's first check exposed test paths using the macOS /var alias instead of resolved /private/var paths. Both were corrected before proceeding.
+The earlier harness suite had 107 tests. A2 adds 21. Dry runs use authored role fixtures, real gates and disposable Git repositories; they make zero model calls. They do not establish real-media validity. Final inspection also corrected the compact table column count and retained findings from policy-classified steps. Group A's first check exposed a JSON-key-order assertion issue; Group C's first check exposed test paths using the macOS /var alias instead of resolved /private/var paths. Both were corrected before proceeding.
 
 M9 is skipped in this amendment pass. Evaluator scratch confinement has not been implemented or demonstrated by a test. Existing read-only evaluation remains, and independent full-suite execution remains a stated limitation. This does not waive any gate.
 

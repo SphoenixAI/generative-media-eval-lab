@@ -47,6 +47,13 @@ class ReportPacketTests(unittest.TestCase):
         self.assertIn('since RESUME: 1',text); self.assertIn('L00: 2',text); self.assertIn('BLOCKED: L00',text)
         self.assertEqual(text.count('tests/test_example.py:2'),1); self.assertIn('steps 0001,0002',text)
         self.assertIn('PUBLIC_PROSE: 2',text); self.assertIn('VALIDATION_LIMITATION: 1',text)
+        table=text.split('## Loop health')[0]
+        self.assertNotIn('PUBLIC_PROSE',table); self.assertNotIn('Independent tests unavailable',table)
+        self.assertTrue(all(len(line.split(' | '))==8 for line in table.splitlines() if line.startswith('000')))
+        state['events'].append(dict(step=2,decision='REVERT',classification='HARNESS_POLICY_FALSE_REVERT',reason='TEST-ONLY policy',product_retry_charged=False))
+        c.write(self.root/'loop/state.json',state)
+        self.control.packet()
+        self.assertIn('steps 0001,0002',(self.root/'loop/reports/PACKET-latest.md').read_text())
         self.assertNotIn(str(self.control.root),text); self.assertNotIn(str(self.control.runs),text)
         self.control.packet(); self.assertIn('TEST-ONLY stop <RUNS>/0002',(self.root/'loop/reports/PACKET-latest.md').read_text())
         self.assertIn('Independent tests unavailable',(self.root/'loop/reports/INDEX.md').read_text())
