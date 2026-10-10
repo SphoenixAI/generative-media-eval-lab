@@ -646,6 +646,9 @@ def dry_run(root, args):
         command(['git', 'clone', str(bare), str(wt)], base)
         command(['git', 'clone', '--branch', 'main', str(bare), str(main)], base)
         command(['git', 'checkout', 'loop/integration'], wt)
+        # Canonical worktrees share a local main ref; ordinary clones do not.
+        if command(['git', 'show-ref', '--verify', 'refs/heads/main'], wt, check=False).returncode:
+            command(['git', 'branch', 'main', 'origin/main'], wt)
         command(['git', 'config', 'user.name', 'TEST-ONLY dry run'], wt)
         command(['git', 'config', 'user.email', 'dry-run@example.invalid'], wt)
         runner = Runner(wt, fixtures=True)
@@ -673,7 +676,8 @@ def dry_run(root, args):
                  not list(runner.runs.glob('*/failure.json')))
         print(json.dumps({'dry_run': 'PASS' if clean else 'FAIL',
                           'isolated_local_remote': True, 'model_calls': 0,
-                          'decisions': decisions}))
+                          'decisions': decisions,
+                          'rollback_verifications': [read_json(p) for p in runner.runs.glob('*/rollback-verification.json')]}))
         return 0 if clean else 1
 
 
