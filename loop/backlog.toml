@@ -1104,3 +1104,20 @@ probes = []
 risk = "MEDIUM"
 size = "M"
 title = "Lint contracts: independent all-rule matrix through direct and retained paths"
+
+[[item]]
+id = "P0023-1"
+title = "Decompose L12-A2 acceptance so focused validator controls fit bounded steps"
+rationale = "The current L12-A2 candidate has 858 product/test changed lines and nineteen rejection guards whose deletion survives the focused suite. A2 rule 4 remains unmet. The exact-partition split mechanism cannot divide one acceptance string into multiple nonempty children. Sphoenix should approve a finer acceptance breakdown and new sealed plans before further implementation. Preserve all existing controls; do not move necessary focused tests to A3 or treat this partial candidate as integrated acceptance. Evidence: loop/reports/STEP-0023-L12-A2.md, Changes."
+priority = "P2"
+approval = "PROPOSED"
+size = "M"
+risk = "MEDIUM"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Approve separate criteria for shared checked traversal and scope contracts; temporal, relation and optional branches; warrant and provenance dependencies; and role, history and frozen-plan dependencies, each including its own focused deletion-sensitive validator controls.", "Preserve the original all-rule acceptance as the final conjunction, the existing exhaustive A3 matrix, all existing tests, and the 900 changed-line cap for each resulting step."]

@@ -130,6 +130,10 @@
       "retries": 0,
       "status": "DONE"
     },
+    "L12-A2": {
+      "retries": 1,
+      "status": "PENDING"
+    },
     "P-HARNESS-IDS-01": {
       "note": "implemented as operator work, amendment A2",
       "retries": 0,
@@ -877,6 +881,39 @@
         "scope": 4
       },
       "step": 22
+    },
+    {
+      "auto_approved": [],
+      "calibration": {
+        "accuracy": 0,
+        "intention": 0,
+        "production_quality": 0,
+        "relation": 2,
+        "relevance": 0,
+        "scope": 0
+      },
+      "decision": "REVERT",
+      "flags": [
+        "Independently computed the diff SHA-256 and confirmed it matches diff_sha256.txt.",
+        "Reviewed I1-I16 against changed paths and behavior. The preparation gaps threaten evidence and provenance guarantees, but this layer emits no readiness or verdict result; no score-zero invariant violation is asserted. No authored-history writes, judgment creation, aggregation, probability arithmetic, runtime network access, public serializer changes, weakened existing tests, deferred implementation or harness edits were found.",
+        "The attachment probes executed actual preparation/reader functions with repository-supplied schemas and equivalent substitutes for selected MediaAsset/Evidence fields. They are isolated standard-library checks, not full installed-package integration tests.",
+        "The supplied gate reports 1505 passing tests. This is harness evidence; the full suite was not independently rerun."
+      ],
+      "gate": true,
+      "item": "L12-A2",
+      "passed": 1505,
+      "research": {},
+      "rounds": 2,
+      "rule": "R3",
+      "scores": {
+        "accuracy": 4,
+        "intention": 2,
+        "production_quality": 2,
+        "relation": 2,
+        "relevance": 4,
+        "scope": 4
+      },
+      "step": 23
     }
   ]
 }
