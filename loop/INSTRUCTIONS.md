@@ -538,19 +538,22 @@ Score	Meaning	Effect
 3 MINOR	Small issue, logged	Integrate
 2 MATERIAL	Must be fixed in this step	Enhance, otherwise revert
 1 SEVERE	Wrong in a way the fixes did not rescue	Revert
-0 CATASTROPHIC	An invariant is violated, named in a blocking finding	Revert and stop the loop
+0 CATASTROPHIC	An invariant is violated, named in a blocking finding	Revert; stop unless post-revert R0P verification succeeds
 Dimension	A 4 looks like	A 2 looks like	A 1 looks like	A 0 looks like
 Relevance	On the critical path to the north star; the diff stays inside the item	Tangential work mixed in	Mostly off-item	DEFERRED work (I14)
 Intention	Sealed criteria met as written; invariants honored; the loophole audit is clean	A criterion unmet or quietly reinterpreted	Several criteria unmet	An invariant violated
+Intention fail-closed anchor: Standing fail-closed build rule (Sphoenix, 2026-10-10): Any path capable of deciding readiness, completion, verdict or operational action declares its required inputs and tests each under missing, null and malformed conditions. Missing/unavailable -> UNKNOWN/incomplete. Malformed/integrity-invalid -> INTEGRITY_FAILURE. Neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state. Prefer a shared parameterized contract test. Do not introduce INVALID as a new state vocabulary.
 Relation	New types linked, pinned, versioned, persisted, included in snapshots and linted	A new type orphaned, or a reference left floating	References that break existing records	Authored history overwritten (I3)
 Production quality	Positive, negative and edge-case tests; clear errors; typed; docs and help updated; deterministic	Negative tests or docs missing	Tests fail or are flaky	A test weakened to make a run pass (I11)
+Production quality fail-closed anchor: Standing fail-closed build rule (Sphoenix, 2026-10-10): Any path capable of deciding readiness, completion, verdict or operational action declares its required inputs and tests each under missing, null and malformed conditions. Missing/unavailable -> UNKNOWN/incomplete. Malformed/integrity-invalid -> INTEGRITY_FAILURE. Neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state. Prefer a shared parameterized contract test. Do not introduce INVALID as a new state vocabulary.
 Accuracy	Every method, standard and number matches a primary source or a hand-computed fixture; nothing claimed that is not built	An unverified or imprecise claim shipped	A contradicted claim shipped	Synthetic output presented as real results (I1, I12)
 Scope	The smallest change that meets the criteria	Gold-plating	Large unrequested additions	DEFERRED work built (I14)
 
 The decision is deterministic and never averages. The final round is round 2 if it ran, and round 1 otherwise. The first matching rule fires:
 
 Rule	Condition	Decision
-R0	A final score of 0 backed by a finding that names an invariant, or a G6 or G14 failure in any round	REVERT, and stop the loop
+R0	A final score of 0 backed by an invariant, or G6/G14 failure: remain R0 unless all R0P conditions below are proven after rollback	REVERT, stop the loop
+R0P	Only I2/I3/I5/I6/I7/I8/I9/I13 score-zero candidate invariants, and verified rollback checks	REVERT, charge product retry, continue within ordinary limits
 RF	A role failed or timed out	REVERT; no retry is charged
 R1	The final gate has a blocking failure	REVERT
 R2	Any other final 0, or any final 1	REVERT
@@ -1108,3 +1111,8 @@ Subagents: https://learn.chatgpt.com/docs/agent-configuration/subagents
 Scheduled tasks: https://learn.chatgpt.com/docs/automations
 
 A2.1 Part 2 proposal boundary: A3-01 through A3-07 remain PROPOSED, P2, human_review=true. Never approve, auto-approve or build them without Sphoenix. Sphoenix decides at H4, after L04 to L12 are integrated and the first three human cases exist. These proposals must never block approved work or be treated by the evaluator as approved scope.
+
+
+Operator rule, Sphoenix 2026-10-10: R0P is a post-revert classification for a new candidate only. Every zero-scored dimension must have a finding naming an allowed invariant, and no finding may name another invariant. Autonomy/repository-integrity failures remain R0. Before rollback, retain the initial R0 decision, changed-path check, protected hashes and main/pilot-local integrity snapshot. After reverting, verify G5 protected hashes unchanged, G6 no forbidden candidate or remaining paths, G14 main refs and pilot-local listing unchanged from step start, and a clean worktree at the exact known-good base. Every executed gate round must also have passed G5/G6/G14; missing evidence, exceptions or unverifiable checks remain R0 and stop. R0P charges the ordinary product retry and counts toward consecutive non-integrations. Tests and these checks do not prove the absence of side effects outside the checked paths. Step 0019 is not reclassified or refunded.
+
+Application ordering: L15 and L16 are P0. Once L12 is done, prefer eligible L16 before L15 without adding a dependency. The authorized run uses --critical-path L12,L16,L15: follow existing split children, advance only when the current item is complete, stop on blocked/unavailable critical work, and stop at the boundary after L15 completes. Never fall through to witness items or other backlog work. All existing retry, R0, RF, step/time and STOP limits remain.

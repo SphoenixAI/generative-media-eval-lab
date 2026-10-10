@@ -235,6 +235,24 @@ def integrity(root, config):
     return {'pilot_listing_sha256': metadata_hash(main / 'pilot-local'), 'remote_main': remote_main}
 
 
+def repository_integrity(root, config):
+    """G14 plus both local main refs; never read pilot-local file contents."""
+    result = integrity(root, config)
+    main = (root / config['paths']['main_checkout']).resolve()
+    result['local_main'] = git(main, 'rev-parse', 'HEAD').strip()
+    result['branch_main'] = git(root, 'rev-parse', config['git']['main']).strip()
+    return result
+
+
+def forbidden_changes(config, changed, number):
+    violations = []
+    for name, delta in changed.items():
+        exception = name.startswith('tests/') or bool(re.fullmatch(r'loop/reports/STEP-' + f'{number:04d}' + r'-[^/]+\.md', name)) or name == f'loop/proposals/STEP-{number:04d}.toml'
+        if delta['symlink'] or (any(matches(name, p) for p in config['paths'].get('forbidden', [])) and not exception):
+            violations.append(name)
+    return violations
+
+
 def changes(root, base):
     names = set(git(root, 'diff', '--name-only', '-z', base).split('\0')) - {''}
     untracked = set(git(root, 'ls-files', '--others', '--exclude-standard', '-z').split('\0')) - {''}
@@ -279,12 +297,7 @@ def static_checks(root, config, baseline, protected, changed, step, tests, repor
     add('G5', not (set(modified) - allowed), {'changed': modified, 'unauthorized': sorted(set(modified) - allowed)})
     if modified: flags.append('PROTECTED_CHANGED')
     number = int(step.get('number', step.get('step', 0)))
-    forbidden = config['paths'].get('forbidden', [])
-    violations = []
-    for name, delta in changed.items():
-        exception = name.startswith('tests/') or bool(re.fullmatch(r'loop/reports/STEP-' + f'{number:04d}' + r'-[^/]+\.md', name)) or name == f'loop/proposals/STEP-{number:04d}.toml'
-        # A test exception allows media fixtures; it never permits symlinks.
-        if delta['symlink'] or (any(matches(name, p) for p in forbidden) and not exception): violations.append(name)
+    violations = forbidden_changes(config, changed, number)
     add('G6', not violations, {'forbidden_changes': violations})
     generated = config['paths'].get('generated', [])
     line_count = sum((config['limits']['max_changed_lines'] + 1 if d['binary'] else len(d['added']) + len(d['removed'])) for name, d in changed.items() if not any(matches(name, p) for p in generated))

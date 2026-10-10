@@ -169,6 +169,8 @@ class Runner:
         self.git_ready = False
         self.remote_url = None
         self.deadline = None
+        self.critical_path = ()
+        self.r0p_fixture = False
 
     def configured_command(self, value):
         args = shlex.split(value) if isinstance(value, str) else list(value)
@@ -209,7 +211,7 @@ class Runner:
         self.git('push', self.remote, f'HEAD:refs/heads/{self.integration}')
 
     def sync(self):
-        self.git('fetch', self.remote)
+        self.git('fetch', self.remote, f'{self.main}:refs/remotes/{self.remote}/{self.main}')
         upstream = f'{self.remote}/{self.main}'
         if self.git('merge-base', '--is-ancestor', upstream, 'HEAD', check=False).returncode:
             merged = self.git('merge', '--no-edit', upstream, check=False)
@@ -287,6 +289,11 @@ class Runner:
         if data is None:
             raise RoleError(f'Missing fixture {output.name}')
         meta = read_json(self.step_dir / 'step.json')
+        if self.r0p_fixture and role == 'evaluator':
+            data = read_json(folder/'r0p_eval.json')
+            data['prior_findings'] = [{'ref': f'F{self.step:04d}-R1-001', 'status':'UNRESOLVED'}] if round_number == 2 else []
+        if self.r0p_fixture and role == 'enhancer':
+            data = {'resolutions':[{'ref':f'F{self.step:04d}-R1-001','action':'REJECTED_WITH_REASON','evidence':'TEST-ONLY intentional R0P rollback probe'}],'amendments':[]}
         if 'step' in data:
             data['step'] = self.step
             data['item'] = meta['item']['id']
@@ -466,6 +473,7 @@ class Runner:
     def one_step(self):
         prefer = read_json(self.runs/f'{self.recovery[0]:04d}/step.json')['item']['id'] if self.recovery else None
         preference = ['--prefer',prefer] if prefer else []
+        if self.critical_path: preference += ['--critical-path', ','.join(self.critical_path)]
         item = self.ctl('next', *preference, live=True)
         if item == 'NONE' or item is None:
             return None
@@ -507,8 +515,10 @@ class Runner:
         decision = read_json(self.step_dir / 'decision.json')
         self.ensure_branch()
         if decision['decision'] != 'INTEGRATE':
+            if decision['rule'] == 'R0': self.ctl('prepare-revert', '--step', str(self.step))
             self.git('reset', '--hard', started['base_commit'])
             self.git('clean', '-fd')
+            if decision['rule'] == 'R0': decision = self.ctl('post-revert', '--step', str(self.step))
         self.ctl('finish', '--step', str(self.step))
         title = read_json(self.step_dir / 'step.json')['item']['title']
         self.commit(f"loop(step-{self.step:04d}): {item_id} {title} [{decision['decision']}]")
@@ -558,7 +568,8 @@ class Runner:
             self.push()
         print(json.dumps({'stopped': reason, 'runs': str(self.runs)}), flush=True)
 
-    def run(self, *, once=False, max_steps=None, until=None):
+    def run(self, *, once=False, max_steps=None, until=None, critical_path=()):
+        self.critical_path = tuple(critical_path)
         completed = non_integrated = 0
         self.deadline = cutoff(until) if until else None
         non_integrated,self.codex_failures = trailing_counts(read_json(self.root/'loop/state.json',{}))
@@ -590,7 +601,7 @@ class Runner:
                 self.sync()
                 result = self.one_step()
                 if result is None:
-                    reason = 'no eligible item'
+                    reason = 'critical path complete' if self.critical_path else 'no eligible item'
                     break
                 completed += 1
                 non_integrated = 0 if result['decision'] == 'INTEGRATE' else non_integrated + 1
@@ -638,6 +649,7 @@ def dry_run(root, args):
         command(['git', 'config', 'user.name', 'TEST-ONLY dry run'], wt)
         command(['git', 'config', 'user.email', 'dry-run@example.invalid'], wt)
         runner = Runner(wt, fixtures=True)
+        runner.r0p_fixture = bool(getattr(args, 'dry_run_r0p', False))
         # Relative layout keeps the dry run away from real worktree, RUNS and ENV.
         for name, expected in [('runs_dir', base / 'Content Evaluator - loop-runs'),
                                ('env_dir', base / 'Content Evaluator - loop-env'),
@@ -656,7 +668,7 @@ def dry_run(root, args):
         decisions = [read_json(p) for p in sorted(runner.runs.glob('*/decision.json'))]
         gates = [read_json(p) for p in runner.runs.glob('*/gate_r*.json')]
         clean = (result == 0 and len(decisions) == 1 and
-                 decisions[0]['decision'] == 'INTEGRATE' and decisions[0]['rule'] == 'R6' and
+                 decisions[0]['decision'] == ('REVERT' if runner.r0p_fixture else 'INTEGRATE') and decisions[0]['rule'] == ('R0P' if runner.r0p_fixture else 'R6') and
                  bool(gates) and all(g['passed'] for g in gates) and
                  not list(runner.runs.glob('*/failure.json')))
         print(json.dumps({'dry_run': 'PASS' if clean else 'FAIL',
@@ -669,11 +681,16 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--once', action='store_true')
     parser.add_argument('--dry-run', action='store_true')
+    parser.add_argument('--dry-run-r0p', action='store_true')
+    parser.add_argument('--critical-path', type=lambda v: v.split(','), default=[])
     parser.add_argument('--max-steps', type=int)
     parser.add_argument('--until')
     parser.add_argument('--recover-step', type=int)
     parser.add_argument('--recover-sha256')
     args = parser.parse_args()
+    if args.dry_run_r0p: args.dry_run = True
+    if args.critical_path and (args.dry_run or args.recover_step is not None or len(set(args.critical_path)) != len(args.critical_path) or any(not re.fullmatch(r'[A-Za-z0-9_-]+', key) for key in args.critical_path)):
+        parser.error('critical path requires unique item IDs, without dry-run or recovery')
     if (args.recover_step is None) != (args.recover_sha256 is None):
         parser.error('recovery requires both --recover-step and --recover-sha256')
     if args.recover_sha256 and not re.fullmatch(r'[a-f0-9]{64}',args.recover_sha256):
@@ -689,7 +706,7 @@ def main():
             parser.error('--until must be HH:MM')
     root = Path(__file__).resolve().parent.parent
     return dry_run(root, args) if args.dry_run else Runner(root,recovery=(args.recover_step,args.recover_sha256) if args.recover_step is not None else None).run(
-        once=args.once, max_steps=args.max_steps, until=args.until)
+        once=args.once, max_steps=args.max_steps, until=args.until, critical_path=args.critical_path)
 
 
 if __name__ == '__main__':

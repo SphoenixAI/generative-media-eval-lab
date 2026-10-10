@@ -26,3 +26,7 @@ Record at most five findings in research/landscape.md, each with a relevance not
 
 
 Graceful stop: create loop/STOP_AFTER_STEP to finish the active step and stop at the next boundary. It never interrupts a role. Remove it before an authorized restart. loop/STOP remains the immediate stop.
+
+R0P rollback boundary: initial R0 -> preserve pre-revert evidence -> revert -> verify frozen G5/G6/G14 and clean exact base -> R0P only if proven. Otherwise stop under R0. This does not establish absence of side effects outside checked paths.
+
+For the authorized application path, use --critical-path L12,L16,L15. Split children stay within that path; blocked prerequisites stop rather than selecting unrelated work. Completion stops at a step boundary before any WP item.

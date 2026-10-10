@@ -21,3 +21,5 @@ A2 test-oracle rules:
 4. Each new validator has at least one test that fails when that validator is deleted. Name the test in self-evaluation evidence (or enhancement evidence for the enhancer).
 
 Use repository-relative paths in Plan, Probes and all report text.
+
+Standing fail-closed build rule (Sphoenix, 2026-10-10): Any path capable of deciding readiness, completion, verdict or operational action declares its required inputs and tests each under missing, null and malformed conditions. Missing/unavailable -> UNKNOWN/incomplete. Malformed/integrity-invalid -> INTEGRITY_FAILURE. Neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state. Prefer a shared parameterized contract test. Do not introduce INVALID as a new state vocabulary.

@@ -108,20 +108,47 @@ def items(root):
     return tomllib.loads((root / 'loop/backlog.toml').read_text()).get('item', [])
 
 
-def next_item(backlog, state, prefer=None):
+def item_done(key, statuses, seen=()):
+    if key in seen: return False
+    row = statuses.get(key, {})
+    if isinstance(row, str): row = {'status': row}
+    return row.get('status') == 'DONE' or (row.get('status') == 'SPLIT' and bool(row.get('children')) and all(item_done(c, statuses, (*seen, key)) for c in row['children']))
+
+
+def critical_item(backlog, state, path):
+    """Only the first unfinished root or its existing split descendants may run."""
     statuses = state.get('items', {})
-    def done(key, seen=()):
-        if key in seen: return False
+    def pending(key, seen=()):
+        if key in seen: raise ValueError('critical split cycle: ' + key)
+        if item_done(key, statuses): return None
         row = statuses.get(key, {})
         if isinstance(row, str): row = {'status': row}
-        if row.get('status') == 'DONE': return True
-        return row.get('status') == 'SPLIT' and bool(row.get('children')) and all(done(c, (*seen,key)) for c in row['children'])
+        if row.get('status') == 'SPLIT':
+            if not row.get('children'): raise ValueError('critical split has no children: ' + key)
+            for child in row['children']:
+                candidate = pending(child, (*seen, key))
+                if candidate: return candidate
+        chosen = next_item(backlog, state, key)
+        if not chosen or chosen['id'] != key: raise ValueError('critical item blocked or unavailable: ' + key)
+        return chosen
+    for key in path:
+        candidate = pending(key)
+        if candidate: return candidate
+    return None
+
+
+def next_item(backlog, state, prefer=None):
+    statuses = state.get('items', {})
+    def done(key): return item_done(key, statuses)
     eligible = []
     for order, item in enumerate(backlog):
         row = statuses.get(item['id'], {})
         if isinstance(row, str): row = {'status': row}
         if item['approval'] in ('APPROVED', 'AUTO_APPROVED') and row.get('status') not in ('DONE','BLOCKED','SPLIT') and all(done(d) for d in item.get('depends_on', [])):
             eligible.append((item['priority'], order, item))
+    if done('L12'):
+        guide_order = next((order for order, item in enumerate(backlog) if item['id'] == 'L15'), len(backlog))
+        eligible = [(priority, guide_order - 0.5 if item['id'] == 'L16' else order, item) for priority, order, item in eligible]
     eligible.sort(key=lambda row: row[:2])
     if prefer:
         selected=next((r[2] for r in eligible if r[2]['id']==prefer),None)
@@ -138,6 +165,17 @@ def auto_approval(proposal, source, step, state, claims, terms):
     docs_ok = proposal.get('category') != 'docs' or any(c['id'] == proposal.get('claim_id') and c['verdict'] == 'CONTRADICTED' for c in claims)
     text = (proposal.get('title','') + ' ' + proposal.get('rationale','')).lower()
     return source == 'researcher' and proposal.get('size') == 'S' and proposal.get('risk') == 'LOW' and proposal.get('category') in ('test','validation','bugfix','docs') and proposal.get('relevance',0) >= 3 and docs_ok and not recent and not any(t.lower() in text for t in terms)
+
+
+PRODUCT_INVARIANTS = frozenset(('I2','I3','I5','I6','I7','I8','I9','I13'))
+
+
+def product_zero(evaluation):
+    zeros = {d for d, value in evaluation.get('scores', {}).items() if value.get('score') == 0}
+    findings = evaluation.get('blocking_findings', [])
+    named = {f.get('invariant') for f in findings if f.get('invariant') is not None}
+    return bool(zeros and named and named <= PRODUCT_INVARIANTS and all(
+        any(f.get('dimension') == dimension and f.get('invariant') in PRODUCT_INVARIANTS for f in findings) for dimension in zeros))
 
 
 def decision(evaluation, gate, all_gates, research, enhancement, failure, expected_hash, prior=None):
@@ -223,11 +261,11 @@ class Control:
         state.setdefault('events',[]).append(event); write(self.root/'loop/state.json',state); self.packet()
         return event
 
-    def start(self, item_id, prefer=None):
+    def start(self, item_id, prefer=None, critical_path=()):
         self.runs.mkdir(parents=True, exist_ok=True)
         n = max([int(p.name) for p in self.runs.iterdir() if p.is_dir() and p.name.isdigit()] + [s['step'] for s in self.state().get('steps',[])] + [0]) + 1
         state = self.state(); backlog = items(self.root)
-        eligible = next_item(backlog, state, prefer)
+        eligible = critical_item(backlog, state, critical_path) if critical_path else next_item(backlog, state, prefer)
         if eligible is None or eligible['id'] != item_id: raise ValueError('item is not the next eligible item')
         lock = {'step': n, 'pid': int(os.environ.get('LOOP_RUNNER_PID', os.getppid())), 'host': socket.gethostname(), 'start': now(), 'heartbeat': now()}
         # Exclusive creation prevents two orchestrators from owning one step.
@@ -237,6 +275,9 @@ class Control:
         report = f'loop/reports/STEP-{n:04d}-{item_id}.md'
         step = {'step': n, 'number': n, 'item': eligible, 'base_commit': base, 'started_at': now(), 'report': report,
                 'prior_attempts': self.prior_attempts(item_id), 'state_before': state, 'backlog_before': (self.root/'loop/backlog.toml').read_text()}
+        import gates
+        try: step['integrity_before'] = gates.repository_integrity(self.root, self.config)
+        except Exception as exc: step['integrity_before'] = {'error': str(exc)}
         write(run/'step.json',step); write(self.runs/'current.json',{'step': n,'item':item_id})
         for name in git(self.root,'ls-tree','-r','--name-only',base,'loop').splitlines():
             relative = name.removeprefix('loop/')
@@ -512,6 +553,55 @@ class Control:
         if path.exists(): (run/'report.md').write_text(path.read_text())
         return result
 
+    def safety_snapshot(self, n):
+        import gates
+        step = self.step(n)
+        protected = {line.split('  ', 1)[1]: line.split('  ', 1)[0] for line in (self.harness/'protected.sha256').read_text().splitlines() if line}
+        if not protected: raise ValueError('protected manifest is empty')
+        changed = gates.changes(self.root, step['base_commit'])
+        actual = gates.hashes(self.root, list(protected))
+        integrity = gates.repository_integrity(self.root, self.config)
+        before = step.get('integrity_before', {})
+        return {'step': n, 'base_commit': step['base_commit'],
+                'protected_unchanged': actual == protected,
+                'forbidden_untouched': not gates.forbidden_changes(self.config, changed, n),
+                'integrity_unchanged': bool(before) and 'error' not in before and integrity == before,
+                'clean_base': git(self.root, 'rev-parse', 'HEAD') == step['base_commit'] and not git(self.root, 'status', '--porcelain'),
+                'protected_hashes': actual, 'integrity': integrity}
+
+    def prepare_revert(self, n):
+        run = self.path(n)
+        if any(s['step'] == n for s in self.state().get('steps', [])): raise ValueError('historical decisions are immutable')
+        dec = read(run/'decision.json')
+        if dec.get('rule') != 'R0': raise ValueError('rollback review requires initial R0')
+        write(run/'decision.pre-revert.json', dec)
+        try: proof = self.safety_snapshot(n)
+        except Exception as exc: proof = {'error': str(exc)}
+        write(run/'pre-revert.json', proof)
+        return proof
+
+    def post_revert(self, n):
+        run = self.path(n)
+        if any(s['step'] == n for s in self.state().get('steps', [])): raise ValueError('historical decisions are immutable')
+        original = read(run/'decision.pre-revert.json', {})
+        dec = read(run/'decision.json', {})
+        if original.get('rule') != 'R0' or dec != original: raise ValueError('rollback review requires the preserved initial R0')
+        proof = {'limitation': 'Tests do not prove absence of side effects outside the checked paths.'}
+        try:
+            r = dec['rounds']; ev = self.role(n, f'eval_r{r}.json', 'evaluation')
+            history = [read(run/f'gate_r{i}.json', {}) for i in range(1, r+1)]
+            proof['candidate_eligible'] = product_zero(ev) and not (run/'failure.json').exists()
+            proof['gate_rounds_passed'] = all(all(g.get('gates', {}).get(k, {}).get('passed') is True and g['gates'][k].get('blocking') is True and not g['gates'][k].get('details', {}).get('skipped') for k in ('G5','G6','G14')) and not g['gates']['G5'].get('details', {}).get('changed') for g in history)
+            pre = read(run/'pre-revert.json', {}); post = self.safety_snapshot(n)
+            proof.update(before=pre, after=post)
+            checks = ('protected_unchanged','forbidden_untouched','integrity_unchanged')
+            proof['verified'] = bool(proof['candidate_eligible'] and proof['gate_rounds_passed'] and pre.get('step') == n and pre.get('base_commit') == self.step(n)['base_commit'] and all(pre.get(k) is True and post.get(k) is True for k in checks) and post['clean_base'] is True)
+        except Exception as exc: proof.update(verified=False, error=str(exc))
+        write(run/'rollback-verification.json', self.clean_summary(proof))
+        if proof['verified']: dec = {**dec, 'rule': 'R0P', 'stop': False}
+        write(run/'decision.json', dec)
+        return dec
+
     def finish(self,n):
         run=self.path(n); step=self.step(n); dec=read(run/'decision.json')
         if not dec: raise ValueError('finish requires a decision')
@@ -682,17 +772,18 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root',default=str(Path.cwd())); parser.add_argument('--runs')
     sub=parser.add_subparsers(dest='command',required=True)
-    for name in ('bootstrap','status','next','start','split','seal-plan','gate','export','research-view','canonicalize-research','canonicalize-evaluation','report','decide','finish','abort-step','packet','classify-policy-false-revert','resume'):
+    for name in ('bootstrap','status','next','start','split','seal-plan','gate','export','research-view','canonicalize-research','canonicalize-evaluation','report','decide','prepare-revert','post-revert','finish','abort-step','packet','classify-policy-false-revert','resume'):
         p=sub.add_parser(name)
         if name=='bootstrap': p.add_argument('--rebaseline',action='store_true')
         if name=='start': p.add_argument('--item',required=True)
-        if name in ('start','next'): p.add_argument('--prefer')
+        if name in ('start','next'):
+            p.add_argument('--prefer'); p.add_argument('--critical-path', type=lambda v: v.split(','), default=[])
         if name in ('classify-policy-false-revert','resume'):
             p.add_argument('--authorized-by',required=True); p.add_argument('--reason',required=True)
         if name=='classify-policy-false-revert':
             p.add_argument('--step',type=int,required=True); p.add_argument('--rule',required=True)
         if name=='resume': p.add_argument('--after-step',type=int,required=True)
-        if name in ('split','seal-plan','gate','export','research-view','canonicalize-research','canonicalize-evaluation','report','decide','finish'): p.add_argument('--step',type=int,required=name!='gate')
+        if name in ('split','seal-plan','gate','export','research-view','canonicalize-research','canonicalize-evaluation','report','decide','prepare-revert','post-revert','finish'): p.add_argument('--step',type=int,required=name!='gate')
         if name in ('gate','export','report','canonicalize-evaluation'): p.add_argument('--round',type=int,default=1)
         if name=='gate': p.add_argument('--advisory',action='store_true')
         if name=='packet': p.add_argument('--reason')
@@ -705,8 +796,8 @@ def main(argv=None):
             result=gates.bootstrap(ctl.root,ctl.runs,ctl.config)
         elif cmd=='status': result=ctl.status()
         elif cmd=='next':
-            item=next_item(items(ctl.root),ctl.state(),args.prefer); result=item if item else 'NONE'
-        elif cmd=='start': result=ctl.start(args.item,args.prefer)
+            item=critical_item(items(ctl.root),ctl.state(),args.critical_path) if args.critical_path else next_item(items(ctl.root),ctl.state(),args.prefer); result=item if item else 'NONE'
+        elif cmd=='start': result=ctl.start(args.item,args.prefer,args.critical_path)
         elif cmd=='seal-plan': result=ctl.seal(args.step)
         elif cmd=='split': result=ctl.split(args.step)
         elif cmd=='gate':
@@ -720,6 +811,8 @@ def main(argv=None):
         elif cmd=='canonicalize-evaluation': result=ctl.canonicalize_evaluation(args.step,args.round)
         elif cmd=='report': result=ctl.report(args.step,args.round)
         elif cmd=='decide': result=ctl.decide(args.step)
+        elif cmd=='prepare-revert': result=ctl.prepare_revert(args.step)
+        elif cmd=='post-revert': result=ctl.post_revert(args.step)
         elif cmd=='finish': result=ctl.finish(args.step)
         elif cmd=='abort-step': result=ctl.abort()
         elif cmd=='classify-policy-false-revert': result=ctl.classify_policy_false_revert(args.step,args.rule,args.reason,args.authorized_by)
