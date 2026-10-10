@@ -13,7 +13,7 @@ Relevance	On the critical path to the north star; the diff stays inside the item
 Intention	Sealed criteria met as written; invariants honored; the loophole audit is clean	A criterion unmet or quietly reinterpreted	Several criteria unmet	An invariant violated
 Relation	New types linked, pinned, versioned, persisted, included in snapshots and linted	A new type orphaned, or a reference left floating	References that break existing records	Authored history overwritten (I3)
 Production quality	Positive, negative and edge-case tests; clear errors; typed; docs and help updated; deterministic	Negative tests or docs missing	Tests fail or are flaky	A test weakened to make a run pass (I11)
-Accuracy	Every method, standard and number matches a primary source or a hand-computed fixture; nothing claimed that is not built	An unverified or imprecise claim shipped	A contradicted claim shipped	Synthetic output presented as real results (I1, I12)
+Accuracy	Builder/enhancer code, tests, docs, CLI help, Plan and Probes agree with checkable evidence; external claims are routed to research without a score penalty	A builder-authored claim contradicts checkable evidence or misstates built behavior	A contradicted claim shipped	Synthetic output presented as real results (I1, I12)
 Scope	The smallest change that meets the criteria	Gold-plating	Large unrequested additions	DEFERRED work built (I14)
 
 The decision is deterministic and never averages. The final round is round 2 if it ran, and round 1 otherwise. The first matching rule fires:
@@ -34,3 +34,5 @@ Flags never block integration. Sphoenix must clear them before merging into main
 
 Calibration. state.json keeps, for each dimension, the gap between the builder's self-score and the independent round-1 score. If the builder's mean overconfidence over the last five steps is above 1.0, the packet says so.
 
+
+A2 accuracy boundary: harness-written report sections and researcher-owned verdicts are separate context, never builder accuracy evidence. Scores before and after A2 are not directly comparable.

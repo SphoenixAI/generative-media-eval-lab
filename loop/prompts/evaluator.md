@@ -15,3 +15,5 @@ Echo the hash in diff_sha256.txt.
 In round 2, set a status in prior_findings for every round-1 finding.
 
 Do not propose features. Do not grade effort. Output only JSON that matches the schema.
+
+A2 accuracy boundary: score only code, tests, docs, CLI help, Plan and Probes authored by the builder or enhancer. Other report sections are harness bookkeeping. In round 2, research.json is separate researcher-owned context, not builder-authored claims. External claims you cannot independently verify belong in claims_for_research without lowering accuracy, unless a builder-authored claim contradicts evidence you can check. Inspect the Plan's Prior attempts mapping against each supplied earlier finding. Earlier reports are visible in tree; you are not blind to them.

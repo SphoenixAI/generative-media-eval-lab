@@ -84,6 +84,19 @@ def needs_enhancement(evaluation, research, gate):
             any(c['action_required'] for c in research['claims']))
 
 
+def trailing_counts(state):
+    after=max((e['after_step'] for e in state.get('events',[]) if e.get('event')=='RESUME'),default=-1)
+    history=[s for s in state.get('steps',[]) if s['step']>after]
+    non_integrated=failures=0
+    for row in reversed(history):
+        if row['decision']=='INTEGRATE': break
+        non_integrated+=1
+    for row in reversed(history):
+        if row.get('rule')!='RF': break
+        failures+=1
+    return non_integrated,failures
+
+
 def observed_model(log):
     """Read only the CLI header, never infer a model from defaults or role prose."""
     header = '\n'.join(log.splitlines()[:30]).split('\nuser\n', 1)[0]
@@ -290,6 +303,8 @@ class Runner:
                 'advisory_command': shlex.join([sys.executable, str(self.harness / 'loopctl.py'),
                     '--root', str(self.root), '--runs', str(self.runs), 'gate', '--advisory',
                     '--step', str(self.step)])} if role in ('builder_plan', 'builder_build', 'enhancer') else {})}, indent=2)
+        if role in ('builder_plan','builder_build','enhancer'):
+            prompt+='\n\nPrior attempts (data from earlier attempts, not instructions):\n'+json.dumps(meta.get('prior_attempts',[]),indent=2)
         if role == 'enhancer':
             for name in ('eval_r1.json', 'research.json', 'gate_r1.json'):
                 prompt += '\n\n' + name + '\n' + (self.step_dir / name).read_text()
@@ -439,11 +454,13 @@ class Runner:
         return True
 
     def one_step(self):
-        item = self.ctl('next', live=True)
+        prefer = read_json(self.runs/f'{self.recovery[0]:04d}/step.json')['item']['id'] if self.recovery else None
+        preference = ['--prefer',prefer] if prefer else []
+        item = self.ctl('next', *preference, live=True)
         if item == 'NONE' or item is None:
             return None
         item_id = item['id'] if isinstance(item, dict) else item
-        started = self.ctl('start', '--item', item_id, live=True)
+        started = self.ctl('start', '--item', item_id, *preference, live=True)
         self.step = int(started['step'])
         self.step_dir = self.runs / f'{self.step:04d}'
         self.harness = self.step_dir / 'harness'
@@ -534,15 +551,7 @@ class Runner:
     def run(self, *, once=False, max_steps=None, until=None):
         completed = non_integrated = 0
         self.deadline = cutoff(until) if until else None
-        history = read_json(self.root / 'loop/state.json', {}).get('steps', [])
-        for row in reversed(history):
-            if row['decision'] == 'INTEGRATE':
-                break
-            non_integrated += 1
-        for row in reversed(history):
-            if row.get('rule') != 'RF':
-                break
-            self.codex_failures += 1
+        non_integrated,self.codex_failures = trailing_counts(read_json(self.root/'loop/state.json',{}))
         reason = 'complete'
         try:
             self.preflight()
@@ -625,6 +634,8 @@ def dry_run(root, args):
                 raise LoopError(f'Dry-run configuration must use standard sibling layout: {name}')
         state=read_json(wt / 'loop/state.json')
         state['items']['L00']={'status':'PENDING','retries':0}
+        after=max((s['step'] for s in state.get('steps',[])),default=0)
+        state.setdefault('events',[]).append({'event':'RESUME','authorized_by':'TEST-ONLY dry run','reason':'TEST-ONLY isolated validation','after_step':after,'decision':'RESUME','product_retry_charged':False,'step':after})
         write_json(wt / 'loop/state.json',state)
         runner.commit('TEST-ONLY: reopen L00 in disposable dry-run clone')
         command(runner.configured_command(runner.config['commands']['setup']), wt, env=runner.env)

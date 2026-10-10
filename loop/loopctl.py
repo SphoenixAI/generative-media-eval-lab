@@ -2,6 +2,7 @@
 """Deterministic build-loop control. Git queries/export only; run.py owns history."""
 from __future__ import annotations
 import argparse
+import difflib
 from collections import Counter, defaultdict, deque
 from datetime import datetime, timezone
 import hashlib
@@ -107,7 +108,7 @@ def items(root):
     return tomllib.loads((root / 'loop/backlog.toml').read_text()).get('item', [])
 
 
-def next_item(backlog, state):
+def next_item(backlog, state, prefer=None):
     statuses = state.get('items', {})
     def done(key, seen=()):
         if key in seen: return False
@@ -122,6 +123,9 @@ def next_item(backlog, state):
         if item['approval'] in ('APPROVED', 'AUTO_APPROVED') and row.get('status') not in ('DONE','BLOCKED','SPLIT') and all(done(d) for d in item.get('depends_on', [])):
             eligible.append((item['priority'], order, item))
     eligible.sort(key=lambda row: row[:2])
+    if prefer:
+        selected=next((r[2] for r in eligible if r[2]['id']==prefer),None)
+        if selected: return selected
     previous = state.get('steps', [])[-1:]
     if len(eligible) > 1 and previous and previous[0]['decision'] == 'REVERT':
         others = [r for r in eligible if r[2]['id'] != previous[0]['item']]
@@ -182,11 +186,32 @@ class Control:
         return {'current': read(self.runs / 'current.json'), 'lock': read(self.runs / 'lock.json'),
                 'next': candidate['id'] if candidate else 'NONE', 'counts': dict(Counter(v.get('status','PENDING') if isinstance(v,dict) else v for v in state['items'].values()))}
 
-    def start(self, item_id):
+    def prior_attempts(self,item_id):
+        state=self.state(); excluded={e['step'] for e in state.get('events',[]) if e.get('classification','').startswith('HARNESS_')}
+        attempts=[]
+        for row in state.get('steps',[]):
+            if row['item']!=item_id or row['decision']=='INTEGRATE' or row['step'] in excluded: continue
+            folder=self.root/f"loop/reports/STEP-{row['step']:04d}"
+            rounds=[read(folder/f'eval_r{r}.json',{}) for r in (1,2)]
+            attempts.append({'step':row['step'],'decision':row['decision'],'rule':row['rule'],
+                             'blocking_findings':[dict(f) for ev in rounds for f in ev.get('blocking_findings',[])],
+                             'prior_findings':rounds[1].get('prior_findings',[])})
+        return attempts
+
+    def resume(self,after_step,authorized_by,reason):
+        if not authorized_by.strip() or not reason.strip(): raise ValueError('RESUME requires authority and reason')
+        state=self.state()
+        if after_step!=max((s['step'] for s in state.get('steps',[])),default=0): raise ValueError('RESUME must follow latest step')
+        event={'event':'RESUME','authorized_by':authorized_by,'reason':reason,'after_step':after_step,
+               'decision':'RESUME','product_retry_charged':False,'step':after_step}
+        state.setdefault('events',[]).append(event); write(self.root/'loop/state.json',state); self.packet()
+        return event
+
+    def start(self, item_id, prefer=None):
         self.runs.mkdir(parents=True, exist_ok=True)
         n = max([int(p.name) for p in self.runs.iterdir() if p.is_dir() and p.name.isdigit()] + [s['step'] for s in self.state().get('steps',[])] + [0]) + 1
         state = self.state(); backlog = items(self.root)
-        eligible = next_item(backlog, state)
+        eligible = next_item(backlog, state, prefer)
         if eligible is None or eligible['id'] != item_id: raise ValueError('item is not the next eligible item')
         lock = {'step': n, 'pid': int(os.environ.get('LOOP_RUNNER_PID', os.getppid())), 'host': socket.gethostname(), 'start': now(), 'heartbeat': now()}
         # Exclusive creation prevents two orchestrators from owning one step.
@@ -195,7 +220,7 @@ class Control:
         base = git(self.root, 'rev-parse', 'HEAD')
         report = f'loop/reports/STEP-{n:04d}-{item_id}.md'
         step = {'step': n, 'number': n, 'item': eligible, 'base_commit': base, 'started_at': now(), 'report': report,
-                'state_before': state, 'backlog_before': (self.root/'loop/backlog.toml').read_text()}
+                'prior_attempts': self.prior_attempts(item_id), 'state_before': state, 'backlog_before': (self.root/'loop/backlog.toml').read_text()}
         write(run/'step.json',step); write(self.runs/'current.json',{'step': n,'item':item_id})
         for name in git(self.root,'ls-tree','-r','--name-only',base,'loop').splitlines():
             relative = name.removeprefix('loop/')
@@ -239,13 +264,27 @@ class Control:
         if target.exists(): shutil.rmtree(target)
         (target/'tree').mkdir(parents=True)
         subprocess.run(['git','-C',str(self.root),'checkout-index','-a',f'--prefix={target / "tree"}/'],check=True)
+        report=target/'tree'/step['report']
+        original=report.read_text()
+        sections=re.findall(r'^## ([^\n]+)\n.*?(?=^## |\Z)',original,re.M|re.S)
+        clean=f"# Step {n:04d} · {step['item']['id']} · evaluation view\n\n"
+        for match in re.finditer(r'^## ([^\n]+)\n.*?(?=^## |\Z)',original,re.M|re.S):
+            heading=match[1].strip()
+            clean+=match[0] if heading.split(' (')[0] in ('Plan','Probes') else f'## {heading}\nSee harness evidence: gate_rR.json, eval_rR.json, research.json, enhancement.json or summary.json as applicable.\n\n'
+        report.write_text(clean)
         diff=subprocess.check_output(['git','-C',str(self.root),'diff','--binary',step['base_commit'],'--'])
+        chunks=re.split(b'(?=^diff --git )',diff,flags=re.M)
+        prefix=f"diff --git a/{step['report']} b/{step['report']}\n".encode()
+        replacement=(prefix+b'new file mode 100644\n'+''.join(difflib.unified_diff([],clean.splitlines(keepends=True),fromfile='/dev/null',tofile='b/'+step['report'])).encode())
+        diff=b''.join(replacement if part.startswith(prefix) else part for part in chunks)
+        if not any(part.startswith(prefix) for part in chunks): raise ValueError('current report absent from exported diff')
         (target/'diff.patch').write_bytes(diff); (target/'diff_sha256.txt').write_text(digest(diff)+'\n')
         (target/'plan.md').write_text(step['plan']); write(target/'item.json',step['item'])
         shutil.copy2(run/f'gate_r{r}.json',target/'gate.json')
         for name in ('RUBRIC.md','INVARIANTS.md'): shutil.copy2(run/'harness'/name,target/name)
         if r==2:
-            for name in ('eval_r1.json','enhancement.json'): shutil.copy2(run/name,target/name)
+            for name in ('eval_r1.json','enhancement.json','research.json'): shutil.copy2(run/name,target/name)
+            (target/'research-context.txt').write_text('Researcher-owned verdicts, supplied as separate context. Do not score these as builder or enhancer accuracy.\n')
         write(run/f'export_r{r}.json',{'diff_sha256':digest(diff)})
         return {'view':str(target),'diff_sha256':digest(diff)}
 
@@ -508,21 +547,21 @@ class Control:
         write(self.root/'loop/state.json',state); self.packet()
         return event
 
-    def classify_policy_false_revert(self,n):
+    def classify_policy_false_revert(self,n,rule='R4',reason='research actionability / enhancer resolution mismatch',authorized_by='Sphoenix direct instruction'):
         historical=self.root/f'loop/reports/STEP-{n:04d}/decision.json'
         decision=read(historical); state=self.state()
         matches=[s for s in state['steps'] if s['step']==n]
-        if decision.get('decision')!='REVERT' or decision.get('rule')!='R4' or len(matches)!=1 or matches[0]['decision']!='REVERT' or matches[0]['rule']!='R4':
-            raise ValueError('policy correction requires a historical REVERT / R4')
+        if decision.get('decision')!='REVERT' or decision.get('rule')!=rule or len(matches)!=1 or matches[0]['decision']!='REVERT' or matches[0]['rule']!=rule:
+            raise ValueError('policy correction requires the specified historical REVERT rule')
         classification='HARNESS_POLICY_FALSE_REVERT'
         prior=[e for e in state.get('events',[]) if e.get('step')==n and e.get('classification')==classification]
         if prior: return prior[0]
         item=matches[0]['item']; row=state['items'][item]; before=row['retries']
         if before<1 or row['status'] not in ('BLOCKED','PENDING'): raise ValueError('no removable product retry')
-        event={'step':n,'item':item,'decision':'REVERT','rule':'R4','classification':classification,
-               'reason':classification+': research actionability / enhancer resolution mismatch',
+        event={'step':n,'item':item,'decision':'REVERT','rule':rule,'classification':classification,
+               'reason':classification+': '+reason,
                'historical_decision_sha256':digest(historical.read_bytes()),'product_retry_charged':False,
-               'retry_correction':{'before':before,'after':before-1},'authorized_by':'Sphoenix direct instruction'}
+               'retry_correction':{'before':before,'after':before-1},'authorized_by':authorized_by}
         path=self.root/f'loop/reports/STEP-{n:04d}/policy-classification.json'
         if path.exists() and read(path)!=event: raise ValueError('conflicting historical classification')
         write(path,event); state.setdefault('events',[]).append(event)
@@ -553,6 +592,7 @@ class Control:
         text+=f'Revert rate: {sum(s["decision"]=="REVERT" for s in steps)}/{len(steps)} steps.\n\n'
         for event in state.get('events',[]):
             text+=f"Step {event['step']:04d} remains {event['decision']}: {event['reason']}. Product retry charged: {event['product_retry_charged']}.\n\n"
+        text+='Rubric A2: accuracy covers builder/enhancer content only; scores before and after A2 are not directly comparable.\n\n'
         if reason: text+='Stop reason: '+reason+'\n\n'
         text+='- Which integrated change most likely violates an invariant?\n- Which research verdict is weakest?\n- What should be deferred?\n'
         (reports/'PACKET-latest.md').write_text(text)
@@ -567,10 +607,16 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root',default=str(Path.cwd())); parser.add_argument('--runs')
     sub=parser.add_subparsers(dest='command',required=True)
-    for name in ('bootstrap','status','next','start','split','seal-plan','gate','export','research-view','canonicalize-research','report','decide','finish','abort-step','packet'):
+    for name in ('bootstrap','status','next','start','split','seal-plan','gate','export','research-view','canonicalize-research','report','decide','finish','abort-step','packet','classify-policy-false-revert','resume'):
         p=sub.add_parser(name)
         if name=='bootstrap': p.add_argument('--rebaseline',action='store_true')
         if name=='start': p.add_argument('--item',required=True)
+        if name in ('start','next'): p.add_argument('--prefer')
+        if name in ('classify-policy-false-revert','resume'):
+            p.add_argument('--authorized-by',required=True); p.add_argument('--reason',required=True)
+        if name=='classify-policy-false-revert':
+            p.add_argument('--step',type=int,required=True); p.add_argument('--rule',required=True)
+        if name=='resume': p.add_argument('--after-step',type=int,required=True)
         if name in ('split','seal-plan','gate','export','research-view','canonicalize-research','report','decide','finish'): p.add_argument('--step',type=int,required=name!='gate')
         if name in ('gate','export','report'): p.add_argument('--round',type=int,default=1)
         if name=='gate': p.add_argument('--advisory',action='store_true')
@@ -584,8 +630,8 @@ def main(argv=None):
             result=gates.bootstrap(ctl.root,ctl.runs,ctl.config)
         elif cmd=='status': result=ctl.status()
         elif cmd=='next':
-            item=next_item(items(ctl.root),ctl.state()); result=item if item else 'NONE'
-        elif cmd=='start': result=ctl.start(args.item)
+            item=next_item(items(ctl.root),ctl.state(),args.prefer); result=item if item else 'NONE'
+        elif cmd=='start': result=ctl.start(args.item,args.prefer)
         elif cmd=='seal-plan': result=ctl.seal(args.step)
         elif cmd=='split': result=ctl.split(args.step)
         elif cmd=='gate':
@@ -600,6 +646,8 @@ def main(argv=None):
         elif cmd=='decide': result=ctl.decide(args.step)
         elif cmd=='finish': result=ctl.finish(args.step)
         elif cmd=='abort-step': result=ctl.abort()
+        elif cmd=='classify-policy-false-revert': result=ctl.classify_policy_false_revert(args.step,args.rule,args.reason,args.authorized_by)
+        elif cmd=='resume': result=ctl.resume(args.after_step,args.authorized_by,args.reason)
         else: result=ctl.packet(args.reason)
         print(json.dumps(result,indent=2)); return int(failed)
     except (ValueError,OSError,KeyError,TypeError,subprocess.CalledProcessError) as exc:
