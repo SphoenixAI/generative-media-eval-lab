@@ -2,15 +2,15 @@
 
 step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/O/U | flags
 --- | --- | --- | --- | --- | --- | --- | ---
-0016 | L10 | REVERT | 4 2 4 2 2 4 | 1125 | True | 0/0/0/0 | flags: 5
 0017 | L11 | INTEGRATE | 4 4 4 3 4 4 | 1112 | True | 0/0/0/0 | flags: 6
 0018 | L10 | INTEGRATE | 4 4 4 3 4 4 | 1214 | True | 0/0/0/0 | flags: 3
 0019 | L12 | REVERT | 4 0 4 2 2 4 | 1293 | True | 0/0/0/1 | flags: 5
 0020 | L12 | SPLIT | ? ? ? ? ? ? | 0 | False | 0/0/0/0 | flags: 0
+0021 | L12-A | SPLIT | ? ? ? ? ? ? | 0 | False | 0/0/0/0 | flags: 0
 
 ## Loop health
 
-- Consecutive non-integrations since RESUME: 1; trailing RF: 0.
+- Consecutive non-integrations since RESUME: 2; trailing RF: 0.
 - Product retries: L02: 1, L04: 1, L10: 1, L12: 1.
 - BLOCKED: none.
 - Last stop reason: R0 invariant failure.
@@ -37,7 +37,7 @@ None.
 
 Proposals awaiting approval: P0008-1: Normalize unpacked arrays before JsonValue validation; P0009-1: Include applicable RelationClaimV2 history in private dataset snapshots; WP07: Model-based instrument adapters; A3-01: Evidence partitions and withheld-context challenges; A3-02: Decision-relevance router; A3-03: Shared perception cache with evidence lineage; A3-04: Counterfactual tests of stated reasons; A3-05: Backed spans and evidence-carrying judgments; A3-06: Instrument validation ladder; A3-07: Labeling import adapter (Ultralytics, Roboflow, others)
 
-Calibration self-minus-independent mean: 0.875. Reverts: 7/20.
+Calibration self-minus-independent mean: 0.9444444444444444. Reverts: 7/21.
 
 Rubric A2: accuracy covers builder/enhancer content only; scores before and after A2 are not directly comparable.
 

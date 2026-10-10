@@ -1050,3 +1050,57 @@ probes = []
 risk = "MEDIUM"
 size = "M"
 title = "Lint: fail-closed retained query, readiness, snapshots and context regressions"
+
+[[item]]
+acceptance = ["The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.", "Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A1"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."
+parent = "L12-A"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "M"
+title = "Lint evidence primitives: shared states, raw exact reader and focused contracts"
+
+[[item]]
+acceptance = ["Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A2"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."
+parent = "L12-A"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "M"
+title = "Lint prerequisites: all-rule field declarations and checked branch preparation"
+
+[[item]]
+acceptance = ["One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data."]
+approval = "APPROVED"
+authorized_dependencies = false
+authorized_protected = []
+authorized_test_changes = []
+category = "domain"
+depends_on = ["L05", "L06", "L07", "L08", "L09", "L10", "L11"]
+human_review = false
+id = "L12-A3"
+notes = "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit."
+parent = "L12-A"
+priority = "P0"
+probes = []
+risk = "MEDIUM"
+size = "M"
+title = "Lint contracts: independent all-rule matrix through direct and retained paths"

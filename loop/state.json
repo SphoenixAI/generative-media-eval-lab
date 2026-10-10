@@ -117,6 +117,15 @@
       "retries": 1,
       "status": "SPLIT"
     },
+    "L12-A": {
+      "children": [
+        "L12-A1",
+        "L12-A2",
+        "L12-A3"
+      ],
+      "retries": 0,
+      "status": "SPLIT"
+    },
     "P-HARNESS-IDS-01": {
       "note": "implemented as operator work, amendment A2",
       "retries": 0,
@@ -817,6 +826,20 @@
       "rule": "SPLIT",
       "scores": {},
       "step": 20
+    },
+    {
+      "auto_approved": [],
+      "calibration": {},
+      "decision": "SPLIT",
+      "flags": [],
+      "gate": false,
+      "item": "L12-A",
+      "passed": 0,
+      "research": {},
+      "rounds": 1,
+      "rule": "SPLIT",
+      "scores": {},
+      "step": 21
     }
   ]
 }
