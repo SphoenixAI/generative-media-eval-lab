@@ -11,7 +11,8 @@ from sqlalchemy.pool import StaticPool
 from .domain import ARTIFACT_TYPES, Artifact, Ref, Value, Evidence, HumanRating, AgentAssessment, EvaluationRound, PairwiseRating, ModelRun, EvaluatorVersion, HypothesisGraph, Hypothesis, RelationClaim, EvaluationCase
 from . import pilot_domain  # register additive Pilot 0 types without altering v1 snapshots
 from .domain import CompetingSet
-from . import intent_v2, seals, generation, assessments, decisions, test_plans, evidence_roles, relation_v2
+from . import intent_v2, seals, generation, assessments, decisions, test_plans, evidence_roles, resolutions, relation_v2
+from .canonical_json import parse_json
 
 metadata = MetaData()
 artifacts = Table("artifacts", metadata,
@@ -38,6 +39,19 @@ def refs_in(value: object) -> Iterator[Ref]:
     elif isinstance(value, tuple):
         for item in value:
             yield from refs_in(item)
+
+
+def retained_record(row, ref):
+    """Verify retained freeze bytes before typed defaults can hide missing fields."""
+    if row is None: raise KeyError(ref)
+    if ref.kind == "TestPlan":
+        data = parse_json(row["payload"])
+        if not isinstance(data, dict): raise ValueError("retained TestPlan payload must be a JSON object")
+        if data.get("frozen_digest") is not None and test_plans.freeze_digest(data) != data["frozen_digest"]:
+            raise ValueError("frozen digest mismatch in retained payload")
+    result = ARTIFACT_TYPES[ref.kind].model_validate_json(row["payload"])
+    if result.digest != row["sha256"]: raise ValueError("snapshot integrity failure")
+    return result
 
 
 class Repository:
@@ -67,12 +81,7 @@ class Repository:
     def get(self, ref: Ref) -> Artifact:
         with self.engine.connect() as conn:
             row = conn.execute(select(artifacts).where(self.key(ref))).mappings().one_or_none()
-        if row is None:
-            raise KeyError(ref)
-        result = ARTIFACT_TYPES[ref.kind].model_validate_json(row["payload"])
-        if result.digest != row["sha256"]:
-            raise ValueError("snapshot integrity failure")
-        return result
+        return retained_record(row, ref)
 
     def all(self, kind: str) -> tuple[Artifact, ...]:
         with self.engine.connect() as conn:
@@ -213,14 +222,11 @@ class Repository:
 
     @staticmethod
     def _validate_intent_admission(conn, item, freeze_test_plan=False):
-        if not isinstance(item, (intent_v2.IntentSpecV2, intent_v2.IntentBinding, seals.SealRecord, *generation.TYPES, *assessments.TYPES, *decisions.TYPES, *evidence_roles.TYPES, test_plans.TestPlan, relation_v2.RelationClaimV2)):
+        if not isinstance(item, (intent_v2.IntentSpecV2, intent_v2.IntentBinding, seals.SealRecord, *generation.TYPES, *assessments.TYPES, *decisions.TYPES, *evidence_roles.TYPES, test_plans.TestPlan, relation_v2.RelationClaimV2, resolutions.ResolutionEvent)):
             return
         def get(ref):
-            row = conn.execute(select(artifacts).where(Repository.key(ref))).mappings().one()
-            result = ARTIFACT_TYPES[ref.kind].model_validate_json(row["payload"])
-            if result.digest != row["sha256"]:
-                raise ValueError("snapshot integrity failure")
-            return result
+            row = conn.execute(select(artifacts).where(Repository.key(ref))).mappings().one_or_none()
+            return retained_record(row, ref)
         rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == "IntentBinding")).scalars()
         history = tuple(intent_v2.IntentBinding.model_validate_json(row) for row in rows)
         intent_v2.validate_admission(item, get, history)
@@ -234,6 +240,12 @@ class Repository:
                             return True
                 return False
             relation_v2.validate_admission(item, get, history, media_has_intent)
+        if isinstance(item, resolutions.ResolutionEvent):
+            from types import SimpleNamespace
+            def all_records(name):
+                rows = conn.execute(select(artifacts.c.id, artifacts.c.revision).where(artifacts.c.kind == name))
+                return tuple(get(Ref(kind=name, id=r.id, revision=r.revision)) for r in rows)
+            resolutions.validate_admission(item, SimpleNamespace(get=get, all=all_records))
         if isinstance(item, evidence_roles.TYPES):
             evidence_roles.validate_admission(item, get)
         if isinstance(item, test_plans.TestPlan):
@@ -251,7 +263,11 @@ class Repository:
         if type(item).__name__ not in ARTIFACT_TYPES:
             raise TypeError("unregistered artifact")
         # Revalidate even if a caller used Pydantic model_copy(update=...).
-        if isinstance(item, evidence_roles.TYPES):
+        if isinstance(item, resolutions.ResolutionEvent):
+            receipt = item._timestamp_receipt
+            item = resolutions.ResolutionEvent.model_validate(item)
+            item._timestamp_receipt = receipt
+        elif isinstance(item, evidence_roles.TYPES):
             item = type(item).model_validate(item)
         elif isinstance(item, test_plans.TestPlan):
             item = test_plans.TestPlan.model_validate(item)

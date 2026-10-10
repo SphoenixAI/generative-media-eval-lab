@@ -1,0 +1,129 @@
+{
+  "step": 18,
+  "item": "L10",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented resolution events. Final advisory gate passed 1,211 tests with 900 changed lines. Sealed Plan unchanged; all three prior findings addressed.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/resolutions.py implements L10 prediction compatibility, evidence eligibility, sampling requirements and immutable resolution events.",
+        "Changes remain within the planned runtime, private integrations, documentation, new tests and step report."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_resolutions.py::test_literal_elimination_overlap_identical_and_residual verifies literal statuses, ordering and residual retention.",
+        "test_prerequisite_rejections_do_not_append and test_stopping_declarations_are_attributed_and_exact reject drafts, disallowed evidence, insufficient arms and invalid human declarations.",
+        "test_raw_frozen_defaults_rejected_at_each_read_boundary rejects five default-field deletions during preparation and transactional admission, with zero appended event/reference rows.",
+        "test_direct_admission_rejects_altered_application_timestamp covers initial and successor events; test_timestamp_receipt_is_bound_to_prepared_content detects receipt reuse."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/persistence.py:44 shares raw retained-plan verification across ordinary and transactional reads.",
+        "test_cli_show_schema_reopen_snapshots_and_public_boundaries verifies private CLI/schema integration, complete snapshot histories, cross-clip dependencies and reopened replay.",
+        "test_scoped_plan_links_and_context_corrections_do_not_rewrite_replay and test_transaction_checks_live_context_after_preparation verify exact context and transaction-time revalidation."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Final advisory attempt 2 passed 1,211 product tests, frozen harness tests and approval checks; git diff --check passed.",
+        "Input-validator mutations are detected by test_exact_inputs, test_evidence_pin_guards, test_direct_nested_copy_extras_are_revalidated and test_prerequisite_rejections_do_not_append.",
+        "History-validator mutations are detected by test_initial_predecessor_guard_is_not_collision and test_correction_guards_have_no_revision_collision, including preparation separately from admission.",
+        "Sampling and stopping mutations are detected by test_duplicate_sample_units_cannot_inflate_counts, test_instrument_lineage_revisions_and_link_aliases_count_once, test_stopping_declarations_are_attributed_and_exact and test_fixed_design_rejects_stopping_declaration.",
+        "Admission/replay mutations are detected by test_direct_repository_rederives_computed_fields, test_direct_admission_rejects_altered_application_timestamp, test_timestamp_receipt_is_bound_to_prepared_content and test_replay_rejects_changed_dependency_digest_and_computed_states.",
+        "test_raw_frozen_defaults_rejected_at_each_read_boundary detects independently bypassed raw checks and removed payload-type validation. Mutation details and tests-first failures are recorded in loop/reports/STEP-0018-L10.md.",
+        "docs/hypothesis-testing.md and resolve/show/snapshot/export help document the implemented behavior."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Fresh tests reproduced ten raw-default corruption bypasses before the fix and a receipt-content bypass before complete-event binding.",
+        "test_associated_resolutions_are_private_in_each_presentation_state establishes actual case-intent association; deliberate disclosure fails public/embed tests in both blind and revealed states.",
+        "test_determinism_survives_enumeration_and_later_hypothesis_plan_revisions verifies bounded reproducibility. The report records actual versions and seven verified file hashes.",
+        "Documentation distinguishes human declarations, local issuance integrity and software validation from empirical validity or authenticated chronology."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Final G7 reports 900 changed lines against the 900-line ceiling.",
+        "G4-G6 and G10 report no existing-test removals, protected changes, forbidden paths or dependency changes; G11 confirms the sealed Plan matches.",
+        "No deferred functionality, network access, real-clip judgments or Git history/branch/remote mutations were performed."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Raw frozen-plan integrity at both read boundaries",
+      "lazy_pass": "Restore model defaults before checking retained hashes.",
+      "present_in_diff": false,
+      "evidence": "Independent ordinary-read and transaction-read bypass mutations each fail all five default-deletion cases."
+    },
+    {
+      "criterion": "Per-arm sample sufficiency",
+      "lazy_pass": "Pool samples across arms or count aliases and run revisions separately.",
+      "present_in_diff": false,
+      "evidence": "Literal (3, 1) counts reject despite a sufficient pooled total; pooled-count, duplicate-unit and run-revision mutations are detected."
+    },
+    {
+      "criterion": "Human declarations and unresolved results",
+      "lazy_pass": "Use stopping or INDETERMINATE declarations to bypass prerequisites.",
+      "present_in_diff": false,
+      "evidence": "Stopping declarations require exact attribution and references; indeterminate tests retain the same evidence and sampling requirements."
+    },
+    {
+      "criterion": "Application-owned timestamps and derived fields",
+      "lazy_pass": "Reject forged JSON while accepting copied models.",
+      "present_in_diff": false,
+      "evidence": "Direct admission rederives computed fields and validates a receipt bound to the complete prepared event."
+    },
+    {
+      "criterion": "Pinned context and immutable replay",
+      "lazy_pass": "Use foreign-plan links, trust preparation alone or replay against later lineage heads.",
+      "present_in_diff": false,
+      "evidence": "Scoped-link, transaction-context, predecessor-history and reopened-snapshot tests verify these boundaries."
+    },
+    {
+      "criterion": "Public/embed privacy",
+      "lazy_pass": "Test an unrelated case or only the blind state.",
+      "present_in_diff": false,
+      "evidence": "Associated resolutions share the serialized case's exact intent; actual pairwise submission exercises revealed output. All four disclosure mutations fail."
+    },
+    {
+      "criterion": "A2 rejection isolation",
+      "lazy_pass": "Allow another validator to mask a deleted preparation guard.",
+      "present_in_diff": false,
+      "evidence": "The surviving predecessor-pin mutation prompted a separate preparation assertion; its corrected mutation now fails."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0016-R1-001",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0016-R1-002",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0016-R2-001",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "PUBLIC_PROSE",
+    "ADVISORY_ONLY: G14 was intentionally skipped; independent evaluation and controller-owned non-advisory verification remain pending.",
+    "TEST_ONLY: no real-media or empirical validation claimed.",
+    ""
+  ]
+}

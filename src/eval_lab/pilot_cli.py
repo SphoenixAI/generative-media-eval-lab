@@ -12,7 +12,7 @@ from .media import MediaError, MediaTools, within
 from .pilot import PilotWorkspace, TEMPLATES, INPUT_TYPES, read_human_form
 from .pilot_domain import PILOT_TYPES, PilotDataset
 from .seals import seal_intent, verify_seal
-from . import generation, assessments, decisions, test_plans, evidence_roles
+from . import generation, assessments, decisions, test_plans, evidence_roles, resolutions
 from .canonical_json import parse_json
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -25,6 +25,8 @@ def parser():
     for command in (*evidence_roles.COMMANDS, "evidence-role"):
         sp=sub.add_parser(command, help="Exact private evidence-role context and query", description="Use exact revision/digest pins. Import complete private associations or declared run provenance; created_at/tool_version are application-owned. Corrections require predecessor and revision_reason. evidence-role reads evidence/hypothesis pins without writing; missing evidence is UNKNOWN. No role/reason input, measurement or judgment. See docs/hypothesis-testing.md.")
         sp.add_argument("--file", type=Path, required=True)
+    resolve=sub.add_parser("resolve", help="Append private hypothesis resolution events", description="Import human outcome JSON with exact frozen plan/evidence pins. Requires TEST_RESULT for every named hypothesis and sufficient distinct samples in every arm. Textual stopping rules require an attributed declaration; INDETERMINATE requires a reason and the same evidence. Computed fields are application-owned. Corrections append predecessor/revision_reason. No confidence or verdict changes. See docs/hypothesis-testing.md.")
+    resolve.add_argument("--file", type=Path, required=True)
     seal=sub.add_parser("seal-intent", help="Append a private local intent seal", description="Seal a complete human-authored IntentSpecV2 FILE using RFC 8785 with integer literals only (safe integer range). Imports exact input; never edits it. Local time and declared Git metadata do not prove generation chronology.")
     seal.add_argument("file", type=Path, metavar="FILE")
     seal.add_argument("--git-commit", help="Declared full lowercase commit hash; requires --git-remote")
@@ -58,7 +60,7 @@ def parser():
         if cmd=="manifest": sp.add_argument("--output",type=Path)
     fr=sub.add_parser("frames", help="Log first verified access attempt before extraction"); fr.add_argument("clip"); fr.add_argument("--at",type=float,nargs="+",required=True)
     op=sub.add_parser("open", help="Log first verified access attempt before launch; external viewing is undetectable"); op.add_argument("clip"); op.add_argument("--at",type=float)
-    show=sub.add_parser("show", help="Show private submissions, test plan histories and diagnosticity, observations, assessments, terminal verdict history and lifecycle context"); show.add_argument("clip")
+    show=sub.add_parser("show", help="Show private submissions, resolution events, test plan histories and diagnosticity, observations, assessments, terminal verdict history and lifecycle context"); show.add_argument("clip")
     for cmd in ("decision-policy", "terminal-verdict", "decision-preview"):
         sp=sub.add_parser(cmd, help="Private human decision records and read-only preview", description="Use exact revision and digest pins. Import complete human-authored JSON; preview writes nothing. No default real policy. Corrections require predecessor and revision_reason. tool_version is application recorded. See docs/decision-policies.md.")
         if cmd != "decision-policy": sp.add_argument("clip")
@@ -77,8 +79,8 @@ def parser():
     start=sub.add_parser("start"); start.add_argument("clip")
     for cmd in ("pause","resume","finish"):
         sp=sub.add_parser(cmd); sp.add_argument("session")
-    snap=sub.add_parser("snapshot", description="Freeze private records, including applicable relation v2 histories and exact dependencies (docs/relations-v2.md), test plan histories and exact dependencies, terminal verdict histories and policy dependencies, technical observations, criterion assessments, checksum-linked intent binding history, plans, origins, selections, first-access events, contexts and pinned dependencies and seals for those exact intent revisions.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
-    exp=sub.add_parser("export-snapshot", description="Export a frozen private snapshot with pinned relation v2 history (docs/relations-v2.md), binding history, lifecycle records and retained seal events.", help="Export frozen private snapshot records"); exp.add_argument("id"); exp.add_argument("--output",type=Path)
+    snap=sub.add_parser("snapshot", description="Freeze private records, including resolution event histories, applicable relation v2 histories and exact dependencies (docs/relations-v2.md), test plan histories and exact dependencies, terminal verdict histories and policy dependencies, technical observations, criterion assessments, checksum-linked intent binding history, plans, origins, selections, first-access events, contexts and pinned dependencies and seals for those exact intent revisions.", help="Freeze private records and intent binding history"); snap.add_argument("dataset"); snap.add_argument("--id",required=True); snap.add_argument("--output",type=Path)
+    exp=sub.add_parser("export-snapshot", description="Export a frozen private snapshot with resolution events and pinned relation v2 history (docs/relations-v2.md), binding history, lifecycle records and retained seal events.", help="Export frozen private snapshot records"); exp.add_argument("id"); exp.add_argument("--output",type=Path)
     return p
 
 
@@ -119,7 +121,7 @@ def main(argv=None):
             tools=MediaTools()
             result={"tools":{name:identity.model_dump() for name,identity in tools.identities.items()},"local_video_only":True,"automated_media_judging":False}
         elif args.command=="schema":
-            result={"dataset_manifest_schema":PilotDataset.model_json_schema(),"record_schemas":{cls.__name__:cls.model_json_schema() for cls in (*PILOT_TYPES, *assessments.TYPES, *decisions.TYPES, *evidence_roles.TYPES, test_plans.TestPlan)},"human_form_schemas":{**{name:cls.model_json_schema() for name,cls in INPUT_TYPES.items()}, "decision-preview": decisions.VerdictInput.model_json_schema()}}
+            result={"dataset_manifest_schema":PilotDataset.model_json_schema(),"record_schemas":{cls.__name__:cls.model_json_schema() for cls in (*PILOT_TYPES, *assessments.TYPES, *decisions.TYPES, *evidence_roles.TYPES, test_plans.TestPlan, resolutions.ResolutionEvent)},"human_form_schemas":{**{name:cls.model_json_schema() for name,cls in INPUT_TYPES.items()}, "decision-preview": decisions.VerdictInput.model_json_schema(), "resolve": resolutions.ResolutionInput.model_json_schema()}}
         elif args.command=="draft":
             result=TEMPLATES[args.kind]
         else:
@@ -131,6 +133,7 @@ def main(argv=None):
                 clip=p.register(args.dataset,args.clip,args.path,args.author,args.label,args.selection_reason,args.provenance_note,args.rights_status,plan=args.plan,intent=args.intent)
                 result={**clip.model_dump(mode="json"), **generation.audit(p.repo, clip)}
             elif args.command=="plan": result=generation.pin(generation.record_plan(p.repo,json.loads(args.file.read_text())))
+            elif args.command=="resolve": result=resolutions.record(p.repo,parse_json(args.file.read_bytes()),args.author)
             elif args.command=="test-plan": result=test_plans.record(p.repo,parse_json(args.file.read_bytes()),args.author)
             elif args.command=="freeze-test-plan": result=test_plans.freeze(p.repo,args.target)
             elif args.command=="selection": result=generation.record_selection(p.repo,p.latest("PilotDataset",args.dataset),json.loads(args.file.read_text()))
@@ -156,7 +159,7 @@ def main(argv=None):
                 clip=p.clip(args.clip)
                 submissions=[s for s in p.repo.all("PilotSubmission") if s.clip.id==clip.id]
                 result={"clip":clip.model_dump(mode="json"),"ingestion":p.repo.get(clip.ingestion).model_dump(mode="json"),
-                    "submissions":[{"submission":s.model_dump(mode="json"),"artifact":p.repo.get(s.artifact).model_dump(mode="json")} for s in submissions], **generation.audit(p.repo, clip), **assessments.clip_records(p.repo, clip), **decisions.clip_records(p.repo, clip), **test_plans.clip_records(p.repo, clip), **evidence_roles.clip_records(p.repo, clip)}
+                    "submissions":[{"submission":s.model_dump(mode="json"),"artifact":p.repo.get(s.artifact).model_dump(mode="json")} for s in submissions], **generation.audit(p.repo, clip), **assessments.clip_records(p.repo, clip), **decisions.clip_records(p.repo, clip), **test_plans.clip_records(p.repo, clip), **evidence_roles.clip_records(p.repo, clip), **resolutions.clip_records(p.repo, clip)}
             elif args.command in ("decision-policy", "terminal-verdict"):
                 result=decisions.record(p,args.author,args.command,json.loads(args.file.read_text()),getattr(args,"clip",None))
             elif args.command in assessments.COMMANDS:
