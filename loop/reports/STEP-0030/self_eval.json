@@ -1,0 +1,130 @@
+{
+  "step": 30,
+  "item": "L12-A2d",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Incomplete. Role prerequisites were added, but the all-rule conjunction is absent. Advisory attempt 2 reports 6,127 passed and 30 failed; G1 and G12 block acceptance.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_role_prerequisites.py:13 declares the planned E5/E6/W2/W3 operands."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "tests/test_lint_context.py:15 fails because lint_context.py is absent; all 30 conjunction tests remain red.",
+        "loop/proposals/STEP-0030.toml:8 records the incomplete attempt and requests acceptance-preserving replanning."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/lint_role_prerequisites.py:285 bounds resolution preparation to captured dependencies.",
+        "Temporal, warrant and role groups are not composed; independent scope and consumption completeness remain unimplemented."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "1,027 role tests passed. Deletion witnesses include test_role_guard_deletion, test_role_distinct_links, test_resolution_guards and test_remaining_role_guards.",
+        "tests/test_lint_role_prerequisites.py:281 checks field-boundary behavior, not complete ordinary-path consumption.",
+        "../Content Evaluator - loop-runs/0030/advisory/gate_r1-attempt-002.json reports G1 and G12 failures."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0030-L12-A2d.md records probes, hashes, tests-first failures and validation limits.",
+        "The measured 790-line diff is distinguished from the unproven feasibility estimate. No complete lint, readiness or real-media validity is claimed."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Advisory attempt 2 passes G5/G6/G7/G10/G11: permitted final paths, 790/900 lines, unchanged protected files and unchanged sealed Plan.",
+        "Existing source/tests remain unchanged. No dependencies, network access, real-clip judgments, DEFERRED work or Git-history changes were introduced."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "F0030-B-001",
+      "dimension": "intention",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tests/test_lint_context.py:15",
+      "description": "The all-rule composition and independent expected-versus-consumed prerequisite audit are absent. Thirty tests fail before their intended conjunction assertions execute.",
+      "required_fix": "Complete scoped enumeration, rule ownership, declaration/consumption auditing and conjunction controls within the cap or an approved acceptance-preserving decomposition. Preserve the tests and fixed judge."
+    },
+    {
+      "id": "F0030-B-002",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tests/test_lint_role_prerequisites.py:281",
+      "description": "The raw-field matrix does not establish ordinary-path consumption. Complete history/conditional-branch, multiplicity, chronology mutation and preservation coverage remains unestablished.",
+      "required_fix": "Finish the sealed guard ledger and isolated ordinary/deletion controls, including computed content operands. Do not defer new-validator controls to A3."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Every declared prerequisite is independently checked for consumption.",
+      "lazy_pass": "Treat declarations and field-unit tests as proof of ordinary-path completeness.",
+      "present_in_diff": true,
+      "evidence": "The field matrix passes, but the independent conjunction audit is absent."
+    },
+    {
+      "criterion": "Acceptance requires the complete conjunction.",
+      "lazy_pass": "Present passing role tests as completed L12-A2d.",
+      "present_in_diff": false,
+      "evidence": "The report retains 30 failing conjunction tests and explicitly denies acceptance."
+    },
+    {
+      "criterion": "Preserve tests and the 900-line cap.",
+      "lazy_pass": "Weaken tests or raise the cap.",
+      "present_in_diff": false,
+      "evidence": "G4 and G7 pass. Replanning is proposed, not approved or enacted."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0023-R1-001",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0023-R1-002",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0023-R1-003",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0023-R1-004",
+      "status": "UNRESOLVED"
+    },
+    {
+      "ref": "F0023-R2-001",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0023-R2-002",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0023-R2-003",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "Stopped under the sealed Plan size contingency. G7 passes; inability to fit the remainder is a builder assessment, not a measured cap overrun. The proposal is not approval.",
+    "Two advisory attempts ran. Initial G6 log-placement failures were corrected by preserving logs in the writable advisory folder. Authoritative gates were not replaced; G14 was skipped.",
+    "Resolved prior findings concern integrated sibling guards rerun in the 4,913-test focused suite. Their all-rule propagation remains blocked.",
+    "This remains a genuine incomplete product attempt; no retry refund or integration is claimed.",
+    ""
+  ]
+}

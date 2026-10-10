@@ -1,0 +1,64 @@
+{
+  "claims": [
+    {
+      "action_required": false,
+      "affects_this_step": true,
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants, so 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z compare equal when parsed as aware datetimes.",
+      "id": "R0030-C001",
+      "newer_practice": {
+        "date": "2026-10-09",
+        "summary": "The newer-version search found that Python 3.15 retains the same aware-datetime comparison rule. Its 2026-10-09 release date was verified on the [official release page](https://www.python.org/downloads/release/python-3150/), accessed 2026-10-10. This reinforces the claim and does not change this step or require an upgrade.",
+        "url": "https://docs.python.org/3.15/library/datetime.html#datetime-objects"
+      },
+      "origin": "plan",
+      "recommended_action": "No change required. Retain the equality expectation and the aware, fixed-offset qualification. Applying the documented UTC comparison rule adds seven hours to the first timestamp, yielding exactly 2026-10-01T00:00:01Z.",
+      "sources": [
+        {
+          "accessed": "2026-10-10",
+          "quote": "the comparison acts as comparands were first converted to UTC datetimes",
+          "title": "datetime \u2014 Basic date and time types \u2014 Python 3.12.15 documentation",
+          "url": "https://docs.python.org/3.12/library/datetime.html#datetime-objects"
+        },
+        {
+          "accessed": "2026-10-10",
+          "quote": "the comparison acts as comparands were first converted to UTC datetimes",
+          "title": "datetime \u2014 Basic date and time types \u2014 Python 3.15.0 documentation",
+          "url": "https://docs.python.org/3.15/library/datetime.html#datetime-objects"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "action_required": false,
+      "affects_this_step": true,
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants, including equality of 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z.",
+      "id": "R0030-C002",
+      "newer_practice": {
+        "date": "2026-10-09",
+        "summary": "Python 3.15 preserves this comparison behavior. Its release on 2026-10-09 was verified on the [official release page](https://www.python.org/downloads/release/python-3150/), accessed 2026-10-10. This is reinforcing context, not a superseding rule, and does not change this step.",
+        "url": "https://docs.python.org/3.15/library/datetime.html#datetime-objects"
+      },
+      "origin": "evaluator",
+      "recommended_action": "No change required to the evaluator claim. Independently applying the documented rule establishes that both timestamps denote the same instant. Retain its fixed-offset qualification; this confirmation does not establish that local code parses or compares them correctly.",
+      "sources": [
+        {
+          "accessed": "2026-10-10",
+          "quote": "the comparison acts as comparands were first converted to UTC datetimes",
+          "title": "datetime \u2014 Basic date and time types \u2014 Python 3.12.15 documentation",
+          "url": "https://docs.python.org/3.12/library/datetime.html#datetime-objects"
+        },
+        {
+          "accessed": "2026-10-10",
+          "quote": "the comparison acts as comparands were first converted to UTC datetimes",
+          "title": "datetime \u2014 Basic date and time types \u2014 Python 3.15.0 documentation",
+          "url": "https://docs.python.org/3.15/library/datetime.html#datetime-objects"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    }
+  ],
+  "item": "L12-A2d",
+  "proposals": [],
+  "step": 30,
+  "summary": "Both claims are CONFIRMED. Reused the same-day ledger evidence and reopened the official sources; actionability was assessed independently. Both timestamps represent 2026-10-01T00:00:01Z. No material change is required. This verifies documented semantics, not local implementation behavior.\n\nLandscape scan covered all five topics for 2026-08-11 through 2026-10-10. Five findings:\n1. Generative video evaluation: [VGI-Bench: Probing Visual Intelligence in Video Generation Models](https://arxiv.org/abs/2608.19583v3), v3 dated 2026-08-26; accessed 2026-10-10. The authors emphasize evaluating the evolving process as well as the final state. Relevance: useful context for video-evaluation design; no change to this datetime step.\n2. Human evaluation protocols: [PANEL: An Open-Source, Self-Hosted Web Platform for Human Evaluation of Generative Models](https://arxiv.org/abs/2609.31392v1), dated 2026-09-25; accessed 2026-10-10. Describes controlled multimodal studies, exportable study specifications and pilot-based power analysis. Relevance: human-study reproducibility; no change to this step.\n3. Judge reliability and selective evaluation: [JEV-as-a-Judge: Accept When Confident, Escalate When Unsure](https://arxiv.org/abs/2609.26550v4), dated 2026-10-06; accessed 2026-10-10. Studies confidence-based escalation with thresholds fixed before testing, while reporting weaker routing on adversarial style and reference-free prose. Relevance: selective judges require local validation; this does not affect Python comparison semantics.\n4. Intent/context-conditioned evaluation: [From Evaluation to Enhancement: Benchmarking and Improving Think-with-Video Reasoning for Video Generative Models](https://arxiv.org/abs/2609.11242v1), dated 2026-09-10; accessed 2026-10-10. Its evaluation separates visual fluency, task-rule adherence and goal realization. Relevance: supports distinguishing presentation quality from intended-task success; no change to this step.\n5. Provenance and annotation standards: [IBC paper on provenance in media workflows released](https://iptc.org/news/ibc-paper-on-provenance-in-media-workflows-released/), dated 2026-09-28; accessed 2026-10-10. IPTC describes a C2PA implementation framework addressing editorial decisions, metadata-loss vulnerabilities and signing responsibilities. This is workflow guidance, not a new normative standard. Relevance: provenance workflow design only; no change to this step. No relevant annotation-standard revision within the scan window was verified.\n\nNo proposals: these landscape findings do not establish a material addition to the supplied step."
+}

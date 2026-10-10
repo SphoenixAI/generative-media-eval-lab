@@ -1193,3 +1193,37 @@ probes = []
 risk = "MEDIUM"
 size = "S"
 title = "Lint prerequisites: role, history, frozen-plan and alternative branches; all-rule conjunction"
+
+[[item]]
+id = "P0030-1"
+title = "Replan the remaining role controls and independent all-rule conjunction without reducing acceptance"
+rationale = "The candidate already uses 781 product/test lines before the all-rule composition implementation. Thirty new conjunction tests are red, and further branch, consumption, history and mutation controls remain necessary. Only 119 lines remain before this proposal is counted. The builder has not established a correct implementation fitting that remainder and stops under the sealed Plan size contingency. This is an incomplete product attempt, not a harness failure or an accepted partial implementation. Preserve all tests and the charged attempt. Do not integrate the role subset as completed L12-A2d."
+priority = "P2"
+approval = "PROPOSED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Sphoenix reviews an acceptance-preserving decomposition of L12-A2d before another implementation attempt. Keep the original all-rule criterion unchanged, retain every authored test, preserve the 900-line cap, and explicitly assign all remaining focused controls and the independent declaration/consumption audit; do not move new-validator controls to L12-A3.", "Use the existing exact-partition mechanism only after the acceptance entries support the intended partition. The current first entry combines role/history/frozen/alternative preparation with the conjunction, so the builder cannot split those responsibilities by rewriting that sealed criterion. No backlog, Plan, harness or state change is authorized by this proposal."]
+
+[[item]]
+id = "P0030-2"
+title = "Preserve blocking F0030-R1-001 and authorize an acceptance-preserving replan"
+rationale = "F0030-R1-001 remains valid and unresolved. The enhancer fixes frozen JSON type correspondence, adds predecessor validation and an isolated InstrumentRun arm deletion control, and preserves per-association timing. The resulting candidate leaves fewer than 25 of 900 counted lines for the absent composition and its remaining tests; the sealed Plan estimated 80 implementation lines alone. This is a bounded feasibility assessment, not a proof of a minimum implementation size. Rewriting acceptance, moving controls or increasing the cap is outside enhancer authorization. Retain this as an incomplete, non-integrable product attempt with all 30 conjunction tests intact; no retry refund or harness-failure relabeling."
+priority = "P2"
+approval = "PROPOSED"
+size = "S"
+risk = "MEDIUM"
+category = "domain"
+depends_on = []
+human_review = true
+authorized_protected = []
+authorized_test_changes = []
+authorized_dependencies = false
+probes = []
+acceptance = ["Sphoenix authorizes an exact-partition-compatible decomposition before further construction. Preserve the full role/history/frozen/alternative and independent all-rule conjunction acceptance, every existing test and the 900-line cap. Assign checked complete scope, active/inactive rule manifest, independent expected obligation inventory, contract/dependency/multiplicity auditing and diagnostic propagation, plus all outstanding isolated branch controls. Do not transfer new-validator controls to L12-A3 or integrate the partial role candidate as complete."]
