@@ -13,7 +13,7 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 - Consecutive non-integrations since RESUME: 1; trailing RF: 0.
 - Product retries: L02: 1, L04: 1, L10: 1, L12: 1.
 - BLOCKED: none.
-- Last stop reason: STOP_AFTER_STEP file exists.
+- Last stop reason: R0 invariant failure.
 
 ## New this step
 

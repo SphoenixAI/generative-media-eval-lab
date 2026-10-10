@@ -1,3 +1,3 @@
 {
-  "stop_reason": "STOP_AFTER_STEP file exists"
+  "stop_reason": "R0 invariant failure"
 }
