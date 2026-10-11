@@ -1,0 +1,104 @@
+{
+  "step": 14,
+  "item": "L08",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented private qualitative TestPlans, explicit frozen successors and read-only verification. Final advisory passed: 949 tests, including 87 new cases; 772/900 changed lines. Plan unchanged.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/test_plans.py:48 implements the approved L08 declaration, classification and freeze workflow."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_test_plans.py:39 covers literal classes, residual exclusion and UNPREDICTED outcomes; test_single_and_identical_pair covers class precedence.",
+        "test_prediction_guards, test_sample_design_guard and test_freeze_successor_correction_and_exact_set_revision cover remaining acceptance criteria."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/persistence.py:215 integrates transactional admission.",
+        "tests/test_test_plan_workflow.py:92 verifies private histories, dependency closure, unchanged exports and public/embed isolation."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Final advisory attempt 2 passed 949 tests, frozen harness tests and isolated approval.",
+        "Validator deletion checks failed as intended: test_pins_and_nested_copy_admission for Arm.contract and TestPlan.revalidate_copies; test_sample_design_guard for SampleDesign.contract; test_structure_guards for TestPlan.contract; test_prediction_guards for validate_dependencies; test_freeze_admission_authorization_content_and_predecessor for validate_admission.",
+        "test_retained_default_deletion_is_integrity_failure failed all five cases before the retained-payload guard and passed afterward.",
+        "docs/hypothesis-testing.md:50 and CLI help document the implemented contract."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "tests/test_test_plans.py:220 checks literal canonical bytes and an independently specified OpenSSL digest.",
+        "tests/test_test_plan_workflow.py:62 verifies UNKNOWN and INTEGRITY_FAILURE behavior without database writes.",
+        "Evidence establishes TEST-ONLY software behavior; advisory G14 was explicitly skipped."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Final advisory counted 772/900 changed lines, with no protected, forbidden or dependency edits and no weakened existing tests."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Class precedence",
+      "lazy_pass": "Treat one identical pair as unanimous or classify one hypothesis as DECISIVE.",
+      "present_in_diff": false,
+      "evidence": "test_single_and_identical_pair asserts literal expected classes."
+    },
+    {
+      "criterion": "Prediction and sample-design validation",
+      "lazy_pass": "Accept empty predictions or generation arms without sample design.",
+      "present_in_diff": false,
+      "evidence": "test_prediction_guards and test_generation_requires_design_in_mixed_arms_and_decision_rule target these paths."
+    },
+    {
+      "criterion": "Freeze integrity",
+      "lazy_pass": "Overwrite drafts, accept forged candidates or normalize away deleted fields.",
+      "present_in_diff": false,
+      "evidence": "Freeze-history, forged-candidate and retained-default-deletion tests reject these cases."
+    },
+    {
+      "criterion": "Private integration",
+      "lazy_pass": "Omit dependencies, rewrite exports or expose private declarations.",
+      "present_in_diff": false,
+      "evidence": "test_private_histories_snapshot_scope_and_public_omission checks these boundaries."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "L08-M01",
+      "claim": "RFC 8785 sorts object keys by unsigned UTF-16 units, preserves array order and emits UTF-8.",
+      "location": "loop/reports/STEP-0014-L08.md:49"
+    },
+    {
+      "id": "L08-M02",
+      "claim": "RFC 8785 omits inter-token whitespace without normalizing Unicode strings.",
+      "location": "loop/reports/STEP-0014-L08.md:53"
+    },
+    {
+      "id": "L08-M03",
+      "claim": "Python hashlib supplies SHA-256 and hexadecimal digest output.",
+      "location": "loop/reports/STEP-0014-L08.md:57"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE",
+    "ADVISORY_ONLY_G14_SKIPPED",
+    "TEST_ONLY_NO_EMPIRICAL_VALIDATION",
+    ""
+  ]
+}

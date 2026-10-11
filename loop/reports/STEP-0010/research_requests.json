@@ -1,0 +1,100 @@
+{
+  "claims": [
+    {
+      "claim": "Pydantic v2's model_copy(update=...) does not validate the supplied update values before creating the copied model.",
+      "id": "R0010-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Pydantic 2.13.5's JsonValue union uses a discriminator with list, dict, string, boolean, integer, float and null variants, and has no tuple variant.",
+      "id": "R0010-C002",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction, and BEGIN IMMEDIATE starts a write transaction immediately or can fail with SQLITE_BUSY when another writer is active.",
+      "id": "R0010-C003",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SQLite trigger execution of RAISE(ABORT, message) terminates the triggering statement and returns SQLITE_CONSTRAINT with the supplied message.",
+      "id": "R0010-C004",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python 3.12's standard-library hashlib includes sha256 and supports hexadecimal hash output through hexdigest.",
+      "id": "R0010-C005",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 8785 sorts JSON object property names by UTF-16 code units and requires UTF-8 encoding of the resulting serialization.",
+      "id": "R0010-C006",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "A log limited to this CLI's access attempts and local seal, plan and registration events cannot establish that no earlier external viewing occurred or that media generation followed sealing.",
+      "id": "R0010-C007",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Pydantic v2 model_copy(update=...) does not validate supplied update values.",
+      "id": "R0010-C008",
+      "location": "loop/reports/STEP-0010-L04.md:35",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Pydantic 2.13.5 JsonValue discriminates list, dict, string, boolean, integer, float and null, with no tuple variant.",
+      "id": "R0010-C009",
+      "location": "loop/reports/STEP-0010-L04.md:39",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE immediately starts one or can fail with SQLITE_BUSY.",
+      "id": "R0010-C010",
+      "location": "loop/reports/STEP-0010-L04.md:43",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SQLite trigger RAISE(ABORT, message) terminates the triggering statement and returns SQLITE_CONSTRAINT with that message.",
+      "id": "R0010-C011",
+      "location": "loop/reports/STEP-0010-L04.md:47",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Python 3.12 hashlib includes sha256 and hexadecimal output through hexdigest.",
+      "id": "R0010-C012",
+      "location": "loop/reports/STEP-0010-L04.md:51",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RFC 8785 sorts object property names by UTF-16 code units and requires UTF-8 encoding.",
+      "id": "R0010-C013",
+      "location": "loop/reports/STEP-0010-L04.md:55",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "The referenced third-party Apple Silicon FFmpeg builds have published SHA-256 checksums corresponding to the installer downloads.",
+      "id": "R0010-C014",
+      "location": "docs/pilot0.md:20",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "FFprobe decoded frame timestamps and time bases support variable-rate addressing independently of rounded average FPS.",
+      "id": "R0010-C015",
+      "location": "docs/pilot0.md:58; docs/pilot0.md:154",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "The cited FFmpeg stream, rotation and select-filter contracts support the documented coded-orientation, frame-index extraction and RGB24 conversion behavior.",
+      "id": "R0010-C016",
+      "location": "docs/pilot0.md:156",
+      "origin": "evaluator"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "decision": "ABANDONED",
+  "rule": "ABANDONED",
+  "stop": true,
+  "reason": "/Users/sphoenix/Desktop/Content Evaluator - loop-env/bin/python failed (1): {\"error\": \"research claim ids must be unique\", \"command\": \"research-view\"}"
+}

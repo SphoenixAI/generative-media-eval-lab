@@ -1,0 +1,107 @@
+{
+  "step": 27,
+  "item": "L12-A2c",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented warrant, provenance and override prerequisites. All 5,088 tests and the first advisory gate passed. Counted changes: 885 lines. Sealed Plan unchanged.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_warrant_prerequisites.py:266 limits preparation to E1/E2/E2w/E7 inputs."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_lint_warrant_prerequisites.py:181 covers 98 declared fields under missing, null, malformed and valid conditions through direct and retained readers.",
+        "tests/test_lint_warrant_prerequisites.py:240 verifies partial support has no readiness, completion, verdict or decision surface."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "tests/test_lint_warrant_prerequisites.py:214 isolates distinct-content/equal-time rejection and same-content/different-registration success; test_first_view_deletion proves guard sensitivity.",
+        "tests/test_lint_warrant_prerequisites.py:208 and :543 verify equivalent-offset acceptance and different-instant rejection.",
+        "tests/test_lint_warrant_prerequisites.py:482 exercises normally admitted records across all four provenance branches."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "3,874 focused tests and 5,088 full-suite tests passed; advisory attempt 1 also passed frozen harness tests and the approval check.",
+        "Deletion witnesses include test_warrant_guard_deletion, test_remaining_guard_deletion, test_verdict_assessment_deletion, test_relation_endpoint_deletion and test_legacy_scope_deletion.",
+        "Boundary witnesses include test_warrant_field_deletion, test_warrant_deleted_declaration, test_warrant_constraint_deletion, test_warrant_branch_deletion, test_warrant_dependency_propagation_deletion, test_warrant_timestamp_guard_deletion, test_unknown_guard_deletion, test_override_consumption_deletion and test_warrant_repeated_read_deletion.",
+        "src/eval_lab/lint_warrant_prerequisites.py:1 documents the private API; no CLI surface changed."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0027-L12-A2c.md records initial failures, corrections, tool versions, hashes, mutation evidence and advisory limitations.",
+        "tests/test_lint_warrant_prerequisites.py:353 and :599 verify repeat/reordering stability and payload, pin and retained-byte preservation."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Advisory G7 counted 885/900 lines; G11 confirmed the sealed Plan matches.",
+        "Only the new implementation, additive tests and current report changed. No existing tests, protected files or dependencies changed."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Content identity is independent of chronology.",
+      "lazy_pass": "Accept valid pins and equal timestamps without comparing content.",
+      "present_in_diff": false,
+      "evidence": "test_first_view_content_correspondence and test_first_view_deletion isolate this failure."
+    },
+    {
+      "criterion": "Missing evidence denies usable support.",
+      "lazy_pass": "Treat missing metadata or enumeration as an inactive or empty branch.",
+      "present_in_diff": false,
+      "evidence": "Field, presence, collection and dependency contracts exercise UNKNOWN and INTEGRITY_FAILURE."
+    },
+    {
+      "criterion": "Controls detect omitted validators.",
+      "lazy_pass": "Rely on positive examples or incidental rejection paths.",
+      "present_in_diff": false,
+      "evidence": "Literal diagnostics, exact consumption footprints and direct/retained deletion witnesses passed."
+    },
+    {
+      "criterion": "This child remains partial prerequisite preparation.",
+      "lazy_pass": "Present successful preparation as complete lint or readiness.",
+      "present_in_diff": false,
+      "evidence": "test_warrant_partial_support explicitly excludes those surfaces."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0023-R1-002",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0023-R2-002",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0023-R1-003",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "id": "C27-001",
+      "claim": "Python 3.12 aware datetime comparisons compare represented instants across fixed offsets. Local offset and strict-boundary tests passed.",
+      "location": "loop/reports/STEP-0027-L12-A2c.md:79"
+    }
+  ],
+  "flags": [
+    "Advisory G14 was explicitly skipped. Independent evaluation and final controller checks remain pending.",
+    "Final lint predicates, readiness and persisted audits remain outside this child. No network access or real-clip judgments occurred.",
+    ""
+  ]
+}

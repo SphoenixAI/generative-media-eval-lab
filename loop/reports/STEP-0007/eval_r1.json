@@ -1,0 +1,181 @@
+{
+  "step": 7,
+  "item": "L03",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "1005b9ed7a3dd9413684624b8b741e9260fba6328e304e74839d6148b00e8ee0",
+  "summary": "Two material gaps: filename verification can report incompatible historical seals as simultaneously VERIFIED if the source changes between reads, and SealRecord is omitted from existing snapshot collection. Canonicalization passed 45 cases using a minimal assertion adapter; three deliberately incorrect implementations were rejected. Full persistence and CLI tests were not independently rerun.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all 1198 lines of diff.patch and opened all eight changed files under tree/. Changes implement L03 canonicalization, seal persistence, verification, tests, help and documentation.",
+        "Compared changed paths and behavior with item.json, plan.md and the DEFERRED entries in tree/loop/backlog.toml; found no unrelated feature implementation."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "tree/src/eval_lab/seals.py:140 reads the same source separately for each seal. Executing the actual verifier function with mocked I/O returned VERIFIED for two different historical digests when successive reads supplied their respective contents.",
+        "test_repeated_seals_check_all_events_and_preserve_history covers a stationary source but does not detect this interleaving.",
+        "Inspected UNKNOWN handling, quality_verdict isolation, fixed revision admission and worst-status aggregation for I2, I3, I5, I6, I7 and I8; no direct invariant violation established."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "tree/src/eval_lab/seals.py:33 inherits artifact schema versioning and pins IntentSpecV2; tree/src/eval_lab/persistence.py:216 includes seals in transactional pin validation.",
+        "tree/src/eval_lab/pilot.py:338 collects dataset dependencies and binding history but never collects SealRecord. Forward traversal through refs_in cannot discover seals pointing back to an included intent.",
+        "No new test proves seal inclusion and digest pinning in a private snapshot. Existing lint functionality is not implemented yet, so no new lint subsystem is required here."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "tree/tests/test_seals.py:83 lacks a changing-source test; tree/tests/test_seals.py contains no seal snapshot/export test.",
+        "Executed 45 canonicalization cases through a minimal assertion adapter. Fixed-hash and non-ASCII tests rejected in-memory raw-file-hash, constant-digest and code-point-sort mutants.",
+        "Inspected tampering and immutability tests: deliberate source, payload, identity and pin mutations have negative assertions; tests are not merely serializer round trips.",
+        "Full CLI/model/persistence execution was unavailable: the available Python interpreter lacks Pydantic, and filesystem permissions are read-only. Supplied gate results were treated as untrusted evidence."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Checked literal canonical bytes, fixed SHA-256 output, integer boundaries, Unicode escaping and supplementary-plane ordering through executable assertions.",
+        "Checked that documentation distinguishes the integer application profile from full numeric JCS, file digests from artifact digests, declared witnesses from authentication, and integrity from quality.",
+        "Reviewed changed comments, docstrings, documentation and CLI help. External method claims are enumerated for independent research; their linked sources were not accessed under the folder-only restriction."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared the complete diff with the sealed plan: no dependency changes, existing-test edits, accepted-artifact rewrites, frontend work, external timestamping or other DEFERRED implementations.",
+        "Checked I1, I4, I9, I10, I11, I12, I13, I14, I15 and I16 against changed code and paths: fixtures are TEST-ONLY; no model/network calls, confidence arithmetic, Git mutation implementation, protected judge edits or public seal fields were added.",
+        "Inspected tree/src/eval_lab/presentation.py:34 and test_seals_do_not_change_public_embed_or_existing_artifact_digests; public/embed output remains allowlisted.",
+        "Independently recomputed SHA-256 of diff.patch and matched diff_sha256.txt."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "L03-R1-F01",
+      "dimension": "intention",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tree/src/eval_lab/seals.py:132-143",
+      "description": "Filename verification hashes the source anew for every retained seal. With two seals for different contents, a source change between reads can make both checks pass and produce aggregate VERIFIED, although no single source content matches both seals. I reproduced this using the actual verifier function with mocked database/model boundaries and successive source buffers. The stationary-file test cannot detect it.",
+      "required_fix": "Use one captured source buffer/digest per resolved source path for the verification operation and compare every matching seal against that same content. Add a regression with incompatible historical seals and an interleaved source change; aggregate verification must not pass."
+    },
+    {
+      "id": "L03-R1-F02",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tree/src/eval_lab/seals.py:42; tree/src/eval_lab/pilot.py:338-365",
+      "description": "SealRecord is persisted and points to its exact intent, but existing private snapshots never collect the corresponding seal events. Even when a dataset snapshot includes that IntentSpecV2 through binding history, forward reference traversal cannot discover records pointing to the intent. The resulting export omits the seal time, canonical source and file digest. The plan's exclusion of broader snapshot integration does not satisfy the evaluator's explicit new-type snapshot requirement.",
+      "required_fix": "Include applicable seal events with exact artifact digest pins in existing private snapshot collection, without rewriting historical snapshots. Add a snapshot/export regression proving relevant seals are retained, unrelated seals are excluded, and an earlier export stays fixed after another seal is appended."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "The digest is stable across key order and whitespace.",
+      "lazy_pass": "Return a constant digest, or normalize only the single ASCII example.",
+      "present_in_diff": false,
+      "evidence": "test_fixed_hash_and_equivalent_forms supplies a fixed independent digest; test_independent_bytes covers nested structures. Constant-digest and raw-file-hash mutants were rejected."
+    },
+    {
+      "criterion": "Any change to a value changes the digest.",
+      "lazy_pass": "Hash only selected fields or test mutations whose expected hashes come from the same implementation.",
+      "present_in_diff": false,
+      "evidence": "test_value_mutations_change_digest checks independently chosen type/value changes; test_array_order_and_string_whitespace_are_content preserves meaningful differences. Code hashes the complete parsed document. The plan correctly limits the universal wording to finite mutation evidence."
+    },
+    {
+      "criterion": "Key-ordering vectors with non-ASCII keys pass.",
+      "lazy_pass": "Use Python code-point sorting and test only BMP characters whose ordering happens to agree.",
+      "present_in_diff": false,
+      "evidence": "test_rfc8785_section_3_2_3_non_ascii_vector includes supplementary-plane and BMP keys with differing code-point/UTF-16 ordering. Its literal expected bytes rejected a code-point-sort mutant."
+    },
+    {
+      "criterion": "Tampering is detected.",
+      "lazy_pass": "Check each historical seal against a separately read source and combine individually successful checks without requiring one consistent source version.",
+      "present_in_diff": true,
+      "evidence": "tree/src/eval_lab/seals.py:140 rereads inside the seal loop. The interleaving probe returned VERIFIED for two incompatible digests. Existing source/store tampering tests cover stationary inputs."
+    },
+    {
+      "criterion": "Seals are immutable.",
+      "lazy_pass": "Freeze the Python model but allow copied invalid models, same-ID replacement or later seal revisions to enter persistence.",
+      "present_in_diff": false,
+      "evidence": "test_copied_invalid_seal_cannot_enter_repository, test_immutable_values_conflicts_sql_guards_and_exact_pin, and test_witness_and_admitted_inputs_do_not_alias exercise those bypasses. Repository admission revalidates serialized values; SealRecord fixes revision to 1. This conclusion is based on inspection, not an independent persistence test run."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "L03-P7-M01",
+      "claim": "RFC 8785 requires recursive object-key ordering by unsigned UTF-16 code units while preserving array order; the test's section 3.2.3 vector matches the published vector.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:38; tree/tests/test_canonical_json.py:32"
+    },
+    {
+      "id": "L03-P7-M02",
+      "claim": "RFC 8785 removes insignificant whitespace and encodes canonical output as UTF-8.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:40; tree/src/eval_lab/canonical_json.py:1"
+    },
+    {
+      "id": "L03-P7-M03",
+      "claim": "RFC 8785 preserves Unicode without normalization and rejects duplicate object names and lone surrogates.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:42; tree/docs/intent-seals.md:14"
+    },
+    {
+      "id": "L03-P7-M04",
+      "claim": "RFC 8785 requires the stated short control escapes, lowercase hexadecimal escapes for remaining ASCII controls, and quotation-mark/backslash escaping.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:44; tree/src/eval_lab/canonical_json.py:55"
+    },
+    {
+      "id": "L03-P7-M05",
+      "claim": "RFC 8785 uses ECMAScript binary64 number serialization, rejects NaN and Infinity, and serializes negative zero as zero.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:46; tree/docs/intent-seals.md:19"
+    },
+    {
+      "id": "L03-P7-M06",
+      "claim": "RFC 7493 identifies the inclusive integer range [-9007199254740991, 9007199254740991] for interoperable exact integer treatment.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:50; tree/docs/intent-seals.md:13"
+    },
+    {
+      "id": "L03-P7-M07",
+      "claim": "SHA-256 as specified in FIPS 180-4 produces a 256-bit message digest.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:54"
+    },
+    {
+      "id": "L03-P7-M09",
+      "claim": "Python 3.12 provides hashlib.sha256 for byte hashing and hexdigest for hexadecimal output.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:60"
+    },
+    {
+      "id": "L03-P7-M10",
+      "claim": "Python's default JSON decoder accepts repeated names and non-finite constants, and supports object_pairs_hook, parse_float and parse_constant for stricter decoding.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:64; tree/src/eval_lab/canonical_json.py:37"
+    },
+    {
+      "id": "L03-P7-M11",
+      "claim": "Pydantic v2 model_copy(update=...) does not validate update values.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:68; tree/src/eval_lab/persistence.py:231"
+    },
+    {
+      "id": "L03-P7-M12",
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE acquires the write transaction immediately or can fail when another writer holds it.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:72; tree/src/eval_lab/persistence.py:244"
+    },
+    {
+      "id": "L03-P7-M13",
+      "claim": "SQLite URI mode=ro opens a database read-only and does not create a missing database.",
+      "location": "tree/loop/reports/STEP-0007-L03.md:76; tree/src/eval_lab/seals.py:125"
+    }
+  ],
+  "flags": [
+    "VALIDATION_LIMITATION: 45 pure canonicalization cases ran with a minimal assertion adapter, not pytest. Verifier interleaving probes executed extracted actual functions with mocked I/O. Full model, CLI and persistence tests were not rerun.",
+    "MINOR: tree/src/eval_lab/seals.py:134 validates every seal before filtering by source path. An unrelated corrupt row therefore makes an unknown ID or unrelated path return INTEGRITY_FAILURE instead of the planned UNKNOWN. Reproduced with mocked I/O.",
+    "RESEARCH_PENDING: External sources were not accessed because the evaluation was restricted to this folder.",
+    "PUBLIC_PROSE: tree/docs/intent-seals.md adds public documentation.",
+    "HOME_PATH: The private step report contains local absolute paths."
+  ]
+}

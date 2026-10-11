@@ -1,0 +1,69 @@
+{
+  "findings": [
+    {
+      "description": "Direct admission does not enforce application ownership of created_at. Preparing a valid event and changing only created_at to another timezone-aware timestamp leaves every DERIVED field unchanged. validate_admission explicitly copies the supplied timestamp into its expected event and compares only DERIVED, so Repository.put accepts and permanently retains the forged import time. The JSON-input rejection test does not cover this direct model-copy path required by Plan criteria 8-9.",
+      "dimension": "intention",
+      "id": "F0016-R1-001"
+    },
+    {
+      "description": "The privacy assertion serializes seed_review's boundary-case, whose intent and media are unrelated to the TEST-ONLY resolution fixtures. A serializer that incorrectly exposes resolutions belonging to the serialized case would still pass because this case has none. No pairwise submission is made, so the revealed results branch is also untested. This does not prove Plan criterion 10's public/embed omission requirement.",
+      "dimension": "production_quality",
+      "id": "F0016-R1-002"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Reviewed builder-authored Plan, Probes, added documentation, comments, docstrings and CLI help against source; external methodological validity is explicitly disclaimed.",
+        "Verified the Plan's Prior attempts statement against supplied reports: no earlier L10 or step-16 evaluation was present.",
+        "No new claim requiring an outside source was identified; harness bookkeeping was excluded from accuracy scoring."
+      ],
+      "id": "F0016-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "src/eval_lab/resolutions.py:206-210 trusts event.created_at and excludes it from comparison, contrary to Plan criteria 8-9's application-owned timestamp and forged-copy admission requirements.",
+        "test_literal_elimination_overlap_identical_and_residual uses literal statuses; test_prerequisite_rejections_do_not_append isolates unfrozen plans, disallowed roles and insufficient per-arm samples."
+      ],
+      "id": "F0016-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "tests/test_resolution_workflow.py:82-86 checks public/embed omission against an unrelated case and only the blind presentation path.",
+        "tests/test_resolutions.py:212-217 omits created_at from direct repository forgery cases.",
+        "Supplied gate.json reports 1118 passing tests; this was not independently reproduced because pydantic is unavailable in the accessible Python."
+      ],
+      "id": "F0016-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Traced ResolutionEvent registration, inherited schema version, predecessor pins, dependency pins and foreign-key persistence through resolutions.py and persistence.py.",
+        "Inspected snapshot roots and transitive reference traversal in pilot.py:372-380, plus private show and runtime schema integration in pilot_cli.py.",
+        "Inspected test_cli_show_schema_reopen_snapshots_and_public_boundaries for event history, cross-clip evidence closure, reopen replay and unchanged earlier exports.",
+        "Checked typed admission validators and repository reference checks; no separate product lint registry requiring registration was found."
+      ],
+      "id": "F0016-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read all 1010 lines of diff.patch and opened all eight changed files under tree; changes implement L10 resolution events and their integration.",
+        "Compared changes with item.json and the sealed Plan; no unrelated product work found."
+      ],
+      "id": "F0016-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared every changed path with the sealed Plan's expected files; all eight match.",
+        "Checked all fourteen DEFERRED backlog entries; no deferred implementation, runtime dependency addition, protected-file edit or existing-test modification appears in the diff.",
+        "Checked I1-I16 against affected paths: synthetic fixtures, append-only storage, unchanged judgment/decision surfaces, no confidence arithmetic, no network/model calls, and no harness or Git publication changes. Privacy test coverage remains a finding, not evidence of an actual I12 violation."
+      ],
+      "id": "F0016-R1-D-scope"
+    }
+  ]
+}

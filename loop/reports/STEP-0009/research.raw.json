@@ -1,0 +1,1 @@
+{"step":9,"item":"L11","summary":"claims.json contains no claims, the ledger excerpt is empty, and landscape_required is false. The direct-instruction fast path applies; no live search or landscape scan is required.","claims":[],"proposals":[]}

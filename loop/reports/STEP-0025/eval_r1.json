@@ -1,0 +1,129 @@
+{
+  "blocking_findings": [
+    {
+      "description": "The claimed every-active-boundary control deduplicates observations into subject/path sets. It cannot distinguish two declarations checking the same field under different contracts, or detect omission of a repeated obligation. An isolated mutation caching record.field results only by subject/path survived all 261 replayed direct controls and 143 SQLite-path controls. With two declarations for note, one accepting text and the second requiring a different literal, that mutant returned AVAILABLE with no diagnostics; the unchanged implementation correctly rejected the second contract. Thus the current tests do not prove the sealed per-declaration consumption guarantee.",
+      "dimension": "production_quality",
+      "id": "F0025-R1-001",
+      "invariant": null,
+      "location": "tests/test_lint_prerequisites.py:591-617",
+      "required_fix": "Track independently expected boundary obligations with enough identity to distinguish declarations and contracts, preserving necessary multiplicity. Add direct and retained controls where repeated access to the same exact field has distinct contracts, and require bypassing the second check to fail the intended diagnostic/support assertion.",
+      "severity": "MATERIAL"
+    },
+    {
+      "description": "The new dependency-unavailable rejection site lacks its required exact diagnostic assertion and deletion-sensitive control. The Probes ledger explicitly lists this as G02c, but no test asserts the reason 'dependency unavailable' and the mutation list does not remove this guard. Replacing its diagnostic append with pass survived all 261 replayed direct controls and 143 SQLite-path controls because existing rejection assertions are satisfied by other diagnostics.",
+      "dimension": "production_quality",
+      "id": "F0025-R1-002",
+      "invariant": null,
+      "location": "src/eval_lab/lint_prerequisites.py:172-173; tests/test_lint_prerequisites.py:435-483",
+      "required_fix": "Add a focused control asserting the literal prerequisite subject, path, UNKNOWN state and dependency-unavailable reason, with a valid counterpart. Include an isolated deletion experiment that fails specifically because this diagnostic disappears, and reconcile the guard ledger with the implemented controls.",
+      "severity": "MATERIAL"
+    }
+  ],
+  "claims_for_research": [],
+  "diff_sha256": "12838c21645e4c229903b52397ab6d076cdcf9408316849a31f359d09c029c85",
+  "flags": [
+    "Full pytest was not independently rerun: the available interpreter lacks pytest and pydantic. The supplied gate reports 1843 passing tests.",
+    "Independent probes replayed actual test bodies with lightweight pytest substitutes and a limited artifact-kind registry. SQLite probes used an in-memory database and actual reader methods; they do not establish filesystem transaction or full installed-package integration behavior.",
+    "Reviewed I1-I16 against the patch. No candidate invariant violation was established: no real judgment or history writes, operational verdicts, aggregation, probability arithmetic, runtime network access, public serialization changes, existing-test weakening, deferred implementation or judge edits were found.",
+    "Independently computed the diff SHA-256 and confirmed it matches diff_sha256.txt."
+  ],
+  "item": "L12-A2a",
+  "loophole_audit": [
+    {
+      "criterion": "Declare and check traversal through the existing evidence boundary.",
+      "evidence": "The implementation currently checks each declaration, but test_shared_every_active_boundary deduplicates observations and accepts a mutant that skips repeated contract checks.",
+      "lazy_pass": "List prerequisite names and mark them consumed while checking only distinct field paths.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Check exact Ref/Pin dependencies.",
+      "evidence": "Inspected RawReader._fetch and resolve; test_shared_exact_non_head_control, test_shared_edge_obligations and the independently pinned revisit control exercise these distinctions.",
+      "lazy_pass": "Resolve the latest revision or skip a second pin obligation after visiting a target.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Require explicit collection completeness.",
+      "evidence": "test_shared_collection_completeness includes a forged complete flag; inventory membership is compared with enumerated scoped members. test_shared_retained_enumeration asserts explicit enumeration failures.",
+      "lazy_pass": "Trust complete=true or treat unavailable enumeration as an empty collection.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Check raw record identity and integrity.",
+      "evidence": "DirectRecords shares RawReader verification without constructing authoring models. Identity, digest and kind-specific version controls use raw envelopes and recomputed hashes.",
+      "lazy_pass": "Construct typed models with defaults or check hashes without checking exact raw identity.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Check scoped media/intent correspondence.",
+      "evidence": "test_shared_scope_correspondence distinguishes identity and revision mismatches; test_shared_scope_integrity separately checks wrong kinds and corrupted scope pins.",
+      "lazy_pass": "Accept matching IDs despite revision differences, or accept matching references despite invalid pins.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Provide isolated exact diagnostics and deletion-sensitive tests for new validators.",
+      "evidence": "Deleting lint_prerequisites.py:173 preserves the replayed controls; no test asserts that diagnostic, despite the G02c ledger obligation.",
+      "lazy_pass": "Assert any rejection while another guard supplies it, leaving the intended diagnostic removable.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Do not expose a partially populated all-rule context as ready.",
+      "evidence": "Inspected _Group and prepare: output identifies a limited group, get denies support on diagnostics, and no readiness, verdict or all-rule completion API is introduced. test_shared_group_cannot_be_all_rule_context covers the limited interface.",
+      "lazy_pass": "Rename partial preparation but retain a clean readiness or verdict result.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [],
+  "role": "evaluator",
+  "round": 1,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Read builder-authored Plan, Probes, comments and docstrings; checked source-contract premises against the supplied reader, models, persistence code, configuration and split.",
+        "Compared all seven STEP-0023 finding records with the Plan's Prior attempts mapping; sibling ownership and the rejected candidate's chronology resolution are represented accurately.",
+        "Separated harness bookkeeping from builder claims. No external factual claim requiring research was identified."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "src/eval_lab/lint_prerequisites.py:173 introduces a diagnostic whose deletion is not detected by the focused controls.",
+        "tests/test_lint_prerequisites.py:594 collapses boundary observations into sets, leaving skipped repeated declaration checks undetectable.",
+        "These gaps fail the sealed requirements for exact diagnostics, deletion-sensitive tests and actual consumption of every active prerequisite."
+      ],
+      "score": 2
+    },
+    "production_quality": {
+      "evidence": [
+        "tests/test_lint_prerequisites.py:435 omits a deletion experiment for the dependency-unavailable diagnostic despite its explicit G02c ledger entry.",
+        "test_shared_every_active_boundary records neither declaration identity nor contract nor occurrence count.",
+        "Removing the dependency diagnostic and separately reusing checks by subject/path both survived isolated replay of 261 direct controls and 143 SQLite-path controls."
+      ],
+      "score": 2
+    },
+    "relation": {
+      "evidence": [
+        "Inspected exact reference resolution, independently checked pins, kind-specific versions and media/intent correspondence.",
+        "Replayed relevant exact-revision, pin, identity and scope controls through direct and in-memory SQLite paths.",
+        "Checked the new types: DirectRecords and _Group are transient private infrastructure, not new authored artifacts requiring persistence or snapshot schemas."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Read the complete diff and all four changed files under tree; changes concern shared prerequisite preparation, its reader seam, focused tests and the current report.",
+        "Compared the implementation with STEP-0024/split.json; sibling rule semantics and readiness remain outside this child."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Compared changed paths and implementation with the sealed plan and DEFERRED backlog entries; found no deferred implementation, new dependency, public surface or domain-schema migration.",
+        "Confirmed existing tests are not modified and no protected or harness source is changed.",
+        "The supplied G7 reports 892 changed lines against the 900-line limit."
+      ],
+      "score": 4
+    }
+  },
+  "step": 25,
+  "summary": "The implementation is bounded and preserves the partial-preparation boundary, but the required deletion-sensitive diagnostic and per-declaration consumption coverage remains incomplete."
+}

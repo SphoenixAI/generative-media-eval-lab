@@ -1,0 +1,34 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 0,
+    "intention": 0,
+    "production_quality": 1,
+    "relation": 2,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "REVERT",
+  "flags": [
+    "Independent pytest execution unavailable: the accessible interpreter lacks pytest, Pydantic and SQLAlchemy. Supplied gate results and the reported mutation experiment were not independently rerun.",
+    "Lint remains assigned to L12 in tree/loop/backlog.toml:209; no existing lint integration point was found.",
+    "PUBLIC_PROSE",
+    "PUBLIC_PROSE: tree/docs/relations-v2.md.",
+    "The snapshot proposal is outside the sealed implementation file list and remains unimplemented. Its deferral is not accepted as satisfaction of the explicit snapshot requirement."
+  ],
+  "gate": true,
+  "item": "L11",
+  "passed": 700,
+  "research": {},
+  "rounds": 2,
+  "rule": "RF",
+  "scores": {
+    "accuracy": 4,
+    "intention": 4,
+    "production_quality": 4,
+    "relation": 2,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 9
+}

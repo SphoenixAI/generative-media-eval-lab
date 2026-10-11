@@ -1,5 +1,7 @@
 # Scoring and decision policy
 
+This unchanged Phase 2 engine is the legacy “intent-blind default” only relative to the v2 provenance and policy layer. It still requires legacy IntentSpec and reads its applicability and authority. Records without the new context retain this legacy path when its inputs exist; missing intent/evidence remains UNKNOWN and never creates a terminal verdict. The separate private workflow is described in [decision policies](decision-policies.md); provisional PASS is not SHIP.
+
 The 0–4 scale encodes ordered behavioral anchors: catastrophic, severe, material, minor, pass. It does not assert equal distances between categories. Do not report “18% quality improvement” from an ordinal mean. Aesthetic preference and instruction failure remain separate.
 
 Each scored dimension requires evidence, a score, a rationale and confidence labeled `self_reported_uncalibrated`. Abstention carries no score. `not_applicable` follows the declared intent; the evaluator cannot remove a difficult requirement. Missing required scores yield `UNKNOWN`, except an already observed critical failure remains `FAILED` with missing dimensions still listed.

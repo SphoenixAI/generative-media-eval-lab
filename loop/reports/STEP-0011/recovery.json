@@ -1,0 +1,22 @@
+{
+  "source_step": 10,
+  "new_step": 11,
+  "expected_diff_sha256": "ec08e8e49ce309b4857e7d5649a259638260e63cf0120f54478b4c708006da11",
+  "matched": true,
+  "restored_diff_sha256": "ec08e8e49ce309b4857e7d5649a259638260e63cf0120f54478b4c708006da11",
+  "product_diff_sha256": "52b1116320a5cb4ba09930aa6224bce129802132981846e1c1b21153b81201b7",
+  "product_paths": [
+    "docs/generation-lifecycle.md",
+    "docs/intent-provenance.md",
+    "docs/pilot0.md",
+    "src/eval_lab/generation.py",
+    "src/eval_lab/persistence.py",
+    "src/eval_lab/pilot.py",
+    "src/eval_lab/pilot_cli.py",
+    "tests/test_generation.py",
+    "tests/test_generation_cli.py"
+  ],
+  "original_base": "11340745f1eb54c68f518a882f2d556ed1dd1036",
+  "excluded_historical_report": "loop/reports/STEP-0010-L04.md",
+  "reason": "exact historical full diff reconstructed; matching product patch restored; fresh validation required"
+}

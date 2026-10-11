@@ -1,0 +1,152 @@
+{
+  "step": 14,
+  "item": "L08",
+  "summary": "All six claims are CONFIRMED from opened primary sources. The ledger was empty. The search covering 2025-04-09 through 2026-10-09 found reinforcing W3C guidance and a Python API deprecation, neither requiring changes to these claims. No landscape scan was required. These findings verify the claims, not implementation conformance.",
+  "claims": [
+    {
+      "id": "R0014-C001",
+      "claim": "RFC 8785 recursively sorts JSON object property names by unsigned UTF-16 code units, preserves array element order and encodes the canonical result in UTF-8.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.2.3",
+          "title": "RFC 8785: JSON Canonicalization Scheme (JCS), §§3.2.3–3.2.4",
+          "accessed": "2026-10-09",
+          "quote": "be sorted recursively … UTF-16 … unsigned integers"
+        }
+      ],
+      "newer_practice": {
+        "summary": "W3C's Verifiable Credential Data Integrity 1.0 recommends JCS for JSON without RDF semantics. Reinforcing guidance; no step change. Accessed 2026-10-09.",
+        "url": "https://www.w3.org/TR/2025/REC-vc-data-integrity-20250515/#transformation",
+        "date": "2025-05-15"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change. Section 3.2.3 specifies recursive unsigned UTF-16 property sorting and unchanged array order; §3.2.4 requires UTF-8 output.",
+      "action_required": false
+    },
+    {
+      "id": "R0014-C002",
+      "claim": "RFC 8785 omits whitespace between JSON tokens and preserves Unicode string data without Unicode normalization.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.2.1",
+          "title": "RFC 8785: JSON Canonicalization Scheme (JCS), §§3.1 and 3.2.1",
+          "accessed": "2026-10-09",
+          "quote": "Whitespace … MUST NOT be emitted."
+        }
+      ],
+      "newer_practice": {
+        "summary": "W3C's Verifiable Credential Data Integrity 1.0 continues using RFC 8785 canonicalization. It does not replace these whitespace or Unicode rules. Accessed 2026-10-09.",
+        "url": "https://www.w3.org/TR/2025/REC-vc-data-integrity-20250515/#transformation",
+        "date": "2025-05-15"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change. Section 3.2.1 prohibits inter-token whitespace, and §3.1 requires preserving Unicode string data without normalization.",
+      "action_required": false
+    },
+    {
+      "id": "R0014-C003",
+      "claim": "Python's hashlib module supplies SHA-256, and a hash object's hexdigest method returns a hexadecimal text representation of the digest.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.15/library/hashlib.html",
+          "title": "hashlib — Secure hashes and message digests — Python 3.15.0 documentation",
+          "accessed": "2026-10-09",
+          "quote": "sha256() … SHA-256 hash object. … a string object … containing only hexadecimal digits."
+        },
+        {
+          "url": "https://www.python.org/downloads/release/python-3150/",
+          "title": "Python Release Python 3.15.0",
+          "accessed": "2026-10-09",
+          "quote": "Release date: Oct. 9, 2026"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.15 deprecates the undocumented string keyword in underlying hash constructors and recommends positional input. SHA-256 and hexdigest semantics remain unchanged; the supplied claim needs no change.",
+        "url": "https://docs.python.org/3.15/library/hashlib.html#hash-algorithms",
+        "date": "2026-10-09"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change to the plan claim. The documented sha256 constructor and hexdigest return type directly support it; the claim does not depend on the deprecated keyword.",
+      "action_required": false
+    },
+    {
+      "id": "R0014-C004",
+      "claim": "RFC 8785 recursively sorts object property names by unsigned UTF-16 code units, preserves array order and encodes canonical output in UTF-8.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.2.3",
+          "title": "RFC 8785: JSON Canonicalization Scheme (JCS), §§3.2.3–3.2.4",
+          "accessed": "2026-10-09",
+          "quote": "array element order MUST NOT be changed … UTF-8"
+        }
+      ],
+      "newer_practice": {
+        "summary": "W3C's Verifiable Credential Data Integrity 1.0 recommends JCS for JSON without RDF semantics. Reinforcing guidance; no step change. Accessed 2026-10-09.",
+        "url": "https://www.w3.org/TR/2025/REC-vc-data-integrity-20250515/#transformation",
+        "date": "2025-05-15"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change to the evaluator statement. Sections 3.2.3–3.2.4 support all four requirements; implementation compliance remains outside this claim review.",
+      "action_required": false
+    },
+    {
+      "id": "R0014-C005",
+      "claim": "RFC 8785 omits whitespace between JSON tokens and preserves Unicode string data without normalization.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html#section-3.1",
+          "title": "RFC 8785: JSON Canonicalization Scheme (JCS), §§3.1 and 3.2.1",
+          "accessed": "2026-10-09",
+          "quote": "preserve Unicode string data \"as is\""
+        }
+      ],
+      "newer_practice": {
+        "summary": "W3C's Verifiable Credential Data Integrity 1.0 continues using RFC 8785 canonicalization. It does not replace these whitespace or Unicode rules. Accessed 2026-10-09.",
+        "url": "https://www.w3.org/TR/2025/REC-vc-data-integrity-20250515/#transformation",
+        "date": "2025-05-15"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change to the evaluator statement. Sections 3.1 and 3.2.1 establish Unicode preservation and removal of inter-token whitespace.",
+      "action_required": false
+    },
+    {
+      "id": "R0014-C006",
+      "claim": "Python hashlib supplies SHA-256 and hexdigest returns a hexadecimal textual digest.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.15/library/hashlib.html",
+          "title": "hashlib — Secure hashes and message digests — Python 3.15.0 documentation",
+          "accessed": "2026-10-09",
+          "quote": "sha256() … SHA-256 hash object. … a string object … containing only hexadecimal digits."
+        },
+        {
+          "url": "https://www.python.org/downloads/release/python-3150/",
+          "title": "Python Release Python 3.15.0",
+          "accessed": "2026-10-09",
+          "quote": "Release date: Oct. 9, 2026"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.15 deprecates the undocumented string keyword in underlying hash constructors and recommends positional input. SHA-256 and hexdigest semantics remain unchanged; the supplied claim needs no change.",
+        "url": "https://docs.python.org/3.15/library/hashlib.html#hash-algorithms",
+        "date": "2026-10-09"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change to the evaluator statement. Official documentation confirms both API facts; the newly deprecated keyword is not part of this claim.",
+      "action_required": false
+    }
+  ],
+  "proposals": []
+}

@@ -1,0 +1,72 @@
+{
+  "findings": [
+    {
+      "description": "F0030-R1-001 remains unresolved. There is no all-rule composition module, production rule manifest, checked complete scope or independent expected-consumption audit. The candidate still returns only a partial role group. All 30 conjunction tests fail in the supplied gate. A proposal to retain an incomplete attempt does not satisfy the sealed acceptance.",
+      "dimension": "intention",
+      "id": "F0030-R2-001"
+    },
+    {
+      "description": "The alternative endpoint-kind guard applies independently to legacy and v2 relations, but its isolated negative tests only RelationClaim. In independent direct and in-memory SQLite executions, bypassing rejection only for RelationClaimV2 left all 540 parameterized role cases passing per adapter. A v2 alternative whose object was an existing Evidence record then returned no diagnostics and usable support. The unmodified guard rejects it correctly; this is a missing deletion-sensitive branch control.",
+      "dimension": "production_quality",
+      "id": "F0030-R2-002"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Read changed comments, docstrings, Plan and Probes and checked their local premises against the referenced reader, preparation, domain, role, resolution and confidence implementations.",
+        "Compared the Prior attempts mapping with all seven supplied STEP-0023 findings and F0027-R1-001; every finding has an ownership mapping.",
+        "Recomputed all seven source/test hashes in Probes and confirmed agreement; verified plan.md matches the report's Plan.",
+        "Excluded harness bookkeeping and researcher-owned research.json from builder accuracy scoring. Routed the external datetime claim to claims_for_research."
+      ],
+      "id": "F0030-R2-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "tests/test_lint_context.py:14-16 requires eval_lab.lint_context, which remains absent.",
+        "src/eval_lab/lint_role_prerequisites.py:319-322 derives declared and consumed inventories from performed reads; the planned independent all-rule completeness audit does not exist.",
+        "tests/test_lint_role_prerequisites.py:247-275 covers alternative endpoint-kind rejection only for RelationClaim, leaving the distinct RelationClaimV2 branch without its required control."
+      ],
+      "id": "F0030-R2-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "Supplied gate.json records 6179 passed and 30 failed tests; all failures belong to tests/test_lint_context.py.",
+        "Independently executed 540 parameterized role-test cases per adapter using isolated import wiring; both DirectRecords and in-memory SQLite executions passed.",
+        "Disabling only the RelationClaimV2 alternative endpoint-kind rejection at src/eval_lab/lint_role_prerequisites.py:235 left all 540 cases passing on each adapter, while the malformed relation became usable without diagnostics.",
+        "tests/test_lint_role_prerequisites.py:279-315 exercises value() directly, so its field matrix cannot establish that preparation consumes every declared prerequisite."
+      ],
+      "id": "F0030-R2-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Inspected exact reference/pin resolution, confidence predecessor identity, context histories, captured resolution dependencies and frozen-plan correspondence.",
+        "Independently executed test_resolution_timing_keeps_exact_associations for both input orders through DirectRecords and an in-memory SQLite RawReader; all four literal association expectations passed.",
+        "Confirmed Prepared is transient and introduces no persisted artifact or schema. No new persisted type requires registration, migration, snapshot pinning or serialization."
+      ],
+      "id": "F0030-R2-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read all 1087 lines of diff.patch, opened all five changed files, and verified every added patch body matches its tree file.",
+        "Compared the changes with L12-A2d and the sealed Plan: the implementation, tests and bounded-replanning proposals address the assigned prerequisite work."
+      ],
+      "id": "F0030-R2-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Recomputed 882 counted added lines against the unchanged 900-line cap.",
+        "Compared all changed paths with the sealed Plan, its size contingency and configured exceptions; the proposals do not alter acceptance or backlog state.",
+        "Checked D01-D14 against the implementation: no deferred functionality was added.",
+        "Verified the patch only adds files and does not modify integrated tests, dependencies, persisted schemas, public serializers or harness code."
+      ],
+      "id": "F0030-R2-D-scope"
+    }
+  ]
+}

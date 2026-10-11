@@ -1,0 +1,7 @@
+{
+  "claims": [],
+  "item": "L10",
+  "proposals": [],
+  "step": 18,
+  "summary": "claims.json contains no claims, the ledger excerpt is empty, and landscape_required is false. Applied the Amendment 4 fast path: no live search or landscape scan required."
+}

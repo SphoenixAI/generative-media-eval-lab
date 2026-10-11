@@ -1,0 +1,63 @@
+{
+  "findings": [],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Read builder-authored comments, docstrings, documentation, changed CLI help, Plan and Probes; compared their behavioral claims with the implementation.",
+        "Found no new external factual or methodological claim requiring research.",
+        "Independently verified the patch SHA-256, every changed-file hunk against tree/, the sealed Plan text and the count of 630 changed product lines.",
+        "Kept harness bookkeeping and historical evaluator conclusions separate from builder-authored accuracy evidence."
+      ],
+      "id": "F0017-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "Verified that the report's Plan matches plan.md and mapped both backlog criteria and all twelve expanded criteria to implementation and tests.",
+        "Compared the Prior attempts mapping against STEP-0009/eval_r1.json, eval_r2.json and decision.json: both snapshot findings, the warrant-oracle correction and RF disposition are represented accurately.",
+        "Checked I1\u2013I2 and I5\u2013I9: fixtures are TEST-ONLY; relation storage preserves missing values and does not generate judgments, promote provenance, execute purposes or perform confidence arithmetic.",
+        "Checked I3 and I12 through append-only admission, predecessor validation, snapshot pins, frozen-export assertions and the unchanged public/embed allowlist."
+      ],
+      "id": "F0017-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "tree/tests/test_relation_v2_snapshots.py:44 does not independently prove direct-reference discovery: its declared intent is already in the original closure and its evidence media is in the dataset.",
+        "An isolated stdlib execution of incoming_roots using the snapshot test's reference/media topology selected the same expected relations after deleting direct.intersection(context) from tree/src/eval_lab/relation_v2.py:106. This was a function-level probe, not a pytest rerun.",
+        "Inspected targeted rejection errors, fresh candidate identities, literal payload oracles, historical preservation and concurrent admission tests; parsed all six changed Python files successfully.",
+        "Supplied gate.json reports 1112 passing tests, including 72 new relation cases. The accessible interpreter lacks project dependencies, so those results were not independently reproduced."
+      ],
+      "id": "F0017-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Traced RelationClaimV2 registration, repository revalidation, transaction-local intent/predecessor digest checks and persisted outgoing references.",
+        "Traced PilotWorkspace.snapshot through incoming relation discovery, dependency traversal and pinned export; test_private_snapshot_literals_exact_dependencies_and_frozen_history independently asserts complete relation payloads and hashes.",
+        "Checked both relation versions against retained exclusive competing sets and inspected insertion-order, endpoint-order and competing-writer tests.",
+        "Searched for lint integration: no existing product lint subsystem was found; backlog L12 explicitly owns it and depends on L11."
+      ],
+      "id": "F0017-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read all 875 lines of diff.patch and opened all eight changed files under tree/; compared the changes with L11 and NORTH_STAR.md.",
+        "Verified that product changes implement relation metadata, admission, compatibility and reproducible private snapshots."
+      ],
+      "id": "F0017-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared the complete diff with the sealed scope and DEFERRED items D01\u2013D14; no deferred capability is implemented.",
+        "Checked I4, I10\u2013I11 and I16: no protected artifacts, dependencies, existing tests, harness code or judging contracts are changed.",
+        "Checked I13\u2013I15 within available evidence: independent canonical-payload tests and frozen-export checks exist; the diff contains no publication or branch operation. Supplied G14 reports unchanged pilot listing and remote main.",
+        "The additional pilot_cli.py edit only documents the required snapshot behavior; its omission from the estimated file list is flagged."
+      ],
+      "id": "F0017-R1-D-scope"
+    }
+  ]
+}

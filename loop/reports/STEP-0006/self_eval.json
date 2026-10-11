@@ -1,0 +1,125 @@
+{
+  "step": 6,
+  "item": "L02",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Fresh static inspection found no material defect against the sealed plan. The implementation and test assertions cover the acceptance criteria. Tests, authoritative gates and independent evaluation were not executed during this review; their results remain pending.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Compared the seven changed product paths with loop/reports/STEP-0006-L02.md:68-76: changes implement the planned domain types, persistence, private snapshots, tests and documentation.",
+        "src/eval_lab/intent_v2.py:81-190 supplies revision-specific intent and provenance infrastructure supporting the sealed-intent stage of the north star."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "Inspected src/eval_lab/intent_v2.py:175-190: classification requires exact seal pins, strict chronology and matching plan membership/registration; missing evidence cannot establish stronger provenance.",
+        "src/eval_lab/intent_v2.py:51-99 requires reasons and immediate predecessors; lines 222-240 enforce digest pins, immutable anchors and permitted provenance transitions.",
+        "Inspected tests/test_intent_v2.py:78-198 and 225-347: explicit chronology cases, borrowed-seal regressions, invalid reasons, all sixteen transitions and alias/concurrency assertions address all four acceptance criteria. These tests were read, not run."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Traced artifact registration at src/eval_lab/intent_v2.py:243 through src/eval_lab/persistence.py:214-268: references and hashes are validated, and lineage admission occurs inside the existing writer transaction.",
+        "src/eval_lab/pilot.py:351-374 uses the shared content_identity helper to root relevant bindings, traverse dependencies and export pinned private records.",
+        "tests/test_intent_v2.py:383-422 asserts ordinary and alias-first snapshot closure, unrelated-content exclusion, retained revisions and unchanged exports after reopening."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Inspected additive tests for malformed timestamps, digest tampering, missing anchors, nested copied values and predecessor errors at tests/test_intent_v2.py:237-270 and 430-490.",
+        "tests/test_intent_v2.py:321-347 exercises separate file-backed repository writers; lines 370-380 assert equivalent-offset serialization and idempotent replay.",
+        "docs/intent-provenance.md:14-32 provides a concrete example with an execution test at tests/test_intent_v2.py:473-479; src/eval_lab/pilot_cli.py:44-45 updates snapshot help.",
+        "The staged diff adds one test module without modifying existing tests. Runtime success and determinism are not claimed from this inspection."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Manually checked the thirteen distinct ordering rows at tests/test_intent_v2.py:78-97 against the strict predicates at src/eval_lab/intent_v2.py:182-190; expected classes do not call the production classifier.",
+        "Compared docs/intent-provenance.md:35-74 with implementation: chronology is explicitly unauthenticated, generation order and acceptability are not claimed, and legacy bindings remain RECONSTRUCTED.",
+        "External method claims in the sealed plan are identified below for research; this review does not claim fresh external verification."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Read git diff --cached --numstat: seven planned product files contain 832 additions and four removals, totaling 836 changed lines against the frozen 900-line limit.",
+        "Compared changed paths with the frozen protected-file list: none overlap. No dependency manifests, existing tests, runtime networking, judgment engines or harness files appear in the product diff.",
+        "src/eval_lab/intent_v2.py:120-155 provides embedded evidence values within the sealed plan's boundary; it does not implement the deferred lifecycle commands described at loop/reports/STEP-0006-L02.md:109."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Every derivation case is tested.",
+      "lazy_pass": "Test only happy paths or calculate expected answers using the production classifier.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:78-105 explicitly enumerates thirteen timestamp orderings crossed with four first-view states and both origins, plus missing evidence; lines 108-157 and 225-247 cover mismatches, declarations and malformed times. Inspection only."
+    },
+    {
+      "criterion": "A revision cannot borrow an earlier revision's seal.",
+      "lazy_pass": "Match intent ID while ignoring revision or digest, particularly in the contemporaneous fallback.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/intent_v2.py:182 rejects a nonmatching complete intent pin before either chronological classification. tests/test_intent_v2.py:126-157 tests borrowed seals with and without plans, both origins, serialization, persistence and reopening."
+    },
+    {
+      "criterion": "A revision without a reason is rejected.",
+      "lazy_pass": "Require the reason only in an authoring interface while copied objects or direct writes bypass validation.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/intent_v2.py:89 has no default; recursive revalidation at lines 21-38 and repository revalidation at src/eval_lab/persistence.py:232 cover admission. tests/test_intent_v2.py:168-181 checks missing, null, blank and unknown reasons for initial and successor revisions."
+    },
+    {
+      "criterion": "No edit can raise a record's provenance.",
+      "lazy_pass": "Prevent promotion only for one binding ID while aliases, changed intent revisions or concurrent writers establish a new ceiling.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/intent_v2.py:229-240 combines checksum lineage uniqueness, immutable anchors and transition restrictions inside transactional admission. tests/test_intent_v2.py:273-347 covers all transitions, renamed/cloned anchors, intent changes and competing writers."
+    },
+    {
+      "criterion": "Private snapshots retain relevant binding history, including alias-first bindings.",
+      "lazy_pass": "Collect only bindings with exactly matching media IDs or test a mocked reference traversal.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/pilot.py:351-354 shares admission's checksum identity rule. tests/test_intent_v2.py:383-422 uses PilotWorkspace registration, snapshot and export with generated fixture media and both alias-first settings."
+    },
+    {
+      "criterion": "Legacy intents remain reconstructed without changing accepted payloads.",
+      "lazy_pass": "Add provenance defaults to the legacy serialized model or promote legacy records during adaptation.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/intent_v2.py:103-117 implements a separate read-only view, and lines 177-178 force legacy binding provenance to RECONSTRUCTED. tests/test_intent_v2.py:350-367 checks original payloads/digests and rejects promotion through v2 adaptation."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "L02-P5-M01",
+      "claim": "Pydantic v2 model_copy(update=...) does not validate supplied update values.",
+      "location": "loop/reports/STEP-0006-L02.md:37-39"
+    },
+    {
+      "id": "L02-P5-M02",
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE acquires the write transaction or can fail with SQLITE_BUSY.",
+      "location": "loop/reports/STEP-0006-L02.md:41-43"
+    },
+    {
+      "id": "L02-P5-M03",
+      "claim": "RFC 3161 describes evidence that a datum existed before a particular time.",
+      "location": "loop/reports/STEP-0006-L02.md:45-47"
+    },
+    {
+      "id": "L02-P5-M04",
+      "claim": "Local seal, plan, registration and first-view timestamps alone cannot prove generation occurred after sealing.",
+      "location": "docs/intent-provenance.md:50-55; loop/reports/STEP-0006-L02.md:49-51"
+    }
+  ],
+  "flags": [
+    "All scores assess static code, test assertions and documentation. No tests, advisory gate, authoritative gates or independent evaluation were executed or represented as passing.",
+    "No files, reports, branches, history or remotes were modified. No network access or real-media judgments were performed. Historical evaluation scores were not reused.",
+    "Memory supplied only background guidance about evidence boundaries; score evidence comes from the current checkout.\n"
+  ]
+}

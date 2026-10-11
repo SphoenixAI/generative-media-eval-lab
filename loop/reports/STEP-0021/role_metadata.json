@@ -1,0 +1,14 @@
+{
+  "calls": [
+    {
+      "role": "builder_plan",
+      "round": 1,
+      "output": "builder_plan.md",
+      "model": "gpt-6-astra",
+      "started_at": "2026-10-10T17:47:23.255945+00:00",
+      "finished_at": "2026-10-10T17:51:10.379807+00:00",
+      "elapsed_seconds": 227.124,
+      "status": "COMPLETED"
+    }
+  ]
+}

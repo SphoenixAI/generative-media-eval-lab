@@ -1,0 +1,210 @@
+{
+  "step": 5,
+  "item": "L02",
+  "role": "evaluator",
+  "round": 2,
+  "diff_sha256": "a7db0d4ac8839ecfc117dbeeef15e49cdc197330233ce8d402c0ecd2fbf20bad",
+  "summary": "The round-1 coverage finding is resolved. No additional material defect identified. Independent read-only probes passed 104 chronology cases and all sixteen provenance transitions; the four added borrowed-seal cases distinguish the reported faulty classifier. Full pytest execution was unavailable because the available Python lacks Pydantic.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all 1,169 lines of diff.patch and opened all eight changed files under tree/. Verified every patch hunk against its target file.",
+        "Compared implementation with plan.md and tree/loop/NORTH_STAR.md: domain types, admission, private snapshots, documentation and tests remain on L02's critical path."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "Independently executed the extracted classifier against 104 explicit chronology cases. Equality mutations were detected at all three comparison boundaries.",
+        "Inspected test_earlier_revision_seal_cannot_establish_contemporaneous: matching-seal positive controls precede borrowed-seal assertions through serialization, persistence and reopening. Independently confirmed its four input combinations distinguish the round-1 mutant.",
+        "Inspected test_reason_is_required_on_every_path and confirmed revision_reason has the required four-value Literal with no default.",
+        "Independently checked the extracted admission function against all sixteen permitted/forbidden provenance transitions and renamed-lineage rejection. Inspected repository integration and alias/concurrency tests.",
+        "Checked I1, I2 and I5-I9: synthetic fixtures remain explicit; missing judgments remain UNKNOWN; no new acceptability, measurement, decision, aggregation or confidence-arithmetic behavior was added."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Traced IntentSpecV2 and IntentBinding through schema_version=2, ARTIFACT_TYPES registration, serialized revalidation, reference edges and transactional digest validation.",
+        "Traced embedded seal/plan pins and predecessor pins through pins_in and refs_in into persisted binding payloads and snapshot dependency closure.",
+        "Inspected test_actual_workspace_snapshot_closure_and_frozen_export for explicit expected references, alias-first discovery, historical revisions, unrelated-content exclusion and frozen exports after reopening.",
+        "Searched source, tests and project configuration for lint integration; no existing domain lint hook requires extension. A general lint command is explicitly outside the sealed plan."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "All changed Python files parse. Reviewed positive, negative, copied-input, serialization, predecessor, digest, alias and concurrency tests.",
+        "The chronology oracle explicitly lists thirteen weak orderings rather than calling the production classifier to determine expected results. Independent probes detected non-strict comparison mutations in 8, 8 and 24 cases respectively.",
+        "The added borrowed-seal regression addresses L02-R1-01 without changing production behavior or weakening existing tests.",
+        "Reviewed executable documentation example and snapshot CLI help against implementation. Full pytest, Pydantic validation, file-backed concurrency and media execution were not independently rerun."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Independently verified thirteen weak orderings, 104 timing/origin combinations, sixteen transition pairs, the diff hash and reported production/test-module hashes.",
+        "Compared provenance descriptions and CLI help with classifier, admission and snapshot code. Documentation distinguishes local chronology from generation-order proof and acceptability.",
+        "Read changed-file comments, docstrings and documentation. External dependency, standards and research claims are extracted below; embedded CONFIRMED labels were not treated as independent verification."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Independently counted 836 product additions plus removals, within the sealed 900-line limit; changed paths match the plan.",
+        "Compared changes against all DEFERRED items D01-D14 and the plan's exclusions; no deferred implementation identified.",
+        "Verified all sixteen protected-file hashes. Inspected I3, I4 and I10-I16: append-only admission remains intact; no dependency, existing-test, public-serializer, frozen-judge or Git-publication changes were introduced.",
+        "Inspected I12-I13: expanded exports retain the explicit private marker, relevant content roots and pinned dependencies; deterministic replay and equivalent-offset behavior have targeted tests."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Every derivation case is tested.",
+      "lazy_pass": "Test matching seals and ordinary timestamps while omitting equality, missing evidence and mismatched-revision fallback cases.",
+      "present_in_diff": false,
+      "evidence": "test_every_chronology_order covers thirteen orderings crossed with four first-view states and both origins. Missing-evidence, plan-mismatch, legacy, declaration and added borrowed-seal tests cover the remaining classifier branches. Independent equality and borrowed-seal mutations were distinguished."
+    },
+    {
+      "criterion": "A revision cannot borrow an earlier revision's seal.",
+      "lazy_pass": "Check exact seal identity only for SEALED and allow an earlier seal to establish CONTEMPORANEOUS.",
+      "present_in_diff": false,
+      "evidence": "tree/src/eval_lab/intent_v2.py:182 checks seal identity before both branches. test_earlier_revision_seal_cannot_establish_contemporaneous explicitly rejects borrowed seals with a later first view, with and without a plan, for both origins."
+    },
+    {
+      "criterion": "A revision without a reason is rejected.",
+      "lazy_pass": "Require a reason only in a user form or only for successor revisions.",
+      "present_in_diff": false,
+      "evidence": "test_reason_is_required_on_every_path covers initial and successor revisions with missing, null, blank and unknown reasons through constructors, model validation and copied-record repository admission. The field has no default."
+    },
+    {
+      "criterion": "No edit can raise a record's provenance.",
+      "lazy_pass": "Freeze individual objects while permitting promotion through revisions, renamed bindings or cloned registration anchors.",
+      "present_in_diff": false,
+      "evidence": "test_all_sixteen_provenance_transitions, test_edits_and_aliases_cannot_reset_ceiling, test_competing_writers_share_checksum_lineage and test_legacy_view_and_adaptation_cannot_upgrade exercise these routes. Admission executes within the writer transaction."
+    },
+    {
+      "criterion": "V2 fields and predecessor relationships satisfy the sealed contract.",
+      "lazy_pass": "Store arbitrary nested dictionaries or predecessor labels without checking required text, criterion relationships or exact predecessor identity.",
+      "present_in_diff": false,
+      "evidence": "test_context_criteria_and_deviations, test_predecessor_must_pin_immediate_revision, test_binding_predecessor_paths and test_nested_copies_rejected_at_all_entry_points assert specific invalid constructions are rejected."
+    },
+    {
+      "criterion": "Chronology evidence is exact, pinned and replayable.",
+      "lazy_pass": "Accept another registration's plan, ignore digests or replace absent event times with the current clock.",
+      "present_in_diff": false,
+      "evidence": "test_exact_revision_and_bound_plan, test_pins_and_original_registration_reject_tampering, test_required_registration_anchors_cannot_be_absent and test_equivalent_offsets_and_replay_are_deterministic cover these contracts. The classifier reads only supplied evidence."
+    },
+    {
+      "criterion": "Computed provenance cannot be selected by the author; only FOUND permits PROMPT_ONLY.",
+      "lazy_pass": "Expose a writable provenance field or accept PROMPT_ONLY for generated clips.",
+      "present_in_diff": false,
+      "evidence": "IntentBinding exposes provenance as a property and limits declaration to PROMPT_ONLY. test_only_found_prompt_only_is_declarable tests all four labels for both origins and rejects a supplied provenance field."
+    },
+    {
+      "criterion": "Admission and snapshot discovery share content identity.",
+      "lazy_pass": "Reject aliases during admission but discover snapshot bindings only by exact media references.",
+      "present_in_diff": false,
+      "evidence": "Both paths call content_identity. The alias-first branch of test_actual_workspace_snapshot_closure_and_frozen_export requires the alias binding and its anchors when snapshotting the original clip."
+    },
+    {
+      "criterion": "Private snapshots preserve binding history and dependency closure.",
+      "lazy_pass": "Include only the latest binding or recompute historical exports from current records.",
+      "present_in_diff": false,
+      "evidence": "The workspace test explicitly requires both binding revisions and both intent revisions in a later snapshot, excludes unrelated content, and compares the earlier export before and after later writes and repository reopening."
+    },
+    {
+      "criterion": "Legacy compatibility and provenance limitations remain explicit.",
+      "lazy_pass": "Invent v2 metadata while loading legacy intent or present local timestamps as proof of generation order.",
+      "present_in_diff": false,
+      "evidence": "test_legacy_view_and_adaptation_cannot_upgrade checks unchanged legacy payloads and digests, RECONSTRUCTED provenance and rejected promotion. tree/docs/intent-provenance.md documents each class, timestamp limitations, UNKNOWN judgments and I7 restrictions."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "L02-R1-01",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "id": "L02-P5-M01",
+      "claim": "Pydantic v2 BaseModel.model_copy(update=...) does not validate supplied update values.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:37,190,194"
+    },
+    {
+      "id": "L02-P5-M02",
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE starts a write transaction immediately or can fail with SQLITE_BUSY when another connection has an active write transaction.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:41,191,195"
+    },
+    {
+      "id": "L02-P5-M03",
+      "claim": "RFC 3161 describes timestamping evidence that a datum existed before a particular time.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:45,192,196"
+    },
+    {
+      "id": "L02-P5-M04",
+      "claim": "Local seal, plan, registration and first-view timestamps cannot prove generation occurred after sealing; witnessing intent existence does not itself witness clip generation.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:49-51,193,197; tree/docs/intent-provenance.md:52-55"
+    },
+    {
+      "id": "L02-R2-C05",
+      "claim": "VWG-Bench, arXiv v1 dated 2026-09-10, separates visual fluency, rule compliance and goal completion.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:182"
+    },
+    {
+      "id": "L02-R2-C06",
+      "claim": "PANEL, arXiv v1 dated 2026-09-25, describes controlled multimodal studies with screening, consent versioning and exportable study specifications.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:183"
+    },
+    {
+      "id": "L02-R2-C07",
+      "claim": "Certified Selective Automation of LLM Agent Evaluation, dated 2026-09-28, examines correlated task clusters and proposes task-level bootstrap calibration for selective judging.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:184"
+    },
+    {
+      "id": "L02-R2-C08",
+      "claim": "UFO, arXiv v2 dated 2026-09-17, evaluates interacting textual and visual conditions through decomposed checks.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:185"
+    },
+    {
+      "id": "L02-R2-C09",
+      "claim": "IPTC's 2026-09-03 conference documents work on C2PA implementation guidance, identity assertions and proposed metadata changes rather than ratified requirements.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:186"
+    },
+    {
+      "id": "L02-R2-C10",
+      "claim": "Pydantic 2.13, dated 2026-04-13, changed RootModel shallow-copy behavior without adding validation of copied updates.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:190,194"
+    },
+    {
+      "id": "L02-R2-C11",
+      "claim": "SQLite 3.50.0, dated 2025-05-29, introduced sqlite3_setlk_timeout for separate blocking-lock timeouts on supporting builds without changing the single-writer rule.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:191,195"
+    },
+    {
+      "id": "L02-R2-C12",
+      "claim": "C2PA 2.4, dated April 2026, recommends RFC 3161 timestamps for signature-existence evidence.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:192,196"
+    },
+    {
+      "id": "L02-R2-C13",
+      "claim": "C2PA 2.4 section 18.15.4.3 distinguishes asserted action times from trusted timestamp evidence.",
+      "location": "tree/loop/reports/STEP-0005-L02.md:193,197"
+    },
+    {
+      "id": "L02-R2-C14",
+      "claim": "SQLAlchemy provides a path to PostgreSQL.",
+      "location": "tree/docs/domain-model.md:33"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE",
+    "Independent execution covered extracted classifier/admission logic and structural/hash checks only. Pydantic, repository transactions, concurrency, media and full pytest execution were not independently rerun.",
+    "The supplied gate reports 460 passing tests; that is supplied evidence, not an independently reproduced result.",
+    "External claims remain assigned to research. Embedded research confirmations and builder self-assessments were not accepted as independent proof.",
+    "No files were modified."
+  ]
+}

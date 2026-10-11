@@ -1,0 +1,15 @@
+{
+  "resolutions": [
+    {
+      "ref": "F0025-R1-001",
+      "action": "FIXED",
+      "evidence": "tests/test_lint_prerequisites.py now checks literal boundary counts and ordered contract obligations. test_shared_repeated_field_contract covers distinct contracts on one field through direct and retained paths. path-only-cache and same-contract-cache mutation experiments fail the intended assertions."
+    },
+    {
+      "ref": "F0025-R1-002",
+      "action": "FIXED",
+      "evidence": "test_shared_dependency_unavailable asserts the exact leaf/note/UNKNOWN/dependency unavailable diagnostic, with missing, null, malformed and valid controls through both adapters. The dependency-unavailable deletion experiment fails all six intended negative assertions. The report ledger is reconciled. Validation: 644 focused tests, 47 mutation experiments, and advisory gate passed with 1,858 tests and 882/900 changed lines. G14 was skipped in advisory mode; the sealed Plan remains unchanged."
+    }
+  ],
+  "amendments": []
+}

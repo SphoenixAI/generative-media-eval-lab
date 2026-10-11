@@ -1,0 +1,140 @@
+{
+  "step": 23,
+  "item": "L12-A2",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "6c76c92f391a6040fd631cfe19ca86f1536b2ab2db1a80346e67e8d5ccb2d4f8",
+  "summary": "Changes are relevant and bounded, but acceptance is incomplete. Preparation accepts unavailable attachment dependencies, misses a provenance identity check, rejects equivalent timestamps, and lacks deletion-sensitive tests for several new validators.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all of diff.patch and all five changed files under tree; product changes concern shared evidence access and lint prerequisite preparation.",
+        "Compared the implementation with the accepted STEP-0021 split: rule evaluation, persisted audits and readiness remain assigned to later children."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/lint_prerequisites.py:229 treats a null derivative as inactive without checking whether PilotSubmission.frame_indices makes that dependency required.",
+        "An isolated execution of the preparation implementation returned context != null and diagnostics=[] for E3 with frame_indices=[0] and derivative=null.",
+        "tests/test_lint_prerequisites.py:102 provides meaningful direct/retained dimension, coverage and duration controls, but does not establish the complete acceptance criterion."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/lint_prerequisites.py:327 checks BindingContext.view chronology without checking its content identity against the binding.",
+        "src/eval_lab/lint_prerequisites.py:315 compares timestamp strings rather than represented instants.",
+        "Checked new dataclasses: they are internal preparation values, not registered domain artifacts requiring new persistence or snapshot schemas."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "tests/test_lint_prerequisites.py:315 and :388 do not test several newly introduced registration, chronology and origin rejection guards.",
+        "tests/test_lint_prerequisites.py:84 checks a partial literal inventory; its uniqueness assertion is tautological because inventory() already constructs a set.",
+        "Parsed both changed Python modules and the new test file successfully. Full pytest execution was unavailable because the accessible Python lacks project dependencies."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Read builder-authored Plan, Probes, comments and docstrings; checked repository premises against the corresponding models, reader, configuration and split implementation.",
+        "Compared the Prior attempts mapping with all six STEP-0019 blocking findings and the canonicalization research handoff; their ownership is explicitly mapped consistently with the accepted split.",
+        "Kept harness-owned report sections and recorded test results separate from builder accuracy evidence. Found no new external claim requiring research."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared all changed paths with the sealed plan and DEFERRED backlog entries; found no deferred implementation, dependency change, public surface or domain-schema migration.",
+        "Inspected the additional proposal: it requests future decomposition without changing the approved acceptance or implementing another item.",
+        "Checked the patch for existing-test changes and protected/harness edits; none are present. Supplied G7 reports 869 counted changed lines against 900."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "attachment-prerequisite",
+      "dimension": "intention",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_prerequisites.py:229-253,294-410",
+      "description": "PilotSubmission.derivative is always treated as optionally absent. No preparation branch makes it required when frame_indices is nonempty, validates the selected indices against the derivative, or establishes the attachment's media correspondence. Consequently, a submission with frame_indices=[0] and derivative=null produces a usable E3 context with no diagnostic. I reproduced that result using the actual preparation/reader functions in an isolated standard-library harness, supplied repository schemas, and equivalent schemas for the selected MediaAsset/Evidence fields. The existing pilot admission contract explicitly requires a derivative for frame attachments. This violates the sealed requirement that active dependent prerequisites be available before construction of a usable branch.",
+      "required_fix": "Use checked frame-attachment discriminants to activate the derivative prerequisite and validate its exact attachment correspondence. Add direct and retained controls for null/missing derivatives, invalid selected indices and mismatched attachment context, plus a valid attachment control."
+    },
+    {
+      "id": "first-view-identity",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_prerequisites.py:327-346",
+      "description": "BindingContext replay checks a referenced FirstView's created_at against binding.first_view_at but never checks that the FirstView media/registration identify the binding's content. An unrelated, correctly pinned FirstView with the same timestamp can therefore supply usable chronology. Merely declaring and traversing FirstView.media and registration does not establish their relationship to this binding. The existing generation.validate_admission contract explicitly checks this content identity, so this is a lost prerequisite consistency check rather than a new policy request.",
+      "required_fix": "Check the FirstView content identity against the binding through checked media, registration and content-hash dependencies. Add a negative control using distinct content with an identical timestamp and recomputed valid pins, and a matching-content positive control."
+    },
+    {
+      "id": "timestamp-equivalence",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_prerequisites.py:315,335",
+      "description": "Chronology correspondence uses raw string equality. The boundary validates timestamps but returns their original strings. Existing Artifact timestamps may retain a non-UTC offset, while IntentBinding Instant fields normalize to UTC. Thus an admissible registration created_at of 2026-09-30T17:00:01-07:00 and registered_at of 2026-10-01T00:00:01Z are incorrectly rejected as a binding registration mismatch. Independently confirmed these strings represent the same instant. The FirstView comparison has the same problem.",
+      "required_fix": "Compare validated timestamps as instants while preserving original payloads and digest identities. Add offset-equivalence positive controls and genuinely different-instant negative controls for registration and first-view correspondence."
+    },
+    {
+      "id": "validator-oracles",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tests/test_lint_prerequisites.py:84-89,315-326,358-402",
+      "description": "The focused tests do not satisfy A2 oracle rule 4 or the sealed requirement to cover each new branch/adapter. For example, no negative case exercises binding registration mismatch, binding chronology time mismatch, binding seal intent mismatch, binding origin anchors mismatch, or run link context mismatch. Existing admitted fixtures exercise successful correspondence, while corruption cases target other conditions. Removing these rejection guards would not change those test expectations. The inventory test also proves only a small subset of declarations, and its uniqueness assertion checks a value already deduplicated by production code. The exhaustive A3 matrix does not excuse these missing A2 validator controls.",
+      "required_fix": "Add isolated negative and valid controls for every newly introduced validator, asserting the exact subject, diagnostic state, path and reason. Verify that each guard's deletion makes its named test fail. Strengthen the independent declaration/access checks so omitted declarations and unused declarations cannot pass through a partial inventory assertion."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Every rule declares all prerequisites and checks them before usable preparation.",
+      "lazy_pass": "Publish a large schema-derived inventory and traverse its fields, while omitting conditional dependency checks.",
+      "present_in_diff": true,
+      "evidence": "The registry declares PilotSubmission.derivative and frame_indices, but prepare never activates the derivative when frame indices are present; the isolated E3 reproduction returned a usable context."
+    },
+    {
+      "criterion": "Direct and retained preparation share the evidence boundary.",
+      "lazy_pass": "Validate only container shapes and expose unchecked nested payloads.",
+      "present_in_diff": false,
+      "evidence": "Inspected walk at lint_prerequisites.py:228-253 and CheckedContext at :198-206: leaf access uses RawRecord.field, containers become keys/indices, and damaged records prevent available support."
+    },
+    {
+      "criterion": "Checked discriminants govern applicability and optional absence.",
+      "lazy_pass": "Treat every schema-nullable field as an inactive feature regardless of dependent fields.",
+      "present_in_diff": true,
+      "evidence": "walk at :229-232 implements generic nullable absence; the missing PilotSubmission attachment branch leaves an active derivative prerequisite inactive. Dimension/coverage/duration controls in test_checked_motion_coverage_and_full_clip_duration do cover their narrower branches."
+    },
+    {
+      "criterion": "References preserve exact identities, pins and dependency correspondence.",
+      "lazy_pass": "Verify that referenced records exist and hashes match without checking that they belong to the claimed context.",
+      "present_in_diff": true,
+      "evidence": "BindingContext.view is traversed and time-checked at :327-336, but its media/registration identity is never compared with the binding. test_declared_reference_guards checks basic reference failures, not this correspondence."
+    },
+    {
+      "criterion": "Checked context exposes checked values without repairing domain records.",
+      "lazy_pass": "Construct domain models first, allowing defaults or residual insertion to conceal missing raw data.",
+      "present_in_diff": false,
+      "evidence": "Inspected schema expansion and raw traversal: preparation does not instantiate domain models. test_draft_prediction_keys_and_raw_residual_are_preserved explicitly checks unchanged raw membership."
+    },
+    {
+      "criterion": "Focused tests cover every new validation mechanism and remain deletion-sensitive.",
+      "lazy_pass": "Use positive fixtures, a partial inventory and a few representative corruptions as evidence for all validators.",
+      "present_in_diff": true,
+      "evidence": "test_independent_all_rule_inventory uses subset membership; test_boundary_calls_checked_values_and_nonmotion observes only two paths; several correspondence rejection guards have no negative controls."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "Full pytest was not independently rerun: the accessible Python lacks pydantic and other project dependencies. The supplied gate reports 1497 passing tests; this is harness evidence.",
+    "The attachment reproduction executed extracted implementation functions with schema providers substituted to avoid unavailable dependencies; it was not a full installed-package or retained-store integration test.",
+    "Reviewed I1-I16 against the changed paths and implementation. No authored-record writes, readiness/verdict API, aggregation, probability arithmetic, runtime network access, public serialization changes, weakened existing tests or deferred implementation were found. The blocking findings concern preparation acceptance and correspondence; no score-zero invariant violation is asserted."
+  ]
+}

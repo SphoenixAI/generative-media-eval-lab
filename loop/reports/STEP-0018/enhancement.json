@@ -1,0 +1,10 @@
+{
+  "resolutions": [
+    {
+      "ref": "F0018-R1-001",
+      "action": "FIXED",
+      "evidence": "Added independent Evidence-ID and stopping-reference uniqueness checks in src/eval_lab/resolutions.py. In tests/test_resolution_workflow.py, test_same_evidence_across_distinct_instrument_runs_rejected covers fixed and stopping designs; test_duplicate_stopping_references_rejected_before_matching isolates stopping duplicates. Both assert specific ValueErrors and unchanged event/reference counts. Each guard's deletion fails its named test; the distinct-Evidence/run positive case remains passing. Advisory gate passed 1,214 tests and all blocking checks, with 897/900 changed lines and the sealed Plan unchanged. G14 was skipped in advisory mode. Evidence recorded in loop/reports/STEP-0018-L10.md.\n"
+    }
+  ],
+  "amendments": []
+}

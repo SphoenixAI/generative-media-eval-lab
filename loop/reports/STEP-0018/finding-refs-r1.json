@@ -1,0 +1,63 @@
+{
+  "findings": [
+    {
+      "description": "The duplicate guard tracks only the derived unit string. For an INSTRUMENT plan with two arms and n_per_arm=1, retain one pre-freeze clip and one post-freeze Evidence record. Two distinct InstrumentRun IDs can both reference that exact Evidence, with one matching EvidenceArm link per arm; evidence_roles.validate_admission permits these records. Submitting that Evidence pin once for each arm selects different POST_FREEZE_RUN links, produces distinct run:<id> units and satisfies both counts. No check rejects reuse of the Evidence pin. A stopping design likewise accepts a stopping.samples list containing that pin twice because it compares sorted multisets without checking uniqueness. This defeats Plan criterion 5's duplicate-submission/cross-arm-reuse requirement and the documented duplicate-sample rejection. The existing instrument regression uses two revisions of the same run ID, so it misses this path.",
+      "dimension": "intention",
+      "id": "F0018-R1-001"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "docs/hypothesis-testing.md:185-188 promises rejection of cross-arm reuse and duplicate stopping samples. resolutions.py:164-179 permits the same Evidence pin across distinct instrument-run units and accepts the corresponding duplicated stopping.samples list.",
+        "Checked builder-authored changed comments, docstrings, documentation, CLI help, Plan and Probes; identified no external claim requiring research.",
+        "Compared the Plan's Prior attempts mapping against F0016-R1-001, F0016-R1-002 and F0016-R2-001 in the supplied earlier reports; all three are accurately mapped."
+      ],
+      "id": "F0018-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "src/eval_lab/resolutions.py:164-173 deduplicates instrument samples solely by selected run ID; identical Evidence submitted across arms with distinct run IDs is counted twice, contrary to Plan criterion 5.",
+        "test_literal_elimination_overlap_identical_and_residual supplies independent literal status expectations; test_prerequisite_rejections_do_not_append covers drafts, disallowed roles and insufficient per-arm counts."
+      ],
+      "id": "F0018-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "tests/test_resolution_workflow.py:159-177 tests duplicate instrument samples through revisions of one run ID, but omits identical Evidence associated with distinct run IDs across arms.",
+        "Inspected rejection assertions for specific errors and fresh identities; raw corruption and timestamp tests isolate their intended admission boundaries.",
+        "Independently parsed all six changed Python files successfully. Supplied gate.json reports 1211 passing tests; independent execution was unavailable."
+      ],
+      "id": "F0018-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Traced ResolutionEvent registration, inherited schema version, predecessor pins, dependency hashes and persisted reference rows.",
+        "Checked snapshot roots and transitive closure in pilot.py, private show/schema integration, and snapshot/reopening/replay assertions in test_cli_show_schema_reopen_snapshots_and_public_boundaries.",
+        "Checked backlog L12: resolution lint is assigned to that downstream item."
+      ],
+      "id": "F0018-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read all 1190 lines of diff.patch and opened all eight changed files under tree; changes address L10 resolution and its private integration.",
+        "Independently computed the diff SHA-256 and matched diff_sha256.txt."
+      ],
+      "id": "F0018-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared changed paths against the sealed Plan and DEFERRED D01-D14; found no unrelated or deferred implementation.",
+        "Checked I1-I16 against affected paths: TEST-ONLY fixtures, append-only storage, preserved authored judgments, explicit UNKNOWN failures, separate resolution/decision state, no confidence arithmetic, runtime network calls, dependency additions, protected-file edits, existing-test weakening or judge changes.",
+        "No invariant violation was demonstrated; the sampling defect is a material sealed-contract failure."
+      ],
+      "id": "F0018-R1-D-scope"
+    }
+  ]
+}

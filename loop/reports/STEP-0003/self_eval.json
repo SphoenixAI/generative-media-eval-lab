@@ -1,0 +1,114 @@
+{
+  "step": 3,
+  "item": "L02",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented IntentSpec v2, derived provenance, immutable binding history, and private snapshot integration. Advisory attempt 2 passed: 368 tests, 752 changed lines.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/intent_v2.py:61 implements the sealed L02 contract; changes cover domain types, persistence, snapshots, tests, documentation, and CLI help."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_intent_v2.py:62 covers all 13 timestamp orderings across four view states and two origins.",
+        "tests/test_intent_v2.py:136 rejects missing reasons; :218 tests seven promotion routes; :249 prevents borrowing an earlier seal."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/persistence.py:223 validates pinned history inside the write transaction.",
+        "tests/test_intent_v2.py:341 verifies registration through snapshot export, dependency closure, unrelated-binding exclusion, historical stability, and reopening."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Tests written before implementation failed on the missing module. Final advisory passed 368 product tests plus frozen harness and approval checks.",
+        "docs/intent-provenance.md:1 documents the contract; src/eval_lab/pilot_cli.py:40 updates snapshot help."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "tests/test_intent_v2.py:62 uses an explicit ordering oracle; :120 verifies timezone-equivalent derivation.",
+        "The step report records actual tool versions, hashes, both advisory results, and the limits of offline generated-pattern validation."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Advisory G7 reports 752/900 changed lines; protected files, dependencies, existing tests, and sealed Plan remain unchanged.",
+        "No network, real-clip judgments, L03/L04 lifecycle implementation, or DEFERRED work."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Every derivation case is tested.",
+      "lazy_pass": "Test only one happy path per class.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:62 covers 104 ordering/view/origin combinations, supplemented by missing and malformed evidence cases."
+    },
+    {
+      "criterion": "A revision cannot borrow an earlier revision's seal.",
+      "lazy_pass": "Compare intent IDs without revision or digest.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/intent_v2.py:168 compares complete pins; tests/test_intent_v2.py:249 verifies degradation."
+    },
+    {
+      "criterion": "A revision without a reason is rejected.",
+      "lazy_pass": "Validate constructors while allowing copied objects through persistence.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:136 exercises initial and successor records through constructors, serialized input, and copied-object admission."
+    },
+    {
+      "criterion": "No edit can raise a record's provenance.",
+      "lazy_pass": "Freeze assignment while allowing successor or alias promotion.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:218 requires ceiling-specific rejection; :277 covers all 16 transitions; :309 checks concurrent admission."
+    },
+    {
+      "criterion": "Bindings reach private snapshots.",
+      "lazy_pass": "Test database round trips without the supported snapshot workflow.",
+      "present_in_diff": false,
+      "evidence": "tests/test_intent_v2.py:341 exercises generated-media registration, binding persistence, snapshot creation, export, and reopening."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "L02-R1-01",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "id": "L02-P3-M01",
+      "claim": "Pydantic v2 model_copy updates do not validate supplied values.",
+      "location": "loop/reports/STEP-0003-L02.md:36"
+    },
+    {
+      "id": "L02-P3-M02",
+      "claim": "RFC 3161 timestamping establishes datum existence before a time using a trustworthy time source, without examining the imprint beyond its length.",
+      "location": "loop/reports/STEP-0003-L02.md:40"
+    },
+    {
+      "id": "L02-P3-M03",
+      "claim": "Local seal-plan-registration timestamps alone cannot prove generation followed intent sealing.",
+      "location": "loop/reports/STEP-0003-L02.md:44; docs/intent-provenance.md:54"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE",
+    "Advisory attempt 1 rejected a generated JSON log path. Its exact output was preserved in the designated Markdown report and the transient file removed. Attempt 2 passed.",
+    "Advisory mode skips G14; authoritative verification and independent evaluation remain with the controller.",
+    "Evidence values are unauthenticated internal contracts. No real-media validation or external research was performed.",
+    ""
+  ]
+}

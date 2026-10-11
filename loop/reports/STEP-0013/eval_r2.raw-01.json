@@ -1,0 +1,192 @@
+{
+  "step": 13,
+  "item": "L06",
+  "role": "evaluator",
+  "round": 2,
+  "diff_sha256": "2e891d95fdab204126dcf18133e752b724675f608439f778eb20c6a2ade836ed",
+  "summary": "Both round-1 findings are resolved. The added tests independently exercise assessment-context rejection and the actual derived input envelope. No remaining material defect was established. Full-suite results remain supplied evidence; independent execution was limited to dependency-free checks.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all 1,207 diff lines and opened all nine changed files under tree/. Changes implement L06 policies, verdicts, persistence, private workflows, documentation and tests.",
+        "Compared implementation with the sealed plan and all DEFERRED entries D01-D14; no unrelated functionality was found."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "Checked test_identical_catastrophic_geometry_acceptance_matrix for literal decisions, rule IDs, provenance flags, complete observation equality and unchanged evaluations.",
+        "Checked test_hypotheses_remain_unresolved, test_unknown_must_and_ship_guard, test_override_reason_required and test_phase2_regression_matrix against every remaining parent acceptance criterion.",
+        "Traced test_selected_assessment_requires_exact_context: the verdict context remains valid, and its anchored error assertion excludes both the earlier binding rejection and later derived-trace rejection.",
+        "Checked the new actual-derivation oracle against the documented envelope contract; author, relevance and source-pin changes are distinguishable."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Traced DecisionPolicy and TerminalVerdict registration, inherited schema versions, policy version/revision equality, predecessor pins, transactional admission and SQL reference persistence.",
+        "Traced decisions.roots through private snapshot discovery and refs_in dependency closure; policies and exact selected inputs are retained.",
+        "Checked test_private_cli_snapshot_and_public_isolation for direct admissions, historical revisions, unrelated-record exclusion and frozen exports.",
+        "Inspected L12: domain lint is a subsequent item. This change supplies admission guards without expanding into that item."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Reviewed positive, negative and edge-case assertions across both new test files; the two previously inadequate oracles now have targeted supplementary tests.",
+        "Independently executed extracted derive logic with dependency-free record doubles: its envelope matched the new literal bytes and SHA-256. Author/relevance omission mutations failed that oracle, and deleting the assessment-context guard admitted the foreign assessment.",
+        "Independently executed all six literal deviation-threshold cases and parsed every changed Python file.",
+        "Checked CLI help and documentation against import, preview, history and snapshot paths. Full pytest execution was unavailable because the interpreter lacks pytest, Pydantic and SQLAlchemy; gate.json separately reports 862 passing tests."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Checked builder-authored Plan, Probes, changed documentation, comments, docstrings and CLI help against implementation; no checkable contradiction was established.",
+        "Verified scoring.py reads legacy applicability and authority, with critical failures preceding missing-evidence handling, matching the qualified legacy-default documentation.",
+        "Verified the report Plan matches plan.md. Inspected earlier evaluation identities under tree/loop/reports: none is an earlier L06 attempt, consistent with the sealed Prior attempts statement.",
+        "Kept researcher-owned research.json and harness bookkeeping outside builder accuracy scoring. Routed the six external Plan claims using canonical research IDs."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Independently counted 889 additions/removals outside report paths, within the sealed 900-line ceiling.",
+        "Confirmed the diff changes no existing baseline tests, dependencies, scoring.py, protected outputs, harness code, rubric or invariants.",
+        "Compared the implementation with the sealed exclusions and all fourteen DEFERRED items; none is implemented."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Identical CATASTROPHIC-geometry observations across acceptance cases",
+      "lazy_pass": "Keep only the severity label identical while changing underlying evidence between cases.",
+      "present_in_diff": false,
+      "evidence": "test_identical_catastrophic_geometry_acceptance_matrix compares complete canonical observation payloads and digests. The hypothesis test uses the same fixture construction."
+    },
+    {
+      "criterion": "Dream fixture, SEALED intent: SHIP",
+      "lazy_pass": "Return SHIP from a fixture-name or rationale keyword.",
+      "present_in_diff": false,
+      "evidence": "The acceptance matrix asserts SHIP and rule 'accepted'; derive and matches consume typed assessment and provenance inputs without inspecting fixture names or prose."
+    },
+    {
+      "criterion": "Dream fixture, CONTEMPORANEOUS intent: SHIP with a flag",
+      "lazy_pass": "Return SHIP while dropping the provenance warning during persistence.",
+      "present_in_diff": false,
+      "evidence": "The matrix requires exactly CONTEMPORANEOUS_INTENT, persists the verdict, and admission independently recomputes its flags."
+    },
+    {
+      "criterion": "Dream fixture, RECONSTRUCTED or PROMPT_ONLY intent: HOLD",
+      "lazy_pass": "Make the fixture policy hold but allow permissive policies to excuse material deviations.",
+      "present_in_diff": false,
+      "evidence": "The matrix asserts HOLD for both classes. test_policy_cannot_bypass_material_provenance requires rejection of a permissive SHIP policy."
+    },
+    {
+      "criterion": "Product-demo fixture: REGENERATE",
+      "lazy_pass": "Switch decisions using the product fixture's name instead of its evaluation.",
+      "present_in_diff": false,
+      "evidence": "The matrix supplies a pinned VIOLATED MUST assessment and asserts REGENERATE with rule 'violation'; production code contains no product-name branch."
+    },
+    {
+      "criterion": "Two unresolved hypotheses violating a MUST criterion: REGENERATE, both remain unresolved",
+      "lazy_pass": "Ignore hypothesis count or resolve the hypotheses while returning REGENERATE.",
+      "present_in_diff": false,
+      "evidence": "test_hypotheses_remain_unresolved distinguishes rule IDs for two, one, zero, supported and irrelevant hypotheses; verifies complete retained payloads, digests and confidence; and checks replay after a later hypothesis revision."
+    },
+    {
+      "criterion": "UNKNOWN evidence on a MUST criterion: HOLD",
+      "lazy_pass": "Treat absent support as known or permit a default SHIP rule to bypass UNKNOWN.",
+      "present_in_diff": false,
+      "evidence": "The matrix and test_unknown_must_and_ship_guard cover UNKNOWN assessments, omitted assessments, empty support, UNKNOWN observations, mixed integrity and permissive-policy rejection."
+    },
+    {
+      "criterion": "Override without a reason: rejected",
+      "lazy_pass": "Reject only a missing key while accepting empty or whitespace-only reasons.",
+      "present_in_diff": false,
+      "evidence": "test_override_reason_required covers omitted, empty and whitespace-only reasons through construction, JSON validation and copied-object repository admission with fresh verdict identities."
+    },
+    {
+      "criterion": "Phase 2 behavior unchanged",
+      "lazy_pass": "Test only legacy PASS while changing applicability or failure precedence.",
+      "present_in_diff": false,
+      "evidence": "scoring.py is unchanged. test_phase2_regression_matrix asserts literal failure, missing-dimension, UNKNOWN, REVIEW, PASS, authority and applicability outcomes."
+    },
+    {
+      "criterion": "Ordered, versioned policy contract",
+      "lazy_pass": "Store a nominal rules list while ignoring first-match order, default placement or operand restrictions.",
+      "present_in_diff": false,
+      "evidence": "test_policy_order_contract, test_typed_condition_operands, test_first_match_default_and_salvage and test_pair_priority_status_on_same_criterion exercise these distinctions."
+    },
+    {
+      "criterion": "Exact selected-assessment context",
+      "lazy_pass": "Obtain the expected rejection from a malformed verdict binding without testing the selected assessment.",
+      "present_in_diff": false,
+      "evidence": "The original broad context case remains, but test_selected_assessment_requires_exact_context now supplies a foreign assessment while retaining valid verdict pins and requires '^assessment context mismatch$'. Removing the target guard defeats the new oracle."
+    },
+    {
+      "criterion": "Complete, independently verified decision input digest",
+      "lazy_pass": "Test only a generic hash helper and compare replay results from the same incomplete envelope builder.",
+      "present_in_diff": false,
+      "evidence": "test_derived_envelope_literal_oracle captures the envelope produced by derive and compares it with literal bytes and a literal digest, including nonempty relevance. Author, fulfillment, rationale, hypothesis-pin and assessment-pin changes preserve HOLD while changing the digest."
+    },
+    {
+      "criterion": "Append-only history, private persistence and snapshots",
+      "lazy_pass": "Persist individual verdicts but omit them from snapshots, overwrite history or expose private declarations publicly.",
+      "present_in_diff": false,
+      "evidence": "History tests check predecessor pins, conflicting writes and SQL UPDATE/DELETE refusal. The private workflow test checks direct admissions, dependency closure, retained revisions, frozen exports and unchanged public/embed output."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0013-R1-001",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0013-R1-002",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "id": "R0013-C001",
+      "claim": "Pydantic v2 validation with effective extra='forbid' rejects fields not declared by the model.",
+      "location": "tree/loop/reports/STEP-0013-L06.md:65"
+    },
+    {
+      "id": "R0013-C002",
+      "claim": "Pydantic 2.13.5 model_copy(update=...) applies updates without validating supplied values.",
+      "location": "tree/loop/reports/STEP-0013-L06.md:69"
+    },
+    {
+      "id": "R0013-C003",
+      "claim": "SQLite permits one simultaneous write transaction per database; BEGIN IMMEDIATE can fail with SQLITE_BUSY when another connection has an active write transaction.",
+      "location": "tree/loop/reports/STEP-0013-L06.md:73"
+    },
+    {
+      "id": "R0013-C004",
+      "claim": "RAISE(ABORT, message) in a SQLite trigger terminates the current query and returns SQLITE_CONSTRAINT with the supplied message.",
+      "location": "tree/loop/reports/STEP-0013-L06.md:77"
+    },
+    {
+      "id": "R0013-C005",
+      "claim": "Python 3.12 hashlib provides sha256, and hexdigest returns its digest as hexadecimal text.",
+      "location": "tree/loop/reports/STEP-0013-L06.md:81"
+    },
+    {
+      "id": "R0013-C006",
+      "claim": "RFC 8785 sorts JSON object property names using unsigned UTF-16 code units and encodes canonical serialization in UTF-8.",
+      "location": "tree/loop/reports/STEP-0013-L06.md:85"
+    }
+  ],
+  "flags": [
+    "Independent execution did not cover Pydantic validation, repository integration or full pytest fixtures. The extracted-code checks used dependency-free record doubles; gate.json's 862 passing tests are supplied evidence.",
+    "Checked I1-I9: TEST-ONLY authoring, UNKNOWN preservation, append-only history, protected-file boundaries, pinned acceptability, unchanged epistemic records, provenance guards, worst-case aggregation and absence of probability arithmetic. No demonstrated violation.",
+    "Checked I10-I14 and I16: no runtime network/dependency additions, baseline-test weakening, public serializer expansion, deferred implementation or judge edits. Deterministic envelope behavior has a literal oracle.",
+    "I15 historical Git actions cannot be independently established from this folder. Supplied G14 reports unchanged remote main and pilot listing.",
+    "External claims were not independently verified outside the folder. research.json reports confirmation, but remains separate researcher-owned context.",
+    "Independently recomputed the patch SHA-256 and confirmed it matches diff_sha256.txt."
+  ]
+}

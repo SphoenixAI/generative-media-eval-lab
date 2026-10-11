@@ -1,0 +1,196 @@
+{
+  "step": 22,
+  "item": "L12-A1",
+  "summary": "All eight claims are confirmed by opened primary documentation. The ledger excerpt was empty. The last-18-month review found reinforcing Python 3.14 documentation and a contextual SQLite WAL corruption fix; neither establishes a required change to this step. Python 3.14's release date is documented by [Python.org](https://www.python.org/downloads/release/python-3140/). No landscape scan was required. Verification covers the supplied claims, not implementation correctness.",
+  "claims": [
+    {
+      "id": "R0022-C001",
+      "claim": "Python 3.12 sqlite3.connect with uri=True accepts a SQLite file URI with mode=ro to open a read-only database connection that rejects writes.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/sqlite3.html#how-to-work-with-sqlite-uris",
+          "title": "sqlite3 — DB-API 2.0 interface for SQLite databases — Python 3.12.15 documentation",
+          "accessed": "2026-10-10",
+          "quote": "sqlite3.connect(\"file:tutorial.db?mode=ro\", uri=True)\n…\nOperationalError: attempt to write a readonly database"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.14, released on the recorded date, retains the same read-only URI example and rejected-write behavior. This reinforces the claim and requires no step change.",
+        "url": "https://docs.python.org/3.14/library/sqlite3.html#how-to-work-with-sqlite-uris",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required. Retain uri=True with mode=ro; the write rejection applies to the database opened through that URI.",
+      "action_required": false
+    },
+    {
+      "id": "R0022-C002",
+      "claim": "After its first read establishes a snapshot, an explicit SQLite read transaction continues to see that snapshot rather than changes made by another connection until that transaction ends.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://sqlite.org/lang_transaction.html",
+          "title": "Transaction",
+          "accessed": "2026-10-10",
+          "quote": "While its read transaction is active, X will continue to see an historic snapshot of the database prior to the changes implemented by Y."
+        },
+        {
+          "url": "https://www.sqlite.org/wal.html",
+          "title": "Write-Ahead Logging",
+          "accessed": "2026-10-10",
+          "quote": "It is fixed in version 3.51.3 (2026-03-13) and later."
+        }
+      ],
+      "newer_practice": {
+        "summary": "SQLite 3.51.3 fixes a rare WAL corruption race involving simultaneous writes or checkpoints from separate connections. This is relevant maintenance guidance, but does not supersede snapshot semantics. The supplied inputs establish neither an affected runtime nor that concurrency pattern, so no step change is established.",
+        "url": "https://www.sqlite.org/wal.html",
+        "date": "2026-03-13"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required to the stated transaction design. Under normal SQLite isolation, the first database read establishes the snapshot and subsequent reads retain it until the transaction ends.",
+      "action_required": false
+    },
+    {
+      "id": "R0022-C003",
+      "claim": "Python 3.12 json decoding supplies each object's ordered name/value pairs to object_pairs_hook, permitting a caller to reject duplicate keys before constructing a dictionary.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/json.html#json.JSONDecoder",
+          "title": "json — JSON encoder and decoder — Python 3.12.15 documentation",
+          "accessed": "2026-10-10",
+          "quote": "an ordered list of pairs"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.14, released on the recorded date, preserves ordered-pair delivery and substitution of the hook's result for the dictionary. This reinforces the approach; no step change is required.",
+        "url": "https://docs.python.org/3.14/library/json.html#json.JSONDecoder",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required. The hook receives object pairs before dictionary replacement, so it can detect repeated names and raise before constructing its dictionary.",
+      "action_required": false
+    },
+    {
+      "id": "R0022-C004",
+      "claim": "Python 3.12 json decoding accepts NaN and infinity tokens by default, and parse_constant can reject those tokens while parse_float controls conversion of JSON fractional numbers.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/json.html#json.JSONDecoder",
+          "title": "json — JSON encoder and decoder — Python 3.12.15 documentation",
+          "accessed": "2026-10-10",
+          "quote": "parse_constant … '-Infinity', 'Infinity', 'NaN'. … every JSON float"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.14, released on the recorded date, retains default acceptance of these nonstandard constants and the same parse_constant and parse_float hooks. No superseding behavior or required step change was found.",
+        "url": "https://docs.python.org/3.14/library/json.html#json.JSONDecoder",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required. Retain a raising parse_constant callback for NaN, Infinity and -Infinity, and parse_float for ordinary JSON floating-point literals, including exponent notation. These hooks have distinct documented roles.",
+      "action_required": false
+    },
+    {
+      "id": "R0022-C005",
+      "claim": "Python 3.12 sqlite3.connect with uri=True accepts a SQLite file URI using mode=ro and rejects database writes.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/sqlite3.html#how-to-work-with-sqlite-uris",
+          "title": "sqlite3 — DB-API 2.0 interface for SQLite databases — Python 3.12.15 documentation",
+          "accessed": "2026-10-10",
+          "quote": "sqlite3.connect(\"file:tutorial.db?mode=ro\", uri=True)\n…\nOperationalError: attempt to write a readonly database"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.14, released on the recorded date, retains this exact URI mechanism and rejected-write example. This reinforces the evaluator's technical statement without requiring a step change.",
+        "url": "https://docs.python.org/3.14/library/sqlite3.html#how-to-work-with-sqlite-uris",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required to this evaluator statement. Official documentation confirms rejection of writes to the database opened read-only; this does not independently verify the implementation.",
+      "action_required": false
+    },
+    {
+      "id": "R0022-C006",
+      "claim": "After its first read establishes a snapshot, an explicit SQLite read transaction continues to see that snapshot until the transaction ends.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://sqlite.org/isolation.html",
+          "title": "Isolation In SQLite",
+          "accessed": "2026-10-10",
+          "quote": "Any write transactions that commit while the read transaction is active are still invisible to the read transaction"
+        },
+        {
+          "url": "https://www.sqlite.org/wal.html",
+          "title": "Write-Ahead Logging",
+          "accessed": "2026-10-10",
+          "quote": "It is fixed in version 3.51.3 (2026-03-13) and later."
+        }
+      ],
+      "newer_practice": {
+        "summary": "SQLite 3.51.3 fixes a rare WAL corruption race involving concurrent writers or checkpointers. It does not replace the documented snapshot guarantee. Applicability of that runtime defect is not established by the permitted inputs, so it creates no demonstrated change to this step.",
+        "url": "https://www.sqlite.org/wal.html",
+        "date": "2026-03-13"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required to the evaluator's transaction claim under normal SQLite isolation. Its factual correctness does not establish that the implementation actually keeps one transaction open across all relevant reads.",
+      "action_required": false
+    },
+    {
+      "id": "R0022-C007",
+      "claim": "Python 3.12 JSON decoding supplies ordered object name/value pairs to object_pairs_hook, permitting duplicate-key rejection before dictionary construction.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/json.html#json.JSONDecoder",
+          "title": "json — JSON encoder and decoder — Python 3.12.15 documentation",
+          "accessed": "2026-10-10",
+          "quote": "an ordered list of pairs"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.14, released on the recorded date, retains the same ordered-pair hook and replacement semantics. This reinforces the evaluator statement; no step change is required.",
+        "url": "https://docs.python.org/3.14/library/json.html#json.JSONDecoder",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required to the evaluator statement. Receiving pairs before dictionary replacement permits duplicate-name rejection; whether the supplied callback performs that rejection remains an implementation question.",
+      "action_required": false
+    },
+    {
+      "id": "R0022-C008",
+      "claim": "Python 3.12 JSON decoding accepts NaN and infinity tokens by default; parse_constant can reject them and parse_float controls fractional-number conversion.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/json.html#json.JSONDecoder",
+          "title": "json — JSON encoder and decoder — Python 3.12.15 documentation",
+          "accessed": "2026-10-10",
+          "quote": "parse_constant … '-Infinity', 'Infinity', 'NaN'. … every JSON float"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.14, released on the recorded date, documents the same default constants and parsing hooks. This is reinforcing evidence, with no required change to the step.",
+        "url": "https://docs.python.org/3.14/library/json.html#json.JSONDecoder",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required to the evaluator statement. parse_constant can raise for the three nonstandard tokens, while parse_float handles ordinary floating-point literals. The documentation confirms capability, not correct callback integration.",
+      "action_required": false
+    }
+  ],
+  "proposals": []
+}

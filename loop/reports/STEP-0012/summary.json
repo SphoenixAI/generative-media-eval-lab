@@ -1,0 +1,36 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 0,
+    "intention": 0,
+    "production_quality": 0,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "INTEGRATE",
+  "flags": [
+    "HASH_VERIFIED: Independently computed SHA-256 of diff.patch matches diff_sha256.txt.",
+    "INVARIANT_AUDIT: Checked I1-I16 against the complete diff and relevant integration paths. No demonstrated invariant violation found. Real-workspace and remote-main preservation rely on supplied G14 bookkeeping.",
+    "PUBLIC_PROSE",
+    "RESEARCH_PENDING: Six external method claims require independent source verification.",
+    "RUNTIME_LIMIT: Available python3 lacks Pydantic; the read-only evaluation folder contains no runnable dependency environment. Full tests and runtime mutation probes were not independently reproduced."
+  ],
+  "gate": true,
+  "item": "L05",
+  "passed": 786,
+  "research": {
+    "CONFIRMED": 12
+  },
+  "rounds": 1,
+  "rule": "R6",
+  "scores": {
+    "accuracy": 4,
+    "intention": 4,
+    "production_quality": 4,
+    "relation": 4,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 12
+}

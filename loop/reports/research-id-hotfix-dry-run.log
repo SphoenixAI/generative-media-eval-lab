@@ -1,0 +1,3 @@
+{"step_result": {"decision": "INTEGRATE", "rounds": 1, "rule": "R6", "stop": false}}
+{"stopped": "once complete", "runs": "/private/var/folders/b8/bm6vxlj9349fdz8n15ggc5q80000gn/T/eval-loop-dry-4ds1pr23/Content Evaluator - loop-runs"}
+{"dry_run": "PASS", "isolated_local_remote": true, "model_calls": 0, "decisions": [{"decision": "INTEGRATE", "rounds": 1, "rule": "R6", "stop": false}]}

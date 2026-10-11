@@ -1,0 +1,2631 @@
+{
+  "after_state": {
+    "events": [
+      {
+        "classification": "HARNESS_INFRASTRUCTURE_FAILURE",
+        "decision": "ABANDONED",
+        "historical_decision_sha256": "9969bd5e0118f12425307b87dacc2b86fa331f728ddf96f2aae1b5dca941e9ad",
+        "item": "L02",
+        "product_retry_charged": false,
+        "reason": "HARNESS_INFRASTRUCTURE_FAILURE: duplicate model-authored research claim ids",
+        "step": 2
+      },
+      {
+        "authorized_by": "Sphoenix direct instruction",
+        "classification": "HARNESS_POLICY_FALSE_REVERT",
+        "decision": "REVERT",
+        "historical_decision_sha256": "3e5ef3607a000099d440881d472fdff52eeeeb75ae894895ded785db4b90b2ad",
+        "item": "L02",
+        "product_retry_charged": false,
+        "reason": "HARNESS_POLICY_FALSE_REVERT: research actionability / enhancer resolution mismatch",
+        "retry_correction": {
+          "after": 1,
+          "before": 2
+        },
+        "rule": "R4",
+        "step": 5
+      },
+      {
+        "authorized_by": "Sphoenix, amendment A2, 2026-10-09",
+        "classification": "HARNESS_POLICY_FALSE_REVERT",
+        "decision": "REVERT",
+        "historical_decision_sha256": "00e05efb7d8b2ee6640f44949f897d80757c2dbbe26efed3c0453f78d438b4dc",
+        "item": "L04",
+        "product_retry_charged": false,
+        "reason": "HARNESS_POLICY_FALSE_REVERT: evaluator accuracy scored harness-written research bookkeeping",
+        "retry_correction": {
+          "after": 1,
+          "before": 2
+        },
+        "rule": "R3",
+        "step": 10
+      },
+      {
+        "after_step": 10,
+        "authorized_by": "Sphoenix, amendment A2, 2026-10-09",
+        "decision": "RESUME",
+        "event": "RESUME",
+        "product_retry_charged": false,
+        "reason": "A2 groups A-C validated; authorized recovery of L04",
+        "step": 10
+      },
+      {
+        "after_step": 19,
+        "authorized_by": "Sphoenix, 2026-10-10",
+        "decision": "RESUME",
+        "event": "RESUME",
+        "product_retry_charged": false,
+        "reason": "Step 0019 reviewed: genuine L12 I2 failure reverted; fail-closed contract, standing rule and R0P validated.",
+        "step": 19
+      },
+      {
+        "after_step": 28,
+        "authorized_by": "Sphoenix, 2026-10-10",
+        "decision": "RESUME",
+        "event": "RESUME",
+        "product_retry_charged": false,
+        "reason": "Steps 0027\u20130028 RF caused by the enhancer prompt-size harness defect, fixed in fa775547f6c1a0e8e42eeed8db4eb4831c244bd1; not Codex or product failures.",
+        "step": 28
+      },
+      {
+        "after_step": 32,
+        "authorized_by": "Sphoenix, 2026-10-10",
+        "decision": "RESUME",
+        "event": "RESUME",
+        "product_retry_charged": false,
+        "reason": "Human reviewed Step 0032. Authorize one bounded L12-A2d1 retry targeting the five unresolved evaluator findings. Prior R1 decisions and retry accounting remain unchanged.",
+        "step": 32
+      }
+    ],
+    "items": {
+      "L00": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L01": {
+        "reason": "H1 publication approved and completed.",
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L02": {
+        "retries": 1,
+        "status": "DONE"
+      },
+      "L03": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L04": {
+        "retries": 1,
+        "status": "DONE"
+      },
+      "L05": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L06": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L07": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L08": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L09": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L10": {
+        "retries": 1,
+        "status": "DONE"
+      },
+      "L11": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L12": {
+        "children": [
+          "L12-A",
+          "L12-B",
+          "L12-C"
+        ],
+        "retries": 1,
+        "status": "SPLIT"
+      },
+      "L12-A": {
+        "children": [
+          "L12-A1",
+          "L12-A2",
+          "L12-A3"
+        ],
+        "retries": 0,
+        "status": "SPLIT"
+      },
+      "L12-A1": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L12-A2": {
+        "children": [
+          "L12-A2a",
+          "L12-A2b",
+          "L12-A2c",
+          "L12-A2d"
+        ],
+        "retries": 1,
+        "status": "SPLIT"
+      },
+      "L12-A2a": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L12-A2b": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L12-A2c": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L12-A2d": {
+        "children": [
+          "L12-A2d1",
+          "L12-A2d2"
+        ],
+        "retries": 1,
+        "status": "SPLIT"
+      },
+      "L12-A2d1": {
+        "children": [
+          "L12-A2d1a",
+          "L12-A2d1b"
+        ],
+        "retries": 2,
+        "status": "SPLIT"
+      },
+      "L12-A2d1a": {
+        "retries": 0,
+        "status": "PENDING"
+      },
+      "L12-A2d1b": {
+        "retries": 0,
+        "status": "PENDING"
+      },
+      "P-HARNESS-IDS-01": {
+        "note": "implemented as operator work, amendment A2",
+        "retries": 0,
+        "status": "DONE"
+      }
+    },
+    "last_integrated_test_count": 5100,
+    "steps": [
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": -2,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Evaluation used supplied execution evidence and independent read-only comparisons; product and loop test suites were not rerun.",
+          "Original advisory stdout, elapsed-time measurement, and fresh version-probe logs are not included in this folder; their historical execution details could not be independently reproduced."
+        ],
+        "gate": true,
+        "item": "L00",
+        "passed": 209,
+        "research": {
+          "CONFIRMED": 1
+        },
+        "rounds": 1,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 1
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "ABANDONED",
+        "flags": [
+          "Independent full-suite execution unavailable: the available Python lacks Pydantic. Supplied gate results were inspected, not independently reproduced.",
+          "PUBLIC_PROSE"
+        ],
+        "gate": true,
+        "item": "L02",
+        "passed": 428,
+        "research": {},
+        "rounds": 1,
+        "rule": "ABANDONED",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 2
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "I1/I4/I10/I11/I14/I16: no real-media judgments, dependency edits, baseline-test weakening, protected-file edits, deferred implementation or judge-code changes appear in the diff. All 16 locally supplied protected hashes matched.",
+          "I15: no Git-changing implementation appears in the diff. Remote/main state was not independently inspected under the folder-only restriction.",
+          "I2/I5/I6/I7/I8/I9/I12: inspected affected paths and the public presentation allowlist. The change adds no automatic acceptability judgment, policy mutation, averaging, probability arithmetic or public binding serialization.",
+          "I3/I13: exact predecessor pins and append-only storage remain intact; explicit evidence supports deterministic classification. The blocking finding concerns omitted snapshot roots, not overwritten history.",
+          "Independent validation comprised source inspection, complete diff/tree comparison, hash checks, in-memory compilation, independent ordering enumeration and extracted-function probes. The supplied gate reports 373 passing tests; that runtime result was not independently reproduced.",
+          "PUBLIC_PROSE",
+          "PUBLIC_PROSE: both changed documentation files require the designated human review.",
+          "The PostgreSQL documentation now explicitly leaves repository readiness unestablished; its dialect-capability claim remains listed for external research.",
+          "The report retains a claim that an earlier advisory attempt failed G6. Current gate.json reports G6 passing; the controller must account for the rubric's any-round G6 rule using authoritative history."
+        ],
+        "gate": true,
+        "item": "L02",
+        "passed": 373,
+        "research": {
+          "CONFIRMED": 6,
+          "UNVERIFIABLE": 1
+        },
+        "rounds": 2,
+        "rule": "R3",
+        "scores": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 3
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "External research claims were inventoried but not independently sourced under the folder-only restriction.",
+          "I1/I2/I5-I9: inspected structural residual construction, synthetic fixtures, claims-only relations, unchanged confidence and UNKNOWN behavior; no automatic real-media judgment found.",
+          "I15 and external I1 state: gate.json reports unchanged remote main and pilot listing. Those external states were not accessed under the folder-only restriction.",
+          "I3/I13: inspected append-only persistence, predecessor pins and deterministic round-trip tests; verified recorded source/test and Plan hashes.",
+          "I4/I10/I11/I12/I14/I16: checked protected hashes, changed paths, dependencies, existing tests, public allowlist and deferred scope; no violation found.",
+          "Independent runtime and mutation-test execution unavailable: available Python 3.14.7 raises ModuleNotFoundError for pydantic. Supplied passing results are not independently reproduced.",
+          "PUBLIC_PROSE"
+        ],
+        "gate": true,
+        "item": "L07",
+        "passed": 251,
+        "research": {
+          "CONFIRMED": 1
+        },
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 4
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 1,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "External claims remain assigned to research. Embedded research confirmations and builder self-assessments were not accepted as independent proof.",
+          "Independent execution covered extracted classifier/admission logic and structural/hash checks only. Pydantic, repository transactions, concurrency, media and full pytest execution were not independently rerun.",
+          "No files were modified.",
+          "PUBLIC_PROSE",
+          "The supplied gate reports 460 passing tests; that is supplied evidence, not an independently reproduced result."
+        ],
+        "gate": true,
+        "item": "L02",
+        "passed": 460,
+        "research": {
+          "CONFIRMED": 8
+        },
+        "rounds": 2,
+        "rule": "R4",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 5
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 1,
+          "intention": 1,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Extracted-function checks used lightweight stand-ins and do not establish Pydantic validation, SQL concurrency or actual media-workspace execution.",
+          "Full pytest and the builder's reported validation mutations were not independently reproduced: Pydantic, SQLAlchemy and pytest are unavailable.",
+          "HOME_PATH",
+          "HOME_PATH: tree/loop/reports/STEP-0006-L02.md:204 contains absolute local paths.",
+          "Minor test weakness: tree/tests/test_intent_v2.py:201-202 can reject the initial-predecessor case for an unrelated immutable-revision conflict.",
+          "PUBLIC_PROSE",
+          "The supplied gate reports 460 passing tests; this was treated as reported evidence only."
+        ],
+        "gate": true,
+        "item": "L02",
+        "passed": 460,
+        "research": {
+          "CONFIRMED": 8
+        },
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 3,
+          "intention": 4,
+          "production_quality": 3,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 6
+      },
+      {
+        "auto_approved": [
+          "P0007-1"
+        ],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "HOME_PATH",
+          "HOME_PATH: The private step report contains local absolute paths.",
+          "MINOR: tree/src/eval_lab/seals.py:135 validates unrelated rows before path filtering. Unknown IDs and unrelated paths can report INTEGRITY_FAILURE due to an unrelated corrupt seal. This round-1 minor issue remains.",
+          "PUBLIC_PROSE",
+          "PUBLIC_PROSE: tree/docs/intent-seals.md adds public documentation.",
+          "RESEARCH_PENDING: Outside sources were not accessed under the folder-only restriction. The report's research confirmations and release claims remain untrusted source assertions.",
+          "VALIDATION_LIMITATION: 45 canonicalization cases ran through an assertion adapter, not pytest. Verification and snapshot probes executed actual extracted functions with mocked boundaries. Full model, persistence, media and CLI tests were not rerun."
+        ],
+        "gate": true,
+        "item": "L03",
+        "passed": 548,
+        "research": {
+          "CONFIRMED": 25,
+          "UNVERIFIABLE": 1
+        },
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 3,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 7
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "INVARIANT_AUDIT: checked I1-I16. No demonstrated violation: no real human judgments are authored; UNKNOWN remains separate; append-only guards and provenance nonpromotion remain; protected artifacts, evaluation logic, confidence arithmetic, dependencies, baseline tests and public serializers are unchanged. All DEFERRED items were checked. Historical Git actions cannot be independently established from this folder.",
+          "PUBLIC_PROSE",
+          "PUBLIC_PROSE: generation-plans.md and pilot0.md changed.",
+          "RESEARCH_BOUNDARY: outside claims were extracted without accessing material outside the evaluator folder.",
+          "RUNTIME_TESTS_NOT_EXECUTED: available Python lacks pydantic, sqlalchemy and pytest. Supplied passing gate results remain builder-provided evidence."
+        ],
+        "gate": true,
+        "item": "L04",
+        "passed": 638,
+        "research": {
+          "CONFIRMED": 12
+        },
+        "rounds": 2,
+        "rule": "R3",
+        "scores": {
+          "accuracy": 4,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 8
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 1,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Independent pytest execution unavailable: the accessible interpreter lacks pytest, Pydantic and SQLAlchemy. Supplied gate results and the reported mutation experiment were not independently rerun.",
+          "Lint remains assigned to L12 in tree/loop/backlog.toml:209; no existing lint integration point was found.",
+          "PUBLIC_PROSE",
+          "PUBLIC_PROSE: tree/docs/relations-v2.md.",
+          "The snapshot proposal is outside the sealed implementation file list and remains unimplemented. Its deferral is not accepted as satisfaction of the explicit snapshot requirement."
+        ],
+        "gate": true,
+        "item": "L11",
+        "passed": 700,
+        "research": {},
+        "rounds": 2,
+        "rule": "RF",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 2,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 9
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Checked I1-I16 against the diff and relevant code paths: no demonstrated invariant violation. No real-media authoring, UNKNOWN conversion, history overwrite, protected/harness edit, judgment-engine change, new runtime network/dependency, test weakening, public exposure or DEFERRED implementation was found. External Git state was not verified.",
+          "External claims remain research requests; nothing outside the supplied folder was read. The report also embeds a builder self-assessment; its scores were not used as evidence.",
+          "Independent validation comprised full diff/file inspection, Python syntax parsing, hash and size checks, and execution of extracted parsing guards. The supplied 674-test pass and mutation results were not independently reproduced.",
+          "MINOR_TEST_ORACLE_GAP: Add a literal expected candidate-order assertion after construction and reopen; existing selection comparisons cannot detect input reordering.",
+          "PUBLIC_PROSE"
+        ],
+        "gate": true,
+        "item": "L04",
+        "passed": 674,
+        "research": {
+          "CONFIRMED": 14,
+          "UNVERIFIABLE": 2
+        },
+        "rounds": 2,
+        "rule": "R3",
+        "scores": {
+          "accuracy": 2,
+          "intention": 4,
+          "production_quality": 3,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 10
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": -1,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "INVARIANT_AUDIT: Checked I1-I16 against the diff and relevant integration paths. No demonstrated real-judgment authoring, UNKNOWN conversion, history overwrite, protected/judge edit, measurement/acceptability conflation, policy/evaluation coupling, prohibited provenance promotion, averaging, probability arithmetic, runtime network/dependency addition, existing-test weakening, public exposure or DEFERRED implementation. Historical Git actions were not independently verified.",
+          "PRIOR_ATTEMPTS_AUDIT: The sealed Plan still lacks an explicit finding-by-finding Prior attempts mapping. Compared all supplied earlier L04 findings directly: Step 8 nested JSON, cross-origin lineage, forged-context masking and selection masking have targeted coverage; Step 10 malformed collection shapes and candidate-order coverage are addressed.",
+          "PUBLIC_PROSE",
+          "RESEARCH_BOUNDARY: External claims retain canonical research IDs. Supplied researcher verdicts were context, not independent verification or builder-authored accuracy evidence.",
+          "RUNTIME_LIMIT: The supplied gate reports 698 passing tests. Full pytest and repository-level mutation results were not independently reproduced because the available environment lacks Pydantic, SQLAlchemy and pytest. Independent execution covered extracted functions only."
+        ],
+        "gate": true,
+        "item": "L04",
+        "passed": 698,
+        "research": {
+          "CONFIRMED": 16,
+          "UNVERIFIABLE": 1
+        },
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 3,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 11
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "HASH_VERIFIED: Independently computed SHA-256 of diff.patch matches diff_sha256.txt.",
+          "INVARIANT_AUDIT: Checked I1-I16 against the complete diff and relevant integration paths. No demonstrated invariant violation found. Real-workspace and remote-main preservation rely on supplied G14 bookkeeping.",
+          "PUBLIC_PROSE",
+          "RESEARCH_PENDING: Six external method claims require independent source verification.",
+          "RUNTIME_LIMIT: Available python3 lacks Pydantic; the read-only evaluation folder contains no runnable dependency environment. Full tests and runtime mutation probes were not independently reproduced."
+        ],
+        "gate": true,
+        "item": "L05",
+        "passed": 786,
+        "research": {
+          "CONFIRMED": 12
+        },
+        "rounds": 1,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 12
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Checked I1-I9: TEST-ONLY authoring, UNKNOWN preservation, append-only history, protected-file boundaries, pinned acceptability, unchanged epistemic records, provenance guards, worst-case aggregation and absence of probability arithmetic. No demonstrated violation.",
+          "Checked I10-I14 and I16: no runtime network/dependency additions, baseline-test weakening, public serializer expansion, deferred implementation or judge edits. Deterministic envelope behavior has a literal oracle.",
+          "External claims were not independently verified outside the folder. research.json reports confirmation, but remains separate researcher-owned context.",
+          "I15 historical Git actions cannot be independently established from this folder. Supplied G14 reports unchanged remote main and pilot listing.",
+          "Independent execution did not cover Pydantic validation, repository integration or full pytest fixtures. The extracted-code checks used dependency-free record doubles; gate.json's 862 passing tests are supplied evidence.",
+          "Independently recomputed the patch SHA-256 and confirmed it matches diff_sha256.txt.",
+          "PUBLIC_PROSE"
+        ],
+        "gate": true,
+        "item": "L06",
+        "passed": 862,
+        "research": {
+          "CONFIRMED": 12
+        },
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 13
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Independent validation limitation: available Python lacks Pydantic, SQLAlchemy and pytest. Full product suites were not rerun; gate.json's 970 passing tests remain supplied evidence. Executed probes covered extracted functions, not the complete application.",
+          "PUBLIC_PROSE",
+          "Reviewed I1-I16 against the diff and relevant integration paths; no invariant violation demonstrated. Historical Git actions and external runtime state were not independently verified."
+        ],
+        "gate": true,
+        "item": "L08",
+        "passed": 970,
+        "research": {
+          "CONFIRMED": 6
+        },
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 14
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Independent full-suite execution unavailable: default Python lacks Pydantic, and the supplied tree contains no virtual environment.",
+          "PUBLIC_PROSE",
+          "The independent executable check exercised the actual roots() function with stand-in records and a mutation control; complete repository admission and snapshot replay were assessed by source inspection, not independently executed."
+        ],
+        "gate": true,
+        "item": "L09",
+        "passed": 1040,
+        "research": {},
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 15
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Computed diff.patch SHA-256 matches diff_sha256.txt.",
+          "Independent full-suite execution was unavailable: accessible Python lacks pydantic, and the workspace is read-only. gate.json reports 1125 passing tests; that count was not independently reproduced.",
+          "Independently parsed all changed Python files and executed the extracted timestamp-receipt function: identical identities remain stable, while timestamp and revision changes invalidate the receipt. This did not execute Pydantic or repository admission.",
+          "PUBLIC_PROSE",
+          "tests/test_resolution_workflow.py:157-175 does not independently prove run-revision collapse: its rejection repeats the same submitted evidence, and the original link sorts before the revision alias. A revision-sensitive unit implementation could still pass that rejection case."
+        ],
+        "gate": true,
+        "item": "L10",
+        "passed": 1125,
+        "research": {},
+        "rounds": 2,
+        "rule": "R3",
+        "scores": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 16
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 1,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "FILE-LIST VARIANCE: tree/src/eval_lab/pilot_cli.py was not in the sealed Plan's estimated file list; its changes are limited to snapshot/export help.",
+          "Independent pytest execution was unavailable; supplied gate results are reported evidence, not an independent rerun.",
+          "Lint integration remains assigned to L12; no existing lint integration point was found.",
+          "MINOR TEST GAP: direct-reference discovery needs an assertion that cannot also pass through intent/media matching.",
+          "PUBLIC_PROSE",
+          "PUBLIC_PROSE: tree/docs/relations-v2.md."
+        ],
+        "gate": true,
+        "item": "L11",
+        "passed": 1112,
+        "research": {},
+        "rounds": 1,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 3,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 17
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Independent runtime and mutation suites were not executed: available Python lacks pytest, Pydantic and SQLAlchemy, and the evaluation workspace is read-only. gate.json reports 1214 passing tests; that result is supplied evidence, not independently reproduced.",
+          "Minor oracle limitation: tests/test_resolution_workflow.py:164-169 can reject through repeated Evidence identity even if later instrument-run revisions receive incorrect unit identities.",
+          "PUBLIC_PROSE"
+        ],
+        "gate": true,
+        "item": "L10",
+        "passed": 1214,
+        "research": {},
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 3,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 18
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 4,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "HASH: Independently recomputed diff.patch SHA-256 and matched diff_sha256.txt.",
+          "INVARIANTS: Demonstrated I2 violations. Inspected I1 and I3-I16 against the diff and integration paths; found no additional violation. Historical Git actions and real-media behavior were not independently verified.",
+          "PRIOR_ATTEMPTS: Earlier supplied step reports contain no L12 attempt, consistent with the sealed Plan's original empty mapping. Checked all four current round-1 findings separately.",
+          "PUBLIC_PROSE",
+          "VALIDATION: Independently ran 67 tests, 13 in-memory rule-removal mutations, admission-validator deletion checks and retained-query adversarial probes. Twelve filesystem/media workflow cases were inspected but not rerun under the read-only sandbox. The supplied gate reports 1,293 passing tests; that is separate evidence."
+        ],
+        "gate": true,
+        "item": "L12",
+        "passed": 1293,
+        "research": {
+          "UNVERIFIABLE": 1
+        },
+        "rounds": 2,
+        "rule": "R0",
+        "scores": {
+          "accuracy": 2,
+          "intention": 0,
+          "production_quality": 2,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 19
+      },
+      {
+        "auto_approved": [],
+        "calibration": {},
+        "decision": "SPLIT",
+        "flags": [],
+        "gate": false,
+        "item": "L12",
+        "passed": 0,
+        "research": {},
+        "rounds": 1,
+        "rule": "SPLIT",
+        "scores": {},
+        "step": 20
+      },
+      {
+        "auto_approved": [],
+        "calibration": {},
+        "decision": "SPLIT",
+        "flags": [],
+        "gate": false,
+        "item": "L12-A",
+        "passed": 0,
+        "research": {},
+        "rounds": 1,
+        "rule": "SPLIT",
+        "scores": {},
+        "step": 21
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Independent full-suite execution was unavailable: the accessible Python lacks SQLAlchemy, and filesystem permissions are read-only. In-memory checks used isolated imports and a lightweight test runner; they do not establish full application integration or filesystem snapshot behavior.",
+          "Scope of acceptance is L12-A1 only. All-rule declarations, exhaustive rule contracts, ready=false integration and snapshot persistence remain obligations of the approved later children."
+        ],
+        "gate": true,
+        "item": "L12-A1",
+        "passed": 1391,
+        "research": {
+          "CONFIRMED": 8
+        },
+        "rounds": 1,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 22
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 0,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Independently computed the diff SHA-256 and confirmed it matches diff_sha256.txt.",
+          "Reviewed I1-I16 against changed paths and behavior. The preparation gaps threaten evidence and provenance guarantees, but this layer emits no readiness or verdict result; no score-zero invariant violation is asserted. No authored-history writes, judgment creation, aggregation, probability arithmetic, runtime network access, public serializer changes, weakened existing tests, deferred implementation or harness edits were found.",
+          "The attachment probes executed actual preparation/reader functions with repository-supplied schemas and equivalent substitutes for selected MediaAsset/Evidence fields. They are isolated standard-library checks, not full installed-package integration tests.",
+          "The supplied gate reports 1505 passing tests. This is harness evidence; the full suite was not independently rerun."
+        ],
+        "gate": true,
+        "item": "L12-A2",
+        "passed": 1505,
+        "research": {},
+        "rounds": 2,
+        "rule": "R3",
+        "scores": {
+          "accuracy": 4,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 23
+      },
+      {
+        "auto_approved": [],
+        "calibration": {},
+        "decision": "SPLIT",
+        "flags": [],
+        "gate": false,
+        "item": "L12-A2",
+        "passed": 0,
+        "research": {},
+        "rounds": 1,
+        "rule": "SPLIT",
+        "scores": {},
+        "step": 24
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Full pytest was not independently rerun: the available interpreter lacks pytest, pydantic and SQLAlchemy. The supplied gate reports 1858 passing tests.",
+          "Independent replays used lightweight pytest substitutes, a limited artifact-kind registry and actual reader methods with in-memory SQLite. They do not establish filesystem transaction behavior or full installed-package integration.",
+          "Independently computed the diff SHA-256 and confirmed it matches diff_sha256.txt.",
+          "Reviewed I1-I16 against the patch. No real judgment creation, authored-history writes, operational verdicts, aggregation, probability arithmetic, runtime network access, public serialization changes, existing-test weakening, deferred implementation or judge edits were found. Live main and pilot-local integrity were not independently inspected outside the permitted folder."
+        ],
+        "gate": true,
+        "item": "L12-A2a",
+        "passed": 1858,
+        "research": {},
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 25
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Full pytest was not independently executed: the available interpreter lacks pytest. The supplied gate reports 2955 passing tests.",
+          "Independent replays used actual preparation/reader/test bodies with a lightweight pytest substitute and substituted artifact-kind registry. SQLite checks used in-memory databases. Repository-admitted representative tests and retained filesystem preservation were not independently executed.",
+          "Independently computed the diff SHA-256 and confirmed it matches diff_sha256.txt.",
+          "Reviewed I1-I16 against the changed code and paths. No real judgment/history writes, UNKNOWN-to-clean conversion, protected artifact changes, intent/measurement conflation, operational mutation, averaging, probability arithmetic, runtime network dependency, test weakening, public serialization change, unsupported determinism claim, deferred implementation or judge edit was established. Main and external filesystem integrity were not independently verified."
+        ],
+        "gate": true,
+        "item": "L12-A2b",
+        "passed": 2955,
+        "research": {},
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 26
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Isolated probes executed repository preparation and reader functions with a substituted artifact-kind registry and repository-derived Dimension enum. SQLite used an in-memory retained table; seal parsing was not exercised. These probes are not full installed-package integration tests.",
+          "Reviewed I1-I16 against the changed paths and relevant behavior. Found no authored-history writes, human judgment creation, readiness/verdict emission, policy execution, aggregation, probability arithmetic, runtime networking, public serialization changes, existing-test weakening, deferred work or harness edits. No score-zero invariant violation is asserted.",
+          "The supplied gate reports 5088 passing tests. These are harness results, not an independently rerun suite."
+        ],
+        "gate": true,
+        "item": "L12-A2c",
+        "passed": 5088,
+        "research": {
+          "CONFIRMED": 2
+        },
+        "rounds": 1,
+        "rule": "RF",
+        "scores": {
+          "accuracy": 4,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 27
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Available Python lacks pytest. Independent checks used actual reader/preparation functions in a standard-library harness with a supplied artifact-name registry and the locally extracted Dimension enum. SQLite checks were in-memory; they did not exercise RawReader.__enter__, on-disk preservation, Pydantic seal validation or the full admitted-model suite."
+        ],
+        "gate": true,
+        "item": "L12-A2c",
+        "passed": 5100,
+        "research": {
+          "CONFIRMED": 2,
+          "UNVERIFIABLE": 9
+        },
+        "rounds": 1,
+        "rule": "RF",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 28
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Independent pytest execution was unavailable: the accessible Python interpreter lacks pytest, Pydantic and SQLAlchemy. Test outcomes cited here are supplied gate evidence; assertions and mutation controls were independently inspected."
+        ],
+        "gate": true,
+        "item": "L12-A2c",
+        "passed": 5100,
+        "research": {
+          "CONFIRMED": 2
+        },
+        "rounds": 1,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 29
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 1,
+          "production_quality": 1,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Independent executions used actual preparation, reader, canonicalization and test functions with substituted import wiring, an artifact-kind registry and manual parameterization. SQLite databases were in memory with query_only enabled. These checks do not establish installed-package or on-disk retained integration.",
+          "Reviewed I1-I16 against the diff and relevant behavior. No score-zero invariant violation is established: the change adds private partial preparation without judgment authoring, history writes, operational decisions, averaging, probability arithmetic, runtime networking, public serialization, test weakening, deferred implementation or harness modification.",
+          "Supplied gate.json also reports blocking G12 approval failure. Its G5/G6/G14 checks pass, but external repository and filesystem state was not independently inspected outside the permitted folder.",
+          "The accessible Python lacks pytest, pydantic and SQLAlchemy. Full-suite results are supplied gate evidence, not an independently rerun suite."
+        ],
+        "gate": false,
+        "item": "L12-A2d",
+        "passed": 6179,
+        "research": {
+          "CONFIRMED": 2
+        },
+        "rounds": 2,
+        "rule": "R1",
+        "scores": {
+          "accuracy": 4,
+          "intention": 1,
+          "production_quality": 1,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 30
+      },
+      {
+        "auto_approved": [],
+        "calibration": {},
+        "decision": "SPLIT",
+        "flags": [],
+        "gate": false,
+        "item": "L12-A2d",
+        "passed": 0,
+        "research": {},
+        "rounds": 1,
+        "rule": "SPLIT",
+        "scores": {},
+        "step": 31
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": -1,
+          "intention": 0,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": -2,
+          "scope": -1
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Full pytest execution was unavailable: the accessible interpreter lacks pytest, pydantic and sqlalchemy. Independent probes executed actual boundary, reader, preparation and accounting code with unavailable imports stubbed; SQLite probes were in-memory, not on-disk retained tests.",
+          "Recomputed diff.patch SHA-256 and confirmed it matches diff_sha256.txt.",
+          "Reviewed I1-I16 against the diff and supplied evidence. No demonstrated invariant violation warrants a zero score. External main/pilot-local state was not independently inspected."
+        ],
+        "gate": false,
+        "item": "L12-A2d1",
+        "passed": 5252,
+        "research": {},
+        "rounds": 2,
+        "rule": "R1",
+        "scores": {
+          "accuracy": 4,
+          "intention": 1,
+          "production_quality": 1,
+          "relation": 2,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 32
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": -1,
+          "intention": 2,
+          "production_quality": 1,
+          "relation": 1,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Independent probes executed actual boundary, reader and accounting source with unavailable registration/model imports substituted. SQLite probes used in-memory databases and actual RawReader methods; they do not verify the on-disk read-only session lifecycle.",
+          "Independently verified the patch SHA-256 and exact contents of all changed files.",
+          "Reviewed I1-I16 against the changed paths and behavior. Found no real judgment creation, authored-history mutation, protected/harness edit, existing-test weakening, network dependency, public serializer change, deferred implementation or Git action. Complete semantic support remains denied; no score-zero invariant violation is asserted.",
+          "The enhancer's REJECTED_WITH_REASON entries acknowledge valid unresolved findings and an unapplied repair. They do not justify REJECTION_ACCEPTED or DEFERRAL_ACCEPTED.",
+          "The supplied gate reports 5485 passing tests. Full pytest was not independently runnable because the available Python lacks pytest and project dependencies."
+        ],
+        "gate": true,
+        "item": "L12-A2d1",
+        "passed": 5485,
+        "research": {},
+        "rounds": 2,
+        "rule": "R2",
+        "scores": {
+          "accuracy": 4,
+          "intention": 1,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 33
+      }
+    ]
+  },
+  "authorization": {
+    "authorized_by": "Sphoenix, 2026-10-10",
+    "reason": "Pinned controller contract reviewed 2026-10-11; register the approved decomposition, preserving Step 0033 REVERT/R2 and all retry accounting; no child execution."
+  },
+  "backlog_after_sha256": "7c98f95c09a5c9dde1f2b8aac06b593a5ffa1634e39610903fa4819b246f74c8",
+  "backlog_before_sha256": "38588a2ca78ce98d1a93fdfc99bafb5bdb41ce78ec0e817b5068c19b63a5809c",
+  "base_commit": "952106d8a9ccaa6059b6f21c4edf85973623283a",
+  "before_state": {
+    "events": [
+      {
+        "classification": "HARNESS_INFRASTRUCTURE_FAILURE",
+        "decision": "ABANDONED",
+        "historical_decision_sha256": "9969bd5e0118f12425307b87dacc2b86fa331f728ddf96f2aae1b5dca941e9ad",
+        "item": "L02",
+        "product_retry_charged": false,
+        "reason": "HARNESS_INFRASTRUCTURE_FAILURE: duplicate model-authored research claim ids",
+        "step": 2
+      },
+      {
+        "authorized_by": "Sphoenix direct instruction",
+        "classification": "HARNESS_POLICY_FALSE_REVERT",
+        "decision": "REVERT",
+        "historical_decision_sha256": "3e5ef3607a000099d440881d472fdff52eeeeb75ae894895ded785db4b90b2ad",
+        "item": "L02",
+        "product_retry_charged": false,
+        "reason": "HARNESS_POLICY_FALSE_REVERT: research actionability / enhancer resolution mismatch",
+        "retry_correction": {
+          "after": 1,
+          "before": 2
+        },
+        "rule": "R4",
+        "step": 5
+      },
+      {
+        "authorized_by": "Sphoenix, amendment A2, 2026-10-09",
+        "classification": "HARNESS_POLICY_FALSE_REVERT",
+        "decision": "REVERT",
+        "historical_decision_sha256": "00e05efb7d8b2ee6640f44949f897d80757c2dbbe26efed3c0453f78d438b4dc",
+        "item": "L04",
+        "product_retry_charged": false,
+        "reason": "HARNESS_POLICY_FALSE_REVERT: evaluator accuracy scored harness-written research bookkeeping",
+        "retry_correction": {
+          "after": 1,
+          "before": 2
+        },
+        "rule": "R3",
+        "step": 10
+      },
+      {
+        "after_step": 10,
+        "authorized_by": "Sphoenix, amendment A2, 2026-10-09",
+        "decision": "RESUME",
+        "event": "RESUME",
+        "product_retry_charged": false,
+        "reason": "A2 groups A-C validated; authorized recovery of L04",
+        "step": 10
+      },
+      {
+        "after_step": 19,
+        "authorized_by": "Sphoenix, 2026-10-10",
+        "decision": "RESUME",
+        "event": "RESUME",
+        "product_retry_charged": false,
+        "reason": "Step 0019 reviewed: genuine L12 I2 failure reverted; fail-closed contract, standing rule and R0P validated.",
+        "step": 19
+      },
+      {
+        "after_step": 28,
+        "authorized_by": "Sphoenix, 2026-10-10",
+        "decision": "RESUME",
+        "event": "RESUME",
+        "product_retry_charged": false,
+        "reason": "Steps 0027\u20130028 RF caused by the enhancer prompt-size harness defect, fixed in fa775547f6c1a0e8e42eeed8db4eb4831c244bd1; not Codex or product failures.",
+        "step": 28
+      },
+      {
+        "after_step": 32,
+        "authorized_by": "Sphoenix, 2026-10-10",
+        "decision": "RESUME",
+        "event": "RESUME",
+        "product_retry_charged": false,
+        "reason": "Human reviewed Step 0032. Authorize one bounded L12-A2d1 retry targeting the five unresolved evaluator findings. Prior R1 decisions and retry accounting remain unchanged.",
+        "step": 32
+      }
+    ],
+    "items": {
+      "L00": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L01": {
+        "reason": "H1 publication approved and completed.",
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L02": {
+        "retries": 1,
+        "status": "DONE"
+      },
+      "L03": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L04": {
+        "retries": 1,
+        "status": "DONE"
+      },
+      "L05": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L06": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L07": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L08": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L09": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L10": {
+        "retries": 1,
+        "status": "DONE"
+      },
+      "L11": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L12": {
+        "children": [
+          "L12-A",
+          "L12-B",
+          "L12-C"
+        ],
+        "retries": 1,
+        "status": "SPLIT"
+      },
+      "L12-A": {
+        "children": [
+          "L12-A1",
+          "L12-A2",
+          "L12-A3"
+        ],
+        "retries": 0,
+        "status": "SPLIT"
+      },
+      "L12-A1": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L12-A2": {
+        "children": [
+          "L12-A2a",
+          "L12-A2b",
+          "L12-A2c",
+          "L12-A2d"
+        ],
+        "retries": 1,
+        "status": "SPLIT"
+      },
+      "L12-A2a": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L12-A2b": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L12-A2c": {
+        "retries": 0,
+        "status": "DONE"
+      },
+      "L12-A2d": {
+        "children": [
+          "L12-A2d1",
+          "L12-A2d2"
+        ],
+        "retries": 1,
+        "status": "SPLIT"
+      },
+      "L12-A2d1": {
+        "retries": 2,
+        "status": "BLOCKED"
+      },
+      "P-HARNESS-IDS-01": {
+        "note": "implemented as operator work, amendment A2",
+        "retries": 0,
+        "status": "DONE"
+      }
+    },
+    "last_integrated_test_count": 5100,
+    "steps": [
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": -2,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Evaluation used supplied execution evidence and independent read-only comparisons; product and loop test suites were not rerun.",
+          "Original advisory stdout, elapsed-time measurement, and fresh version-probe logs are not included in this folder; their historical execution details could not be independently reproduced."
+        ],
+        "gate": true,
+        "item": "L00",
+        "passed": 209,
+        "research": {
+          "CONFIRMED": 1
+        },
+        "rounds": 1,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 1
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "ABANDONED",
+        "flags": [
+          "Independent full-suite execution unavailable: the available Python lacks Pydantic. Supplied gate results were inspected, not independently reproduced.",
+          "PUBLIC_PROSE"
+        ],
+        "gate": true,
+        "item": "L02",
+        "passed": 428,
+        "research": {},
+        "rounds": 1,
+        "rule": "ABANDONED",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 2
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "I1/I4/I10/I11/I14/I16: no real-media judgments, dependency edits, baseline-test weakening, protected-file edits, deferred implementation or judge-code changes appear in the diff. All 16 locally supplied protected hashes matched.",
+          "I15: no Git-changing implementation appears in the diff. Remote/main state was not independently inspected under the folder-only restriction.",
+          "I2/I5/I6/I7/I8/I9/I12: inspected affected paths and the public presentation allowlist. The change adds no automatic acceptability judgment, policy mutation, averaging, probability arithmetic or public binding serialization.",
+          "I3/I13: exact predecessor pins and append-only storage remain intact; explicit evidence supports deterministic classification. The blocking finding concerns omitted snapshot roots, not overwritten history.",
+          "Independent validation comprised source inspection, complete diff/tree comparison, hash checks, in-memory compilation, independent ordering enumeration and extracted-function probes. The supplied gate reports 373 passing tests; that runtime result was not independently reproduced.",
+          "PUBLIC_PROSE",
+          "PUBLIC_PROSE: both changed documentation files require the designated human review.",
+          "The PostgreSQL documentation now explicitly leaves repository readiness unestablished; its dialect-capability claim remains listed for external research.",
+          "The report retains a claim that an earlier advisory attempt failed G6. Current gate.json reports G6 passing; the controller must account for the rubric's any-round G6 rule using authoritative history."
+        ],
+        "gate": true,
+        "item": "L02",
+        "passed": 373,
+        "research": {
+          "CONFIRMED": 6,
+          "UNVERIFIABLE": 1
+        },
+        "rounds": 2,
+        "rule": "R3",
+        "scores": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 3
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "External research claims were inventoried but not independently sourced under the folder-only restriction.",
+          "I1/I2/I5-I9: inspected structural residual construction, synthetic fixtures, claims-only relations, unchanged confidence and UNKNOWN behavior; no automatic real-media judgment found.",
+          "I15 and external I1 state: gate.json reports unchanged remote main and pilot listing. Those external states were not accessed under the folder-only restriction.",
+          "I3/I13: inspected append-only persistence, predecessor pins and deterministic round-trip tests; verified recorded source/test and Plan hashes.",
+          "I4/I10/I11/I12/I14/I16: checked protected hashes, changed paths, dependencies, existing tests, public allowlist and deferred scope; no violation found.",
+          "Independent runtime and mutation-test execution unavailable: available Python 3.14.7 raises ModuleNotFoundError for pydantic. Supplied passing results are not independently reproduced.",
+          "PUBLIC_PROSE"
+        ],
+        "gate": true,
+        "item": "L07",
+        "passed": 251,
+        "research": {
+          "CONFIRMED": 1
+        },
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 4
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 1,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "External claims remain assigned to research. Embedded research confirmations and builder self-assessments were not accepted as independent proof.",
+          "Independent execution covered extracted classifier/admission logic and structural/hash checks only. Pydantic, repository transactions, concurrency, media and full pytest execution were not independently rerun.",
+          "No files were modified.",
+          "PUBLIC_PROSE",
+          "The supplied gate reports 460 passing tests; that is supplied evidence, not an independently reproduced result."
+        ],
+        "gate": true,
+        "item": "L02",
+        "passed": 460,
+        "research": {
+          "CONFIRMED": 8
+        },
+        "rounds": 2,
+        "rule": "R4",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 5
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 1,
+          "intention": 1,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Extracted-function checks used lightweight stand-ins and do not establish Pydantic validation, SQL concurrency or actual media-workspace execution.",
+          "Full pytest and the builder's reported validation mutations were not independently reproduced: Pydantic, SQLAlchemy and pytest are unavailable.",
+          "HOME_PATH",
+          "HOME_PATH: tree/loop/reports/STEP-0006-L02.md:204 contains absolute local paths.",
+          "Minor test weakness: tree/tests/test_intent_v2.py:201-202 can reject the initial-predecessor case for an unrelated immutable-revision conflict.",
+          "PUBLIC_PROSE",
+          "The supplied gate reports 460 passing tests; this was treated as reported evidence only."
+        ],
+        "gate": true,
+        "item": "L02",
+        "passed": 460,
+        "research": {
+          "CONFIRMED": 8
+        },
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 3,
+          "intention": 4,
+          "production_quality": 3,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 6
+      },
+      {
+        "auto_approved": [
+          "P0007-1"
+        ],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "HOME_PATH",
+          "HOME_PATH: The private step report contains local absolute paths.",
+          "MINOR: tree/src/eval_lab/seals.py:135 validates unrelated rows before path filtering. Unknown IDs and unrelated paths can report INTEGRITY_FAILURE due to an unrelated corrupt seal. This round-1 minor issue remains.",
+          "PUBLIC_PROSE",
+          "PUBLIC_PROSE: tree/docs/intent-seals.md adds public documentation.",
+          "RESEARCH_PENDING: Outside sources were not accessed under the folder-only restriction. The report's research confirmations and release claims remain untrusted source assertions.",
+          "VALIDATION_LIMITATION: 45 canonicalization cases ran through an assertion adapter, not pytest. Verification and snapshot probes executed actual extracted functions with mocked boundaries. Full model, persistence, media and CLI tests were not rerun."
+        ],
+        "gate": true,
+        "item": "L03",
+        "passed": 548,
+        "research": {
+          "CONFIRMED": 25,
+          "UNVERIFIABLE": 1
+        },
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 3,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 7
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "INVARIANT_AUDIT: checked I1-I16. No demonstrated violation: no real human judgments are authored; UNKNOWN remains separate; append-only guards and provenance nonpromotion remain; protected artifacts, evaluation logic, confidence arithmetic, dependencies, baseline tests and public serializers are unchanged. All DEFERRED items were checked. Historical Git actions cannot be independently established from this folder.",
+          "PUBLIC_PROSE",
+          "PUBLIC_PROSE: generation-plans.md and pilot0.md changed.",
+          "RESEARCH_BOUNDARY: outside claims were extracted without accessing material outside the evaluator folder.",
+          "RUNTIME_TESTS_NOT_EXECUTED: available Python lacks pydantic, sqlalchemy and pytest. Supplied passing gate results remain builder-provided evidence."
+        ],
+        "gate": true,
+        "item": "L04",
+        "passed": 638,
+        "research": {
+          "CONFIRMED": 12
+        },
+        "rounds": 2,
+        "rule": "R3",
+        "scores": {
+          "accuracy": 4,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 8
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 1,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Independent pytest execution unavailable: the accessible interpreter lacks pytest, Pydantic and SQLAlchemy. Supplied gate results and the reported mutation experiment were not independently rerun.",
+          "Lint remains assigned to L12 in tree/loop/backlog.toml:209; no existing lint integration point was found.",
+          "PUBLIC_PROSE",
+          "PUBLIC_PROSE: tree/docs/relations-v2.md.",
+          "The snapshot proposal is outside the sealed implementation file list and remains unimplemented. Its deferral is not accepted as satisfaction of the explicit snapshot requirement."
+        ],
+        "gate": true,
+        "item": "L11",
+        "passed": 700,
+        "research": {},
+        "rounds": 2,
+        "rule": "RF",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 2,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 9
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Checked I1-I16 against the diff and relevant code paths: no demonstrated invariant violation. No real-media authoring, UNKNOWN conversion, history overwrite, protected/harness edit, judgment-engine change, new runtime network/dependency, test weakening, public exposure or DEFERRED implementation was found. External Git state was not verified.",
+          "External claims remain research requests; nothing outside the supplied folder was read. The report also embeds a builder self-assessment; its scores were not used as evidence.",
+          "Independent validation comprised full diff/file inspection, Python syntax parsing, hash and size checks, and execution of extracted parsing guards. The supplied 674-test pass and mutation results were not independently reproduced.",
+          "MINOR_TEST_ORACLE_GAP: Add a literal expected candidate-order assertion after construction and reopen; existing selection comparisons cannot detect input reordering.",
+          "PUBLIC_PROSE"
+        ],
+        "gate": true,
+        "item": "L04",
+        "passed": 674,
+        "research": {
+          "CONFIRMED": 14,
+          "UNVERIFIABLE": 2
+        },
+        "rounds": 2,
+        "rule": "R3",
+        "scores": {
+          "accuracy": 2,
+          "intention": 4,
+          "production_quality": 3,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 10
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": -1,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "INVARIANT_AUDIT: Checked I1-I16 against the diff and relevant integration paths. No demonstrated real-judgment authoring, UNKNOWN conversion, history overwrite, protected/judge edit, measurement/acceptability conflation, policy/evaluation coupling, prohibited provenance promotion, averaging, probability arithmetic, runtime network/dependency addition, existing-test weakening, public exposure or DEFERRED implementation. Historical Git actions were not independently verified.",
+          "PRIOR_ATTEMPTS_AUDIT: The sealed Plan still lacks an explicit finding-by-finding Prior attempts mapping. Compared all supplied earlier L04 findings directly: Step 8 nested JSON, cross-origin lineage, forged-context masking and selection masking have targeted coverage; Step 10 malformed collection shapes and candidate-order coverage are addressed.",
+          "PUBLIC_PROSE",
+          "RESEARCH_BOUNDARY: External claims retain canonical research IDs. Supplied researcher verdicts were context, not independent verification or builder-authored accuracy evidence.",
+          "RUNTIME_LIMIT: The supplied gate reports 698 passing tests. Full pytest and repository-level mutation results were not independently reproduced because the available environment lacks Pydantic, SQLAlchemy and pytest. Independent execution covered extracted functions only."
+        ],
+        "gate": true,
+        "item": "L04",
+        "passed": 698,
+        "research": {
+          "CONFIRMED": 16,
+          "UNVERIFIABLE": 1
+        },
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 3,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 11
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "HASH_VERIFIED: Independently computed SHA-256 of diff.patch matches diff_sha256.txt.",
+          "INVARIANT_AUDIT: Checked I1-I16 against the complete diff and relevant integration paths. No demonstrated invariant violation found. Real-workspace and remote-main preservation rely on supplied G14 bookkeeping.",
+          "PUBLIC_PROSE",
+          "RESEARCH_PENDING: Six external method claims require independent source verification.",
+          "RUNTIME_LIMIT: Available python3 lacks Pydantic; the read-only evaluation folder contains no runnable dependency environment. Full tests and runtime mutation probes were not independently reproduced."
+        ],
+        "gate": true,
+        "item": "L05",
+        "passed": 786,
+        "research": {
+          "CONFIRMED": 12
+        },
+        "rounds": 1,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 12
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Checked I1-I9: TEST-ONLY authoring, UNKNOWN preservation, append-only history, protected-file boundaries, pinned acceptability, unchanged epistemic records, provenance guards, worst-case aggregation and absence of probability arithmetic. No demonstrated violation.",
+          "Checked I10-I14 and I16: no runtime network/dependency additions, baseline-test weakening, public serializer expansion, deferred implementation or judge edits. Deterministic envelope behavior has a literal oracle.",
+          "External claims were not independently verified outside the folder. research.json reports confirmation, but remains separate researcher-owned context.",
+          "I15 historical Git actions cannot be independently established from this folder. Supplied G14 reports unchanged remote main and pilot listing.",
+          "Independent execution did not cover Pydantic validation, repository integration or full pytest fixtures. The extracted-code checks used dependency-free record doubles; gate.json's 862 passing tests are supplied evidence.",
+          "Independently recomputed the patch SHA-256 and confirmed it matches diff_sha256.txt.",
+          "PUBLIC_PROSE"
+        ],
+        "gate": true,
+        "item": "L06",
+        "passed": 862,
+        "research": {
+          "CONFIRMED": 12
+        },
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 13
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Independent validation limitation: available Python lacks Pydantic, SQLAlchemy and pytest. Full product suites were not rerun; gate.json's 970 passing tests remain supplied evidence. Executed probes covered extracted functions, not the complete application.",
+          "PUBLIC_PROSE",
+          "Reviewed I1-I16 against the diff and relevant integration paths; no invariant violation demonstrated. Historical Git actions and external runtime state were not independently verified."
+        ],
+        "gate": true,
+        "item": "L08",
+        "passed": 970,
+        "research": {
+          "CONFIRMED": 6
+        },
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 14
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Independent full-suite execution unavailable: default Python lacks Pydantic, and the supplied tree contains no virtual environment.",
+          "PUBLIC_PROSE",
+          "The independent executable check exercised the actual roots() function with stand-in records and a mutation control; complete repository admission and snapshot replay were assessed by source inspection, not independently executed."
+        ],
+        "gate": true,
+        "item": "L09",
+        "passed": 1040,
+        "research": {},
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 15
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Computed diff.patch SHA-256 matches diff_sha256.txt.",
+          "Independent full-suite execution was unavailable: accessible Python lacks pydantic, and the workspace is read-only. gate.json reports 1125 passing tests; that count was not independently reproduced.",
+          "Independently parsed all changed Python files and executed the extracted timestamp-receipt function: identical identities remain stable, while timestamp and revision changes invalidate the receipt. This did not execute Pydantic or repository admission.",
+          "PUBLIC_PROSE",
+          "tests/test_resolution_workflow.py:157-175 does not independently prove run-revision collapse: its rejection repeats the same submitted evidence, and the original link sorts before the revision alias. A revision-sensitive unit implementation could still pass that rejection case."
+        ],
+        "gate": true,
+        "item": "L10",
+        "passed": 1125,
+        "research": {},
+        "rounds": 2,
+        "rule": "R3",
+        "scores": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 16
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 1,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "FILE-LIST VARIANCE: tree/src/eval_lab/pilot_cli.py was not in the sealed Plan's estimated file list; its changes are limited to snapshot/export help.",
+          "Independent pytest execution was unavailable; supplied gate results are reported evidence, not an independent rerun.",
+          "Lint integration remains assigned to L12; no existing lint integration point was found.",
+          "MINOR TEST GAP: direct-reference discovery needs an assertion that cannot also pass through intent/media matching.",
+          "PUBLIC_PROSE",
+          "PUBLIC_PROSE: tree/docs/relations-v2.md."
+        ],
+        "gate": true,
+        "item": "L11",
+        "passed": 1112,
+        "research": {},
+        "rounds": 1,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 3,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 17
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Independent runtime and mutation suites were not executed: available Python lacks pytest, Pydantic and SQLAlchemy, and the evaluation workspace is read-only. gate.json reports 1214 passing tests; that result is supplied evidence, not independently reproduced.",
+          "Minor oracle limitation: tests/test_resolution_workflow.py:164-169 can reject through repeated Evidence identity even if later instrument-run revisions receive incorrect unit identities.",
+          "PUBLIC_PROSE"
+        ],
+        "gate": true,
+        "item": "L10",
+        "passed": 1214,
+        "research": {},
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 3,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 18
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 2,
+          "intention": 4,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "HASH: Independently recomputed diff.patch SHA-256 and matched diff_sha256.txt.",
+          "INVARIANTS: Demonstrated I2 violations. Inspected I1 and I3-I16 against the diff and integration paths; found no additional violation. Historical Git actions and real-media behavior were not independently verified.",
+          "PRIOR_ATTEMPTS: Earlier supplied step reports contain no L12 attempt, consistent with the sealed Plan's original empty mapping. Checked all four current round-1 findings separately.",
+          "PUBLIC_PROSE",
+          "VALIDATION: Independently ran 67 tests, 13 in-memory rule-removal mutations, admission-validator deletion checks and retained-query adversarial probes. Twelve filesystem/media workflow cases were inspected but not rerun under the read-only sandbox. The supplied gate reports 1,293 passing tests; that is separate evidence."
+        ],
+        "gate": true,
+        "item": "L12",
+        "passed": 1293,
+        "research": {
+          "UNVERIFIABLE": 1
+        },
+        "rounds": 2,
+        "rule": "R0",
+        "scores": {
+          "accuracy": 2,
+          "intention": 0,
+          "production_quality": 2,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 19
+      },
+      {
+        "auto_approved": [],
+        "calibration": {},
+        "decision": "SPLIT",
+        "flags": [],
+        "gate": false,
+        "item": "L12",
+        "passed": 0,
+        "research": {},
+        "rounds": 1,
+        "rule": "SPLIT",
+        "scores": {},
+        "step": 20
+      },
+      {
+        "auto_approved": [],
+        "calibration": {},
+        "decision": "SPLIT",
+        "flags": [],
+        "gate": false,
+        "item": "L12-A",
+        "passed": 0,
+        "research": {},
+        "rounds": 1,
+        "rule": "SPLIT",
+        "scores": {},
+        "step": 21
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Independent full-suite execution was unavailable: the accessible Python lacks SQLAlchemy, and filesystem permissions are read-only. In-memory checks used isolated imports and a lightweight test runner; they do not establish full application integration or filesystem snapshot behavior.",
+          "Scope of acceptance is L12-A1 only. All-rule declarations, exhaustive rule contracts, ready=false integration and snapshot persistence remain obligations of the approved later children."
+        ],
+        "gate": true,
+        "item": "L12-A1",
+        "passed": 1391,
+        "research": {
+          "CONFIRMED": 8
+        },
+        "rounds": 1,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 22
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 0,
+          "relation": 2,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Independently computed the diff SHA-256 and confirmed it matches diff_sha256.txt.",
+          "Reviewed I1-I16 against changed paths and behavior. The preparation gaps threaten evidence and provenance guarantees, but this layer emits no readiness or verdict result; no score-zero invariant violation is asserted. No authored-history writes, judgment creation, aggregation, probability arithmetic, runtime network access, public serializer changes, weakened existing tests, deferred implementation or harness edits were found.",
+          "The attachment probes executed actual preparation/reader functions with repository-supplied schemas and equivalent substitutes for selected MediaAsset/Evidence fields. They are isolated standard-library checks, not full installed-package integration tests.",
+          "The supplied gate reports 1505 passing tests. This is harness evidence; the full suite was not independently rerun."
+        ],
+        "gate": true,
+        "item": "L12-A2",
+        "passed": 1505,
+        "research": {},
+        "rounds": 2,
+        "rule": "R3",
+        "scores": {
+          "accuracy": 4,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 23
+      },
+      {
+        "auto_approved": [],
+        "calibration": {},
+        "decision": "SPLIT",
+        "flags": [],
+        "gate": false,
+        "item": "L12-A2",
+        "passed": 0,
+        "research": {},
+        "rounds": 1,
+        "rule": "SPLIT",
+        "scores": {},
+        "step": 24
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Full pytest was not independently rerun: the available interpreter lacks pytest, pydantic and SQLAlchemy. The supplied gate reports 1858 passing tests.",
+          "Independent replays used lightweight pytest substitutes, a limited artifact-kind registry and actual reader methods with in-memory SQLite. They do not establish filesystem transaction behavior or full installed-package integration.",
+          "Independently computed the diff SHA-256 and confirmed it matches diff_sha256.txt.",
+          "Reviewed I1-I16 against the patch. No real judgment creation, authored-history writes, operational verdicts, aggregation, probability arithmetic, runtime network access, public serialization changes, existing-test weakening, deferred implementation or judge edits were found. Live main and pilot-local integrity were not independently inspected outside the permitted folder."
+        ],
+        "gate": true,
+        "item": "L12-A2a",
+        "passed": 1858,
+        "research": {},
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 25
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Full pytest was not independently executed: the available interpreter lacks pytest. The supplied gate reports 2955 passing tests.",
+          "Independent replays used actual preparation/reader/test bodies with a lightweight pytest substitute and substituted artifact-kind registry. SQLite checks used in-memory databases. Repository-admitted representative tests and retained filesystem preservation were not independently executed.",
+          "Independently computed the diff SHA-256 and confirmed it matches diff_sha256.txt.",
+          "Reviewed I1-I16 against the changed code and paths. No real judgment/history writes, UNKNOWN-to-clean conversion, protected artifact changes, intent/measurement conflation, operational mutation, averaging, probability arithmetic, runtime network dependency, test weakening, public serialization change, unsupported determinism claim, deferred implementation or judge edit was established. Main and external filesystem integrity were not independently verified."
+        ],
+        "gate": true,
+        "item": "L12-A2b",
+        "passed": 2955,
+        "research": {},
+        "rounds": 2,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 26
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Isolated probes executed repository preparation and reader functions with a substituted artifact-kind registry and repository-derived Dimension enum. SQLite used an in-memory retained table; seal parsing was not exercised. These probes are not full installed-package integration tests.",
+          "Reviewed I1-I16 against the changed paths and relevant behavior. Found no authored-history writes, human judgment creation, readiness/verdict emission, policy execution, aggregation, probability arithmetic, runtime networking, public serialization changes, existing-test weakening, deferred work or harness edits. No score-zero invariant violation is asserted.",
+          "The supplied gate reports 5088 passing tests. These are harness results, not an independently rerun suite."
+        ],
+        "gate": true,
+        "item": "L12-A2c",
+        "passed": 5088,
+        "research": {
+          "CONFIRMED": 2
+        },
+        "rounds": 1,
+        "rule": "RF",
+        "scores": {
+          "accuracy": 4,
+          "intention": 2,
+          "production_quality": 2,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 27
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Available Python lacks pytest. Independent checks used actual reader/preparation functions in a standard-library harness with a supplied artifact-name registry and the locally extracted Dimension enum. SQLite checks were in-memory; they did not exercise RawReader.__enter__, on-disk preservation, Pydantic seal validation or the full admitted-model suite."
+        ],
+        "gate": true,
+        "item": "L12-A2c",
+        "passed": 5100,
+        "research": {
+          "CONFIRMED": 2,
+          "UNVERIFIABLE": 9
+        },
+        "rounds": 1,
+        "rule": "RF",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 28
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 0,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "INTEGRATE",
+        "flags": [
+          "Independent pytest execution was unavailable: the accessible Python interpreter lacks pytest, Pydantic and SQLAlchemy. Test outcomes cited here are supplied gate evidence; assertions and mutation controls were independently inspected."
+        ],
+        "gate": true,
+        "item": "L12-A2c",
+        "passed": 5100,
+        "research": {
+          "CONFIRMED": 2
+        },
+        "rounds": 1,
+        "rule": "R6",
+        "scores": {
+          "accuracy": 4,
+          "intention": 4,
+          "production_quality": 4,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 29
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": 0,
+          "intention": 1,
+          "production_quality": 1,
+          "relation": 0,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Independent executions used actual preparation, reader, canonicalization and test functions with substituted import wiring, an artifact-kind registry and manual parameterization. SQLite databases were in memory with query_only enabled. These checks do not establish installed-package or on-disk retained integration.",
+          "Reviewed I1-I16 against the diff and relevant behavior. No score-zero invariant violation is established: the change adds private partial preparation without judgment authoring, history writes, operational decisions, averaging, probability arithmetic, runtime networking, public serialization, test weakening, deferred implementation or harness modification.",
+          "Supplied gate.json also reports blocking G12 approval failure. Its G5/G6/G14 checks pass, but external repository and filesystem state was not independently inspected outside the permitted folder.",
+          "The accessible Python lacks pytest, pydantic and SQLAlchemy. Full-suite results are supplied gate evidence, not an independently rerun suite."
+        ],
+        "gate": false,
+        "item": "L12-A2d",
+        "passed": 6179,
+        "research": {
+          "CONFIRMED": 2
+        },
+        "rounds": 2,
+        "rule": "R1",
+        "scores": {
+          "accuracy": 4,
+          "intention": 1,
+          "production_quality": 1,
+          "relation": 4,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 30
+      },
+      {
+        "auto_approved": [],
+        "calibration": {},
+        "decision": "SPLIT",
+        "flags": [],
+        "gate": false,
+        "item": "L12-A2d",
+        "passed": 0,
+        "research": {},
+        "rounds": 1,
+        "rule": "SPLIT",
+        "scores": {},
+        "step": 31
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": -1,
+          "intention": 0,
+          "production_quality": 0,
+          "relation": 0,
+          "relevance": -2,
+          "scope": -1
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Full pytest execution was unavailable: the accessible interpreter lacks pytest, pydantic and sqlalchemy. Independent probes executed actual boundary, reader, preparation and accounting code with unavailable imports stubbed; SQLite probes were in-memory, not on-disk retained tests.",
+          "Recomputed diff.patch SHA-256 and confirmed it matches diff_sha256.txt.",
+          "Reviewed I1-I16 against the diff and supplied evidence. No demonstrated invariant violation warrants a zero score. External main/pilot-local state was not independently inspected."
+        ],
+        "gate": false,
+        "item": "L12-A2d1",
+        "passed": 5252,
+        "research": {},
+        "rounds": 2,
+        "rule": "R1",
+        "scores": {
+          "accuracy": 4,
+          "intention": 1,
+          "production_quality": 1,
+          "relation": 2,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 32
+      },
+      {
+        "auto_approved": [],
+        "calibration": {
+          "accuracy": -1,
+          "intention": 2,
+          "production_quality": 1,
+          "relation": 1,
+          "relevance": 0,
+          "scope": 0
+        },
+        "decision": "REVERT",
+        "flags": [
+          "Independent probes executed actual boundary, reader and accounting source with unavailable registration/model imports substituted. SQLite probes used in-memory databases and actual RawReader methods; they do not verify the on-disk read-only session lifecycle.",
+          "Independently verified the patch SHA-256 and exact contents of all changed files.",
+          "Reviewed I1-I16 against the changed paths and behavior. Found no real judgment creation, authored-history mutation, protected/harness edit, existing-test weakening, network dependency, public serializer change, deferred implementation or Git action. Complete semantic support remains denied; no score-zero invariant violation is asserted.",
+          "The enhancer's REJECTED_WITH_REASON entries acknowledge valid unresolved findings and an unapplied repair. They do not justify REJECTION_ACCEPTED or DEFERRAL_ACCEPTED.",
+          "The supplied gate reports 5485 passing tests. Full pytest was not independently runnable because the available Python lacks pytest and project dependencies."
+        ],
+        "gate": true,
+        "item": "L12-A2d1",
+        "passed": 5485,
+        "research": {},
+        "rounds": 2,
+        "rule": "R2",
+        "scores": {
+          "accuracy": 4,
+          "intention": 1,
+          "production_quality": 2,
+          "relation": 2,
+          "relevance": 4,
+          "scope": 4
+        },
+        "step": 33
+      }
+    ]
+  },
+  "child_order": [
+    "L12-A2d1a",
+    "L12-A2d1b"
+  ],
+  "children": [
+    {
+      "acceptance": [
+        "For E1, E2, E2w, E3, E4, E7, W1, W4 and W5, expected prerequisite obligations are expanded from declarations and checked discriminants independently of performed reads; actual consumption is recorded only at the shared evidence boundary used by the integrated preparers; missing, extra, substituted or consumed-inactive obligations deny support; optional branches are ACTIVE, CHECKED-INACTIVE with checked justification, or unavailable; scoped receipts retain expected, observed and checked-inactive obligations for every classified root."
+      ],
+      "approval": "APPROVED",
+      "authorized_dependencies": false,
+      "authorized_protected": [],
+      "authorized_test_changes": [],
+      "category": "domain",
+      "depends_on": [
+        "L05",
+        "L06",
+        "L07",
+        "L08",
+        "L09",
+        "L10",
+        "L11"
+      ],
+      "human_review": false,
+      "id": "L12-A2d1a",
+      "notes": "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit.\n\nOperator size decomposition, Sphoenix 2026-10-10 L12 directive: the original all-rule acceptance above is unchanged. These appended subordinate criteria add no new product scope; they make the existing exact-partition split mechanism usable without cutting tests or raising the 900-line cap. Only while planning the unsplit item L12-A2, split before further implementation. Resulting children implement only their assigned acceptance subset; this parent instruction does not request another split of a child whose own scope fits the cap. A practical four-child partition is shared infrastructure; temporal/relation/optional branches; warrant/provenance/override branches; then role/history/frozen/alternative branches plus the original all-rule conjunction. Each child adds focused tests for every new guard; the exhaustive L12-A3 matrix remains a separate, unchanged obligation. Do not present an intermediate subset as complete lint/readiness. Follow the critical-path ordering; no unrelated work may substitute for a blocked prerequisite.\n\nStep 0023 is a genuine evaluated product attempt, preserved with its charged retry. Its rejected candidate and tests are retained in that step's evidence; do not relabel it as harness failure, refund its retry, or treat its green ordinary tests as acceptance. Each child plan must map the findings in loop/reports/STEP-0023/eval_r1.json and eval_r2.json to its owned remedy or remaining sibling obligation. Preserve all previously integrated tests and add the necessary isolated controls; do not remove or loosen controls to meet the cap. Do not use partial coverage deferred to A3 as an excuse for missing tests of newly introduced validators.\n\nSPHOENIX AUTHORIZATION \u2014 ONE BOUNDED L12-A2d1 RETRY\n\nI reviewed Step 0032.\n\nAuthorize exactly ONE retry of L12-A2d1.\n\nThis authorization:\n- does NOT reclassify Steps 0030 or 0032;\n- does NOT erase their R1 product failures;\n- does NOT change charged retry accounting;\n- does NOT weaken or rewrite acceptance;\n- exists only to resume after the consecutive-non-integration safety stop for one targeted repair attempt.\n\nUse the existing RESUME mechanism, with a reason equivalent to:\n\n\"Human reviewed Step 0032. Authorize one bounded L12-A2d1 retry targeting the five unresolved evaluator findings. Prior R1 decisions and retry accounting remain unchanged.\"\n\nDo not manually forge state if loopctl has an existing RESUME operation. Inspect and use the established mechanism.\n\n==================================================\nTARGETED REPAIR \u2014 STEP 0032 FINDINGS ARE BINDING\n==================================================\n\nDo not redesign L12-A2d1 broadly.\n\nThe next attempt should specifically close F0032-R2-001 through F0032-R2-005.\n\n1. ROLE ACCESS ACCOUNTING\n\nCurrent defect:\nE5/E6/W2/W3 have declarations/access primitives but no independent role-access accounting.\n\nRequired:\n- implement independent role obligation expansion/accounting;\n- role expectations must come from declarations + checked scope/discriminants, not from the reads that happened;\n- missing, substituted, extra or unconsumed role obligations deny support;\n- preserve incomplete semantic status until d2.\n\nAdd direct + retained controls.\n\n2. COMPLETE DECLARATION INVENTORY\n\nCurrent omissions include:\n- COMPUTED operands;\n- Evidence digest raw inputs;\n- TestPlan authored-content raw inputs;\n- conditional exact Hypothesis references for CompetingSet members.\n\nRequired:\n- declare the raw inputs and computed obligations explicitly;\n- computed outputs still pass through the shared evidence boundary;\n- conditional member references become exact checked dependencies.\n\nUse an independently authored literal test inventory. Do not derive the expected test inventory from the production manifest.\n\n3. CHECKED SCOPE / APPLICABILITY\n\nCurrent defect:\ncollection enumeration results are discarded and active/inactive obligations are not established.\n\nRequired:\n- retain checked collection membership;\n- establish root membership relative to exact scope;\n- record ACTIVE and CHECKED-INACTIVE obligations explicitly;\n- empty complete collection may prove absence only after completeness/scope are checked;\n- nullable/missing data alone never proves inactivity;\n- preserve partial/incomplete semantic status.\n\nReceipt must expose enough accounting to prove inactivity was checked.\n\n4. EXPECTED VS OBSERVED OBLIGATIONS\n\nCurrent defect:\nexpected obligations are still effectively a manually executed read recipe.\n\nRequired:\n- expand ALL active declarations independently of performed reads;\n- reconcile expected obligations against actual boundary consumption;\n- rule ownership, dependency identity, contract and occurrence/association identity must be part of matching.\n\nRegression sentinels must prove:\n- adding a required unread declaration fails;\n- deleting a rule from the active rule inventory fails;\n- substituting dependency/occurrence identity fails;\n- one repeated read cannot discharge unrelated obligations.\n\n5. ISOLATED VALIDATOR COVERAGE\n\nAdd the missing focused controls for:\n- role edge resolution;\n- exact-history access;\n- prediction-key expansion;\n- unread declaration;\n- per-association substitution;\n- scope membership;\n- checked inactivity.\n\nEvery new guard needs:\n- valid control;\n- isolated negative;\n- literal subject/state/path/reason;\n- denied support;\n- deletion witness;\n- direct and retained paths where representable.\n\nDo not let a generic digest/integrity error mask the guard under test.\n\n==================================================\nBOUNDARIES\n==================================================\n\nL12-A2d1 still does NOT own:\n- role domain semantics;\n- final history-head selection;\n- E5/E6/W2/W3 final predicates;\n- complete semantic context;\n- lint PASS;\n- ready=true;\n- verdict/decision;\n- L12-A2d2 work;\n- L12-A3/B/C work.\n\nA successful d1 result is an audited prerequisite/accounting foundation only.\n\nDo not weaken tests.\nDo not raise the 900-line cap.\nIf the implementation genuinely cannot fit, stop and report rather than opportunistically moving acceptance.\n\n==================================================\nEXECUTION\n==================================================\n\nAfter recording the bounded RESUME:\n\nRun exactly ONE loop step on the L12 critical path.\n\nUse:\n--once\n--critical-path L12\n\nDo NOT launch a continuous/background multi-step run afterward.\n\nLet the normal builder/evaluator/research/enhancer/gates decide the attempt.\n\nConserve chat tokens. Do not narrate progress.\n\nReturn only:\n\nAGENT: main chat\nSTATUS: complete | blocked\nSTEP: <new step number / L12-A2d1>\nDECISION: <INTEGRATE / REVERT / SPLIT / etc>\nSHA: <final pushed SHA>\nTESTS: <count>\nBUDGET NOTE: one bounded step only\nBLOCKERS: <none or exact unresolved finding IDs>\nNEXT: wait for Sphoenix\n\nSPHOENIX DECISION: ACCEPTANCE-PRESERVING L12-A2d1 DECOMPOSITION (2026-10-10).\nThis operator decision supersedes the prior one-item retry direction for future work. Step 0033 remains REVERT / R2; all historical decisions and retry accounting remain unchanged. No RESUME, builder, product implementation or loop launch is authorized in this bookkeeping turn. Do not retry L12-A2d1 as one item.\nApproved exact-partition specification: loop/proposals/APPROVED-L12-A2d1-split.toml. The ordered children are L12-A2d1a then L12-A2d1b. Child ordering requires integrated d1a before d1b; d1b consumes that foundation. The original acceptance is unchanged and belongs to d1b as the final conjunction. The appended subordinate criteria partition the work without weakening acceptance.\nL12-A2d1a scope: instrumented evidence boundary; obligation identity / association identity; VALUE, PRESENCE, IDENTITY, TRAVERSE, MEMBERS; activation rules; independent expected expansion; actual witnessed temporal/warrant preparer consumption; reconciliation; Receipt and merge; media-scope preparation; literal independent tests for deleted declaration, deleted real read, substituted association, false active/inactive classification and dropped receipt aggregation. It must NOT implement E5/E6/W2/W3 role semantics.\nL12-A2d1b scope: HISTORY; COMPUTED; role access handlers; exact predecessor/original-revision operands; Evidence.digest; TestPlan.authored; CompetingSet named-member exact references; media + intent scope chains; full 13-rule literal inventory. The original acceptance is its final prerequisite-accounting conjunction, not permission to implement d2 semantics.\nNULL PREDECESSOR CONFIDENCE DECISION for d1 prerequisite accounting: missing confidence slot -> UNKNOWN; malformed/wrong-type confidence -> INTEGRITY_FAILURE; explicit null confidence -> the presence check is AVAILABLE and establishes absence of a value, while the corresponding value obligation is CHECKED-INACTIVE with that checked justification recorded in the receipt. d1 does NOT interpret what null confidence means for E5; that semantic interpretation remains owned by d2.\nPreserve AVAILABLE / UNKNOWN / INTEGRITY_FAILURE only; no INVALID; no PASS / COMPLETE / SHIP / ready=true; no verdict or decision creation; no weakened tests; 900 changed-line cap per child; Step 0033 historical REVERT and all existing retry accounting. Do not touch canonical_json.py, main, pilot-local or real-media judgments. No role domain semantics, final history-head selection, final E5/E6/W2/W3 predicates or complete semantic context is assigned to either child. If the work cannot fit, stop and report rather than move acceptance.\nController activation is blocked: the existing start operation excludes BLOCKED items, and split requires a started step. This approved specification does not manually change canonical state, reuse Step 0033 or authorize a retry. A supported operator transition is needed before the existing split controller can register the children. No child implementation has begun.\n\n\nSPHOENIX OVERNIGHT PHASE 0 AUTHORIZATION (2026-10-10): SEALED OPERATOR CONSTRAINTS INHERITED BY d1a AND d1b.\nThese direct human operator constraints supersede only the historical one-item retry and registration-blocker directions above. Preserve that historical text. The approved split may now be registered through register-approved-split after independent controller validation; this is structural bookkeeping, not a product attempt or RESUME. Step 0033 remains REVERT / R2, parent retries remain 2, all prior decisions/findings/retries remain binding, and the committed proposal acceptance is unchanged. Register d1a then d1b; d1b explicitly depends on successful d1a completion. The external supervisor owns registration and subsequent execution.\n\nSEALED ARCHITECTURE: DECLARED -> EXPECTED -> ACTUAL -> RECONCILIATION. Tests supply an additional independent encoding. Expected obligations expand from declarations and checked discriminants independently of performed reads. ACTUAL observations originate only from the REAL integrated temporal/warrant preparers reading through the instrumented shared evidence boundary; expected and actual MUST NOT be produced by the same traversal. Bypassing a real preparer read while returning the same literal value must remove its actual obligation and fail reconciliation. Match rule ownership, exact dependency/contract, obligation identity, association identity and multiplicity; repeated A reads cannot satisfy B. Preserve literal subject/state/path/reason and independently authored literal inventories, never expectations derived from the production manifest.\n\nd1a owns the shared instrumented boundary; VALUE, PRESENCE, IDENTITY, TRAVERSE, MEMBERS; checked activation; independent expected expansion; witnessed temporal/warrant consumption; reconciliation; CHECKED-INACTIVE with checked justification; Receipt and Receipt.merge; media-only scope preparation; and independent literal tests. It owns NO HISTORY, COMPUTED, role access/role semantics, intent scope, E5/E6/W2/W3 semantic predicates or final semantic completion. Keep semantic state INCOMPLETE; UNKNOWN and INTEGRITY_FAILURE cannot yield PASS, COMPLETE, SHIP, ready=true or an equivalent clean state. Missing or nullable evidence alone cannot prove inactivity.\nMandatory d1a fault oracles on direct and retained paths where representable: deleted declaration; deleted real integrated read (Step-0033-001 / F0033-R1-001 / F0033-R2-001); unread required declaration; substituted association; repeated A read cannot satisfy B; false inactive; false active; malformed governing discriminant; dropped receipt aggregation; media-scope identity/revision mismatch. Every new guard retains a valid control, isolated negative, literal diagnostic and deletion witness. Preserve checked empty frame_indices with null derivative as a valid inactive branch; nonempty attachments still require exact derivative/index/media correspondence.\n\nd1b owns HISTORY, COMPUTED, role access, exact predecessor/original-revision operands, Evidence.digest, TestPlan.authored, CompetingSet named-member exact references, media + intent scope chains, full thirteen-rule literal inventory, and the original d1 prerequisite-accounting conjunction. Missing predecessor confidence slot -> UNKNOWN; wrong type -> INTEGRITY_FAILURE; explicit null -> presence AVAILABLE and the corresponding value obligation CHECKED-INACTIVE with checked justification retained. d1b does not decide the semantic meaning of null confidence for E5; that remains d2. Neither child owns final history-head selection, E5/E6/W2/W3 final predicates or complete semantic context.\n\nALL STEP 0033 BINDING FINDINGS REMAIN: F0033-R1-001 through F0033-R1-006 and F0033-R2-001 through F0033-R2-006, with their full evidence/required fixes in loop/reports/STEP-0033 and the Step 0033 report, are not waived or reclassified. Map 001 actual consumer accounting, 003 checked optional applicability and 005 association-preserving active/mixed-scope receipt aggregation to d1a. Map 002 exact historical-target operands, 004 complete media + intent scope chains for EvidenceArm/InstrumentRun and 006 independently specified computed outputs/obligation identities with computation/output-boundary deletion controls to d1b. Scope checks require matching identity/revision and missing/malformed-link controls. Preserve all prior Step 0023/0030/0032 findings and their owned remedies or remaining sibling obligations; no green rejected-attempt tests or incomplete-semantics diagnostic substitutes for accounting acceptance.\n\nSIZE AND EXECUTION: 900 changed lines per child remains binding. For d1a, immediately after the literal inventory and Step-0033-001 deleted-real-read oracle exist, measure changed lines. If already >500, STOP that product step and report size risk; do not compress acceptance, remove tests or collapse independent encodings. If any architecture/scope decision is needed, stop for human review. Subsequent authorized product work is at most one normally evaluated --once step at a time on L12,L16,L15, continuing only after INTEGRATE or explicitly approved structural SPLIT; stop on the first REVERT/RF/R0/BLOCKED, dirty tree, failed protected/harness check, ambiguity or required human decision. No automatic product retry. No UI, new runtime dependency, real-media judgment, acceptance/test weakening or unapproved product scope.\n\nSPHOENIX PINNED CONTROLLER CORRECTION (2026-10-11): This supersedes the preceding dependency/overnight execution directions for these children. Add no depends_on merely for d1a/d1b ordering; preserve inherited dependencies and use ordered critical-path children. Child execution is authorized only through --critical-path L12 and requires a separate human execution instruction after this registration-only turn. No d1a execution, background supervisor restart or product work is authorized in this turn. Required current.json must parse and identify the latest finished canonical step; any lock.json or any machine-wide command containing loop/run.py denies registration. Fresh independent review precedes controller commit and supported registration. Preserve Step 0033 REVERT/R2 and parent retries=2.\n",
+      "parent": "L12-A2d1",
+      "priority": "P0",
+      "probes": [],
+      "risk": "MEDIUM",
+      "size": "S",
+      "title": "Witnessed temporal and warrant prerequisite accounting"
+    },
+    {
+      "acceptance": [
+        "For E5, E6, W2 and W3, role access, exact-history targets and their operands, computed outputs and their raw operands, conditional CompetingSet member references and exact media and intent scope chains are declared, expanded and reconciled through the same boundary and receipts.",
+        "Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result."
+      ],
+      "approval": "APPROVED",
+      "authorized_dependencies": false,
+      "authorized_protected": [],
+      "authorized_test_changes": [],
+      "category": "domain",
+      "depends_on": [
+        "L05",
+        "L06",
+        "L07",
+        "L08",
+        "L09",
+        "L10",
+        "L11"
+      ],
+      "human_review": false,
+      "id": "L12-A2d1b",
+      "notes": "eval-pilot lint checks these rules:\n\nRule\tLevel\tFires when\nE1\terror\tA decision has no warrant path to a MUST or SHOULD criterion (when intent exists)\nE2\terror\tRECONSTRUCTED or PROMPT_ONLY intent excuses a deviation of MATERIAL or worse\nE2w\twarning\tCONTEMPORANEOUS intent excuses a deviation of MATERIAL or worse\nE3\terror\tEvidence falls outside the decoded timeline\nE4\terror\tA relation kind or purpose is outside the vocabulary\nE5\terror\tA resolution, or an upward confidence revision, rests only on DISCOVERY evidence\nE6\terror\tA frozen test plan fails frozen_digest verification\nE7\terror\tAn override has no reason\nW1\twarning\tA motion claim is supported only by still frames\nW2\twarning\tA hand-built exhaustive set has no residual\nW3\twarning\tA hypothesis has no alternative\nW4\twarning\tA stochastic arm has no sample design or decision rule\nW5\twarning\tA relation's purpose is UNSPECIFIED\n\nSnapshots embed the ruleset version and the results. Any error blocks ready.\n\nAcceptance: one TEST-ONLY graph that triggers each rule exactly once, and a clean graph that passes.\n\nSphoenix, 2026-10-10: fail-closed acceptance appended. Step 0019 remains a genuine REVERT/R0 with its product retry charged.\n\nAppended acceptance:\n- Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result.\n- The shared evidence boundary returns AVAILABLE(value), UNKNOWN(reason) for missing, null or unavailable evidence, or INTEGRITY_FAILURE(reason) for malformed, wrong-type, impossible, corrupt or integrity-invalid evidence. Do not introduce a new INVALID vocabulary.\n- Only AVAILABLE may support a clean rule result. UNKNOWN and INTEGRITY_FAILURE each produce an explicit diagnostic and make the result incomplete/not-ready; neither can produce PASS, COMPLETE, SHIP, ready=true or an equivalent clean state.\n- One shared parameterized evidence contract test covers every declared prerequisite of every lint rule with missing, null, malformed/wrong-type where representable, and a valid boundary value. Where ordinary admission prevents malformed values, test the raw/read-only path that encounters corrupt retained data.\n- Regressions cover null and invalid motion dimensions and null and invalid decoded durations with full-clip evidence, through direct and retained-query paths, with explicit diagnostics and ready=false; valid non-motion context remains supported.\n- Use the existing split mechanism if L12 cannot fit the configured 900 changed-line budget. Never remove, loosen or reduce tests to fit.\n\nOperator size decomposition, Sphoenix 2026-10-10 L12 directive: the original all-rule acceptance above is unchanged. These appended subordinate criteria add no new product scope; they make the existing exact-partition split mechanism usable without cutting tests or raising the 900-line cap. Only while planning the unsplit item L12-A2, split before further implementation. Resulting children implement only their assigned acceptance subset; this parent instruction does not request another split of a child whose own scope fits the cap. A practical four-child partition is shared infrastructure; temporal/relation/optional branches; warrant/provenance/override branches; then role/history/frozen/alternative branches plus the original all-rule conjunction. Each child adds focused tests for every new guard; the exhaustive L12-A3 matrix remains a separate, unchanged obligation. Do not present an intermediate subset as complete lint/readiness. Follow the critical-path ordering; no unrelated work may substitute for a blocked prerequisite.\n\nStep 0023 is a genuine evaluated product attempt, preserved with its charged retry. Its rejected candidate and tests are retained in that step's evidence; do not relabel it as harness failure, refund its retry, or treat its green ordinary tests as acceptance. Each child plan must map the findings in loop/reports/STEP-0023/eval_r1.json and eval_r2.json to its owned remedy or remaining sibling obligation. Preserve all previously integrated tests and add the necessary isolated controls; do not remove or loosen controls to meet the cap. Do not use partial coverage deferred to A3 as an excuse for missing tests of newly introduced validators.\n\nSPHOENIX AUTHORIZATION \u2014 ONE BOUNDED L12-A2d1 RETRY\n\nI reviewed Step 0032.\n\nAuthorize exactly ONE retry of L12-A2d1.\n\nThis authorization:\n- does NOT reclassify Steps 0030 or 0032;\n- does NOT erase their R1 product failures;\n- does NOT change charged retry accounting;\n- does NOT weaken or rewrite acceptance;\n- exists only to resume after the consecutive-non-integration safety stop for one targeted repair attempt.\n\nUse the existing RESUME mechanism, with a reason equivalent to:\n\n\"Human reviewed Step 0032. Authorize one bounded L12-A2d1 retry targeting the five unresolved evaluator findings. Prior R1 decisions and retry accounting remain unchanged.\"\n\nDo not manually forge state if loopctl has an existing RESUME operation. Inspect and use the established mechanism.\n\n==================================================\nTARGETED REPAIR \u2014 STEP 0032 FINDINGS ARE BINDING\n==================================================\n\nDo not redesign L12-A2d1 broadly.\n\nThe next attempt should specifically close F0032-R2-001 through F0032-R2-005.\n\n1. ROLE ACCESS ACCOUNTING\n\nCurrent defect:\nE5/E6/W2/W3 have declarations/access primitives but no independent role-access accounting.\n\nRequired:\n- implement independent role obligation expansion/accounting;\n- role expectations must come from declarations + checked scope/discriminants, not from the reads that happened;\n- missing, substituted, extra or unconsumed role obligations deny support;\n- preserve incomplete semantic status until d2.\n\nAdd direct + retained controls.\n\n2. COMPLETE DECLARATION INVENTORY\n\nCurrent omissions include:\n- COMPUTED operands;\n- Evidence digest raw inputs;\n- TestPlan authored-content raw inputs;\n- conditional exact Hypothesis references for CompetingSet members.\n\nRequired:\n- declare the raw inputs and computed obligations explicitly;\n- computed outputs still pass through the shared evidence boundary;\n- conditional member references become exact checked dependencies.\n\nUse an independently authored literal test inventory. Do not derive the expected test inventory from the production manifest.\n\n3. CHECKED SCOPE / APPLICABILITY\n\nCurrent defect:\ncollection enumeration results are discarded and active/inactive obligations are not established.\n\nRequired:\n- retain checked collection membership;\n- establish root membership relative to exact scope;\n- record ACTIVE and CHECKED-INACTIVE obligations explicitly;\n- empty complete collection may prove absence only after completeness/scope are checked;\n- nullable/missing data alone never proves inactivity;\n- preserve partial/incomplete semantic status.\n\nReceipt must expose enough accounting to prove inactivity was checked.\n\n4. EXPECTED VS OBSERVED OBLIGATIONS\n\nCurrent defect:\nexpected obligations are still effectively a manually executed read recipe.\n\nRequired:\n- expand ALL active declarations independently of performed reads;\n- reconcile expected obligations against actual boundary consumption;\n- rule ownership, dependency identity, contract and occurrence/association identity must be part of matching.\n\nRegression sentinels must prove:\n- adding a required unread declaration fails;\n- deleting a rule from the active rule inventory fails;\n- substituting dependency/occurrence identity fails;\n- one repeated read cannot discharge unrelated obligations.\n\n5. ISOLATED VALIDATOR COVERAGE\n\nAdd the missing focused controls for:\n- role edge resolution;\n- exact-history access;\n- prediction-key expansion;\n- unread declaration;\n- per-association substitution;\n- scope membership;\n- checked inactivity.\n\nEvery new guard needs:\n- valid control;\n- isolated negative;\n- literal subject/state/path/reason;\n- denied support;\n- deletion witness;\n- direct and retained paths where representable.\n\nDo not let a generic digest/integrity error mask the guard under test.\n\n==================================================\nBOUNDARIES\n==================================================\n\nL12-A2d1 still does NOT own:\n- role domain semantics;\n- final history-head selection;\n- E5/E6/W2/W3 final predicates;\n- complete semantic context;\n- lint PASS;\n- ready=true;\n- verdict/decision;\n- L12-A2d2 work;\n- L12-A3/B/C work.\n\nA successful d1 result is an audited prerequisite/accounting foundation only.\n\nDo not weaken tests.\nDo not raise the 900-line cap.\nIf the implementation genuinely cannot fit, stop and report rather than opportunistically moving acceptance.\n\n==================================================\nEXECUTION\n==================================================\n\nAfter recording the bounded RESUME:\n\nRun exactly ONE loop step on the L12 critical path.\n\nUse:\n--once\n--critical-path L12\n\nDo NOT launch a continuous/background multi-step run afterward.\n\nLet the normal builder/evaluator/research/enhancer/gates decide the attempt.\n\nConserve chat tokens. Do not narrate progress.\n\nReturn only:\n\nAGENT: main chat\nSTATUS: complete | blocked\nSTEP: <new step number / L12-A2d1>\nDECISION: <INTEGRATE / REVERT / SPLIT / etc>\nSHA: <final pushed SHA>\nTESTS: <count>\nBUDGET NOTE: one bounded step only\nBLOCKERS: <none or exact unresolved finding IDs>\nNEXT: wait for Sphoenix\n\nSPHOENIX DECISION: ACCEPTANCE-PRESERVING L12-A2d1 DECOMPOSITION (2026-10-10).\nThis operator decision supersedes the prior one-item retry direction for future work. Step 0033 remains REVERT / R2; all historical decisions and retry accounting remain unchanged. No RESUME, builder, product implementation or loop launch is authorized in this bookkeeping turn. Do not retry L12-A2d1 as one item.\nApproved exact-partition specification: loop/proposals/APPROVED-L12-A2d1-split.toml. The ordered children are L12-A2d1a then L12-A2d1b. Child ordering requires integrated d1a before d1b; d1b consumes that foundation. The original acceptance is unchanged and belongs to d1b as the final conjunction. The appended subordinate criteria partition the work without weakening acceptance.\nL12-A2d1a scope: instrumented evidence boundary; obligation identity / association identity; VALUE, PRESENCE, IDENTITY, TRAVERSE, MEMBERS; activation rules; independent expected expansion; actual witnessed temporal/warrant preparer consumption; reconciliation; Receipt and merge; media-scope preparation; literal independent tests for deleted declaration, deleted real read, substituted association, false active/inactive classification and dropped receipt aggregation. It must NOT implement E5/E6/W2/W3 role semantics.\nL12-A2d1b scope: HISTORY; COMPUTED; role access handlers; exact predecessor/original-revision operands; Evidence.digest; TestPlan.authored; CompetingSet named-member exact references; media + intent scope chains; full 13-rule literal inventory. The original acceptance is its final prerequisite-accounting conjunction, not permission to implement d2 semantics.\nNULL PREDECESSOR CONFIDENCE DECISION for d1 prerequisite accounting: missing confidence slot -> UNKNOWN; malformed/wrong-type confidence -> INTEGRITY_FAILURE; explicit null confidence -> the presence check is AVAILABLE and establishes absence of a value, while the corresponding value obligation is CHECKED-INACTIVE with that checked justification recorded in the receipt. d1 does NOT interpret what null confidence means for E5; that semantic interpretation remains owned by d2.\nPreserve AVAILABLE / UNKNOWN / INTEGRITY_FAILURE only; no INVALID; no PASS / COMPLETE / SHIP / ready=true; no verdict or decision creation; no weakened tests; 900 changed-line cap per child; Step 0033 historical REVERT and all existing retry accounting. Do not touch canonical_json.py, main, pilot-local or real-media judgments. No role domain semantics, final history-head selection, final E5/E6/W2/W3 predicates or complete semantic context is assigned to either child. If the work cannot fit, stop and report rather than move acceptance.\nController activation is blocked: the existing start operation excludes BLOCKED items, and split requires a started step. This approved specification does not manually change canonical state, reuse Step 0033 or authorize a retry. A supported operator transition is needed before the existing split controller can register the children. No child implementation has begun.\n\n\nSPHOENIX OVERNIGHT PHASE 0 AUTHORIZATION (2026-10-10): SEALED OPERATOR CONSTRAINTS INHERITED BY d1a AND d1b.\nThese direct human operator constraints supersede only the historical one-item retry and registration-blocker directions above. Preserve that historical text. The approved split may now be registered through register-approved-split after independent controller validation; this is structural bookkeeping, not a product attempt or RESUME. Step 0033 remains REVERT / R2, parent retries remain 2, all prior decisions/findings/retries remain binding, and the committed proposal acceptance is unchanged. Register d1a then d1b; d1b explicitly depends on successful d1a completion. The external supervisor owns registration and subsequent execution.\n\nSEALED ARCHITECTURE: DECLARED -> EXPECTED -> ACTUAL -> RECONCILIATION. Tests supply an additional independent encoding. Expected obligations expand from declarations and checked discriminants independently of performed reads. ACTUAL observations originate only from the REAL integrated temporal/warrant preparers reading through the instrumented shared evidence boundary; expected and actual MUST NOT be produced by the same traversal. Bypassing a real preparer read while returning the same literal value must remove its actual obligation and fail reconciliation. Match rule ownership, exact dependency/contract, obligation identity, association identity and multiplicity; repeated A reads cannot satisfy B. Preserve literal subject/state/path/reason and independently authored literal inventories, never expectations derived from the production manifest.\n\nd1a owns the shared instrumented boundary; VALUE, PRESENCE, IDENTITY, TRAVERSE, MEMBERS; checked activation; independent expected expansion; witnessed temporal/warrant consumption; reconciliation; CHECKED-INACTIVE with checked justification; Receipt and Receipt.merge; media-only scope preparation; and independent literal tests. It owns NO HISTORY, COMPUTED, role access/role semantics, intent scope, E5/E6/W2/W3 semantic predicates or final semantic completion. Keep semantic state INCOMPLETE; UNKNOWN and INTEGRITY_FAILURE cannot yield PASS, COMPLETE, SHIP, ready=true or an equivalent clean state. Missing or nullable evidence alone cannot prove inactivity.\nMandatory d1a fault oracles on direct and retained paths where representable: deleted declaration; deleted real integrated read (Step-0033-001 / F0033-R1-001 / F0033-R2-001); unread required declaration; substituted association; repeated A read cannot satisfy B; false inactive; false active; malformed governing discriminant; dropped receipt aggregation; media-scope identity/revision mismatch. Every new guard retains a valid control, isolated negative, literal diagnostic and deletion witness. Preserve checked empty frame_indices with null derivative as a valid inactive branch; nonempty attachments still require exact derivative/index/media correspondence.\n\nd1b owns HISTORY, COMPUTED, role access, exact predecessor/original-revision operands, Evidence.digest, TestPlan.authored, CompetingSet named-member exact references, media + intent scope chains, full thirteen-rule literal inventory, and the original d1 prerequisite-accounting conjunction. Missing predecessor confidence slot -> UNKNOWN; wrong type -> INTEGRITY_FAILURE; explicit null -> presence AVAILABLE and the corresponding value obligation CHECKED-INACTIVE with checked justification retained. d1b does not decide the semantic meaning of null confidence for E5; that remains d2. Neither child owns final history-head selection, E5/E6/W2/W3 final predicates or complete semantic context.\n\nALL STEP 0033 BINDING FINDINGS REMAIN: F0033-R1-001 through F0033-R1-006 and F0033-R2-001 through F0033-R2-006, with their full evidence/required fixes in loop/reports/STEP-0033 and the Step 0033 report, are not waived or reclassified. Map 001 actual consumer accounting, 003 checked optional applicability and 005 association-preserving active/mixed-scope receipt aggregation to d1a. Map 002 exact historical-target operands, 004 complete media + intent scope chains for EvidenceArm/InstrumentRun and 006 independently specified computed outputs/obligation identities with computation/output-boundary deletion controls to d1b. Scope checks require matching identity/revision and missing/malformed-link controls. Preserve all prior Step 0023/0030/0032 findings and their owned remedies or remaining sibling obligations; no green rejected-attempt tests or incomplete-semantics diagnostic substitutes for accounting acceptance.\n\nSIZE AND EXECUTION: 900 changed lines per child remains binding. For d1a, immediately after the literal inventory and Step-0033-001 deleted-real-read oracle exist, measure changed lines. If already >500, STOP that product step and report size risk; do not compress acceptance, remove tests or collapse independent encodings. If any architecture/scope decision is needed, stop for human review. Subsequent authorized product work is at most one normally evaluated --once step at a time on L12,L16,L15, continuing only after INTEGRATE or explicitly approved structural SPLIT; stop on the first REVERT/RF/R0/BLOCKED, dirty tree, failed protected/harness check, ambiguity or required human decision. No automatic product retry. No UI, new runtime dependency, real-media judgment, acceptance/test weakening or unapproved product scope.\n\nSPHOENIX PINNED CONTROLLER CORRECTION (2026-10-11): This supersedes the preceding dependency/overnight execution directions for these children. Add no depends_on merely for d1a/d1b ordering; preserve inherited dependencies and use ordered critical-path children. Child execution is authorized only through --critical-path L12 and requires a separate human execution instruction after this registration-only turn. No d1a execution, background supervisor restart or product work is authorized in this turn. Required current.json must parse and identify the latest finished canonical step; any lock.json or any machine-wide command containing loop/run.py denies registration. Fresh independent review precedes controller commit and supported registration. Preserve Step 0033 REVERT/R2 and parent retries=2.\n",
+      "parent": "L12-A2d1",
+      "priority": "P0",
+      "probes": [],
+      "risk": "MEDIUM",
+      "size": "S",
+      "title": "Role history computed operands and all-rule prerequisite accounting"
+    }
+  ],
+  "execution": {
+    "authorized": false,
+    "ordering": "critical-path child order; no dependency added",
+    "required_critical_path": [
+      "L12"
+    ]
+  },
+  "historical_preservation": "All prior steps, events, report/evidence and product/source/test bytes preserved; Step 0033 remains REVERT / R2. No product step or RESUME added.",
+  "operation": "REGISTER_APPROVED_SPLIT",
+  "parent": "L12-A2d1",
+  "preserved_tree_sha256": "e5a8d2d6dd49e9fe75a67177ff436127f620cca09152d5cb6c62e8fb10a01718",
+  "proposal": {
+    "path": "loop/proposals/APPROVED-L12-A2d1-split.toml",
+    "sha256": "5faf9c87e2edb74be2a54beadd5b47460ccf1ae3f6c28802775ed8acf4167cd7"
+  },
+  "retry_preservation": {
+    "after": 2,
+    "all_existing_retry_counts_unchanged": true,
+    "before": 2,
+    "product_retry_charged": false
+  },
+  "tools": {
+    "git": "git version 2.54.0 (Apple Git-157)",
+    "python": "3.12.14 (main, Aug 14 2026, 15:24:41) [Clang 22.1.3 ]"
+  }
+}

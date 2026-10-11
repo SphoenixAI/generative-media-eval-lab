@@ -1,0 +1,156 @@
+{
+  "blocking_findings": [
+    {
+      "description": "Independent expansion is implemented only for temporal Evidence backed by image media and an empty PilotSubmission collection. Video Evidence explicitly becomes unavailable, any submission collection becomes unavailable, and every other temporal or warrant root immediately receives 'root obligation expansion unavailable'. Consequently the assigned nine-rule foundation is absent for most valid inputs. The supplied gate's 24 root-profile failures directly expose this omission; unconditional incompleteness does not satisfy prerequisite-accounting acceptance.",
+      "dimension": "intention",
+      "id": "F0034-R1-001",
+      "invariant": null,
+      "location": "src/eval_lab/lint_accounting.py:198-226,245-252; tests/test_lint_accounting.py:185-207",
+      "required_fix": "Complete the assigned temporal and warrant expansion profiles and their real-consumer reconciliation, preserving INCOMPLETE semantic status. Pass the existing direct and retained root-profile controls without weakening them. If the mandated size stop prevents completion, retain the candidate as non-integrable rather than treating the implemented subset as acceptance.",
+      "severity": "SEVERE"
+    },
+    {
+      "description": "Even the supported image branch does not expand all applicable dependency declarations. Evidence fields are iterated, but MediaAsset is handled by a hard-coded type read. In isolated executions of the actual accounting, preparer and reader code on direct and in-memory SQLite paths, adding 'revision=count' to the live MediaAsset declarations produced diagnostics=(), successful support and no revision obligation. Adding a missing required text field likewise passed. The unread-declaration test mutates only Evidence, so it misses this surviving form of the Step 0032 defect.",
+      "dimension": "intention",
+      "id": "F0034-R1-002",
+      "invariant": null,
+      "location": "src/eval_lab/lint_accounting.py:200-210; tests/test_lint_accounting.py:132-147",
+      "required_fix": "Expand applicable declarations for dependency records as well as roots, using explicit checked activation metadata. Add independently specified missing and available-but-unread dependency-declaration controls on both reader paths, asserting the exact diagnostic and denied support.",
+      "severity": "MATERIAL"
+    },
+    {
+      "description": "The binding checked-optionality remedy remains absent. A PilotSubmission with checked empty frame_indices and explicit null derivative is accepted by the integrated temporal preparer, but the new audit rejects it as an unsupported root and records no checked-inactive derivative obligation. Independent direct and in-memory SQLite probes reproduced this difference. Only Evidence timestamp inactivity is implemented; there is no attachment activation rule or accounting oracle for the required valid empty/null branch.",
+      "dimension": "intention",
+      "id": "F0034-R1-003",
+      "invariant": null,
+      "location": "src/eval_lab/lint_accounting.py:214-226,248-252; src/eval_lab/lint_temporal_prerequisites.py:184-189",
+      "required_fix": "Preserve the valid empty-indices/null-derivative branch through the audit with a retained checked justification. Implement the corresponding active and unavailable attachment obligations, and add direct/retained valid, false-active, false-inactive and malformed-discriminant controls with deletion witnesses.",
+      "severity": "MATERIAL"
+    },
+    {
+      "description": "Media-scoped preparation and root classification do not exist. audit accepts only a root reference and profile; classified is always left empty. There is no exact media-scope pin, membership chain, ACTIVE/excluded-root accounting or scoped aggregation caller. Receipt.merge merely concatenates manually supplied receipts. The merge test combines two unrelated image roots and checks selected fields, so it cannot establish that every classified root contributes its expected, observed and checked-inactive obligations. The planned lint_context implementation and tests are absent.",
+      "dimension": "relation",
+      "id": "F0034-R1-004",
+      "invariant": null,
+      "location": "src/eval_lab/lint_accounting.py:70-88,175-196,229-270; tests/test_lint_accounting.py:161-182",
+      "required_fix": "Implement the assigned media-only scope preparation with checked exact membership and retained classifications, and aggregate each classified root's complete receipt. Add literal active, excluded, mixed and empty-scope expectations, identity/revision and damaged-link negatives, and dropped-contribution/ledger deletion controls.",
+      "severity": "MATERIAL"
+    },
+    {
+      "description": "The acceptance suite is both failing and materially incomplete. All 24 broad root-profile controls fail in the supplied gate. The passing focused tests establish an image coverage VALUE omission, selected consumption faults, root declaration changes and timestamp inactivity, but do not establish warrant-consumer omission sensitivity, independent activation/use/association inventories, the other boundary-mode deletion controls, media scope or dropped aggregation. The broad controls assert only nonempty ledgers and generic support, so they cannot replace literal whole-profile expectations. The single reconciliation deletion witness removes the entire reconciliation function rather than covering each new guard.",
+      "dimension": "production_quality",
+      "id": "F0034-R1-005",
+      "invariant": null,
+      "location": "tests/test_lint_accounting.py:53-58,61-158,161-228",
+      "required_fix": "Complete the sealed independent inventories and focused controls for the implemented guards, including literal subject/state/path/reason, valid counterparts, denied support and targeted deletion witnesses on direct and retained paths. Preserve all existing tests and make the current root-profile acceptance tests pass.",
+      "severity": "SEVERE"
+    }
+  ],
+  "claims_for_research": [],
+  "diff_sha256": "23c680cb703a2a33822a690a538a3d5a18350a279b3d46834c7636460917eec0",
+  "flags": [
+    "Full pytest execution was unavailable in this read-only evaluation environment because pytest is not installed in the accessible Python interpreter. Suite counts are supplied gate evidence, not an independent rerun.",
+    "Independent behavioral probes executed actual selected source modules with unrelated domain imports isolated, using DirectRecords and an in-memory SQLite RawReader. They establish the reported image and empty-attachment accounting behavior, not full domain-suite validation.",
+    "The final counted diff is 587 lines. The supplied evaluation packet does not independently establish the timing or size of the mandatory early 500-line checkpoint."
+  ],
+  "item": "L12-A2d1a",
+  "loophole_audit": [
+    {
+      "criterion": "Expected obligations expand independently from all applicable declarations for the nine assigned rules.",
+      "evidence": "ROOTS lists all profiles, while audit dispatches only temporal Evidence. The unread MediaAsset declaration probe succeeds without an expected obligation.",
+      "lazy_pass": "List every rule and field, but implement expansion for one fixture and manually request dependency fields.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Actual observations originate from real integrated preparer boundary consumption.",
+      "evidence": "audit invokes MODULES[profile].prepare with a witness. test_step_0033_001_deleted_real_temporal_read and independent isolated probes lose the coverage event and receive the exact missing-consumption diagnostic. Warrant acceptance remains unproven because its expansion is absent.",
+      "lazy_pass": "Replay expected expansion to fabricate actual observations while merely checking preparer diagnostics.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Missing, extra, substituted and repeated obligations cannot discharge unrelated requirements.",
+      "evidence": "Obligation.key includes rule, root, mode, subject, path, contract, association and dependency; reconciliation uses Counter multiplicities. Independent image probes rejected association substitution, extra coverage and repeated coverage replacing sampling_manifest. Broader use-identity coverage remains missing.",
+      "lazy_pass": "Compare sets or counts without retaining dependency and association identity.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Optional branches retain checked ACTIVE, CHECKED-INACTIVE or unavailable accounting.",
+      "evidence": "Only Evidence timestamp inactivity is expanded. A valid empty-frame_indices/null-derivative submission is rejected and has no inactive obligation.",
+      "lazy_pass": "Reject every optional case as unavailable, or handle only the easiest null branch.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Scoped receipts retain complete accounting for every classified root.",
+      "evidence": "Receipt.classified is never populated; no scoped preparation entry point exists. test_receipt_merge_keeps_each_association checks two manually audited roots without scoped membership or dropped-ledger controls.",
+      "lazy_pass": "Provide a merge method and a classified field without implementing scope classification or aggregation.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Independent tests prove each new guard and required fault oracle.",
+      "evidence": "test_independent_literal_inventory compares independent literal field strings but has no activation/use inventory. test_all_owned_root_profiles uses generic support assertions and currently fails all 24 instances.",
+      "lazy_pass": "Assert declaration-string equality and generic nonempty support while omitting activation, dependency and aggregate expectations.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Preserve incomplete semantics and the approved child boundaries.",
+      "evidence": "Semantic incompleteness is correctly preserved, but unsupported-root diagnostics substitute for most required expansion. No final lint/readiness or deferred role semantics were introduced.",
+      "lazy_pass": "Use permanent INCOMPLETE status as a substitute for the assigned accounting foundation.",
+      "present_in_diff": true
+    }
+  ],
+  "prior_findings": [],
+  "role": "evaluator",
+  "round": 1,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Checked builder-authored code comments, docstrings, Plan and Probes against local evidence; the module explicitly describes itself as under construction and does not claim complete lint or readiness.",
+        "Compared the Plan's Prior attempts mapping with every blocking finding in both rounds of Steps 0023, 0030, 0032 and 0033; all are mapped, with sibling obligations preserved.",
+        "Found no new external factual claim requiring research. Harness bookkeeping was excluded from builder accuracy scoring."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "src/eval_lab/lint_accounting.py:248-252 rejects every root profile except temporal Evidence.",
+        "src/eval_lab/lint_accounting.py:210 ignores dependency declarations beyond its manually requested media type.",
+        "Independent isolated direct and SQLite-reader probes accepted an unread required MediaAsset.revision declaration with diagnostics=() and successful support.",
+        "tests/test_lint_accounting.py::test_all_owned_root_profiles fails in all 24 supplied gate instances."
+      ],
+      "score": 1
+    },
+    "production_quality": {
+      "evidence": [
+        "gate.json records 5125 passed and 24 failed tests; all failures are test_all_owned_root_profiles instances.",
+        "tests/test_lint_accounting.py:53-58 inventories field strings and mode names, but not activation dependencies, declared uses or association identities.",
+        "tests/test_lint_accounting.py:161-182 checks selected merged observations and inactive paths, without expected-ledger assertions or dropped-aggregation deletion controls.",
+        "No warrant-consumer deletion oracle, media-scope test or false-active/false-inactive classification control is supplied."
+      ],
+      "score": 1
+    },
+    "relation": {
+      "evidence": [
+        "src/eval_lab/lint_accounting.py:75 defines classified accounting, but no production path populates it or establishes membership against an exact media scope.",
+        "src/eval_lab/lint_accounting.py:83-88 concatenates receipts without a scoped preparation caller that establishes and retains the required root contributions.",
+        "Checked new types: BoundaryEvent, Obligation, Inactive and Receipt are private transient structures; domain persistence and snapshot integration remain outside this child."
+      ],
+      "score": 2
+    },
+    "relevance": {
+      "evidence": [
+        "Read the complete diff and all six changed files; changes address the approved temporal/warrant accounting foundation without unrelated product work."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Independently counted 587 non-report changed lines, below the 900-line cap.",
+        "Compared changed paths and behavior with the approved partition and DEFERRED inventory: no role/history/computed implementation, intent-scope selector, final semantics, frontend, runtime dependency or protected-file change.",
+        "Existing tests are unchanged; no canonical_json.py, main, pilot-local, public serializer or authored-history mutation appears in the diff."
+      ],
+      "score": 4
+    }
+  },
+  "step": 34,
+  "summary": "Not integrable. Real temporal coverage-read accounting works, but expansion supports only a narrow image-Evidence branch. Required dependency declarations can remain unread without detection; optional attachment accounting and media-scoped receipts are missing. The supplied gate records 24 failing accounting tests."
+}

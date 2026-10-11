@@ -1,0 +1,22 @@
+# Sphoenix-approved operator decomposition; not an executed product step.
+# Existing split format: order is d1a then d1b; the original conjunction remains in d1b.
+# Registration is blocked by the current BLOCKED parent; no state is forged.
+
+[authorization]
+authorized_by = "Sphoenix, 2026-10-10"
+parent = "L12-A2d1"
+approval = "APPROVED"
+activation = "BLOCKED: existing controller has no operator split transition for a BLOCKED parent"
+execution_authorized = false
+
+[[item]]
+id = "L12-A2d1a"
+title = "Witnessed temporal and warrant prerequisite accounting"
+size = "S"
+acceptance = ["For E1, E2, E2w, E3, E4, E7, W1, W4 and W5, expected prerequisite obligations are expanded from declarations and checked discriminants independently of performed reads; actual consumption is recorded only at the shared evidence boundary used by the integrated preparers; missing, extra, substituted or consumed-inactive obligations deny support; optional branches are ACTIVE, CHECKED-INACTIVE with checked justification, or unavailable; scoped receipts retain expected, observed and checked-inactive obligations for every classified root."]
+
+[[item]]
+id = "L12-A2d1b"
+title = "Role history computed operands and all-rule prerequisite accounting"
+size = "S"
+acceptance = ["For E5, E6, W2 and W3, role access, exact-history targets and their operands, computed outputs and their raw operands, conditional CompetingSet member references and exact media and intent scope chains are declared, expanded and reconciled through the same boundary and receipts.", "Every lint rule declares all evidence fields it requires, and every prerequisite passes through one shared evidence-availability boundary before it may support a clean rule result."]

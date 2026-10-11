@@ -1,0 +1,176 @@
+{
+  "claims": [
+    {
+      "affects_this_step": true,
+      "claim": "Pydantic v2 BaseModel.model_copy(update=...) does not validate the supplied update values before creating the copied model.",
+      "id": "R0005-C001",
+      "newer_practice": {
+        "date": "2026-04-13",
+        "summary": "Pydantic 2.13 changed RootModel shallow-copy behavior. Current documentation still excludes validation of copied updates; this does not change this step.",
+        "url": "https://pydantic.dev/articles/pydantic-v2-13-release"
+      },
+      "origin": "plan",
+      "recommended_action": "Require explicit validation of the complete candidate field data before accepting copied updates that must preserve invariants. Do not treat model_copy as a validation boundary.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "no validation is performed on updated values.",
+          "title": "BaseModel | Pydantic Docs \u2014 model_copy",
+          "url": "https://pydantic.dev/docs/validation/latest/api/pydantic/base_model/#model_copy"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "SQLite permits only one simultaneous write transaction, and BEGIN IMMEDIATE starts a write transaction immediately or can fail with SQLITE_BUSY when another connection already has an active write transaction.",
+      "id": "R0005-C002",
+      "newer_practice": {
+        "date": "2025-05-29",
+        "summary": "SQLite 3.50.0 introduced sqlite3_setlk_timeout for separate blocking-lock timeouts on supporting builds. This changes available contention controls, not the single-writer rule; no required change to this step.",
+        "url": "https://sqlite.org/releaselog/3_50_0.html"
+      },
+      "origin": "plan",
+      "recommended_action": "Keep each competing check-and-write operation inside one explicit transaction on the same database. Handle SQLITE_BUSY with bounded waiting or an explicit failure, and verify contention using two independent connections.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "only one simultaneous write transaction. \u2026 BEGIN IMMEDIATE might fail with SQLITE_BUSY",
+          "title": "SQLite \u2014 Transaction, sections 2.1\u20132.2",
+          "url": "https://www.sqlite.org/lang_transaction.html"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "RFC 3161 describes time-stamping evidence that a datum existed before a particular time.",
+      "id": "R0005-C003",
+      "newer_practice": {
+        "date": "2026-04",
+        "summary": "C2PA 2.4 continues recommending RFC 3161 timestamps for signature-existence evidence. It preserves this interpretation and does not change this step.",
+        "url": "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html"
+      },
+      "origin": "plan",
+      "recommended_action": "Describe a verified token as evidence that its bound datum existed by the attested time. Do not describe it as proof of the datum's creation time or of a later generation event.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "a datum existed before a particular time.",
+          "title": "RFC 3161 \u2014 Internet X.509 Public Key Infrastructure Time-Stamp Protocol (TSP)",
+          "url": "https://www.rfc-editor.org/rfc/rfc3161.html"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "Local seal, plan, registration and first-view timestamps alone cannot prove that a clip was generated after its intent was sealed.",
+      "id": "R0005-C004",
+      "newer_practice": {
+        "date": "2026-04",
+        "summary": "C2PA 2.4 distinguishes asserted action times from trusted timestamps. This reinforces the evidence boundary; it does not make local timestamps sufficient or require C2PA adoption.",
+        "url": "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html"
+      },
+      "origin": "plan",
+      "recommended_action": "Retain UNKNOWN for generation-after-seal without trustworthy evidence binding the generation event to the sealed intent and resulting clip. Explicit inference: a previously generated clip can be registered and first viewed after sealing, producing the same local timestamp ordering.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "The when field serves as a simple non-trusted time-stamp.",
+          "title": "C2PA Technical Specification 2.4 \u2014 section 18.15.4.3, When",
+          "url": "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "Pydantic v2 BaseModel.model_copy(update=...) does not validate supplied update values.",
+      "id": "R0005-C005",
+      "newer_practice": {
+        "date": "2026-04-13",
+        "summary": "Pydantic 2.13 changed RootModel shallow-copy behavior without adding update validation. This does not change the evaluator's external API finding.",
+        "url": "https://pydantic.dev/articles/pydantic-v2-13-release"
+      },
+      "origin": "evaluator",
+      "recommended_action": "Accept the API finding. Require validation of candidate updates wherever invariants depend on it; this research does not establish whether the repository already performs that validation.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "no validation is performed on updated values.",
+          "title": "BaseModel | Pydantic Docs \u2014 model_copy",
+          "url": "https://pydantic.dev/docs/validation/latest/api/pydantic/base_model/#model_copy"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "SQLite permits only one simultaneous write transaction; BEGIN IMMEDIATE starts a write transaction immediately or can fail with SQLITE_BUSY when another connection has an active write transaction.",
+      "id": "R0005-C006",
+      "newer_practice": {
+        "date": "2025-05-29",
+        "summary": "SQLite 3.50.0 added separate blocking-lock timeout configuration for supporting builds. This does not remove writer serialization or possible SQLITE_BUSY outcomes, so the finding remains applicable.",
+        "url": "https://sqlite.org/releaselog/3_50_0.html"
+      },
+      "origin": "evaluator",
+      "recommended_action": "Accept the documented concurrency semantics. Require evidence that competing operations keep their checks and writes within the transaction and handle contention without partial changes; documentation alone does not verify the implementation.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "only one simultaneous write transaction. \u2026 BEGIN IMMEDIATE might fail with SQLITE_BUSY",
+          "title": "SQLite \u2014 Transaction, sections 2.1\u20132.2",
+          "url": "https://www.sqlite.org/lang_transaction.html"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "RFC 3161 describes timestamping evidence that a datum existed before a particular time.",
+      "id": "R0005-C007",
+      "newer_practice": {
+        "date": "2026-04",
+        "summary": "C2PA 2.4 retains RFC 3161 for signature-existence evidence. This supports the existing interpretation and does not change this step.",
+        "url": "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html"
+      },
+      "origin": "evaluator",
+      "recommended_action": "Accept the finding while keeping timestamp validity, binding to the intended datum, and trust in the authority explicit. Existence evidence must not be promoted to generation-time evidence.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "a datum existed before a particular time.",
+          "title": "RFC 3161 \u2014 Internet X.509 Public Key Infrastructure Time-Stamp Protocol (TSP)",
+          "url": "https://www.rfc-editor.org/rfc/rfc3161.html"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    },
+    {
+      "affects_this_step": true,
+      "claim": "Local seal, plan, registration and first-view timestamps alone cannot prove generation occurred after sealing; witnessing intent existence does not itself witness clip generation.",
+      "id": "R0005-C008",
+      "newer_practice": {
+        "date": "2026-04",
+        "summary": "C2PA 2.4 preserves separate treatment of asserted action times and trusted timestamp evidence. This reinforces the finding without changing the step's required scope.",
+        "url": "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html"
+      },
+      "origin": "evaluator",
+      "recommended_action": "Accept this as an explicit inference about insufficient evidence. Keep witnessed intent existence separate from witnessed generation, and retain UNKNOWN for the latter when no generation-event evidence exists. A pre-existing clip registered after sealing is a counterexample to inferring generation order from these timestamps.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "The when field serves as a simple non-trusted time-stamp.",
+          "title": "C2PA Technical Specification 2.4 \u2014 section 18.15.4.3, When",
+          "url": "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    }
+  ],
+  "item": "L02",
+  "proposals": [],
+  "step": 5,
+  "summary": "All eight requested claim occurrences are CONFIRMED. The generation-timing conclusions are logical inferences from the cited evidence limits, not findings from repository inspection. Reused the fresh 2026-10-08 Pydantic ledger evidence and reopened its primary sources. Recent documentation and releases do not supersede these conclusions.\n\nLandscape scan: 2026-08-10 through 2026-10-08; all sources accessed 2026-10-08. Five findings:\n1. Generative video evaluation \u2014 VWG-Bench, arXiv v1 dated 2026-09-10, separates visual fluency, rule compliance, and goal completion. Relevance: supports distinguishing appearance from intent fulfillment; does not establish generation chronology. [From Evaluation to Enhancement](https://arxiv.org/abs/2609.11242v1).\n2. Human evaluation protocols \u2014 PANEL, arXiv v1 dated 2026-09-25, describes controlled multimodal studies with screening, consent versioning, and exportable study specifications. Relevance: useful protocol-recording reference; platform capabilities do not establish measurement validity. No change to this step. [PANEL](https://arxiv.org/abs/2609.31392v1).\n3. Judge reliability and selective evaluation \u2014 a preprint dated 2026-09-28 examines correlated task clusters and proposes task-level bootstrap calibration for selective judging. Relevance: cautions against treating correlated evaluations as independent; reported empirical performance is not a universal guarantee or validation for media judging. No change to this step. [Certified Selective Automation of LLM Agent Evaluation](https://arxiv.org/abs/2609.34320v1).\n4. Context-conditioned evaluation \u2014 UFO, arXiv v2 dated 2026-09-17, evaluates interacting textual and visual conditions through decomposed checks. Relevance: supports retaining the actual conditioning context; does not validate local chronology evidence. [UFO](https://arxiv.org/abs/2609.12397v2).\n5. Provenance and annotation standards \u2014 IPTC's 2026-09-03 conference documents work on C2PA implementation guidance, identity assertions, and proposed metadata changes. Relevance: distinguishes evolving provenance guidance from adopted requirements; the described proposals should not be treated as ratified standards. No change to this step. [IPTC Photo Metadata Conference 2026](https://iptc.org/events/photo-metadata-conference-2026/)."
+}

@@ -1,0 +1,62 @@
+{
+  "findings": [],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Checked builder-authored Plan, Probes, changed documentation, comments, docstrings and CLI help against implementation; no checkable contradiction was established.",
+        "Verified scoring.py reads legacy applicability and authority, with critical failures preceding missing-evidence handling, matching the qualified legacy-default documentation.",
+        "Verified the report Plan matches plan.md. Inspected earlier evaluation identities under tree/loop/reports: none is an earlier L06 attempt, consistent with the sealed Prior attempts statement.",
+        "Kept researcher-owned research.json and harness bookkeeping outside builder accuracy scoring. Routed the six external Plan claims using canonical research IDs."
+      ],
+      "id": "F0013-R2-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "Checked test_identical_catastrophic_geometry_acceptance_matrix for literal decisions, rule IDs, provenance flags, complete observation equality and unchanged evaluations.",
+        "Checked test_hypotheses_remain_unresolved, test_unknown_must_and_ship_guard, test_override_reason_required and test_phase2_regression_matrix against every remaining parent acceptance criterion.",
+        "Traced test_selected_assessment_requires_exact_context: the verdict context remains valid, and its anchored error assertion excludes both the earlier binding rejection and later derived-trace rejection.",
+        "Checked the new actual-derivation oracle against the documented envelope contract; author, relevance and source-pin changes are distinguishable."
+      ],
+      "id": "F0013-R2-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "Reviewed positive, negative and edge-case assertions across both new test files; the two previously inadequate oracles now have targeted supplementary tests.",
+        "Independently executed extracted derive logic with dependency-free record doubles: its envelope matched the new literal bytes and SHA-256. Author/relevance omission mutations failed that oracle, and deleting the assessment-context guard admitted the foreign assessment.",
+        "Independently executed all six literal deviation-threshold cases and parsed every changed Python file.",
+        "Checked CLI help and documentation against import, preview, history and snapshot paths. Full pytest execution was unavailable because the interpreter lacks pytest, Pydantic and SQLAlchemy; gate.json separately reports 862 passing tests."
+      ],
+      "id": "F0013-R2-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Traced DecisionPolicy and TerminalVerdict registration, inherited schema versions, policy version/revision equality, predecessor pins, transactional admission and SQL reference persistence.",
+        "Traced decisions.roots through private snapshot discovery and refs_in dependency closure; policies and exact selected inputs are retained.",
+        "Checked test_private_cli_snapshot_and_public_isolation for direct admissions, historical revisions, unrelated-record exclusion and frozen exports.",
+        "Inspected L12: domain lint is a subsequent item. This change supplies admission guards without expanding into that item."
+      ],
+      "id": "F0013-R2-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read all 1,207 diff lines and opened all nine changed files under tree/. Changes implement L06 policies, verdicts, persistence, private workflows, documentation and tests.",
+        "Compared implementation with the sealed plan and all DEFERRED entries D01-D14; no unrelated functionality was found."
+      ],
+      "id": "F0013-R2-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Independently counted 889 additions/removals outside report paths, within the sealed 900-line ceiling.",
+        "Confirmed the diff changes no existing baseline tests, dependencies, scoring.py, protected outputs, harness code, rubric or invariants.",
+        "Compared the implementation with the sealed exclusions and all fourteen DEFERRED items; none is implemented."
+      ],
+      "id": "F0013-R2-D-scope"
+    }
+  ]
+}

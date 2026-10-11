@@ -1,0 +1,64 @@
+{
+  "findings": [
+    {
+      "description": "The rubric requires a test that fails when each new validator is deleted. ClipOrigin.contract, FirstView.contract and BindingContext.contract lack such tests. Every exercised origin has consistent origin/plan fields and an original clip; every exercised view/context has correctly typed pins. The forged-context test exercises stored chronology, while duplicate-origin and concurrent-view tests exercise separate admission checks. Removing these model validators therefore leaves those tests satisfied. In particular, no test independently proves rejection of PLANNED without a plan, FOUND with a plan, a non-original origin clip, or wrong-kind view/context pins. This conclusion follows from the inspected test inputs and control flow; full runtime mutation testing was unavailable.",
+      "dimension": "production_quality",
+      "id": "F0011-R1-001"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Compared lifecycle documentation and CLI help against implemented origin mapping, provenance derivation, UNKNOWN preservation, access-attempt semantics and frozen exports.",
+        "Checked revised installer/checksum descriptions against scripts/install_media_tools.py and the retained toolchain record; checked extraction options against media.py.",
+        "Applied the A2 boundary: external dependency and standards claims are research requests, without an accuracy penalty; harness bookkeeping and earlier researcher claims were not graded as current builder claims."
+      ],
+      "id": "F0011-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "tree/src/eval_lab/generation.py:174 incorrectly parses valid unprefixed IDs equal to the default kind. Independently executing the extracted function showed IntentSpecV2@1 and PilotClip@1 resolve to an empty ID.",
+        "Executed the extracted classifier against all 52 supplied chronology cases: zero mismatches. Replacing strict ordering with non-strict comparisons produced 12 mismatches.",
+        "test_selection_negative_cases_are_not_masked and test_found_cli_private_export_and_public_exclusion directly exercise selection rejection and the FOUND workflow."
+      ],
+      "id": "F0011-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "tree/src/eval_lab/generation.py:60-76 and :111-116 introduce model validators without deletion-sensitive negative tests; see F1.",
+        "tree/tests/test_generation.py:66, :69, :262 and :369 accept broad exceptions without the message fragments required by the rubric.",
+        "tree/tests/test_generation.py:183-200 never asserts candidate order against an independently specified expected sequence.",
+        "All six changed Python files passed AST parsing. Full pytest and mutation reruns were unavailable because the available Python lacks Pydantic, SQLAlchemy and pytest."
+      ],
+      "id": "F0011-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Traced all five new artifact types through registration, inherited schema versions, reference traversal, digest validation and transaction-scoped admission.",
+        "Inspected selection predecessors, binding anchors, both cross-origin alias directions and private snapshot dependency closure.",
+        "Checked backlog L12: dedicated graph lint is later work; existing applicable admission checks are integrated."
+      ],
+      "id": "F0011-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Compared all ten changed files against L04 and the sealed plan: changes concern plans, origins, bindings, selections, access events, private snapshots and associated documentation/tests."
+      ],
+      "id": "F0011-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Independently counted 882 changed lines outside reports, within the sealed 900-line limit.",
+        "Compared the implementation against DEFERRED items D01-D14; none is implemented.",
+        "Confirmed no changes to dependencies, existing tests, protected schemas, public serializers or fixed judge implementation."
+      ],
+      "id": "F0011-R1-D-scope"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "step": 9,
+  "item": "L11",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented Relation v2. All 698 tests passed, including 150 new cases. Advisory gate passed on attempt 1; sealed Plan unchanged.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/relation_v2.py:16 implements the approved relation fields; :89 provides explicit legacy loading."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_relation_v2.py:107 tests explicit purposes; :121 tests required warrants; :139 covers all predicates; :200 tests exact intent, anchor and evidence boundaries."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "tests/test_relation_v2.py:255 verifies predecessor pins; :278 verifies legacy and stored-byte preservation; :326 and :348 verify transactional exclusivity across versions and competing writers."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Tests failed before implementation. The final advisory gate passed all 698 cases, frozen harness tests and isolated approval checks.",
+        "docs/relations-v2.md:3 documents backend authoring, compatibility loading and the unchanged CLI boundary."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "tests/test_relation_v2.py:81 verifies fixed-input canonical output and hashes; :278 verifies stored rows across reopening.",
+        "loop/reports/STEP-0009-L11.md:104 records tool versions, source hashes and the advisory G14 limitation."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Gate G7 measured 641 changed product lines against 900 allowed. Protected files, dependencies and existing tests remain unchanged.",
+        "Changes comprise four product files and this step's report; no DEFERRED capabilities were built."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Explicit purposes and warrants",
+      "lazy_pass": "Infer labels or substitute free-text purpose for a missing warrant.",
+      "present_in_diff": false,
+      "evidence": "tests/test_relation_v2.py:107 and :121 reject omitted, malformed and unspecified authoring values."
+    },
+    {
+      "criterion": "Exact intent, criterion and evidence linkage",
+      "lazy_pass": "Use latest intent, matching names or unbound evidence.",
+      "present_in_diff": false,
+      "evidence": "tests/test_relation_v2.py:180, :200 and :244 exercise exact bindings, cross-version rejection and retained revisions."
+    },
+    {
+      "criterion": "Append-only history and legacy loading",
+      "lazy_pass": "Rewrite v1 records or manufacture legacy metadata.",
+      "present_in_diff": false,
+      "evidence": "tests/test_relation_v2.py:255 and :278 verify predecessor rejection, unchanged stored bytes and a nonpersistable compatibility view."
+    },
+    {
+      "criterion": "Repository admission and exclusivity",
+      "lazy_pass": "Bypass validation through copied objects, insertion order or concurrent writers.",
+      "present_in_diff": false,
+      "evidence": "tests/test_relation_v2.py:326, :348 and :435 cover both relation versions, competing writers and nested copied pins."
+    },
+    {
+      "criterion": "State separation and public privacy",
+      "lazy_pass": "Treat operational labels as actions or expose private relation text.",
+      "present_in_diff": false,
+      "evidence": "tests/test_relation_v2.py:81 preserves hypothesis status/confidence; :379 proves unchanged public/embed payloads."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "PUBLIC_PROSE: docs/relations-v2.md.",
+    "Advisory verification only: G14 was skipped; authoritative verification remains with the controller.",
+    ""
+  ]
+}

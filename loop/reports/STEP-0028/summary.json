@@ -1,0 +1,33 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 0,
+    "intention": 0,
+    "production_quality": 0,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "REVERT",
+  "flags": [
+    "Available Python lacks pytest. Independent checks used actual reader/preparation functions in a standard-library harness with a supplied artifact-name registry and the locally extracted Dimension enum. SQLite checks were in-memory; they did not exercise RawReader.__enter__, on-disk preservation, Pydantic seal validation or the full admitted-model suite."
+  ],
+  "gate": true,
+  "item": "L12-A2c",
+  "passed": 5100,
+  "research": {
+    "CONFIRMED": 2,
+    "UNVERIFIABLE": 9
+  },
+  "rounds": 1,
+  "rule": "RF",
+  "scores": {
+    "accuracy": 4,
+    "intention": 4,
+    "production_quality": 4,
+    "relation": 4,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 28
+}

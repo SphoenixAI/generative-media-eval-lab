@@ -1,0 +1,127 @@
+{
+  "blocking_findings": [
+    {
+      "description": "Legacy relation endpoint-kind validation lacks a deletion-sensitive negative control. The endpoint matrix constructs only RelationClaimV2 records; legacy controls use missing/null/integer fields or valid endpoints. I disabled only the 'relation endpoint kind' guard for RelationClaim and replayed the focused controls: all 553 direct and 551 in-memory SQLite cases still passed. With that mutation, a legacy supports relation whose subject is a correctly resolved MediaAsset and object is a Hypothesis returns no diagnostics and usable support. The unchanged implementation correctly reports INTEGRITY_FAILURE at the legacy relation's subject with reason 'relation endpoint kind'. Thus this is a demonstrated coverage gap, not a claim that the unchanged implementation accepts that record.",
+      "dimension": "production_quality",
+      "id": "F0026-R1-001",
+      "invariant": null,
+      "location": "tests/test_lint_temporal_prerequisites.py:246-256,576-592; src/eval_lab/lint_temporal_prerequisites.py:222-230",
+      "required_fix": "Add isolated legacy subject and object endpoint-kind mismatch controls using existing exact targets and valid recomputed hashes, alongside valid legacy counterparts, through direct and retained adapters. Add a named mutation control that disables legacy endpoint validation and fails specifically because the expected diagnostic disappears. Include this branch in the relation coverage ledger.",
+      "severity": "MATERIAL"
+    }
+  ],
+  "claims_for_research": [],
+  "diff_sha256": "7caa43b65ccc7d8307a388f3a5078b2c5b063a0925eb147e469cad7abe898b1c",
+  "flags": [
+    "Full pytest was not independently rerun: the available interpreter lacks pytest. The supplied gate reports 2951 passing tests.",
+    "Independent replays executed actual preparation, reader and test bodies with lightweight pytest substitutes and a substituted artifact-kind registry. SQLite probes used in-memory databases. Repository-admitted representative tests and retained filesystem preservation were not independently executed.",
+    "Reviewed I1-I16 against the candidate. No invariant violation was established: no real judgment/history writes, operational decisions, averaging, probability arithmetic, runtime network dependencies, public serialization changes, existing-test weakening, deferred implementation or judge edits were found. Main and external filesystem integrity were not independently verified.",
+    "Independently computed the diff SHA-256 and confirmed it matches diff_sha256.txt."
+  ],
+  "item": "L12-A2b",
+  "loophole_audit": [
+    {
+      "criterion": "Declare prerequisites and consume them through the shared availability boundary.",
+      "evidence": "Inspected value(), edge() and collection(); test_inventory_exact and test_boundary_consumption compare independent declarations, contracts and multiplicities. Replayed their controls.",
+      "lazy_pass": "Publish field names while reading unchecked descendants or checking only distinct paths.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Check decoded timelines, coordinates and full-clip duration prerequisites.",
+      "evidence": "test_motion_and_full_clip_contract rejects null/invalid decoded duration; test_semantic_guard checks timeline structure; test_valid_branches retains out-of-range coordinates and decoded bounds separately.",
+      "lazy_pass": "Skip duration checks for full clips or discard out-of-range coordinates before later predicates can inspect them.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Require frame-attachment derivatives and exact selected-index/media correspondence.",
+      "evidence": "test_frame_attachment_requires_derivative and branch-removal controls reject the prior null-derivative bypass. The fixture uses manifest indices [2,0,2], with correspondence and selection rejection controls.",
+      "lazy_pass": "Treat a null derivative as optional despite selected frames, or join selected indices by manifest position.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Check motion dimensions and support context.",
+      "evidence": "test_motion_and_full_clip_contract, test_collection_contract and test_context_and_correspondence exercise explicit failures; valid non-motion and empty-support branches remain distinct.",
+      "lazy_pass": "Treat an invalid dimension as non-motion or unavailable context as an empty support collection.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Check relation vocabulary and purposes across legacy and v2 branches.",
+      "evidence": "The unchanged code validates both versions, but the tests permit this shortcut: disabling legacy endpoint-kind rejection survived all replayed controls. Legacy tests omit well-formed wrong-kind endpoints.",
+      "lazy_pass": "Validate endpoint kinds only for v2 while giving every legacy relation an UNSPECIFIED compatibility view.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Check stochastic sample-design activation and optional branches.",
+      "evidence": "test_branch_guard_deletion covers both activation shortcuts; field and semantic controls check decision rules and exclusive count/stopping alternatives.",
+      "lazy_pass": "Accept absent designs for generation arms or ignore a present design on nongeneration arms.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Provide isolated failing/valid controls and deletion-sensitive tests for every applicable rejection branch.",
+      "evidence": "test_remaining_guard_deletion selects only a v2 relation. The independently disabled legacy branch accepts an invalid relation without failing the replayed tests.",
+      "lazy_pass": "Demonstrate a shared guard on one version while leaving another supported version's validation removable.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Preserve records and expose only bounded prerequisite preparation.",
+      "evidence": "Inspected read-only preparation and support denial; test_preservation_and_subset covers repeatability, reordered inputs and source preservation. No readiness or complete-lint API is introduced.",
+      "lazy_pass": "Normalize retained records or label partial preparation as readiness.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [],
+  "role": "evaluator",
+  "round": 1,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Read builder-authored Plan, Probes, comments and docstrings, separating harness bookkeeping from accuracy evidence.",
+        "Checked local contract claims against the supplied domain, pilot, relation, sample-design and shared-reader source.",
+        "Compared all seven STEP-0023 finding records with the Plan's Prior attempts mapping; owned remedies and remaining sibling obligations are accurately distinguished.",
+        "No external factual claim requiring research was identified."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "tests/test_lint_temporal_prerequisites.py:250 exercises endpoint-kind rejection only for RelationClaimV2.",
+        "tests/test_lint_temporal_prerequisites.py:578 covers malformed legacy fields but not well-formed references with invalid endpoint kinds.",
+        "A mutation disabling endpoint-kind rejection only for RelationClaim survived 553 direct and 551 in-memory SQLite control replays."
+      ],
+      "score": 2
+    },
+    "production_quality": {
+      "evidence": [
+        "tests/test_lint_temporal_prerequisites.py:592 selects only a v2 subject mismatch for the relation guard-removal experiment.",
+        "The surviving legacy-branch mutation demonstrates that current tests do not establish rejection across the supported relation versions.",
+        "The unchanged focused test bodies passed 553 direct and 551 in-memory SQLite replays, subject to the execution limitations recorded in flags."
+      ],
+      "score": 2
+    },
+    "relation": {
+      "evidence": [
+        "Checked exact reference, revision, digest and pin resolution against the shared reader and replayed dependency controls through both adapters.",
+        "Compared endpoint vocabularies with domain.py and relation_v2.py; the unchanged implementation rejects the independently constructed invalid legacy relation.",
+        "Prepared is transient private infrastructure, not a new authored artifact requiring persistence or snapshot schema registration."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Read the complete diff and every changed file under tree; changes implement the assigned temporal, relation and optional prerequisites.",
+        "Compared the implementation with STEP-0024/split.json; sibling preparation, final predicates and readiness integration remain outside this child."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Compared all changed paths with the sealed plan and DEFERRED backlog entries; found no deferred implementation, new dependency, public surface or domain-schema change.",
+        "Confirmed the patch does not modify existing tests, historical reports or harness source.",
+        "Independently counted 897 product/test changed lines against the configured 900-line limit."
+      ],
+      "score": 4
+    }
+  },
+  "step": 26,
+  "summary": "The implementation currently rejects the examined invalid prerequisites, but relation coverage misses the legacy endpoint-kind branch. Disabling that validation survived the replayed controls, leaving the sealed deletion-sensitive coverage requirement unmet."
+}

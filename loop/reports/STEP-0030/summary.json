@@ -1,0 +1,35 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 0,
+    "intention": 1,
+    "production_quality": 1,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "REVERT",
+  "flags": [
+    "Independent executions used actual preparation, reader, canonicalization and test functions with substituted import wiring, an artifact-kind registry and manual parameterization. SQLite databases were in memory with query_only enabled. These checks do not establish installed-package or on-disk retained integration.",
+    "Reviewed I1-I16 against the diff and relevant behavior. No score-zero invariant violation is established: the change adds private partial preparation without judgment authoring, history writes, operational decisions, averaging, probability arithmetic, runtime networking, public serialization, test weakening, deferred implementation or harness modification.",
+    "Supplied gate.json also reports blocking G12 approval failure. Its G5/G6/G14 checks pass, but external repository and filesystem state was not independently inspected outside the permitted folder.",
+    "The accessible Python lacks pytest, pydantic and SQLAlchemy. Full-suite results are supplied gate evidence, not an independently rerun suite."
+  ],
+  "gate": false,
+  "item": "L12-A2d",
+  "passed": 6179,
+  "research": {
+    "CONFIRMED": 2
+  },
+  "rounds": 2,
+  "rule": "R1",
+  "scores": {
+    "accuracy": 4,
+    "intention": 1,
+    "production_quality": 1,
+    "relation": 4,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 30
+}

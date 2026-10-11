@@ -1,0 +1,36 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 1,
+    "intention": 2,
+    "production_quality": 2,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "REVERT",
+  "flags": [
+    "External claims remain assigned to research. Embedded research confirmations and builder self-assessments were not accepted as independent proof.",
+    "Independent execution covered extracted classifier/admission logic and structural/hash checks only. Pydantic, repository transactions, concurrency, media and full pytest execution were not independently rerun.",
+    "No files were modified.",
+    "PUBLIC_PROSE",
+    "The supplied gate reports 460 passing tests; that is supplied evidence, not an independently reproduced result."
+  ],
+  "gate": true,
+  "item": "L02",
+  "passed": 460,
+  "research": {
+    "CONFIRMED": 8
+  },
+  "rounds": 2,
+  "rule": "R4",
+  "scores": {
+    "accuracy": 4,
+    "intention": 4,
+    "production_quality": 4,
+    "relation": 4,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 5
+}

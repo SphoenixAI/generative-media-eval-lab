@@ -1,0 +1,171 @@
+{
+  "step": 33,
+  "item": "L12-A2d1",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "10c3069676b2b34e6d46d3ac828b7018e1404726748781e17b3236ae3699e6a1",
+  "summary": "The bounded change adds meaningful declarations and controls, but does not satisfy the accounting foundation. Actual consumer reads escape reconciliation, historical operands remain unchecked, scope accounting is incomplete, valid optional branches are rejected, and computed-output tests survive deletion of the implementation.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read the complete diff and opened all six changed files; verified their complete contents match the patch.",
+        "Compared the change with the sealed plan and STEP-0031 split: the implementation addresses d1 prerequisite accounting."
+      ]
+    },
+    "intention": {
+      "score": 1,
+      "evidence": [
+        "src/eval_lab/lint_context.py:73 compares two Expansion passes; actual temporal/warrant preparation contributes only diagnostics at line 77.",
+        "src/eval_lab/lint_rule_expansion.py:126 rejects a valid null derivative with checked empty frame_indices.",
+        "src/eval_lab/lint_context.py:138 discards each audited root's accounting ledgers and checked-inactive obligations."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/lint_rule_expansion.py:154 resolves historical targets without expanding their required operands.",
+        "src/eval_lab/lint_rule_manifest.py:43 establishes EvidenceArm membership through evidence.media but omits its plan's intent scope.",
+        "Inspected Receipt and Obligation: these are transient internal values, not new authored artifacts requiring persistence or snapshot schemas in this child."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "tests/test_lint_rule_manifest.py:234 and :375 assert operand rejection and generic support, but never require a computed-output obligation or its independently expected value.",
+        "Deleting the entire computed-output loop left all 83 existing computed controls passing on each isolated direct and SQLite-reader path.",
+        "test_exact_history_accounting covers missing targets but not missing/null/malformed required fields inside historical targets; test_preserved_root_controls omits valid inactive attachment branches."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Read builder-authored comments, docstrings, Plan and Probes; checked local premises against the boundary, domain models, test-plan contracts, configuration and split.",
+        "Compared the Prior attempts mapping against every supplied STEP-0023, STEP-0030 and STEP-0032 finding; it preserves prior failures and distinguishes planned d1 remedies from d2 obligations.",
+        "Excluded harness report sections from accuracy scoring. Found no new external factual claim requiring research."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared all changed paths with the sealed plan and all DEFERRED backlog entries; found no deferred implementation or unrelated product changes.",
+        "Independently counted 900 source/test lines; existing tests, dependencies, schemas and harness files are unchanged.",
+        "Verified prepare retains an explicit incomplete-semantics diagnostic and adds no readiness, verdict, CLI or snapshot integration."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "B1",
+      "dimension": "intention",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_context.py:73-79; src/eval_lab/lint_rule_expansion.py:38-44",
+      "description": "Observed accounting does not observe the existing temporal or warrant consumers. It executes the same Expansion traversal against an import-time copy of the declarations, then separately calls the real preparer and retains only its diagnostics. In isolated direct and SQLite-reader probes, bypassing the temporal consumer's Evidence.coverage boundary read with a literal 'interval' returned diagnostics=(), successful support, and an unchanged observed ledger. The new missing/extra-read controls mutate role.Access, so they do not detect this disconnect.",
+      "required_fix": "Reconcile independently expanded obligations against actual temporal/warrant boundary consumption and dependency resolution. Add direct and retained controls that omit, substitute and duplicate reads in those actual consumers while preserving otherwise valid values."
+    },
+    {
+      "id": "B2",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_rule_expansion.py:150-155; src/eval_lab/lint_role_prerequisites.py:34-44",
+      "description": "History expansion resolves an exact row but discards the returned record without expanding its required operands. An E5 hypothesis audit therefore checks the current confidence and the predecessor's identity, but never the predecessor confidence needed by the upward-revision prerequisite. Direct and SQLite-reader probes returned empty diagnostics and successful full role-profile support when predecessor confidence was missing, null or a string. No predecessor field appeared in expected obligations. The same structural omission applies to original PilotClip operands. This concerns prerequisite access, not deferred history-head selection or final predicates.",
+      "required_fix": "Declare and expand the required historical-target operands with exact source and association identities. Add isolated valid, missing, null, malformed and substituted historical-operand controls on direct and retained paths, without implementing deferred history semantics."
+    },
+    {
+      "id": "B3",
+      "dimension": "intention",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_rule_expansion.py:93-127; tests/test_lint_rule_manifest.py:338-345",
+      "description": "Checked applicability does not preserve existing valid optional branches. There is no derivative activation rule based on PilotSubmission.frame_indices, so the generic fallback treats an explicitly null derivative as unavailable even when checked frame_indices is empty. On both isolated adapters, the unchanged temporal preparer accepted this valid no-attachment submission with no diagnostics, while the new audit emitted UNKNOWN/null required field for derivative and denied support. The new preserved-root controls exercise only the attachment-present fixture.",
+      "required_fix": "Implement checked activation/inactivity for the existing optional branches, including derivative absence justified by checked empty frame_indices. Carry the existing valid inactive-branch controls through the new audit and add isolated negatives and deletion witnesses."
+    },
+    {
+      "id": "B4",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_rule_manifest.py:42-47; src/eval_lab/lint_context.py:102-114",
+      "description": "Scope membership checks only a subset of required links for roots spanning media and intent. EvidenceArm and InstrumentRun are classified solely through evidence.media; their plan.competing_set.intent is never compared with the checked intent. In direct and SQLite-reader probes, an EvidenceArm whose evidence matched the selected media but whose pinned plan belonged to another intent returned active membership with only a media justification. Missing or damaged plan-scope evidence likewise cannot affect this membership decision.",
+      "required_fix": "Declare and check every applicable scope dimension through exact dependencies before classifying these roots as active or excluded. Add matching-scope, different-intent-revision, missing-link and malformed-link controls with literal membership diagnostics on both paths."
+    },
+    {
+      "id": "B5",
+      "dimension": "intention",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_context.py:134-146",
+      "description": "Scoped preparation discards the accounting foundation it computes. For each active root it preserves only audit diagnostics, dropping expected, observed and checked_inactive. Its returned Receipt consequently always has empty accounting ledgers and no declaration-level inactive obligations; applicability records only rule/root membership. Independent probes confirmed ACTIVE rules with expected=(), observed=() and checked_inactive=(). The unconditional semantic UNKNOWN correctly prevents completion, but does not satisfy the required auditable prerequisite receipt.",
+      "required_fix": "Retain each active root's association-preserving expected/observed obligations and checked-inactive evidence in the scoped receipt. Test exact accounting contents for active and mixed active/inactive scopes while preserving incomplete semantic status."
+    },
+    {
+      "id": "B6",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tests/test_lint_rule_manifest.py:231-255,372-387; src/eval_lab/lint_rule_expansion.py:176-190",
+      "description": "Computed-output coverage is not deletion-sensitive. The tests require valid operands and some support, but do not assert that Evidence.digest or TestPlan.authored was computed, passed through its output boundary, or discharged a computed obligation. I removed the entire computed loop in an in-memory source mutation: all 83 parameterized computed operand/nested controls still passed for each isolated adapter. Both ledgers silently lose the same obligation because they share this implementation. The existing inventory equality tests cannot detect that missing execution.",
+      "required_fix": "Add independently specified computed-output expectations and isolated omission, substitution and output-boundary failure controls. Ensure deletion of each computed obligation or its boundary causes the ordinary acceptance test to fail on direct and retained paths."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Declare every prerequisite for all thirteen rules.",
+      "lazy_pass": "List all rule names and field strings while omitting operands of exact historical dependencies.",
+      "present_in_diff": true,
+      "evidence": "test_literal_computed_and_rule_inventory verifies names, but lint_rule_expansion.py:154 never expands historical target fields; malformed predecessor confidence still permits audited support."
+    },
+    {
+      "criterion": "Expand expectations independently and reconcile actual consumption.",
+      "lazy_pass": "Run the declaration traversal twice and call the second traversal observed consumption.",
+      "present_in_diff": true,
+      "evidence": "lint_context.py:73-77 does exactly this for temporal/warrant auditing; bypassing the actual temporal coverage read leaves both ledgers unchanged and support available."
+    },
+    {
+      "criterion": "Provide independent role-access accounting.",
+      "lazy_pass": "Provide a callable primitive subset and assume it proves complete role prerequisites.",
+      "present_in_diff": true,
+      "evidence": "test_role_consumption_accounting meaningfully catches primitive mutations, but the full profile omits historical operands and scoped prepare drops its resulting accounting."
+    },
+    {
+      "criterion": "Declare raw and computed operands and conditional exact member references.",
+      "lazy_pass": "Check operands and manifest names without proving execution of computed-output obligations.",
+      "present_in_diff": true,
+      "evidence": "Named-member resolution has focused controls, but all 83 computed controls per isolated adapter survive deletion of the computed loop."
+    },
+    {
+      "criterion": "Establish checked scope and explicit active/inactive obligations.",
+      "lazy_pass": "Check one convenient scope link and report rule-level activity without retaining declaration-level evidence.",
+      "present_in_diff": true,
+      "evidence": "EvidenceArm membership ignores plan intent; prepare returns empty expected/observed/checked_inactive fields. Valid no-attachment inactivity is also rejected."
+    },
+    {
+      "criterion": "Match rule, dependency, contract and occurrence identities.",
+      "lazy_pass": "Demonstrate identity matching only inside a synthetic access traversal disconnected from consumers.",
+      "present_in_diff": true,
+      "evidence": "Obligation and test_role_consumption_accounting distinguish several identities, but lint_context.py:77 does not reconcile actual temporal/warrant accesses."
+    },
+    {
+      "criterion": "Every new guard has isolated valid, negative and deletion-sensitive controls.",
+      "lazy_pass": "Use representative operand corruption and manifest equality as proof that every validator executes.",
+      "present_in_diff": true,
+      "evidence": "Computed-output deletion survives existing controls; history tests omit damaged predecessor operands, and preserved-root controls omit valid inactive attachment branches."
+    },
+    {
+      "criterion": "Preserve shared states, incomplete semantics, existing tests and the line cap.",
+      "lazy_pass": "Use an unconditional UNKNOWN as a substitute for implementing the assigned accounting foundation.",
+      "present_in_diff": true,
+      "evidence": "prepare correctly retains UNKNOWN at lint_context.py:144 and the patch preserves tests and the 900-line cap, but that diagnostic coexists with the missing scoped accounting described above."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "Independently verified the patch SHA-256 and exact changed-file contents.",
+    "The supplied gate reports 5485 passing tests. Full pytest was not independently runnable because the available Python lacks pytest and project dependencies.",
+    "Independent probes executed actual accounting, boundary and reader source with unavailable registration/import dependencies substituted. SQLite probes used an in-memory database and the actual RawReader methods; they do not establish the on-disk read-only session lifecycle.",
+    "Reviewed I1-I16 against changed paths and behavior. Found no authored-history mutation, real judgment creation, protected/harness edit, test weakening, network dependency, public serializer change, deferred implementation or Git action. The findings concern incomplete prerequisite accounting; full semantic support remains denied, and no score-zero invariant violation is asserted."
+  ]
+}

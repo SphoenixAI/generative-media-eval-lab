@@ -1,0 +1,145 @@
+{
+  "blocking_findings": [],
+  "claims_for_research": [],
+  "diff_sha256": "f7a9ced1d0e212ac5e5365d9db43cbf66a02999594927e6848b1912943a62b98",
+  "flags": [
+    "Independent runtime and mutation suites were not executed: available Python lacks pytest, Pydantic and SQLAlchemy, and the evaluation workspace is read-only. gate.json reports 1214 passing tests; that result is supplied evidence, not independently reproduced.",
+    "Minor oracle limitation: tests/test_resolution_workflow.py:164-169 can reject through repeated Evidence identity even if later instrument-run revisions receive incorrect unit identities."
+  ],
+  "item": "L10",
+  "loophole_audit": [
+    {
+      "criterion": "Plan 1: exact frozen plan, declared outcome and qualifying evidence",
+      "evidence": "test_exact_inputs, test_prerequisite_rejections_do_not_append and test_retained_plan_integrity_and_missing_dependencies require specific rejection paths. Derivation checks exact pins, freeze transition and dependency closure.",
+      "lazy_pass": "Accept a frozen-looking model, arbitrary outcome or merely nonempty evidence.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 2: raw frozen-payload integrity at both read boundaries",
+      "evidence": "persistence.py:44-54 verifies raw parsed TestPlan content before reconstruction; both getters use it. test_raw_frozen_defaults_rejected_at_each_read_boundary isolates preparation and post-preflight transactional corruption.",
+      "lazy_pass": "Restore deleted defaults before hashing, or verify only during preparation.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 3: prediction membership and residual behavior",
+      "evidence": "test_literal_elimination_overlap_identical_and_residual uses literal ordered statuses for distinct, overlapping, identical and unpredicted outcomes. test_nonexhaustive_and_indeterminate_are_explicit checks absence of an invented residual and unchanged history.",
+      "lazy_pass": "Hardcode one winner, eliminate the residual or invent a residual for every set.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 4: every evidence/hypothesis pair in exact plan and arm context",
+      "evidence": "The h=(31,12) prerequisite case exercises a later-checked member. test_scoped_plan_links_and_context_corrections_do_not_rewrite_replay supplies foreign links that sort first and corrections that invalidate current eligibility.",
+      "lazy_pass": "Check one hypothesis or accept a qualifying foreign-plan link.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 5: distinct samples and independent per-arm sufficiency",
+      "evidence": "Literal shortage, exact and above-threshold cases cover per-arm counts. The new fixed/stopping regression uses one Evidence pin and two distinct valid run IDs, requires the specific repeated-Evidence rejection and checks zero appended rows. The older run-revision oracle has the minor limitation recorded under production_quality.",
+      "lazy_pass": "Pool counts, count aliases, or reuse one Evidence record through different instrument runs.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 6: exact attributed stopping declaration",
+      "evidence": "test_stopping_declarations_are_attributed_and_exact checks missing, false and mismatched declarations. test_duplicate_stopping_references_rejected_before_matching requires the dedicated uniqueness error; deleting that guard produces a different error and fails the assertion. Fixed-count designs reject stopping overrides.",
+      "lazy_pass": "Accept any true flag or duplicated sample lists without checking their identities.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 7: reasoned INDETERMINATE with unchanged prerequisites",
+      "evidence": "Reasonless requests have specific rejection assertions. test_indeterminate_does_not_waive_sample_requirements exercises insufficiency, while test_no_design_still_checks_every_arm_and_indeterminate_retains_residual supplies literal states.",
+      "lazy_pass": "Use indeterminacy to bypass evidence or sample requirements.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 8: immutable events and application-derived fields",
+      "evidence": "Direct repository tests require computed-field and nested-input rejections. Correction tests exercise exact predecessor pins and reasons; history and snapshot tests retain earlier records unchanged.",
+      "lazy_pass": "Validate only JSON input, trust copied computed fields or overwrite corrections.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 9: application-owned timestamps",
+      "evidence": "The process-local receipt binds the complete prepared event. test_direct_admission_rejects_altered_application_timestamp changes only a valid timestamp for initial and successor revisions, requires the timestamp-specific error, checks unchanged rows and then admits an unchanged prepared copy.",
+      "lazy_pass": "Copy a caller-supplied timestamp into the expected event and compare only other fields.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 10: transactional revalidation",
+      "evidence": "test_transaction_checks_live_context_after_preparation changes retained context after preflight. Transaction variants of test_raw_frozen_defaults_rejected_at_each_read_boundary introduce corruption at that boundary and assert zero event/reference rows.",
+      "lazy_pass": "Trust preparation, or let preflight checks mask missing transaction checks.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 11: private integration and deterministic pinned replay",
+      "evidence": "Workflow tests assert literal event histories and cross-clip Evidence IDs, unchanged earlier exports, reopening and later-context replay. Literal status, count, unit and input-hash assertions supplement replay comparisons.",
+      "lazy_pass": "Register the type but omit histories or dependencies, or compare the classifier only with itself.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 12: public/embed omission in blind and revealed states",
+      "evidence": "test_associated_resolutions_are_private_in_each_presentation_state asserts exact intent association and private-marker presence, makes a pairwise submission for revealed cases, and checks all four mode/state combinations. Associated disclosure would violate its marker assertions.",
+      "lazy_pass": "Serialize an unrelated case or exercise only the blind branch.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0018-R1-001",
+      "status": "RESOLVED"
+    }
+  ],
+  "role": "evaluator",
+  "round": 2,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Compared builder/enhancer-authored changed comments, docstrings, documentation, CLI help, Plan and Probes with the implementation; found no contradicted material claim or external claim requiring research.",
+        "Verified that the revised duplicate-Evidence and stopping-reference documentation matches resolutions.py:169-184.",
+        "Compared the Plan's Prior attempts mapping against supplied F0016-R1-001, F0016-R1-002 and F0016-R2-001; all three are accurately mapped to targeted safeguards and tests.",
+        "Excluded harness bookkeeping and researcher-owned research.json from builder accuracy scoring."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "Inspected literal elimination, overlap, residual, non-exhaustive and indeterminate assertions in test_literal_elimination_overlap_identical_and_residual and related tests.",
+        "Traced prerequisite, exact-plan eligibility, independent per-arm counts, stopping declarations and immutable admission checks against all twelve sealed Plan criteria.",
+        "Verified that test_same_evidence_across_distinct_instrument_runs_rejected requires the new Evidence-identity error for fixed and stopping designs and asserts zero event/reference rows."
+      ],
+      "score": 4
+    },
+    "production_quality": {
+      "evidence": [
+        "tests/test_resolution_workflow.py:164-169 does not independently prove revision-invariant instrument units: the repeated Evidence identity guard also satisfies its broad 'duplicate sample unit' assertion. An implementation that changes unit identity only for later run revisions could escape this test.",
+        "Independently executed the extracted current instrument-unit expression for revisions 1 and 2; both produced the literal 'run:TEST-ONLY-run'. This checks the expression, not repository admission.",
+        "Parsed all six changed Python files successfully. Inspected targeted raw-payload, timestamp, transaction, privacy and duplicate-evidence rejection oracles."
+      ],
+      "score": 3
+    },
+    "relation": {
+      "evidence": [
+        "Traced ResolutionEvent registration, inherited schema version, immediate predecessor pins, dependency hashes and persisted reference rows.",
+        "Checked private show/schema integration, snapshot roots and transitive closure, including cross-clip evidence and unchanged earlier exports.",
+        "Inspected snapshot/reopening/replay tests and confirmed that general resolution lint is assigned to downstream L12."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Read all 1189 lines of diff.patch and opened all eight changed files under tree; changes implement L10 resolution events and their required integration.",
+        "Independently computed the diff SHA-256 and matched diff_sha256.txt."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Compared all changed paths with the sealed Plan and DEFERRED D01-D14; found no unrelated or deferred implementation.",
+        "Checked I1-I3 and I13: TEST-ONLY fixtures, explicit UNKNOWN failures, append-only event storage, predecessor/dependency pins, recorded versions/hashes and deterministic-output assertions.",
+        "Checked I5-I9: no authored judgment, intent provenance, confidence or decision modifications; per-arm shortages cannot be hidden by pooled counts.",
+        "Checked I4, I10-I12 and I14-I16: no protected/judge changes, existing-test weakening, new dependencies, runtime network/model calls, public disclosure changes or Git publication operations appear in the diff."
+      ],
+      "score": 4
+    }
+  },
+  "step": 18,
+  "summary": "The round-1 duplicate-evidence finding is resolved. No material defect was identified. One minor test-oracle weakness remains in instrument-run revision coverage. Runtime tests could not be independently executed."
+}

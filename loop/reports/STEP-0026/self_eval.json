@@ -1,0 +1,95 @@
+{
+  "step": 26,
+  "item": "L12-A2b",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented the assigned prerequisite subset. Final advisory passed: 2,951 tests and 897/900 changed lines.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_temporal_prerequisites.py:247 limits preparation to E3, E4, W1, W4 and W5."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_lint_temporal_prerequisites.py:180 covers missing, null, malformed and valid prerequisites through both adapters.",
+        "test_frame_attachment_requires_derivative and test_motion_and_full_clip_contract verify the previously reported attachment, dimension and duration failures."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_temporal_prerequisites.py:72 preserves exact reference and pin checks; :176 checks attachment correspondence.",
+        "test_exact_dependency_contract and test_admitted_representatives cover revisions, hashes and admitted positive controls."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Final advisory passed 2,951 product tests, frozen harness tests and approval checks.",
+        "Deletion witnesses: test_guard_deletion, test_field_consumption_deletion, test_context_guard_deletion, test_branch_guard_deletion, test_remaining_guard_deletion and test_deleted_declaration.",
+        "test_boundary_consumption verifies declaration identity, contracts and multiplicity; test_preservation_and_subset verifies repeatability and unchanged inputs."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0026-L12-A2b.md:147 records observed failures, passing runs, versions, hashes and advisory limitations.",
+        "src/eval_lab/lint_temporal_prerequisites.py:1 explicitly documents partial preparation without readiness or empirical-validity claims."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Final G7 reports 897/900 changed lines; protected files, dependencies and integrated tests remain unchanged.",
+        "The sealed Plan hash still matches. Only three product files and this step's report changed."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Conditional attachment prerequisites",
+      "lazy_pass": "Accept null derivative despite selected frames.",
+      "present_in_diff": false,
+      "evidence": "test_frame_attachment_requires_derivative rejects missing/null derivatives with frame_indices=[0] through both readers."
+    },
+    {
+      "criterion": "Independent declaration and consumption coverage",
+      "lazy_pass": "Use a partial inventory or ignore repeated boundary obligations.",
+      "present_in_diff": false,
+      "evidence": "test_inventory_exact and test_boundary_consumption compare independently authored declarations, contracts and multiplicities."
+    },
+    {
+      "criterion": "Isolated rejection tests",
+      "lazy_pass": "Let unrelated errors satisfy guard-removal controls.",
+      "present_in_diff": false,
+      "evidence": "Tests assert exact diagnostics with recomputed pins; mutated modules preserve the original exception class."
+    },
+    {
+      "criterion": "Partial preparation remains partial",
+      "lazy_pass": "Present this subset as complete lint/readiness.",
+      "present_in_diff": false,
+      "evidence": "Prepared identifies its groups, denies support on diagnostics and exposes no ready attribute."
+    }
+  ],
+  "prior_findings": [
+    {"ref": "F0023-R1-001", "status": "RESOLVED"},
+    {"ref": "F0023-R2-001", "status": "RESOLVED"},
+    {"ref": "F0023-R1-002", "status": "DEFERRAL_ACCEPTED"},
+    {"ref": "F0023-R2-002", "status": "DEFERRAL_ACCEPTED"},
+    {"ref": "F0023-R1-003", "status": "DEFERRAL_ACCEPTED"},
+    {"ref": "F0023-R1-004", "status": "DEFERRAL_ACCEPTED"},
+    {"ref": "F0023-R2-003", "status": "DEFERRAL_ACCEPTED"}
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "Deferrals follow the approved split. This child resolves its attachment and validator obligations; sibling obligations remain.",
+    "Both advisory invocations passed. G14 was explicitly skipped in advisory mode; independent evaluation and integration remain outstanding.",
+    "No Git history changes, network use or real-clip judgments. Complete lint/readiness remains later work.",
+    ""
+  ]
+}

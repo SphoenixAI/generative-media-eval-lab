@@ -1,0 +1,55 @@
+{
+  "canonical_sha256": "40ec333d69cdecd7287ca99993791287d64528d58eee4f9cf7040e3929e6f957",
+  "raw_sha256": "e6985090e795095d54a686e9cbac8c932fcf21d6335e1a396ed5ffbebb9b9d89",
+  "unresolved_proposals": [],
+  "view_claims": [
+    {
+      "claim": "Pydantic v2 BaseModel.model_copy(update=...) does not validate the supplied update values before creating the copied model.",
+      "id": "R0005-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "SQLite permits only one simultaneous write transaction, and BEGIN IMMEDIATE starts a write transaction immediately or can fail with SQLITE_BUSY when another connection already has an active write transaction.",
+      "id": "R0005-C002",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 3161 describes time-stamping evidence that a datum existed before a particular time.",
+      "id": "R0005-C003",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Local seal, plan, registration and first-view timestamps alone cannot prove that a clip was generated after its intent was sealed.",
+      "id": "R0005-C004",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Pydantic v2 BaseModel.model_copy(update=...) does not validate supplied update values.",
+      "id": "R0005-C005",
+      "location": "tree/loop/reports/STEP-0005-L02.md:37",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "SQLite permits only one simultaneous write transaction; BEGIN IMMEDIATE starts a write transaction immediately or can fail with SQLITE_BUSY when another connection has an active write transaction.",
+      "id": "R0005-C006",
+      "location": "tree/loop/reports/STEP-0005-L02.md:41",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RFC 3161 describes timestamping evidence that a datum existed before a particular time.",
+      "id": "R0005-C007",
+      "location": "tree/loop/reports/STEP-0005-L02.md:45",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Local seal, plan, registration and first-view timestamps alone cannot prove generation occurred after sealing; witnessing intent existence does not itself witness clip generation.",
+      "id": "R0005-C008",
+      "location": "tree/loop/reports/STEP-0005-L02.md:49-51; tree/docs/intent-provenance.md:53-55",
+      "origin": "evaluator"
+    }
+  ]
+}

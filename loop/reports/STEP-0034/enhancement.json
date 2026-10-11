@@ -1,0 +1,80 @@
+{
+  "resolutions": [
+    {
+      "ref": "F0034-R1-001",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Further implementation declined under the architecture/size review stop in loop/backlog.toml:1277. The defect remains unresolved and the candidate non-integrable: all 24 root-profile controls still fail. Current size is 587/900 lines; the historical 458-line checkpoint did not trigger the 500-line stop."
+    },
+    {
+      "ref": "F0034-R1-002",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Defect accepted and unresolved. src/eval_lab/lint_accounting.py:200-210 still manually reads MediaAsset.type. Completing dependency declarations, activation metadata and independent controls requires the stopped architecture work. No acceptance waiver or out-of-scope deferral is claimed."
+    },
+    {
+      "ref": "F0034-R1-003",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Defect accepted and unresolved under the architecture/size stop. Existing attachment behavior is verified, but src/eval_lab/lint_accounting.py:248-252 still lacks PilotSubmission expansion and checked-inactive receipts. Passing preparer tests do not satisfy accounting acceptance."
+    },
+    {
+      "ref": "F0034-R1-004",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Defect accepted and unresolved under the architecture/size stop. Media-scope classification and aggregation remain absent; src/eval_lab/lint_accounting.py:70-88 supplies only receipt fields and concatenation. Scope implementation and independent controls require the outstanding architecture decision."
+    },
+    {
+      "ref": "F0034-R1-005",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Defect accepted and unresolved under the architecture/size stop. Fresh advisory gate attempt 002 reports 5,125 passed / 24 failed, with G1/G12 failing; G5/G6/G7/G10/G11 pass. Required inventories and deletion controls remain incomplete. Tests were preserved. Evidence: ../Content Evaluator - loop-runs/0034/advisory/gate_r1-attempt-002.json."
+    },
+    {
+      "ref": "R0034-C001",
+      "action": "FIXED",
+      "evidence": "Supplied revision-specific excerpts and hashes in ../Content Evaluator - loop-runs/0034/advisory/enhancer-research-evidence.json. src/eval_lab/lint_evidence.py:28,162-167 establishes the states and damaged-record guard. Fresh test_stored_digest_guard and test_field_and_integrity_diagnostics_separate_and_raw_is_unchecked pass."
+    },
+    {
+      "ref": "R0034-C002",
+      "action": "FIXED",
+      "evidence": "src/eval_lab/lint_evidence.py:170-178 verifies missing slot -> UNKNOWN and explicit-null presence -> AVAILABLE/False. Fresh test_optional_branch_contract passes, including null/malformed parents and required-null value handling. Excerpts and hashes are retained in the advisory evidence bundle."
+    },
+    {
+      "ref": "R0034-C003",
+      "action": "FIXED",
+      "evidence": "src/eval_lab/lint_prerequisites.py:47-59 inherits RawReader.read; src/eval_lab/lint_temporal_prerequisites.py:117-132 compares direct inventory with enumerated identities. Fresh test_collection_contract and the inventory case of test_branch_guard_deletion pass. Revision-specific evidence is retained."
+    },
+    {
+      "ref": "R0034-C004",
+      "action": "FIXED",
+      "evidence": "Verified SPECS and every obligation append site: src/eval_lab/lint_temporal_prerequisites.py:101,119 and src/eval_lab/lint_warrant_prerequisites.py:78 populate logs during reads. Fresh inventory controls and test_step_0033_001_deleted_real_temporal_read pass. These logs alone cannot establish unread declarations."
+    },
+    {
+      "ref": "R0034-C005",
+      "action": "FIXED",
+      "evidence": "Supplied complete attachment flow from src/eval_lab/lint_temporal_prerequisites.py:184-212. Fresh test_valid_branches, test_frame_attachment_requires_derivative, test_optional_and_exact_branches and test_branch_guard_deletion verify optional branches, correspondence and deletion controls on both adapters. Audit accounting remains unresolved."
+    },
+    {
+      "ref": "R0034-C006",
+      "action": "FIXED",
+      "evidence": "src/eval_lab/lint_temporal_prerequisites.py:240-252 checks a supplied design without generation. Fresh nongeneration-design cases in test_valid_branches, test_optional_and_exact_branches and test_branch_guard_deletion pass on both adapters, including null decision-rule rejection and its deletion witness."
+    },
+    {
+      "ref": "R0034-C007",
+      "action": "FIXED",
+      "evidence": "src/eval_lab/lint_warrant_prerequisites.py:86,134-135,178-182 verifies parsed-instant and FirstView content checks. Fresh test_binding_timestamp_instants, test_warrant_context_correspondence, test_first_view_content_correspondence and test_first_view_deletion pass. No timestamp policy changed."
+    },
+    {
+      "ref": "R0034-C008",
+      "action": "FIXED",
+      "evidence": "Verified loop/config.toml:8,25 and loop/gates.py:256-270,302-304 against frozen copies: 900-line limit, generated exclusions, additions/removals and untracked text counting. Fresh frozen counting returns 587 lines. Configuration and harness remain unchanged."
+    },
+    {
+      "ref": "R0034-C009",
+      "action": "FIXED",
+      "evidence": "Parsed loop/backlog.toml:1267-1277 confirms no dependency, protected-file or test-change authorization and the inherited checkpoint/architecture stop. Exact authorization and operator text are retained in the advisory bundle. Recorded early checkpoint: 458; later feasibility stop: 587."
+    },
+    {
+      "ref": "R0034-C010",
+      "action": "FIXED",
+      "evidence": "loop/proposals/APPROVED-L12-A2d1-split.toml:12-22 and loop/backlog.toml:1277 establish child ownership and exclude final semantics. Exact excerpts and hashes are retained. All 211 selected research-verification tests passed. Historical research verdicts and the sealed Plan remain unchanged; detailed responses are in loop/reports/STEP-0034-L12-A2d1a.md."
+    }
+  ],
+  "amendments": []
+}

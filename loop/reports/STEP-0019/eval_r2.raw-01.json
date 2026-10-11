@@ -1,0 +1,155 @@
+{
+  "step": 19,
+  "item": "L12",
+  "role": "evaluator",
+  "round": 2,
+  "diff_sha256": "7f1f9a0cbaf94bc82c7d1130bc1436b4c89199b7d6e0501804d90b804e739d79",
+  "summary": "The four round-1 findings are resolved. However, independent retained-query probes expose two remaining I2 violations: unavailable motion context and unavailable timeline duration can produce COMPLETE, ready=true results.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read the complete 1,220-line diff and opened all eight changed files under tree/. Compared their changes with L12 and the north-star lint-to-snapshot workflow; all changes concern that work."
+      ]
+    },
+    "intention": {
+      "score": 0,
+      "evidence": [
+        "src/eval_lab/lint.py:215-220: retained observations with null or invalid dimensions independently returned COMPLETE, ready=true, findings=[], unknown=[].",
+        "src/eval_lab/lint.py:175-187: full-clip evidence with a retained null or invalid timeline duration independently returned COMPLETE, ready=true, findings=[], unknown=[].",
+        "test_all_rules_exactly_once_and_clean_graph passes; independently suppressing each of the 13 rule emissions made that test fail."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Ran test_relation_warrant_exact_pins_and_anchors, including the admitted positive path and seven negative controls.",
+        "Ran test_lint_result_input_identity_admission and test_admitted_prediction_ids_are_data.",
+        "Inspected LintResult registration, inherited schema version, exact input pins, transaction-local digest validation, snapshot inclusion and saved-result export."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "Independently ran 67 tests successfully.",
+        "tests/test_lint_workflow.py:148-172 tests unavailable coverage but leaves unavailable dimension/context untested.",
+        "test_decoded_timeline_endpoints and test_unavailable_graph_is_never_clean[missing-timeline] do not test an existing timeline with unavailable duration.",
+        "Independent retained-query probes demonstrate false clean results in both omitted cases."
+      ]
+    },
+    "accuracy": {
+      "score": 2,
+      "evidence": [
+        "docs/lint.md:25-26 promises unavailable timelines and typed motion context remain UNKNOWN; both independent retained-query probes contradict that claim.",
+        "Inspected builder-authored Plan, Probes, comments, docstrings and changed CLI help. Excluded harness bookkeeping and researcher-owned verdicts.",
+        "tests/test_lint.py:95 now explicitly qualifies the unsupported JCS equivalence assertion."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared the complete diff with the sealed Plan and DEFERRED entries D01-D14; found no deferred implementation or unrelated feature.",
+        "Checked that the persistence callback serves the planned readiness recheck and the added admission validator serves the planned pinned audit contract."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "motion_context_unknown",
+      "dimension": "intention",
+      "severity": "CATASTROPHIC",
+      "invariant": "I2",
+      "location": "src/eval_lab/lint.py:75,215-220",
+      "description": "Unavailable typed motion context becomes a clean result. shape accepts a null dimension, and W1 checks only whether the contexts list is empty or contains the literal motion_plausibility dimension. A present observation with dimension=null satisfies neither condition. Independently queried an in-memory SQLite dataset containing matching media, decoded timeline, sampled-frame evidence and corrected record hashes: null and invalid dimensions each returned COMPLETE, ready=true, findings=[], unknown=[]. The valid motion dimension produced W1. Thus unavailable context is treated as successful evaluation.",
+      "required_fix": "Validate the dimension needed to determine W1 applicability before treating the context as available. Null, missing or invalid context must produce UNKNOWN or an integrity failure. Add direct and retained-query regressions with explicit diagnostics and ready=false, preserving valid non-motion behavior."
+    },
+    {
+      "id": "timeline_duration_unknown",
+      "dimension": "intention",
+      "severity": "CATASTROPHIC",
+      "invariant": "I2",
+      "location": "src/eval_lab/lint.py:175-187",
+      "description": "E3 treats the existence of a metadata object as an available decoded timeline without validating its duration. For full-clip evidence with no explicit interval or samples, the comparisons never execute. Independently queried a retained TEST-ONLY graph after replacing metadata.duration_seconds with null, then an invalid string, and updating its digest. Both queries returned COMPLETE, ready=true, findings=[], unknown=[]. The promised unavailable-timeline boundary is bypassed.",
+      "required_fix": "Check that the decoded timeline context is usable before evaluating evidence bounds, including when evidence has no explicit coordinates. Return UNKNOWN or an integrity failure for unavailable or invalid duration. Add direct and retained-query regressions for full-clip evidence and malformed timeline context."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "One TEST-ONLY graph triggers each rule exactly once, and a clean graph passes.",
+      "lazy_pass": "Hard-code fixture output or assert only that some findings exist.",
+      "present_in_diff": false,
+      "evidence": "test_all_rules_exactly_once_and_clean_graph asserts literal ordered rule, level and subject tuples plus clean completeness. Independently suppressing each rule emission caused failure."
+    },
+    {
+      "criterion": "Correct rule branches, levels, subjects and explanations.",
+      "lazy_pass": "Cover one nominal trigger per rule while ignoring unavailable applicability context.",
+      "present_in_diff": true,
+      "evidence": "Branch tests exercise provenance, vocabulary, confidence, resolution and sample-design conditions, but lint.py:175-187 and 215-220 silently accept unavailable timeline duration and observation dimension."
+    },
+    {
+      "criterion": "Read-only lint preserves unavailable context and returns appropriate exit status.",
+      "lazy_pass": "Avoid writes while calling an empty finding list a successful audit.",
+      "present_in_diff": true,
+      "evidence": "Read-only workflow tests inspect database bytes and missing-store behavior. Independent retained-query probes nevertheless return ready=true for uncheckable context; pilot_cli.py:109 maps that result to exit 0."
+    },
+    {
+      "criterion": "Readiness preserves prerequisites, blocks errors or incompleteness, and permits warnings.",
+      "lazy_pass": "Check ready only against the evaluator's boolean without proving that incomplete inputs cannot produce true.",
+      "present_in_diff": true,
+      "evidence": "Eligible workflow fixtures isolate error and warning transitions and stale-input rejection. However, pilot.py:315-322 trusts audit.ready, which the two demonstrated incomplete inputs incorrectly set true."
+    },
+    {
+      "criterion": "Private snapshots pin versioned results and replay saved results without changing old snapshots.",
+      "lazy_pass": "Persist result-shaped data with unchecked input identity or recompute it during export.",
+      "present_in_diff": false,
+      "evidence": "Inspected snapshot/export integration and test_private_snapshot_pins_lint_and_old_snapshot_not_evaluated. Ran input-identity rejection tests; deleting admission validation made the wrong-pin and wrong-aggregate tests fail."
+    },
+    {
+      "criterion": "Repeated and permuted evaluation has deterministic results and exact input identity.",
+      "lazy_pass": "Sort findings but leave identities dependent on enumeration or the clock.",
+      "present_in_diff": false,
+      "evidence": "Ran repeated/reversed graph comparisons in test_all_rules_exactly_once_and_clean_graph. Inspected sorted input pins, findings and unknown diagnostics; evaluated results add no timestamp."
+    },
+    {
+      "criterion": "Missing evidence, unrelated contexts and revision decoys cannot manufacture warrants.",
+      "lazy_pass": "Use an inadmissible positive graph or accept generic intent reachability.",
+      "present_in_diff": false,
+      "evidence": "The enhanced E1 positive path persists admitted records. Its wrong-media, wrong-revision, wrong-anchor, cross-intent, missing-warrant and missing-relevance controls passed independently."
+    },
+    {
+      "criterion": "Admission checks, existing tests, protected outputs and public allowlists remain intact.",
+      "lazy_pass": "Relax admission or expose private diagnostics to simplify integration.",
+      "present_in_diff": false,
+      "evidence": "Inspected the complete diff: existing tests and public serializers are unchanged, admission is strengthened, and new diagnostics remain in private flows."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0019-R1-001",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0019-R1-002",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0019-R1-003",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0019-R1-004",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "R0019-C001",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "VALIDATION: Independently ran 67 tests, 13 in-memory rule-removal mutations, admission-validator deletion checks and retained-query adversarial probes. Twelve filesystem/media workflow cases were inspected but not rerun under the read-only sandbox. The supplied gate reports 1,293 passing tests; that is separate evidence.",
+    "INVARIANTS: Demonstrated I2 violations. Inspected I1 and I3-I16 against the diff and integration paths; found no additional violation. Historical Git actions and real-media behavior were not independently verified.",
+    "PRIOR_ATTEMPTS: Earlier supplied step reports contain no L12 attempt, consistent with the sealed Plan's original empty mapping. Checked all four current round-1 findings separately.",
+    "HASH: Independently recomputed diff.patch SHA-256 and matched diff_sha256.txt."
+  ]
+}

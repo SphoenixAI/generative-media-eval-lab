@@ -1,0 +1,91 @@
+{
+  "step": 28,
+  "item": "L12-A2c",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented the A2c prerequisites and closed the legacy correspondence coverage gap. All 5,100 tests passed. Advisory gate passed on attempt 1 at exactly 900 changed lines.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_warrant_prerequisites.py:266 prepares only the assigned E1/E2/E2w/E7 prerequisite groups."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_lint_warrant_prerequisites.py:197 covers 98 declared fields under missing, null, malformed and valid conditions through both adapters.",
+        "tests/test_lint_warrant_prerequisites.py:152 adds isolated legacy semantic negatives; :157 requires matching positives and exact singleton diagnostics.",
+        "tests/test_lint_warrant_prerequisites.py:256 confirms explicitly partial support without readiness or decision attributes."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_warrant_prerequisites.py:104 checks registration/media content identity; :127 checks seal, plan, origin and context correspondence.",
+        "tests/test_lint_warrant_prerequisites.py:230 covers equal-time distinct-content rejection and matching-content distinct-registration success.",
+        "tests/test_lint_warrant_prerequisites.py:224 verifies equivalent-offset timestamps without rewriting retained payloads."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "3,886 focused tests and 5,100 full-suite tests passed; advisory attempt 1 also passed frozen harness tests and approval.",
+        "Semantic deletion witnesses: test_warrant_guard_deletion, test_remaining_guard_deletion, test_verdict_assessment_deletion, test_relation_endpoint_deletion, test_legacy_scope_deletion and test_first_view_deletion.",
+        "Boundary and activation witnesses: test_warrant_field_deletion, test_warrant_deleted_declaration, test_warrant_constraint_deletion, test_warrant_branch_deletion, test_warrant_dependency_propagation_deletion and test_warrant_repeated_read_deletion.",
+        "Additional witnesses: test_warrant_timestamp_guard_deletion, test_unknown_guard_deletion and test_override_consumption_deletion. Full guard mapping is recorded in loop/reports/STEP-0028-L12-A2c.md:130.",
+        "src/eval_lab/lint_warrant_prerequisites.py:1 documents the private API; no CLI behavior changed."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "loop/reports/STEP-0028-L12-A2c.md:327 distinguishes missing-module collection failure, deliberate semantic deletion failures and ordinary passing tests; records versions and hashes.",
+        "tests/test_lint_warrant_prerequisites.py:172 verifies actual target reads and matching obligation prefixes under each correspondence bypass.",
+        "tests/test_lint_warrant_prerequisites.py:369 and :614 verify repeated/reordered results and preservation of payloads, pins and retained bytes."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Advisory G7 confirmed 900 changed lines: 279 implementation and 621 test lines.",
+        "Only two new product/test files and this step's report changed. Existing tracked files remain unchanged.",
+        "Advisory G5/G6/G11 confirmed protected-path compliance and the unchanged sealed Plan; no dependencies or DEFERRED work were added."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Independent legacy and v2 correspondence controls",
+      "lazy_pass": "Use wrong-kind or media-scope failures as semantic mismatch coverage.",
+      "present_in_diff": false,
+      "evidence": "Separate same-kind legacy/v2 cases use existing distinct intent targets, exact singleton diagnostics, valid counterparts and scoped deletion witnesses."
+    },
+    {
+      "criterion": "Fail-closed prerequisite availability",
+      "lazy_pass": "Treat missing evidence or skipped active dependencies as clean support.",
+      "present_in_diff": false,
+      "evidence": "Parameterized field/presence contracts, independently counted consumption and branch-removal controls deny unavailable support."
+    },
+    {
+      "criterion": "Preserve identity and acceptance scope",
+      "lazy_pass": "Substitute timestamp equality for content identity or present partial preparation as complete lint.",
+      "present_in_diff": false,
+      "evidence": "Equal-time content controls remain deletion-sensitive; partial-support tests exclude readiness and decision surfaces."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0027-R1-001",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "Advisory G14 was skipped; the harness reported its sandbox unavailable. Formal gating and independent evaluation remain pending.",
+    "This implements partial prerequisites. Remaining sibling controls, the exhaustive matrix and complete lint/readiness remain outside this step.",
+    ""
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "step": 17,
+  "item": "L11",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "b822efecb3c5395951ad6802ad9066145570577befbe9003f3fb3f654bee1299",
+  "summary": "No material defect found. The previous snapshot omission and warrant-oracle weakness are addressed. One minor test gap remains: direct-reference discovery is masked by intent/media matching. Review included static checks and an isolated discovery probe; pytest was not independently rerun.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all 875 lines of diff.patch and opened all eight changed files under tree/; compared the changes with L11 and NORTH_STAR.md.",
+        "Verified that product changes implement relation metadata, admission, compatibility and reproducible private snapshots."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "Verified that the report's Plan matches plan.md and mapped both backlog criteria and all twelve expanded criteria to implementation and tests.",
+        "Compared the Prior attempts mapping against STEP-0009/eval_r1.json, eval_r2.json and decision.json: both snapshot findings, the warrant-oracle correction and RF disposition are represented accurately.",
+        "Checked I1–I2 and I5–I9: fixtures are TEST-ONLY; relation storage preserves missing values and does not generate judgments, promote provenance, execute purposes or perform confidence arithmetic.",
+        "Checked I3 and I12 through append-only admission, predecessor validation, snapshot pins, frozen-export assertions and the unchanged public/embed allowlist."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Traced RelationClaimV2 registration, repository revalidation, transaction-local intent/predecessor digest checks and persisted outgoing references.",
+        "Traced PilotWorkspace.snapshot through incoming relation discovery, dependency traversal and pinned export; test_private_snapshot_literals_exact_dependencies_and_frozen_history independently asserts complete relation payloads and hashes.",
+        "Checked both relation versions against retained exclusive competing sets and inspected insertion-order, endpoint-order and competing-writer tests.",
+        "Searched for lint integration: no existing product lint subsystem was found; backlog L12 explicitly owns it and depends on L11."
+      ]
+    },
+    "production_quality": {
+      "score": 3,
+      "evidence": [
+        "tree/tests/test_relation_v2_snapshots.py:44 does not independently prove direct-reference discovery: its declared intent is already in the original closure and its evidence media is in the dataset.",
+        "An isolated stdlib execution of incoming_roots using the snapshot test's reference/media topology selected the same expected relations after deleting direct.intersection(context) from tree/src/eval_lab/relation_v2.py:106. This was a function-level probe, not a pytest rerun.",
+        "Inspected targeted rejection errors, fresh candidate identities, literal payload oracles, historical preservation and concurrent admission tests; parsed all six changed Python files successfully.",
+        "Supplied gate.json reports 1112 passing tests, including 72 new relation cases. The accessible interpreter lacks project dependencies, so those results were not independently reproduced."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Read builder-authored comments, docstrings, documentation, changed CLI help, Plan and Probes; compared their behavioral claims with the implementation.",
+        "Found no new external factual or methodological claim requiring research.",
+        "Independently verified the patch SHA-256, every changed-file hunk against tree/, the sealed Plan text and the count of 630 changed product lines.",
+        "Kept harness bookkeeping and historical evaluator conclusions separate from builder-authored accuracy evidence."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared the complete diff with the sealed scope and DEFERRED items D01–D14; no deferred capability is implemented.",
+        "Checked I4, I10–I11 and I16: no protected artifacts, dependencies, existing tests, harness code or judging contracts are changed.",
+        "Checked I13–I15 within available evidence: independent canonical-payload tests and frozen-export checks exist; the diff contains no publication or branch operation. Supplied G14 reports unchanged pilot listing and remote main.",
+        "The additional pilot_cli.py edit only documents the required snapshot behavior; its omission from the estimated file list is flagged."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Acceptance: tests.",
+      "lazy_pass": "Add passing repository round trips whose expected values come from the implementation.",
+      "present_in_diff": false,
+      "evidence": "test_literal_storage_load_replay_and_history checks independently authored payloads, raw SQL bytes and hashes. Purpose, warrant, qualifier and rebuttal have distinct literals."
+    },
+    {
+      "criterion": "Acceptance: stored v2 relations enter private snapshots with independently authored literal coverage.",
+      "lazy_pass": "Store relations without discovering them, or inject them directly into a mocked export.",
+      "present_in_diff": false,
+      "evidence": "test_private_snapshot_literals_exact_dependencies_and_frozen_history stores ordinary relations without submission envelopes, invokes snapshot/export, and compares complete literal payloads and independent hashes. Removing discovery would fail its expected relation set."
+    },
+    {
+      "criterion": "Expanded criterion 1: additive v2 record preserving v1 and existing predicates.",
+      "lazy_pass": "Modify v1 defaults or support only the easiest predicate.",
+      "present_in_diff": false,
+      "evidence": "RelationClaim is unchanged. test_all_predicates_and_optional_absence covers all eight predicates; test_legacy_read_view_is_frozen_unregistered_and_readonly checks legacy canonical bytes and digest."
+    },
+    {
+      "criterion": "Expanded criterion 2: explicit, independent purpose vocabularies.",
+      "lazy_pass": "Infer purposes from predicates or default new records to UNSPECIFIED.",
+      "present_in_diff": false,
+      "evidence": "Required Literal fields have no defaults. test_all_purposes_are_independent_labels exercises every value; test_explicit_purpose_contract rejects missing, null, blank, unknown and UNSPECIFIED inputs."
+    },
+    {
+      "criterion": "Expanded criterion 3: anchors from the exact pinned intent.",
+      "lazy_pass": "Accept criterion IDs from any intent or its latest revision.",
+      "present_in_diff": false,
+      "evidence": "test_admission_pins_anchors_and_exact_binding and test_ordered_anchors_only_from_pinned_intent_and_observed_predicates reject newer-only, foreign and legacy anchors, check digest mismatches and preserve anchor order."
+    },
+    {
+      "criterion": "Expanded criterion 4: required warrants and preserved optional text.",
+      "lazy_pass": "Substitute free-text purpose for warrant or normalize supplied text.",
+      "present_in_diff": false,
+      "evidence": "test_required_warrant_cannot_be_replaced_by_purpose rejects absent and blank warrants for both predicates. Literal storage and snapshot assertions distinguish purpose from warrant and preserve surrounding whitespace."
+    },
+    {
+      "criterion": "Expanded criterion 5: endpoint, evidence, status, interval and self-relation restrictions.",
+      "lazy_pass": "Accept structurally valid references without semantic endpoint checks.",
+      "present_in_diff": false,
+      "evidence": "test_copied_and_deserialized_contracts requires specific failures for invalid endpoints, evidence kinds, observed claims, timestamps, intervals and self-relations. Legacy/v2 hypothesis scope is separately checked."
+    },
+    {
+      "criterion": "Expanded criterion 6: repository admission and exact retained evidence bindings.",
+      "lazy_pass": "Validate only constructors or ignore an Evidence subject omitted from evidence.",
+      "present_in_diff": false,
+      "evidence": "Copied and nested-input tests exercise Repository.put. test_admission_pins_anchors_and_exact_binding uses an empty evidence tuple and rejects missing bindings, wrong intent revisions and wrong media before accepting the exact retained binding."
+    },
+    {
+      "criterion": "Expanded criterion 7: immediate predecessor pins and append-only history.",
+      "lazy_pass": "Accept arbitrary predecessor references or overwrite existing revisions.",
+      "present_in_diff": false,
+      "evidence": "test_predecessor_contract_without_masking_conflicts covers initial, missing, skipped, wrong-kind, wrong-ID and wrong-digest cases. Conflict and literal-history tests check unchanged retained rows and bytes."
+    },
+    {
+      "criterion": "Expanded criterion 8: retained exclusive competing-set constraints.",
+      "lazy_pass": "Check only one insertion order or ignore v2 relations when admitting a set.",
+      "present_in_diff": false,
+      "evidence": "test_exclusivity_orders_and_historical_sets covers endpoint and insertion orders; test_exact_hypothesis_revision_and_v1_v2_exclusivity covers both versions; the competing-writer test requires exactly one committed record."
+    },
+    {
+      "criterion": "Expanded criterion 9: explicit read-only legacy loader.",
+      "lazy_pass": "Migrate stored v1 rows or invent purposes and argument text while reading.",
+      "present_in_diff": false,
+      "evidence": "test_legacy_read_view_is_frozen_unregistered_and_readonly asserts UNSPECIFIED purposes, absent argument fields, unchanged database rows, preserved canonical identity and rejection of wrapper persistence."
+    },
+    {
+      "criterion": "Expanded criterion 10: scoped incoming discovery and exact dependency closure.",
+      "lazy_pass": "Import every relation sharing an intent, recursively expand incoming dependencies, or retain only latest revisions.",
+      "present_in_diff": false,
+      "evidence": "incoming_roots uses the original exact closure and media context once. The snapshot test excludes another clip's relation, downstream incoming relations and revision mismatches, then requires both retained relation revisions. Direct-reference-only selection has the minor coverage gap noted above."
+    },
+    {
+      "criterion": "Expanded criterion 11: independent private export and historical preservation test.",
+      "lazy_pass": "Compute expected payloads from exported records or compare only relation counts.",
+      "present_in_diff": false,
+      "evidence": "tree/tests/test_relation_v2_snapshots.py:62 authors the expected v2 intent independently; complete expected relation records include literal fields and independently computed hashes. The test also checks dependencies, later revisions and byte-for-byte preservation after reopening."
+    },
+    {
+      "criterion": "Expanded criterion 12: meaningful positive, negative, preservation and privacy tests.",
+      "lazy_pass": "Use fixtures that exercise a branch while allowing another branch to satisfy the same assertion.",
+      "present_in_diff": true,
+      "evidence": "tree/tests/test_relation_v2_snapshots.py:44 labels a direct incoming case, but intent/media matching independently admits it. Deleting the direct-reference branch preserves this fixture's expected selection. Other inspected literal, rejection, UNKNOWN and privacy checks have meaningful assertions."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "MINOR TEST GAP: direct-reference discovery needs an assertion that cannot also pass through intent/media matching.",
+    "PUBLIC_PROSE: tree/docs/relations-v2.md.",
+    "FILE-LIST VARIANCE: tree/src/eval_lab/pilot_cli.py was not in the sealed Plan's estimated file list; its changes are limited to snapshot/export help.",
+    "Independent pytest execution was unavailable; supplied gate results are reported evidence, not an independent rerun.",
+    "Lint integration remains assigned to L12; no existing lint integration point was found."
+  ]
+}

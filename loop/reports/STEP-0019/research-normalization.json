@@ -1,0 +1,13 @@
+{
+  "canonical_sha256": "23bd2971554f9ae027399feda5805a8a184f069a94c424cc45d1391cddb1f449",
+  "raw_sha256": "6a29aac9ad406f6a55fbab5ebc57e598bc3f444cdede8adc117db0b26e518262",
+  "unresolved_proposals": [],
+  "view_claims": [
+    {
+      "claim": "The independently sorted JSON used for this frozen-plan fixture equals RFC 8785 canonicalization.",
+      "id": "R0019-C001",
+      "location": "tests/test_lint.py:95",
+      "origin": "evaluator"
+    }
+  ]
+}

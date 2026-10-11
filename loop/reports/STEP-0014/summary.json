@@ -1,0 +1,34 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 2,
+    "intention": 2,
+    "production_quality": 2,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "INTEGRATE",
+  "flags": [
+    "Independent validation limitation: available Python lacks Pydantic, SQLAlchemy and pytest. Full product suites were not rerun; gate.json's 970 passing tests remain supplied evidence. Executed probes covered extracted functions, not the complete application.",
+    "PUBLIC_PROSE",
+    "Reviewed I1-I16 against the diff and relevant integration paths; no invariant violation demonstrated. Historical Git actions and external runtime state were not independently verified."
+  ],
+  "gate": true,
+  "item": "L08",
+  "passed": 970,
+  "research": {
+    "CONFIRMED": 6
+  },
+  "rounds": 2,
+  "rule": "R6",
+  "scores": {
+    "accuracy": 4,
+    "intention": 4,
+    "production_quality": 4,
+    "relation": 4,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 14
+}

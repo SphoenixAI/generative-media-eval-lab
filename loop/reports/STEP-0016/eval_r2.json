@@ -1,0 +1,153 @@
+{
+  "blocking_findings": [
+    {
+      "description": "Resolution checks a reconstructed TestPlan rather than the retained frozen JSON. Delete a default-valued field such as schema_version or tool_version from a valid frozen row while retaining its stored hashes. Repository.get and the transactional getter first call model_validate_json, which restores that field; TestPlan.contract then hashes model_dump, and the repository compares the reconstructed artifact digest. Both checks therefore see the original values and permit resolution. The existing verify-test-plan path explicitly checks freeze_digest on raw parsed payloads before normalization, and test_retained_default_deletion_is_integrity_failure establishes that this corruption must be rejected. The new resolver bypasses that protection, contrary to Plan criterion 1 and the documentation.",
+      "dimension": "intention",
+      "id": "F0016-R2-001",
+      "invariant": null,
+      "location": "src/eval_lab/resolutions.py:131-137; src/eval_lab/persistence.py:218-223; tests/test_resolutions.py:274-290",
+      "required_fix": "Validate retained frozen-plan payload integrity before model normalization in both resolution preparation and transactional admission. Add fresh-event regression cases deleting default-valued fields, asserting a specific integrity rejection and no appended event; include corruption occurring after preparation to cover the transaction boundary.",
+      "severity": "MATERIAL"
+    }
+  ],
+  "claims_for_research": [],
+  "diff_sha256": "253fe18ea510e32ea73216eaa047e23213f51c17266523bc72512621cd8840cd",
+  "flags": [
+    "Independent full-suite execution was unavailable: accessible Python lacks pydantic, and the workspace is read-only. gate.json reports 1125 passing tests; that count was not independently reproduced.",
+    "Independently parsed all changed Python files and executed the extracted timestamp-receipt function: identical identities remain stable, while timestamp and revision changes invalidate the receipt. This did not execute Pydantic or repository admission.",
+    "tests/test_resolution_workflow.py:157-175 does not independently prove run-revision collapse: its rejection repeats the same submitted evidence, and the original link sorts before the revision alias. A revision-sensitive unit implementation could still pass that rejection case.",
+    "Computed diff.patch SHA-256 matches diff_sha256.txt."
+  ],
+  "item": "L10",
+  "loophole_audit": [
+    {
+      "criterion": "Acceptance and Plan 1: frozen plan, exact pins, declared outcome and evidence",
+      "evidence": "resolutions.py:131-137 and persistence.py:218-223 permit normalization before integrity checks. Existing prerequisite and pin tests are meaningful but omit the deletion case already covered by test_retained_default_deletion_is_integrity_failure for the separate verifier.",
+      "lazy_pass": "Validate a normalized frozen model while silently restoring fields removed from the retained payload.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Plan 2: prediction-based named-member statuses",
+      "evidence": "test_literal_elimination_overlap_identical_and_residual uses literal expectations for distinct, overlapping and identical predictions and checks unchanged Hypothesis bytes.",
+      "lazy_pass": "Hard-code one winner or update Hypothesis records instead of appending events.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 3: residual and non-exhaustive behavior",
+      "evidence": "Literal elimination tests cover residual retention alongside named survivors and residual-only survival; test_nonexhaustive_and_indeterminate_are_explicit checks absence of an inserted residual.",
+      "lazy_pass": "Always insert a residual or eliminate it when a named hypothesis survives.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 4: exact-plan and pair-specific TEST_RESULT eligibility",
+      "evidence": "test_scoped_plan_links_and_context_corrections_do_not_rewrite_replay introduces foreign links that sort first. The h=(31,12) prerequisite case fails on the later-checked member. resolutions.py:148-163 scopes links and checks every named member.",
+      "lazy_pass": "Accept a qualifying link from another plan or check only one hypothesis.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 5: sufficient distinct samples per arm",
+      "evidence": "Prerequisite tests cover uneven and omitted arms; threshold tests use literal counts; duplicate-unit tests cover submissions, frames, evidence revisions, registrations and cross-arm reuse. Runtime code collapses run units by ID, although the instrument-revision test has the coverage limitation noted in flags.",
+      "lazy_pass": "Pool counts or inflate them using repeated evidence, frames, registrations or run revisions.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 6: attributed stopping declaration",
+      "evidence": "test_stopping_declarations_are_attributed_and_exact isolates missing, false, author, plan, rule, arm, sample and reason failures. test_fixed_design_rejects_stopping_declaration prevents replacing a fixed-count design.",
+      "lazy_pass": "Accept any true flag or nonempty stopping-rule string.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 7: reasoned INDETERMINATE without bypass",
+      "evidence": "Reasonless requests have specific rejection assertions. test_indeterminate_does_not_waive_sample_requirements exercises insufficiency, and test_no_design_still_checks_every_arm_and_indeterminate_retains_residual supplies literal states.",
+      "lazy_pass": "Use INDETERMINATE to skip evidence or sample validation.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 8: immutable events and application-owned metadata",
+      "evidence": "The preparation receipt binds ID, revision and timestamp. test_direct_admission_rejects_altered_application_timestamp covers both initial and successor events, unchanged storage after rejection and delayed admission of an unchanged copy. Correction tests exercise exact predecessors and reasons.",
+      "lazy_pass": "Reject timestamp fields in JSON but trust timestamps on copied event models.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 9: transactional admission and captured context",
+      "evidence": "test_transaction_checks_live_context_after_preparation meaningfully proves rederivation against current links. However, the transactional getter at persistence.py:218-223 conceals deleted default fields just like preparation.",
+      "lazy_pass": "Validate only before insertion or repeat checks against normalized records that conceal retained corruption.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Plan 10: private integration and public/embed omission",
+      "evidence": "test_associated_resolutions_are_private_in_each_presentation_state asserts exact shared intent, confirms private markers exist, submits a pairwise rating for revealed cases and checks public/embed in both states. Disclosing associated event data would fail its marker assertions.",
+      "lazy_pass": "Check omission using an unrelated public case or only the blind branch.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 11: deterministic classification and pinned replay",
+      "evidence": "Replay comparisons are supplemented by literal statuses, member order, sample identities, counts and an input hash. Tests reverse repository enumeration, reopen storage and append later plan, hypothesis and link revisions.",
+      "lazy_pass": "Compare two executions of the same classifier without independent expected values.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0016-R1-001",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0016-R1-002",
+      "status": "RESOLVED"
+    }
+  ],
+  "role": "evaluator",
+  "round": 2,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "docs/hypothesis-testing.md:185-186 states that corrupted records reject admission, but deleting schema_version or tool_version from retained frozen-plan JSON is normalized away before resolution checks.",
+        "Reviewed changed comments, docstrings, CLI help, Plan and Probes; no new external claim requiring research was identified.",
+        "Checked the Plan's round-1 Prior attempts statement against earlier report identities: no earlier L10 attempt appears. enhancement.json separately maps both supplied round-1 findings."
+      ],
+      "score": 2
+    },
+    "intention": {
+      "evidence": [
+        "src/eval_lab/resolutions.py:131-137 obtains the frozen plan through model-normalizing repository reads rather than checking its retained JSON before defaults are restored.",
+        "src/eval_lab/persistence.py:218-223 repeats this behavior during transactional admission.",
+        "Literal elimination, residual, role-rejection and sample-threshold tests otherwise exercise the principal acceptance requirements."
+      ],
+      "score": 2
+    },
+    "production_quality": {
+      "evidence": [
+        "tests/test_resolutions.py:274-290 tests altered outcomes and hashes but omits default-field deletion from frozen payloads.",
+        "tests/test_test_plan_workflow.py:154-165 already establishes default-field deletion as an integrity failure for verification, but that protection is not exercised through resolve.",
+        "The new timestamp tests isolate initial and successor admission without revision collisions; the new privacy test establishes exact intent association and covers all four presentation states."
+      ],
+      "score": 2
+    },
+    "relation": {
+      "evidence": [
+        "Traced ResolutionEvent registration, inherited schema version, predecessor pins, dependency closure and persisted foreign-key references.",
+        "Inspected private show/schema integration and snapshot roots, including cross-clip evidence, retained event revisions and unchanged earlier exports.",
+        "Checked lint applicability against the backlog: general resolution lint belongs to downstream L12; no existing registration was omitted."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Read all 1104 lines of diff.patch and opened all eight changed files under tree.",
+        "Compared the implementation with L10 and the sealed Plan; changes concern resolution events and their required integration."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Compared all changed paths with the sealed Plan's expected files and inspected DEFERRED D01-D14; no deferred implementation was found.",
+        "Checked I1-I16 against affected paths: synthetic fixtures, append-only storage, unchanged judgment and decision records, no probability arithmetic, network/model calls, dependency additions, protected-file edits, existing-test weakening or harness edits.",
+        "No invariant violation was demonstrated; the retained-payload validation gap is a material contract failure."
+      ],
+      "score": 4
+    }
+  },
+  "step": 16,
+  "summary": "Both round-1 findings are resolved. One material integrity gap remains: resolution admission validates normalized TestPlan models, allowing deleted default-valued fields in a retained frozen payload to escape detection."
+}

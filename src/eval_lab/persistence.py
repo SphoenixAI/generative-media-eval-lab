@@ -10,6 +10,9 @@ from sqlalchemy import (Column, Integer, String, Text, Table, MetaData,
 from sqlalchemy.pool import StaticPool
 from .domain import ARTIFACT_TYPES, Artifact, Ref, Value, Evidence, HumanRating, AgentAssessment, EvaluationRound, PairwiseRating, ModelRun, EvaluatorVersion, HypothesisGraph, Hypothesis, RelationClaim, EvaluationCase
 from . import pilot_domain  # register additive Pilot 0 types without altering v1 snapshots
+from .domain import CompetingSet
+from . import intent_v2, seals, generation, assessments, decisions, test_plans, evidence_roles, resolutions, relation_v2
+from .canonical_json import parse_json
 
 metadata = MetaData()
 artifacts = Table("artifacts", metadata,
@@ -36,6 +39,19 @@ def refs_in(value: object) -> Iterator[Ref]:
     elif isinstance(value, tuple):
         for item in value:
             yield from refs_in(item)
+
+
+def retained_record(row, ref):
+    """Verify retained freeze bytes before typed defaults can hide missing fields."""
+    if row is None: raise KeyError(ref)
+    if ref.kind == "TestPlan":
+        data = parse_json(row["payload"])
+        if not isinstance(data, dict): raise ValueError("retained TestPlan payload must be a JSON object")
+        if data.get("frozen_digest") is not None and test_plans.freeze_digest(data) != data["frozen_digest"]:
+            raise ValueError("frozen digest mismatch in retained payload")
+    result = ARTIFACT_TYPES[ref.kind].model_validate_json(row["payload"])
+    if result.digest != row["sha256"]: raise ValueError("snapshot integrity failure")
+    return result
 
 
 class Repository:
@@ -65,12 +81,7 @@ class Repository:
     def get(self, ref: Ref) -> Artifact:
         with self.engine.connect() as conn:
             row = conn.execute(select(artifacts).where(self.key(ref))).mappings().one_or_none()
-        if row is None:
-            raise KeyError(ref)
-        result = ARTIFACT_TYPES[ref.kind].model_validate_json(row["payload"])
-        if result.digest != row["sha256"]:
-            raise ValueError("snapshot integrity failure")
-        return result
+        return retained_record(row, ref)
 
     def all(self, kind: str) -> tuple[Artifact, ...]:
         with self.engine.connect() as conn:
@@ -146,7 +157,10 @@ class Repository:
                 media = self.get(evidence).media
                 if not self.media_has_intent(media,item.intent):
                     raise ValueError("hypothesis evidence is outside declared intent")
-        if isinstance(item, RelationClaim):
+        if isinstance(item, CompetingSet):
+            if any(self.get(member).intent != item.intent for member in item.members if isinstance(member, Ref)):
+                raise ValueError("competing set members must share its pinned intent")
+        if isinstance(item, RelationClaim) and not isinstance(item, relation_v2.RelationClaimV2):
             evidence_refs = set(item.evidence) | ({item.subject} if item.subject.kind == "Evidence" else set())
             for evidence_ref in evidence_refs:
                 media = self.get(evidence_ref).media
@@ -185,11 +199,80 @@ class Repository:
         return (any(self.get(run.prompt).intent==intent for run in self.all("ModelRun") if run.media==media)
             or any(clip.intent==intent for clip in self.all("PilotClip") if clip.media==media))
 
-    def put(self, item: Artifact) -> str:
+    @staticmethod
+    def _validate_competing_admission(conn, item):
+        """Read retained constraints inside the writer transaction, never via latest."""
+        if isinstance(item, CompetingSet) and item.exclusive:
+            sets = (item,)
+            rows = conn.execute(select(artifacts.c.kind, artifacts.c.payload).where(artifacts.c.kind.in_(("RelationClaim", "RelationClaimV2"))))
+            claims = tuple(ARTIFACT_TYPES[row.kind].model_validate_json(row.payload) for row in rows)
+        elif isinstance(item, RelationClaim) and item.predicate == "compatible_with":
+            claims = (item,)
+            rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == "CompetingSet")).scalars()
+            sets = tuple(CompetingSet.model_validate_json(row) for row in rows)
+        else:
+            return
+        for group in sets:
+            if not group.exclusive:
+                continue
+            members = {member for member in group.members if isinstance(member, Ref)}
+            for claim in claims:
+                if claim.predicate == "compatible_with" and {claim.subject, claim.object} <= members:
+                    raise ValueError("compatible_with conflicts with an exclusive competing set's pinned members")
+
+    @staticmethod
+    def _validate_intent_admission(conn, item, freeze_test_plan=False):
+        if not isinstance(item, (intent_v2.IntentSpecV2, intent_v2.IntentBinding, seals.SealRecord, *generation.TYPES, *assessments.TYPES, *decisions.TYPES, *evidence_roles.TYPES, test_plans.TestPlan, relation_v2.RelationClaimV2, resolutions.ResolutionEvent)):
+            return
+        def get(ref):
+            row = conn.execute(select(artifacts).where(Repository.key(ref))).mappings().one_or_none()
+            return retained_record(row, ref)
+        rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == "IntentBinding")).scalars()
+        history = tuple(intent_v2.IntentBinding.model_validate_json(row) for row in rows)
+        intent_v2.validate_admission(item, get, history)
+        if isinstance(item, relation_v2.RelationClaimV2):
+            def media_has_intent(media, intent):
+                for name in ("ModelRun", "PilotClip"):
+                    rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == name)).scalars()
+                    for payload in rows:
+                        record = ARTIFACT_TYPES[name].model_validate_json(payload)
+                        if record.media == media and (get(record.prompt).intent if name == "ModelRun" else record.intent) == intent:
+                            return True
+                return False
+            relation_v2.validate_admission(item, get, history, media_has_intent)
+        if isinstance(item, resolutions.ResolutionEvent):
+            from types import SimpleNamespace
+            def all_records(name):
+                rows = conn.execute(select(artifacts.c.id, artifacts.c.revision).where(artifacts.c.kind == name))
+                return tuple(get(Ref(kind=name, id=r.id, revision=r.revision)) for r in rows)
+            resolutions.validate_admission(item, SimpleNamespace(get=get, all=all_records))
+        if isinstance(item, evidence_roles.TYPES):
+            evidence_roles.validate_admission(item, get)
+        if isinstance(item, test_plans.TestPlan):
+            test_plans.validate_admission(item, get, freeze_test_plan)
+        if isinstance(item, (*assessments.TYPES, *decisions.TYPES)):
+            rows = conn.execute(select(artifacts.c.id, artifacts.c.revision).where(artifacts.c.kind == "BindingContext"))
+            contexts = tuple(get(Ref(kind="BindingContext", id=r.id, revision=r.revision)) for r in rows)
+            if isinstance(item, assessments.TYPES): assessments.validate_admission(item, get, contexts)
+            else: decisions.validate_admission(item, get, contexts)
+        if isinstance(item, generation.TYPES):
+            rows = conn.execute(select(artifacts.c.payload).where(artifacts.c.kind == item.ref.kind)).scalars()
+            generation.validate_admission(item, get, tuple(type(item).model_validate_json(row) for row in rows))
+
+    def put(self, item: Artifact, *, _freeze_test_plan=False) -> str:
         if type(item).__name__ not in ARTIFACT_TYPES:
             raise TypeError("unregistered artifact")
         # Revalidate even if a caller used Pydantic model_copy(update=...).
-        item = type(item).model_validate(item.model_dump(mode="json"))
+        if isinstance(item, resolutions.ResolutionEvent):
+            receipt = item._timestamp_receipt
+            item = resolutions.ResolutionEvent.model_validate(item)
+            item._timestamp_receipt = receipt
+        elif isinstance(item, evidence_roles.TYPES):
+            item = type(item).model_validate(item)
+        elif isinstance(item, test_plans.TestPlan):
+            item = test_plans.TestPlan.model_validate(item)
+        else:
+            item = type(item).model_validate(assessments.raw_payload(item) if isinstance(item, (*assessments.TYPES, *decisions.TYPES)) else item.model_dump(mode="json"))
         try:
             existing = self.get(item.ref)
         except KeyError:
@@ -216,6 +299,8 @@ class Repository:
             revisions = conn.execute(select(artifacts.c.revision).where((artifacts.c.kind == item.ref.kind) & (artifacts.c.id == item.id))).scalars().all()
             if item.revision != (max(revisions, default=0) + 1):
                 raise ValueError("revisions must be appended without gaps")
+            self._validate_competing_admission(conn, item)
+            self._validate_intent_admission(conn, item, _freeze_test_plan)
             conn.execute(artifacts.insert().values(kind=item.ref.kind, id=item.id, revision=item.revision, sha256=item.digest, payload=item.canonical()))
             if isinstance(item, (HumanRating, PairwiseRating)):
                 unit = item.model_run.model_dump(mode="json") if isinstance(item, HumanRating) else "pair"

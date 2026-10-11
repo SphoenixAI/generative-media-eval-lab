@@ -1,0 +1,97 @@
+{
+  "step": 16,
+  "item": "L10",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented private resolution events with scoped evidence checks, per-arm sampling, immutable history and pinned replay. First advisory gate passed: 1,118 tests; 25 mutation controls detected.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/resolutions.py implements L10 resolution events; CLI, persistence and snapshot changes support that workflow."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_resolutions.py:75 verifies literal elimination, overlap, identical predictions and residual retention.",
+        "test_prerequisite_rejections_do_not_append, test_duplicate_sample_units_cannot_inflate_counts, test_stopping_declarations_are_attributed_and_exact and test_fixed_design_rejects_stopping_declaration detect removed prerequisite validators."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "test_initial_predecessor_guard_is_not_collision and test_correction_guards_have_no_revision_collision detect removed history validators.",
+        "test_direct_repository_rederives_computed_fields and test_replay_rejects_changed_dependency_digest_and_computed_states detect removed admission and replay validators.",
+        "tests/test_resolution_workflow.py:49 verifies CLI, private display, schemas, reopening, snapshot closure and unchanged earlier exports."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "test_exact_inputs, test_evidence_pin_guards and test_direct_nested_copy_extras_are_revalidated detect removed input and copied-model validators.",
+        "loop/reports/STEP-0016-L10.md:98 records tests-first failures and all 25 detected mutations.",
+        "loop/reports/STEP-0016-L10.md:132 records first-attempt advisory success: 1,118 passing tests, including 78 new cases.",
+        "docs/hypothesis-testing.md:166 and resolve/show/snapshot CLI help document the implemented contracts."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "tests/test_resolution_workflow.py:137 verifies replay preserves excluded context heads; line 152 verifies deterministic results after later revisions and reordered enumeration.",
+        "loop/reports/STEP-0016-L10.md:132 records observed versions, source hashes and advisory limitations.",
+        "Validation uses TEST-ONLY fixtures; no real-media or methodological-validity claim is made."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Advisory G7 counted 745 changed product lines against the 900-line limit.",
+        "G4/G5/G6 found no existing-test removals, unauthorized protected changes or forbidden changes; G11 confirmed the sealed Plan matches.",
+        "No dependencies, deferred features or Git history changes were introduced."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Frozen plan and TEST_RESULT evidence",
+      "lazy_pass": "Trust supplied roles or qualifying links from another plan.",
+      "present_in_diff": false,
+      "evidence": "Roles are recomputed for each exact evidence/hypothesis pair within the target plan and arm; foreign-plan and integrity rejection tests pass."
+    },
+    {
+      "criterion": "Sufficient samples",
+      "lazy_pass": "Pool arms, count duplicate sources or bypass fixed counts with stopping declarations.",
+      "present_in_diff": false,
+      "evidence": "Per-arm thresholds, source/run identity checks and exact stopping declarations have rejection tests and detected mutation controls."
+    },
+    {
+      "criterion": "Residual and indeterminate behavior",
+      "lazy_pass": "Eliminate residuals or use INDETERMINATE to waive prerequisites.",
+      "present_in_diff": false,
+      "evidence": "Literal status tests retain residuals; test_indeterminate_does_not_waive_sample_requirements rejects insufficient samples."
+    },
+    {
+      "criterion": "Immutable, reproducible history",
+      "lazy_pass": "Overwrite hypotheses or replay against current context.",
+      "present_in_diff": false,
+      "evidence": "Events append pinned revisions, preserve hypothesis bytes and replay captured dependencies, including excluded lineage heads."
+    },
+    {
+      "criterion": "Private boundaries",
+      "lazy_pass": "Omit snapshot dependencies or expose private events publicly.",
+      "present_in_diff": false,
+      "evidence": "test_cli_show_schema_reopen_snapshots_and_public_boundaries checks cross-clip closure, unchanged old exports and public/embed omission."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "PUBLIC_PROSE: docs/hypothesis-testing.md changed.",
+    "Advisory G14 was skipped; non-advisory verification and independent evaluation remain controller phases.",
+    "Snapshot workflow tests verify metadata closure and stub media-byte verification.",
+    ""
+  ]
+}

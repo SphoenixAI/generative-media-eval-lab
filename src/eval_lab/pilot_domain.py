@@ -147,7 +147,7 @@ class PilotSubmission(Artifact):
     def human_record(self):
         if self.revision != 1:
             raise ValueError("submission envelope is immutable; append another submission")
-        if self.artifact.kind not in ("IntentSpec", "Evidence", "Hypothesis", "RelationClaim"):
+        if self.artifact.kind not in ("IntentSpec", "Evidence", "Hypothesis", "RelationClaim", "CompetingSet"):
             raise ValueError("unsupported pilot human artifact")
         if self.frame_indices and (self.derivative is None or self.artifact.kind != "Evidence"):
             raise ValueError("frame attachment needs evidence and derivative")
@@ -233,7 +233,7 @@ def validate_pilot_links(repo,item):
             raise ValueError("submission evidence/author mismatch")
         if item.artifact.kind=="IntentSpec" and (clip.intent!=artifact.ref or artifact.approved_by!=item.author or artifact.authority!="human_declared"):
             raise ValueError("submission intent/author mismatch")
-        if item.artifact.kind in ("Hypothesis","RelationClaim") and artifact.intent!=clip.intent:
+        if item.artifact.kind in ("Hypothesis","RelationClaim","CompetingSet") and artifact.intent!=clip.intent:
             raise ValueError("submission has different declared intent")
         if item.artifact.kind=="RelationClaim" and artifact.asserted_by!=item.author:
             raise ValueError("relation author mismatch")

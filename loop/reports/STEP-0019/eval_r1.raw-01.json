@@ -1,0 +1,158 @@
+{
+  "step": 19,
+  "item": "L12",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "b4341ee575669b36cdf4b5a08153544078d9dd558b88ddfe3b658fef1960aee9",
+  "summary": "The 60 graph tests pass independently, but adversarial checks expose an I2 violation, an unreachable admissible E1 success path, false reference detection, and unchecked persisted audit pins.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all 1,096 lines of diff.patch and opened all eight changed files. Changes implement L12 lint, readiness, private snapshots, documentation and tests."
+      ]
+    },
+    "intention": {
+      "score": 0,
+      "evidence": [
+        "src/eval_lab/lint.py:203: an independent in-memory SQLite query with null motion-evidence coverage returned COMPLETE, ready=true, no findings and no unknowns, violating I2.",
+        "test_all_rules_exactly_once_and_clean_graph passes with literal rule, level and subject expectations, but does not cover this missing-context case."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/lint.py:130 requires a hypothesis to reference the verdict's IntentSpecV2, while domain.py:455 requires Hypothesis.intent to reference IntentSpec.",
+        "src/eval_lab/lint.py:23 and persistence.py:225 permit persisted LintResult inputs with incorrect digest pins and an invalid input_sha256.",
+        "Inspected registration, inherited schema version, snapshot inclusion and private replay; those integration paths exist."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "Independently ran tests/test_lint.py: 60 passed.",
+        "tests/test_lint.py:248 constructs the positive E1 hypothesis with an intent kind rejected by normal admission.",
+        "src/eval_lab/lint.py:47 interprets valid TestPlan.predictions keys named kind and id as a reference; independently reproduced rejection after successful Repository.put.",
+        "tests/test_lint_workflow.py:80 checks snapshot persistence and replay, but lacks negative tests for the new audit artifact's digest contract."
+      ]
+    },
+    "accuracy": {
+      "score": 2,
+      "evidence": [
+        "plan.md:83 promises unavailable coverage remains UNKNOWN/incomplete; the null-coverage query instead reports COMPLETE and ready=true.",
+        "plan.md:52 promises a hypothesis/evidence warrant path; the implemented positive test depends on an inadmissible hypothesis.",
+        "Inspected earlier evaluator report identities: none concerns L12, consistent with the Plan's empty Prior attempts mapping.",
+        "Excluded harness report sections from accuracy scoring."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared the complete diff with the sealed Plan and backlog DEFERRED entries D01–D14; found no deferred implementation or unrelated feature.",
+        "The repository callback implements the sealed requirement to recheck readiness inputs under the writer lock."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "null_coverage_pass",
+      "dimension": "intention",
+      "severity": "CATASTROPHIC",
+      "invariant": "I2",
+      "location": "src/eval_lab/lint.py:67,198-204",
+      "description": "Unavailable motion-evidence coverage becomes a clean result. shape accepts null without checking the annotation, and W1 recognizes only the literal 'unknown'. With coverage=null, neither the UNKNOWN branch nor the still-frame branch fires. Independently reproduced through query using an in-memory SQLite database containing a typed motion observation, retained evidence, matching media/timeline and corrected hash pins: status=COMPLETE, ready=true, findings=[], unknown=[]. Direct evaluate also silently passes omitted coverage.",
+      "required_fix": "Treat missing, null and invalid coverage as UNKNOWN or an integrity failure before deciding W1. Add raw-graph and retained-query regressions asserting the specific diagnostic and ready=false."
+    },
+    {
+      "id": "inadmissible_warrant_path",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint.py:128-135; tests/test_lint.py:244-255",
+      "description": "The hypothesis warrant branch cannot succeed for normally admitted records: TerminalVerdict.intent must be IntentSpecV2, while Hypothesis.intent must be IntentSpec. The positive test changes the hypothesis to IntentSpecV2 and bypasses admission. Independently confirmed that model validation rejects that fixture. Also persisted a verdict citing a legacy hypothesis, its warranted support relation, explicit MUST relevance, and a same-media v2 fulfills relation anchored to that MUST criterion; lint still emitted E1. The checker ignores the existing relevance mapping and evidence-to-intent path.",
+      "required_fix": "Implement the promised warrant traversal using existing admissible intent/relevance relationships and exact pins, without weakening admission. Add a positive repository-backed path and negative wrong-media, wrong-revision and wrong-anchor controls."
+    },
+    {
+      "id": "prediction_keys_as_references",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint.py:45-53,140",
+      "description": "Reference discovery treats every dictionary containing kind and id as a Ref. TestPlan.predictions is keyed by arbitrary hypothesis IDs, so a valid plan for hypotheses named 'kind' and 'id' is reported as INTEGRITY_FAILURE with 'reference requires explicit revision'. Independently constructed and persisted those hypotheses, their CompetingSet and the TestPlan successfully, then reproduced the false lint rejection. Existing TestPlan validation explicitly preserves predictions as a data mapping.",
+      "required_fix": "Distinguish reference-bearing fields from arbitrary mappings during raw traversal. Add an admitted-plan regression with these IDs and preserve rejection of actual references lacking explicit revisions."
+    },
+    {
+      "id": "unchecked_audit_pins",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint.py:23-36; src/eval_lab/persistence.py:224-226",
+      "description": "LintResult is registered but has no admission check for its input digest pins or aggregate input identity. Generic reference validation checks existence only, and the specialized admission dispatcher excludes LintResult. Independently persisted and reloaded a COMPLETE, ready=true audit whose existing dataset input had an incorrect all-f digest and whose input_sha256 was 'not-a-digest'. Snapshot/export integrity checks validate the outer artifact digest, not these claimed input identities.",
+      "required_fix": "Validate the audit's input pins against retained artifacts and verify its aggregate input hash before persistence. Add specific rejection tests for wrong existing-artifact pins and malformed or inconsistent input hashes."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "One TEST-ONLY graph triggers every rule exactly once, and a clean graph passes.",
+      "lazy_pass": "Hard-code fixture outputs or use synthetic positive cases that cannot occur in the admitted domain.",
+      "present_in_diff": true,
+      "evidence": "test_all_rules_exactly_once_and_clean_graph uses independent literal findings and detects omitted rule emissions. However, test_relation_warrant_exact_pins_and_anchors makes its successful hypothesis inadmissible at tests/test_lint.py:248."
+    },
+    {
+      "criterion": "Correct rule levels, subjects, explanations and branch boundaries.",
+      "lazy_pass": "Exercise one trigger per label while leaving alternate paths incorrect.",
+      "present_in_diff": true,
+      "evidence": "Material-provenance, relation-field, timeline, override, confidence, resolution and sample-design tests have literal oracles. W1 has no null/missing-coverage regression, and E1's admissible relation path is unproved and fails independent checking."
+    },
+    {
+      "criterion": "Read-only lint preserves unavailable context and returns appropriate exit status.",
+      "lazy_pass": "Read without writes but interpret malformed or absent context as successful completion.",
+      "present_in_diff": true,
+      "evidence": "test_ready_error_blocks_without_append_and_read_only_cli checks database bytes; test_missing_store_and_help_are_read_only checks no workspace creation. The independent retained null-coverage query nevertheless returns ready=true; pilot_cli.py:109 maps that to exit 0."
+    },
+    {
+      "criterion": "Readiness preserves prerequisites, blocks errors/incompleteness and permits warnings.",
+      "lazy_pass": "Make rejection tests fail on unrelated eligibility checks or stub every lint result.",
+      "present_in_diff": false,
+      "evidence": "Workflow fixtures provide 12 distinct generated clips with intents. Error and warning cases invoke actual lint; stale-input tests intervene before commit. Removing the readiness guard would defeat their specific rejection assertions. The coverage defect remains an upstream bypass."
+    },
+    {
+      "criterion": "Private snapshots pin versioned results and replay saved results without altering old snapshots.",
+      "lazy_pass": "Store a result-shaped object without checking that its input hashes identify the retained graph.",
+      "present_in_diff": true,
+      "evidence": "test_private_snapshot_pins_lint_and_old_snapshot_not_evaluated checks reopen/replay and fails if export recomputes. It checks hash lengths only; independently persisted incorrect LintResult input pins and an invalid aggregate hash."
+    },
+    {
+      "criterion": "Deterministic ordering and exact graph identity.",
+      "lazy_pass": "Sort fixture findings while confusing arbitrary dictionaries with references.",
+      "present_in_diff": true,
+      "evidence": "The all-rules test compares repeated and reversed evaluations, including input identity. However, lint.py:47 treats valid prediction IDs as reference metadata and rejects an admitted graph."
+    },
+    {
+      "criterion": "Missing evidence, unrelated contexts and revision decoys cannot manufacture warrants.",
+      "lazy_pass": "Test decoys only in raw graphs while bypassing actual domain relationships.",
+      "present_in_diff": true,
+      "evidence": "test_unavailable_graph_is_never_clean and assessment-context tests exercise missing/wrong pins. The relation warrant positive test bypasses Hypothesis admission, so it does not establish correctness for the existing type relationships."
+    },
+    {
+      "criterion": "Admission checks, existing tests, protected outputs and public allowlists remain intact.",
+      "lazy_pass": "Relax admission or expose private diagnostics to make fixtures and integration easier.",
+      "present_in_diff": false,
+      "evidence": "Inspected the full diff: existing tests and public serializers are unchanged; original admission checks remain. New media fixtures use temporary TEST-ONLY paths, and lint integration is private."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "rfc8785_fixture_equivalence",
+      "claim": "The independently sorted JSON used for this frozen-plan fixture equals RFC 8785 canonicalization.",
+      "location": "tests/test_lint.py:95"
+    }
+  ],
+  "flags": [
+    "VALIDATION: Independently ran all 60 graph tests and additional in-memory adversarial probes. Filesystem/media workflow tests were inspected but not independently rerun under the read-only sandbox. The supplied harness reports 1,281 passing tests.",
+    "INVARIANT_AUDIT: I2 violation demonstrated above. Checked I1 and I3-I16 against changed code and relevant integration paths: no real judgment authoring, history overwrite, protected/judge edit, intent-bearing technical observation, evaluation mutation, weakened provenance admission, averaging, probability arithmetic, new dependency/network call, existing-test weakening, public exposure or DEFERRED implementation found. Historical Git actions were not independently verified.",
+    "PRIOR_ATTEMPTS: Earlier supplied evaluator reports contain no L12 attempt; the Plan's empty mapping is consistent.",
+    "HASH: Independently recomputed diff.patch SHA-256 and matched diff_sha256.txt."
+  ]
+}

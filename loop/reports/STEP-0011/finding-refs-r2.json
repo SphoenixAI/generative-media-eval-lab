@@ -1,0 +1,60 @@
+{
+  "findings": [],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Compared authored lifecycle documentation and CLI help with origin mapping, chronology derivation, UNKNOWN preservation, access-attempt timing and frozen-export behavior.",
+        "Matched the documented executable hashes and version-record description against scripts/install_media_tools.py and outputs/pilot0/toolchain.json. Exact publisher attribution is now explicitly unverified.",
+        "Matched documented extraction arguments and PNG-validation limitations against media.py.",
+        "Applied A2: excluded harness bookkeeping and researcher-owned verdicts from builder accuracy scoring; routed externally dependent claims to research without a penalty."
+      ],
+      "id": "F0011-R2-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "Mapped all nine sharpened acceptance criteria to implementation and named tests in the loophole audit.",
+        "Executed the extracted classifier against all 52 chronology cases: zero mismatches. Changing strict comparisons to non-strict comparisons caused 21 mismatches.",
+        "Executed the corrected exact-reference parser against literal expectations for unprefixed IntentSpecV2@1 and PilotClip@1.",
+        "Inspected FOUND registration, missing-evidence degradation, append-only selection revisions and cross-origin alias handling."
+      ],
+      "id": "F0011-R2-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "test_lifecycle_contract_constructor_and_copied_admission now provides 22 targeted cases with fresh IDs, valid referenced artifacts, specific ValidationError messages, nonadmission assertions and valid controls.",
+        "Independently executed extracted structural contracts against 11 valid controls and 11 targeted invalid cases; all behaved as expected. This does not reproduce Pydantic/repository integration.",
+        "tree/tests/test_generation.py:329 and :417 assert CLI failure codes without checking the intended error message. These supplemental rejection tests remain less specific than the A2 oracle rule requires.",
+        "All six changed Python files passed AST parsing. Independently executed 32 malformed-array guard cases and four valid controls."
+      ],
+      "id": "F0011-R2-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Traced all five new artifact types through ARTIFACT_TYPES registration, inherited schema versioning, repository serialization, reference traversal and digest validation.",
+        "Checked selection predecessor pins, original binding anchors, byte-identity lineage and private snapshot dependency closure.",
+        "Inspected transaction-scoped origin/view uniqueness and binding-context admission. Dedicated graph lint remains the separately scheduled L12 item."
+      ],
+      "id": "F0011-R2-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Compared all ten changed files with L04 and the sealed Plan: implementation concerns generation plans, origins, selection history, binding evidence, first-access events and private exports."
+      ],
+      "id": "F0011-R2-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Independently counted 891 changed lines outside reports, below the sealed 900-line limit.",
+        "Compared the change against every DEFERRED item D01-D14; none is implemented.",
+        "Confirmed the diff changes no dependency manifest, accepted schema, existing baseline test, public serializer or fixed judge implementation."
+      ],
+      "id": "F0011-R2-D-scope"
+    }
+  ]
+}

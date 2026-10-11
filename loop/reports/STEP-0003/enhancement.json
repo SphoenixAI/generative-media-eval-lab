@@ -1,0 +1,15 @@
+{
+  "resolutions": [
+    {
+      "ref": "L02-R1-01",
+      "action": "FIXED",
+      "evidence": "Admission now checks pinned media checksums inside the write transaction, preventing cloned anchors from resetting provenance. Added five regression cases and corrected the independent-registration fixture. Advisory gate passed: 373 tests, 822/900 changed lines; all 16 protected files unchanged. G14 remains controller-owned."
+    },
+    {
+      "ref": "R0003-C007",
+      "action": "FIXED",
+      "evidence": "docs/domain-model.md now explicitly leaves PostgreSQL readiness unverified and requires versioned validation evidence. No migration or dependency change. No sealed Plan claim was disproved; amendments are unnecessary.\n\n"
+    }
+  ],
+  "amendments": []
+}

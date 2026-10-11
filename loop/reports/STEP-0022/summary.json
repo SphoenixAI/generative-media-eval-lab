@@ -1,0 +1,33 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 0,
+    "intention": 0,
+    "production_quality": 0,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "INTEGRATE",
+  "flags": [
+    "Independent full-suite execution was unavailable: the accessible Python lacks SQLAlchemy, and filesystem permissions are read-only. In-memory checks used isolated imports and a lightweight test runner; they do not establish full application integration or filesystem snapshot behavior.",
+    "Scope of acceptance is L12-A1 only. All-rule declarations, exhaustive rule contracts, ready=false integration and snapshot persistence remain obligations of the approved later children."
+  ],
+  "gate": true,
+  "item": "L12-A1",
+  "passed": 1391,
+  "research": {
+    "CONFIRMED": 8
+  },
+  "rounds": 1,
+  "rule": "R6",
+  "scores": {
+    "accuracy": 4,
+    "intention": 4,
+    "production_quality": 4,
+    "relation": 4,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 22
+}

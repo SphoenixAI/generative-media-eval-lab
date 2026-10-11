@@ -1,0 +1,68 @@
+{
+  "findings": [
+    {
+      "description": "Unavailable typed motion context becomes a clean result. shape accepts a null dimension, and W1 checks only whether the contexts list is empty or contains the literal motion_plausibility dimension. A present observation with dimension=null satisfies neither condition. Independently queried an in-memory SQLite dataset containing matching media, decoded timeline, sampled-frame evidence and corrected record hashes: null and invalid dimensions each returned COMPLETE, ready=true, findings=[], unknown=[]. The valid motion dimension produced W1. Thus unavailable context is treated as successful evaluation.",
+      "dimension": "intention",
+      "id": "F0019-R2-001"
+    },
+    {
+      "description": "E3 treats the existence of a metadata object as an available decoded timeline without validating its duration. For full-clip evidence with no explicit interval or samples, the comparisons never execute. Independently queried a retained TEST-ONLY graph after replacing metadata.duration_seconds with null, then an invalid string, and updating its digest. Both queries returned COMPLETE, ready=true, findings=[], unknown=[]. The promised unavailable-timeline boundary is bypassed.",
+      "dimension": "intention",
+      "id": "F0019-R2-002"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "docs/lint.md:25-26 promises unavailable timelines and typed motion context remain UNKNOWN; both independent retained-query probes contradict that claim.",
+        "Inspected builder-authored Plan, Probes, comments, docstrings and changed CLI help. Excluded harness bookkeeping and researcher-owned verdicts.",
+        "tests/test_lint.py:95 now explicitly qualifies the unsupported JCS equivalence assertion."
+      ],
+      "id": "F0019-R2-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "src/eval_lab/lint.py:215-220: retained observations with null or invalid dimensions independently returned COMPLETE, ready=true, findings=[], unknown=[].",
+        "src/eval_lab/lint.py:175-187: full-clip evidence with a retained null or invalid timeline duration independently returned COMPLETE, ready=true, findings=[], unknown=[].",
+        "test_all_rules_exactly_once_and_clean_graph passes; independently suppressing each of the 13 rule emissions made that test fail."
+      ],
+      "id": "F0019-R2-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "Independently ran 67 tests successfully.",
+        "tests/test_lint_workflow.py:148-172 tests unavailable coverage but leaves unavailable dimension/context untested.",
+        "test_decoded_timeline_endpoints and test_unavailable_graph_is_never_clean[missing-timeline] do not test an existing timeline with unavailable duration.",
+        "Independent retained-query probes demonstrate false clean results in both omitted cases."
+      ],
+      "id": "F0019-R2-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Ran test_relation_warrant_exact_pins_and_anchors, including the admitted positive path and seven negative controls.",
+        "Ran test_lint_result_input_identity_admission and test_admitted_prediction_ids_are_data.",
+        "Inspected LintResult registration, inherited schema version, exact input pins, transaction-local digest validation, snapshot inclusion and saved-result export."
+      ],
+      "id": "F0019-R2-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read the complete 1,220-line diff and opened all eight changed files under tree/. Compared their changes with L12 and the north-star lint-to-snapshot workflow; all changes concern that work."
+      ],
+      "id": "F0019-R2-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared the complete diff with the sealed Plan and DEFERRED entries D01-D14; found no deferred implementation or unrelated feature.",
+        "Checked that the persistence callback serves the planned readiness recheck and the added admission validator serves the planned pinned audit contract."
+      ],
+      "id": "F0019-R2-D-scope"
+    }
+  ]
+}

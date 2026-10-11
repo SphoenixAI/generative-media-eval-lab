@@ -1,0 +1,67 @@
+{
+  "canonical_sha256": "f3c4879d9dc690790f45dded89fc80ad7600a895dec81e170414cbd70ec04966",
+  "raw_sha256": "97ab3a0ae890197b13893ce96ecc45903fdbc0dc89273b1301e716a48b2985bf",
+  "unresolved_proposals": [],
+  "view_claims": [
+    {
+      "claim": "`src/eval_lab/lint_evidence.py` defines the evidence-result states AVAILABLE, UNKNOWN and INTEGRITY_FAILURE, and `RawRecord.field` prevents damaged-record values from supplying available support.",
+      "id": "R0034-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "`src/eval_lab/lint_evidence.py::RawRecord.presence` distinguishes a missing optional slot from an explicitly present null slot, returning UNKNOWN for the former and an AVAILABLE false presence value for the latter.",
+      "id": "R0034-C002",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "`src/eval_lab/lint_prerequisites.py::DirectRecords` reuses `RawReader.read` for exact integrity checks, and the temporal collection access checks the explicit direct inventory against enumerated identities.",
+      "id": "R0034-C003",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "`src/eval_lab/lint_temporal_prerequisites.py` and `src/eval_lab/lint_warrant_prerequisites.py` declare fields in SPECS and append their present obligation logs while reading, so those logs alone do not enumerate a declared field that was never read.",
+      "id": "R0034-C004",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "The integrated temporal attachment handler returns without derivative traversal only when checked frame indices are empty and derivative presence is false, and otherwise checks attachment correspondence.",
+      "id": "R0034-C005",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "The integrated temporal sample handler checks a supplied sample design even when no generation-plan reference is active.",
+      "id": "R0034-C006",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "`src/eval_lab/lint_warrant_prerequisites.py` already uses parsed timestamps for registration/view correspondence and contains a FirstView content-correspondence guard with focused controls in `tests/test_lint_warrant_prerequisites.py`.",
+      "id": "R0034-C007",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "`loop/config.toml` sets max_changed_lines to 900, and `loop/gates.py` counts added plus removed non-generated lines, including untracked text files.",
+      "id": "R0034-C008",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "The L12-A2d1a entry in `loop/backlog.toml` authorizes no new dependency, protected-file edit or existing-test weakening, while its inherited operator constraint requires a size stop above 500 lines at the literal-inventory/deleted-real-read checkpoint.",
+      "id": "R0034-C009",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "`loop/proposals/APPROVED-L12-A2d1-split.toml` assigns temporal/warrant accounting to d1a and role/history/computed/all-rule accounting to d1b; the active backlog notes keep complete semantic work outside both children.",
+      "id": "R0034-C010",
+      "location": "sealed plan",
+      "origin": "plan"
+    }
+  ]
+}

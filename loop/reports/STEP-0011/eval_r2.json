@@ -1,0 +1,184 @@
+{
+  "blocking_findings": [],
+  "claims_for_research": [
+    {
+      "claim": "Pydantic v2 model_copy(update=...) does not validate supplied update values.",
+      "id": "R0011-C001",
+      "location": "tree/loop/reports/STEP-0011-L04.md:33"
+    },
+    {
+      "claim": "Pydantic 2.13.5 JsonValue uses list, dict, string, boolean, integer, float and null variants, without a tuple variant.",
+      "id": "R0011-C002",
+      "location": "tree/loop/reports/STEP-0011-L04.md:37"
+    },
+    {
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE starts one immediately or can fail with SQLITE_BUSY.",
+      "id": "R0011-C003",
+      "location": "tree/loop/reports/STEP-0011-L04.md:41"
+    },
+    {
+      "claim": "SQLite trigger RAISE(ABORT, message) terminates the triggering statement and returns SQLITE_CONSTRAINT with the supplied message.",
+      "id": "R0011-C004",
+      "location": "tree/loop/reports/STEP-0011-L04.md:45"
+    },
+    {
+      "claim": "Python 3.12 hashlib includes sha256 and hexadecimal output through hexdigest.",
+      "id": "R0011-C005",
+      "location": "tree/loop/reports/STEP-0011-L04.md:49"
+    },
+    {
+      "claim": "RFC 8785 sorts JSON object property names by UTF-16 code units and requires UTF-8 output encoding.",
+      "id": "R0011-C006",
+      "location": "tree/loop/reports/STEP-0011-L04.md:53"
+    },
+    {
+      "claim": "FFprobe decoded timestamps and time bases support variable-rate frame addressing independently of rounded average FPS.",
+      "id": "R0011-C015",
+      "location": "tree/docs/pilot0.md:157"
+    },
+    {
+      "claim": "FFmpeg -noautorotate disables automatic rotation, explicit mapping selects the specified stream, and select's n is the zero-based filter-input frame number.",
+      "id": "R0011-C016",
+      "location": "tree/docs/pilot0.md:159"
+    },
+    {
+      "claim": "FFmpeg can fall back from a requested pixel format.",
+      "id": "R0011-C017",
+      "location": "tree/docs/pilot0.md:161"
+    }
+  ],
+  "diff_sha256": "c8991181d81d7ceac30c6af9248e93af0a5a9b08e4179a5865eb67e1940a8790",
+  "flags": [
+    "PUBLIC_PROSE",
+    "RUNTIME_LIMIT: The supplied gate reports 698 passing tests. Full pytest and repository-level mutation results were not independently reproduced because the available environment lacks Pydantic, SQLAlchemy and pytest. Independent execution covered extracted functions only.",
+    "PRIOR_ATTEMPTS_AUDIT: The sealed Plan still lacks an explicit finding-by-finding Prior attempts mapping. Compared all supplied earlier L04 findings directly: Step 8 nested JSON, cross-origin lineage, forged-context masking and selection masking have targeted coverage; Step 10 malformed collection shapes and candidate-order coverage are addressed.",
+    "INVARIANT_AUDIT: Checked I1-I16 against the diff and relevant integration paths. No demonstrated real-judgment authoring, UNKNOWN conversion, history overwrite, protected/judge edit, measurement/acceptability conflation, policy/evaluation coupling, prohibited provenance promotion, averaging, probability arithmetic, runtime network/dependency addition, existing-test weakening, public exposure or DEFERRED implementation. Historical Git actions were not independently verified.",
+    "RESEARCH_BOUNDARY: External claims retain canonical research IDs. Supplied researcher verdicts were context, not independent verification or builder-authored accuracy evidence."
+  ],
+  "item": "L04",
+  "loophole_audit": [
+    {
+      "criterion": "1. Plans and families",
+      "evidence": "test_plan_family_json_reopen_and_validation uses distinct JSON and CONTROLS fixtures and checks reopened values; test_plan_cli_and_registration_prevalidation checks both fields through CLI input. Inspected direct forwarding of the remaining declarations.",
+      "lazy_pass": "Retain field names while dropping nested JSON or substituting the same values for settings and controlled factors.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "2. Registration and explicit binding",
+      "evidence": "registration_choice precedes ingestion. test_plan_cli_and_registration_prevalidation checks nonadmission for invalid choices; test_planned_empty_or_sole_intent_and_forbidden_controls covers empty and sole-intent plans. test_exact_unprefixed_kind_name_ids catches the prior parsing defect.",
+      "lazy_pass": "Apply PLANNED/FOUND labels without exact dependencies, or ingest media before checking explicit choices.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "3. Ordering and graceful degradation",
+      "evidence": "test_stored_ordering_degrades_and_replays uses independently authored ordering fixtures and expected classes. Independently executed all 52 cases and demonstrated sensitivity to non-strict comparisons. test_found_missing_and_exact_revision_evidence covers missing, wrong-revision, unlisted, legacy and PROMPT_ONLY evidence.",
+      "lazy_pass": "Always return RECONSTRUCTED, or compute expected classifications using the production classifier.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "4. Stored evidence and lineage",
+      "evidence": "test_alias_lineage_and_no_promotion and test_real_alias_prompt_eligibility_follows_established_origin cover both alias directions. test_earliest_seal_and_forged_context_are_independently_checked isolates stored chronology with a fresh context ID. The new structural-contract tests independently reject wrong-kind pins.",
+      "lazy_pass": "Reuse a binding ID while borrowing an alias's origin, or let unrelated validation failures satisfy forged-context tests.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "5. Append-only selection log",
+      "evidence": "test_selection_history_reopen_sql_and_bad_pins checks consecutive revisions, predecessor digests, immutable history, SQL UPDATE/DELETE refusal and literal candidate order after reopening. test_selection_negative_cases_are_not_masked checks partition, overlap, duplicate, blank, foreign and dangling cases.",
+      "lazy_pass": "Overwrite corrections, reorder candidates, or accept incomplete and overlapping kept/rejected partitions.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "6. Negative-test sensitivity",
+      "evidence": "Selection negatives use TEST-ONLY-invalid instead of the stored control ID and assert specific errors plus nonadmission. Forged chronology uses a fresh context ID and matches stored chronology. Structural negatives use fresh IDs and otherwise valid pins; removing their model validators would defeat the constructor expectations.",
+      "lazy_pass": "Reuse stored IDs so immutable-revision conflicts make malformed selection and context tests pass.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "7. First-view events",
+      "evidence": "test_each_access_entrypoint_logs_before_exposure checks all three entry paths before extraction/launch. test_competing_first_access_alias_reopen_and_backward_clock exercises competing writers and aliases. test_view_failure_boundaries distinguishes pre-verification failures from retained post-log attempts, although its error-message oracle is incomplete.",
+      "lazy_pass": "Log only successful exposure, or let aliases, competing calls or backward clocks replace the first event.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "8. FOUND workflow and private audit",
+      "evidence": "test_found_cli_private_export_and_public_exclusion covers registration, viewing, binding, selection and frozen export with literal UNKNOWN expectations. Inspected alias lifecycle roots, exact dependency closure and the unchanged public serializer allowlist.",
+      "lazy_pass": "Require a plan for discovered media, manufacture quality, or rebuild frozen exports from current records.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "9. Evidence limits and reproducibility",
+      "evidence": "docs/generation-lifecycle.md explicitly bounds attention, external viewing, chronology and regeneration claims. Inspected application-version fields and retained media fingerprints; controlled-clock, seal-tie and frozen-export tests cover deterministic operations.",
+      "lazy_pass": "Describe CLI attempts as human attention or declared timestamps/settings as verified generation evidence.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0011-R1-001",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0011-R1-D-intention",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "R0011-C014",
+      "status": "RESOLVED"
+    }
+  ],
+  "role": "evaluator",
+  "round": 2,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Compared authored lifecycle documentation and CLI help with origin mapping, chronology derivation, UNKNOWN preservation, access-attempt timing and frozen-export behavior.",
+        "Matched the documented executable hashes and version-record description against scripts/install_media_tools.py and outputs/pilot0/toolchain.json. Exact publisher attribution is now explicitly unverified.",
+        "Matched documented extraction arguments and PNG-validation limitations against media.py.",
+        "Applied A2: excluded harness bookkeeping and researcher-owned verdicts from builder accuracy scoring; routed externally dependent claims to research without a penalty."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "Mapped all nine sharpened acceptance criteria to implementation and named tests in the loophole audit.",
+        "Executed the extracted classifier against all 52 chronology cases: zero mismatches. Changing strict comparisons to non-strict comparisons caused 21 mismatches.",
+        "Executed the corrected exact-reference parser against literal expectations for unprefixed IntentSpecV2@1 and PilotClip@1.",
+        "Inspected FOUND registration, missing-evidence degradation, append-only selection revisions and cross-origin alias handling."
+      ],
+      "score": 4
+    },
+    "production_quality": {
+      "evidence": [
+        "test_lifecycle_contract_constructor_and_copied_admission now provides 22 targeted cases with fresh IDs, valid referenced artifacts, specific ValidationError messages, nonadmission assertions and valid controls.",
+        "Independently executed extracted structural contracts against 11 valid controls and 11 targeted invalid cases; all behaved as expected. This does not reproduce Pydantic/repository integration.",
+        "tree/tests/test_generation.py:329 and :417 assert CLI failure codes without checking the intended error message. These supplemental rejection tests remain less specific than the A2 oracle rule requires.",
+        "All six changed Python files passed AST parsing. Independently executed 32 malformed-array guard cases and four valid controls."
+      ],
+      "score": 3
+    },
+    "relation": {
+      "evidence": [
+        "Traced all five new artifact types through ARTIFACT_TYPES registration, inherited schema versioning, repository serialization, reference traversal and digest validation.",
+        "Checked selection predecessor pins, original binding anchors, byte-identity lineage and private snapshot dependency closure.",
+        "Inspected transaction-scoped origin/view uniqueness and binding-context admission. Dedicated graph lint remains the separately scheduled L12 item."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Compared all ten changed files with L04 and the sealed Plan: implementation concerns generation plans, origins, selection history, binding evidence, first-access events and private exports."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Independently counted 891 changed lines outside reports, below the sealed 900-line limit.",
+        "Compared the change against every DEFERRED item D01-D14; none is implemented.",
+        "Confirmed the diff changes no dependency manifest, accepted schema, existing baseline test, public serializer or fixed judge implementation."
+      ],
+      "score": 4
+    }
+  },
+  "step": 11,
+  "summary": "Round-1 blocking finding resolved. No new material defect found. Minor CLI rejection-oracle gaps remain. Read the complete diff and every changed file; independently checked syntax, hash, size, extracted validators, reference parsing and chronology. Full repository tests could not be rerun."
+}

@@ -1,0 +1,71 @@
+{
+  "findings": [
+    {
+      "description": "The context rejection test changes candidate.intent while retaining the original binding. It therefore raises 'assessment context mismatch: binding' at line 155, satisfying the test's shared message fragment before the selected assessment is examined. Removing the assessment-context comparison at line 168 leaves this test satisfied. No other new test selects a foreign-context assessment while keeping the verdict's own clip, media, intent and binding valid. Thus the test does not prove the sealed requirement that assessments match the exact verdict context.",
+      "dimension": "production_quality",
+      "id": "F0013-R1-001"
+    },
+    {
+      "description": "The literal envelope test verifies canonicalize/input_digest on a hand-built dictionary, never the envelope produced by derive. Actual verdict hashes are compared with other results from derive, with changes limited to observations, fulfillment, salvage, policy and clip identity. For example, omitting author or relevance from derive's envelope would leave the inspected assertions satisfied, including the literal codec test and replay tests. This leaves the promised complete input digest vulnerable to a self-consistent omission that the tests cannot detect.",
+      "dimension": "production_quality",
+      "id": "F0013-R1-002"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Checked the Plan and Probes against scoring.py:13-45: the unchanged legacy engine reads applicability and authority, and critical failure precedes missing-evidence handling.",
+        "Checked new documentation, docstrings and CLI help against implementation. No checkable builder-authored contradiction was established.",
+        "Verified the report's Plan matches plan.md. Inspected earlier evaluation reports: none is an earlier L06 attempt, consistent with the Prior attempts mapping.",
+        "Routed six dependency/standard claims to claims_for_research without treating unverified external claims as accuracy failures."
+      ],
+      "id": "F0013-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "test_identical_catastrophic_geometry_acceptance_matrix asserts literal actions, rule IDs, flags and identical observation payloads.",
+        "tests/test_decision_workflow.py:69 changes the verdict intent rather than the selected assessment, leaving sealed criterion 3's assessment-context protection independently unproved.",
+        "tests/test_decisions.py:199 tests a manually constructed envelope, leaving sealed criterion 8's actual input-envelope contract without an independent literal oracle."
+      ],
+      "id": "F0013-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "tests/test_decision_workflow.py:69-72 cannot detect deletion of the assessment-context guard at src/eval_lab/decisions.py:168 because the binding-context check rejects first.",
+        "tests/test_decisions.py:199-205 bypasses derive; workflow hash comparisons use outputs of the same implementation and do not independently establish the complete envelope.",
+        "Independently executed the extracted canonicalization/hash oracle and all six literal deviation-threshold cases successfully. Full pytest execution was unavailable because the available interpreter lacks pytest."
+      ],
+      "id": "F0013-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Traced DecisionPolicy and TerminalVerdict registration, schema versions, policy version/revision equality, predecessor pins, repository admission and SQL reference persistence.",
+        "Traced private snapshot discovery through decisions.roots and refs_in; policies and selected input dependencies enter the snapshot closure.",
+        "Checked test_private_cli_snapshot_and_public_isolation for direct admissions, historical verdicts, unrelated-record exclusion and frozen exports.",
+        "Checked backlog L12: domain lint is a subsequent item; this change supplies relevant admission guards without implementing that later item."
+      ],
+      "id": "F0013-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read all 1,120 diff lines and opened all nine changed files. Changes implement L06 policy, verdict, persistence, private workflow and associated tests/documentation.",
+        "Checked the changed paths against the sealed plan and DEFERRED backlog; found no unrelated implementation."
+      ],
+      "id": "F0013-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Independently counted 802 changed lines outside report paths, below the sealed 900-line ceiling.",
+        "Verified no existing-test removals and no changes to dependencies, scoring.py, protected schema/output files, harness, rubric or invariants.",
+        "Checked DEFERRED items D01-D10 against the diff; none is implemented."
+      ],
+      "id": "F0013-R1-D-scope"
+    }
+  ]
+}

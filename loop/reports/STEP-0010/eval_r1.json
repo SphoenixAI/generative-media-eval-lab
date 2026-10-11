@@ -1,0 +1,175 @@
+{
+  "step": 10,
+  "item": "L04",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "8415fbafad89db52f6ce798dc7a87ee24cf08dc3bf3f2253cecbf34a9d93acbc",
+  "summary": "Malformed lifecycle input can be silently normalized into valid declarations or escape CLI error handling. Tests miss these cases. Full diff and all changed files were inspected; the hash matches. Runtime tests could not be independently rerun.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Compared all nine changed paths against plan.md: changes implement L04 lifecycle records, CLI integration, private snapshots, documentation and tests."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/generation.py:186 and :260-262 normalize iterable input before validating its declared array shape, violating sealed criterion 3's malformed-data rejection requirement.",
+        "tests/test_generation.py:75 uses the independent literal ORDERS table; :168 isolates selection partition/reason failures, but neither covers malformed collection types."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Traced all five new artifact types through registration, schema versions, Repository.put revalidation, exact digest checking and dependency traversal.",
+        "Inspected generation.py:136-165 admission checks and pilot.py:348-391 snapshot/export closure, including alias roots and frozen pins.",
+        "Checked backlog lint scope: the lint command is a later item; no existing applicable lint integration was bypassed."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/generation.py:186 raises TypeError for null intent_revision_ids; pilot_cli.py:148 does not catch TypeError.",
+        "tests/test_generation.py:51 and :168 omit null, object and scalar collection inputs.",
+        "Dependency-free execution of the actual parsing helpers with stubbed constructors confirmed object/string normalization and the null TypeError; this was not a full product test."
+      ]
+    },
+    "accuracy": {
+      "score": 2,
+      "evidence": [
+        "loop/reports/STEP-0010-L04.md:35-55 contains external dependency and standard claims requiring primary-source verification, particularly the version-specific Pydantic claim at :39.",
+        "Checked local provenance claims against the unchanged classifier and independent ORDERS fixture; external claims are listed for research rather than treated as verified."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Independently counted 812 changed lines excluding reports, within the sealed 900-line limit.",
+        "Compared the diff against DEFERRED items D01-D14: none implemented.",
+        "Confirmed no existing test edits, dependency changes, protected artifact changes, harness changes or public serializer changes in the diff."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "L04-R1-F01",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/generation.py:183-187,254-262; src/eval_lab/pilot_cli.py:148",
+      "description": "Raw collection shapes are lost before validation. For an otherwise valid plan, intent_revision_ids={} or \"\" becomes an empty tuple; an object keyed by valid intent references becomes a valid pin list while its values are discarded. Selection candidates_considered and kept likewise accept object keys, and rejected={} becomes an empty rejection list. Conversely, null collection values raise TypeError before model validation and escape the CLI's structured error handler. These are malformed declarations, which sealed criterion 3 requires rejecting explicitly. Existing tests exercise valid arrays and semantic errors only.",
+      "required_fix": "Validate the raw JSON array fields and rejection-object shapes before iterating or normalizing them. Reject malformed input through the CLI's structured error path without admitting records. Add independent negative cases for object, scalar and null inputs, alongside valid controls and nonadmission assertions."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "1. Plans and families",
+      "lazy_pass": "Store plausible fields while coercing malformed intent declarations into an empty or valid-looking list.",
+      "present_in_diff": true,
+      "evidence": "test_plan_family_json_reopen_and_validation covers nested JSON, pins, counts and family arms, but generation.py:186 silently accepts object/string iterable shapes before construction."
+    },
+    {
+      "criterion": "2. Registration and explicit binding",
+      "lazy_pass": "Label every registration PLANNED or FOUND without retaining exact plan and intent links.",
+      "present_in_diff": false,
+      "evidence": "Inspected registration_choice, record_origin and bind_intent. test_plan_cli_and_registration_prevalidation and test_planned_empty_or_sole_intent_and_forbidden_controls assert explicit choices, exact dependencies and unbound behavior."
+    },
+    {
+      "criterion": "3. Ordering and graceful degradation",
+      "lazy_pass": "Return RECONSTRUCTED universally, or treat malformed declarations as missing evidence.",
+      "present_in_diff": true,
+      "evidence": "test_stored_ordering_degrades_and_replays would reject constant provenance through 13 literal orderings and four view cases. However, malformed intent-list objects can become empty lists at generation.py:186, indistinguishable from intentionally absent intent."
+    },
+    {
+      "criterion": "4. Stored evidence and lineage",
+      "lazy_pass": "Trust caller chronology, borrow an alias's stronger origin, or let an immutable-ID conflict mask forged-context rejection.",
+      "present_in_diff": false,
+      "evidence": "Traced chronology assembly and admission comparison. test_earliest_seal_and_forged_context_are_independently_checked uses a fresh context ID, a specific chronology error and a valid control. Alias tests cover both origin directions and absent legacy context."
+    },
+    {
+      "criterion": "5. Append-only selection log",
+      "lazy_pass": "Append rows without enforcing candidate membership, complete partitions or predecessor integrity.",
+      "present_in_diff": false,
+      "evidence": "Inspected SelectionLog.contract and transaction admission. test_selection_negative_cases_are_not_masked checks independent semantic failures; test_selection_history_reopen_sql_and_bad_pins covers retained revisions, digest checks and SQL UPDATE/DELETE refusal. Raw input-shape validation remains deficient under F01."
+    },
+    {
+      "criterion": "6. Negative-test sensitivity",
+      "lazy_pass": "Accept any exception, including an unrelated immutable-revision conflict.",
+      "present_in_diff": false,
+      "evidence": "Selection partition/reason tests use fresh IDs, matching errors, valid controls and exact nonadmission assertions. Forged-context testing follows the same pattern. Mutation outcomes are reported in the builder artifact but were not independently rerun."
+    },
+    {
+      "criterion": "7. First-view events",
+      "lazy_pass": "Log after exposure, reset the timestamp on aliases, or permit competing first events.",
+      "present_in_diff": false,
+      "evidence": "Traced first_access before extraction/launch and uniqueness inside BEGIN IMMEDIATE. test_each_access_entrypoint_logs_before_exposure, test_view_failure_boundaries and test_competing_first_access_alias_reopen_and_backward_clock directly target these failures."
+    },
+    {
+      "criterion": "8. FOUND workflow and private audit",
+      "lazy_pass": "Support only planned clips, fabricate quality, or export current history instead of frozen pins.",
+      "present_in_diff": false,
+      "evidence": "test_found_cli_private_export_and_public_exclusion exercises plan-free registration through export, literal UNKNOWN values and replay after a later selection. Inspected public serializer allowlists and alias snapshot closure."
+    },
+    {
+      "criterion": "9. Evidence limits and reproducibility",
+      "lazy_pass": "Describe access attempts as human attention or declared seeds as verified regeneration.",
+      "present_in_diff": false,
+      "evidence": "docs/generation-lifecycle.md:14-16 and :35-43 explicitly bound those claims. New events retain application versions; source ingestion retains tool hashes. Controlled-clock ordering tests and frozen-export tests provide bounded deterministic checks."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "L04-R1-C01",
+      "claim": "Pydantic v2 model_copy(update=...) does not validate supplied update values.",
+      "location": "loop/reports/STEP-0010-L04.md:35"
+    },
+    {
+      "id": "L04-R1-C02",
+      "claim": "Pydantic 2.13.5 JsonValue discriminates list, dict, string, boolean, integer, float and null, with no tuple variant.",
+      "location": "loop/reports/STEP-0010-L04.md:39"
+    },
+    {
+      "id": "L04-R1-C03",
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE immediately starts one or can fail with SQLITE_BUSY.",
+      "location": "loop/reports/STEP-0010-L04.md:43"
+    },
+    {
+      "id": "L04-R1-C04",
+      "claim": "SQLite trigger RAISE(ABORT, message) terminates the triggering statement and returns SQLITE_CONSTRAINT with that message.",
+      "location": "loop/reports/STEP-0010-L04.md:47"
+    },
+    {
+      "id": "L04-R1-C05",
+      "claim": "Python 3.12 hashlib includes sha256 and hexadecimal output through hexdigest.",
+      "location": "loop/reports/STEP-0010-L04.md:51"
+    },
+    {
+      "id": "L04-R1-C06",
+      "claim": "RFC 8785 sorts object property names by UTF-16 code units and requires UTF-8 encoding.",
+      "location": "loop/reports/STEP-0010-L04.md:55"
+    },
+    {
+      "id": "L04-R1-C07",
+      "claim": "The referenced third-party Apple Silicon FFmpeg builds have published SHA-256 checksums corresponding to the installer downloads.",
+      "location": "docs/pilot0.md:20"
+    },
+    {
+      "id": "L04-R1-C08",
+      "claim": "FFprobe decoded frame timestamps and time bases support variable-rate addressing independently of rounded average FPS.",
+      "location": "docs/pilot0.md:58; docs/pilot0.md:154"
+    },
+    {
+      "id": "L04-R1-C09",
+      "claim": "The cited FFmpeg stream, rotation and select-filter contracts support the documented coded-orientation, frame-index extraction and RGB24 conversion behavior.",
+      "location": "docs/pilot0.md:156"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE",
+    "Independent full-suite and mutation reruns unavailable: supplied tree has no environment, available Python lacks Pydantic, and filesystem access is read-only. Reported 633 passing tests remain builder-provided evidence.",
+    "Reviewed I1-I16 against the diff and relevant code paths; no demonstrated invariant violation. External runtime actions and repository synchronization were not independently verified.",
+    "External claims require research; no sources outside the supplied folder were read."
+  ]
+}

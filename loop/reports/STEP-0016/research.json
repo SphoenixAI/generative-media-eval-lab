@@ -1,0 +1,7 @@
+{
+  "claims": [],
+  "item": "L10",
+  "proposals": [],
+  "step": 16,
+  "summary": "No claims were supplied, the ledger excerpt is empty, and landscape_required=false. The direct-instruction fast path applies; no live search was required."
+}

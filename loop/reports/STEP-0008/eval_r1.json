@@ -1,0 +1,164 @@
+{
+  "step": 8,
+  "item": "L04",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "a286eecdab3d8643cc9ae2ebd566c2530b27853061cf124168dccffae88408f9",
+  "summary": "Material issues remain in JSON-valued inputs and binding through aliases. The principal ordering and append-only tests have independent behavioral assertions, but do not cover these failures. Read the complete diff and opened every changed file; independently verified the hash and Python syntax. Runtime tests could not run because the available Python lacks pydantic.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Compared every changed path and implementation addition with L04 and plan.md: changes address plans, registration, binding, selection, access history, private snapshots, documentation and tests."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "tree/src/eval_lab/generation.py:23 and :93 combine CheckedValue with JsonValue, but the inherited preprocessing converts JSON arrays into tuples.",
+        "tree/src/eval_lab/generation.py:237 and :254 derive a successor binding's origin from the current alias rather than the established lineage.",
+        "test_stored_ordering_degrades_and_replays uses the explicit ORDERS fixture and expected provenance classes; equality cases would catch changing strict comparisons."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "tree/src/eval_lab/generation.py:244 preserves prior media and registration pins, while :254 uses a potentially different alias origin; the resulting successor is rejected by tree/src/eval_lab/intent_v2.py:237.",
+        "Checked all five new artifact types: registry admission, inherited schema versions, pin traversal, immutable-event revisions, selection predecessors and private snapshot roots are present. Dedicated graph lint remains a later backlog item."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "test_plans_roundtrip_families_exact_pins_and_clock tests scalar settings; test_selection_append_partition_pins_sql_and_reopen tests null and a scalar-valued object for random_draw. Neither exercises JSON arrays.",
+        "test_binding_history_nonpromotion_aliases_and_earliest_seal tests only FOUND-to-FOUND aliases.",
+        "tree/tests/test_generation.py:180 changes an already-persisted BindingRecord under the same ID/revision. Immutable-conflict rejection masks whether the chronology admission check works.",
+        "All changed Python files passed independent AST parsing. Runtime verification was unavailable."
+      ]
+    },
+    "accuracy": {
+      "score": 2,
+      "evidence": [
+        "tree/docs/generation-plans.md:5 and :13 advertise finite JSON settings and random_draw without documenting the array restriction introduced by preprocessing.",
+        "tree/docs/generation-plans.md:9 says aliases preserve the lineage's origin, but binding through an alias with a different registration origin fails.",
+        "External method claims from the added report are enumerated in claims_for_research."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared the full diff with the sealed plan and backlog DEFERRED items D01-D14; no deferred capability or unrelated feature was added.",
+        "Checked changed paths: no dependency manifest, existing test, accepted schema, public serializer or judge implementation changed."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "L04-R1-F01",
+      "dimension": "intention",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tree/src/eval_lab/generation.py:23-39,93-97; tree/src/eval_lab/intent_v2.py:21-38",
+      "description": "Valid JSON arrays are transformed into tuples before JsonValue validation. PlanInput and SelectionRecord inherit CheckedValue, whose recursive unpack converts every list into a tuple, including lists nested inside settings, controlled_factors and random_draw. JsonValue's JSON variants do not include tuples. Consequently ordinary inputs such as settings={\"schedule\":[1,2]} or random_draw={\"indices\":[0,1]} fail instead of being retained. An independent execution of the actual unpack function confirmed this transformation; full Pydantic validation could not be executed in this environment. Existing tests use only scalar-valued objects and null.",
+      "required_fix": "Preserve JSON array representation while retaining copied-model revalidation. Add positive cases for nested arrays in all three JSON-valued fields through construction, repository admission, read-back and CLI JSON input, with explicit expected values."
+    },
+    {
+      "id": "L04-R1-F02",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tree/src/eval_lab/generation.py:234-257",
+      "description": "Binding through a byte-identical alias does not consistently reuse the established lineage's origin. For example, bind a PLANNED clip, register the same bytes without --plan in another dataset, then bind that FOUND alias. The helper reuses the prior binding ID, media and registration, but computes origin=FOUND from the alias. Existing admission correctly rejects this successor because the prior origin was GENERATED. The reverse direction also fails. Thus a valid alias cannot perform the promised later binding while preserving the original anchors. The alias test covers only matching FOUND origins.",
+      "required_fix": "Resolve existing lineage anchors and their retained origin context before assembling a successor. Preserve the established binding origin when operating through an alias, keep context validation consistent, and test both cross-origin alias directions without weakening nonpromotion or origin immutability."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Plans and families",
+      "lazy_pass": "Store the required field names but support only the simple scalar settings used by the fixture.",
+      "present_in_diff": true,
+      "evidence": "tree/tests/test_generation.py:16-20 supplies only scalar-valued objects. CheckedValue preprocessing breaks arrays in the new JsonValue fields; see L04-R1-F01."
+    },
+    {
+      "criterion": "Registration and binding",
+      "lazy_pass": "Implement fresh PLANNED and FOUND registration but reject legitimate subsequent workflows involving their aliases.",
+      "present_in_diff": true,
+      "evidence": "test_planned_cli_and_preingestion_errors covers fresh intake; tree/src/eval_lab/generation.py:237-255 mishandles existing lineages through aliases with different origins."
+    },
+    {
+      "criterion": "Ordering and provenance degradation",
+      "lazy_pass": "Assert the classifier's output against another call to the same classifier, or always return RECONSTRUCTED.",
+      "present_in_diff": false,
+      "evidence": "test_stored_ordering_degrades_and_replays uses 13 explicit ordering cases crossed with four view cases and literal expected classes. test_found_missing_and_mismatched_evidence includes absent and mismatched evidence. These assertions would reject an always-RECONSTRUCTED implementation."
+    },
+    {
+      "criterion": "Binding history",
+      "lazy_pass": "Preserve predecessors only for the original clip and demonstrate alias support using aliases whose metadata already matches.",
+      "present_in_diff": true,
+      "evidence": "test_binding_history_nonpromotion_aliases_and_earliest_seal checks nonpromotion and exact predecessors, but both alias origins are FOUND. The differing-origin case fails at the existing admission guard."
+    },
+    {
+      "criterion": "Append-only selection log",
+      "lazy_pass": "Append records in memory while allowing overwritten revisions, invalid candidate partitions or SQL deletion.",
+      "present_in_diff": false,
+      "evidence": "test_selection_append_partition_pins_sql_and_reopen checks immediate predecessor pins, gaps, digest mismatch, partitions, foreign candidates, SQL UPDATE/DELETE refusal and reopening. Those checks are behavioral rather than comparisons with the implementation's own validator."
+    },
+    {
+      "criterion": "First-view log",
+      "lazy_pass": "Log only successful viewer launches, or reset the first event under another clip ID.",
+      "present_in_diff": false,
+      "evidence": "test_access_failure_boundary requires retention after extraction/launch failure and absence after invalid media; test_access_paths_aliases_backward_clock_and_reopening checks alias reuse; test_competing_first_access_admits_one_event checks competing writers."
+    },
+    {
+      "criterion": "FOUND and private audit coverage",
+      "lazy_pass": "Support an isolated FOUND happy path and treat artifact-kind presence as proof of every lifecycle dependency.",
+      "present_in_diff": true,
+      "evidence": "test_found_private_closure_and_frozen_replay proves an ordinary FOUND flow and frozen export stability, but its snapshot assertion checks only a set of kinds. It does not exercise planned snapshot closure or the cross-origin alias failure."
+    },
+    {
+      "criterion": "Limits and deterministic evidence",
+      "lazy_pass": "Describe access attempts as confirmed viewing, or infer generation chronology and reproducibility from declarations.",
+      "present_in_diff": false,
+      "evidence": "tree/docs/generation-plans.md:11-17 explicitly bounds viewing, timestamps, model declarations and seeds. Fixed chronology fixtures and frozen-export comparisons support the narrower reproducibility claims."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [
+    {
+      "id": "L04-R1-C01",
+      "claim": "Pydantic model_copy(update=...) does not validate supplied update values; verify applicability to the locked Pydantic 2.13.5 version.",
+      "location": "tree/loop/reports/STEP-0008-L04.md:34-36; tree/src/eval_lab/persistence.py:232"
+    },
+    {
+      "id": "L04-R1-C02",
+      "claim": "SQLite permits one simultaneous write transaction, and BEGIN IMMEDIATE requests that transaction immediately and can fail with SQLITE_BUSY.",
+      "location": "tree/loop/reports/STEP-0008-L04.md:38-40"
+    },
+    {
+      "id": "L04-R1-C03",
+      "claim": "SQLite triggers using RAISE(ABORT, message) terminate UPDATE or DELETE statements with a constraint error.",
+      "location": "tree/loop/reports/STEP-0008-L04.md:42-44"
+    },
+    {
+      "id": "L04-R1-C04",
+      "claim": "Python 3.12 hashlib guarantees a sha256 constructor and hexadecimal digest output.",
+      "location": "tree/loop/reports/STEP-0008-L04.md:46-48"
+    },
+    {
+      "id": "L04-R1-C05",
+      "claim": "RFC 8785 sorts object property names by UTF-16 code units and encodes the resulting serialization as UTF-8.",
+      "location": "tree/loop/reports/STEP-0008-L04.md:50-52"
+    },
+    {
+      "id": "L04-R1-C06",
+      "claim": "The locked Pydantic JsonValue validator rejects tuples produced by CheckedValue.unpack instead of accepting them as JSON arrays; confirm this dependency behavior underlying L04-R1-F01.",
+      "location": "tree/src/eval_lab/generation.py:27-31,97; tree/src/eval_lab/intent_v2.py:27-28; tree/uv.lock:242-243"
+    }
+  ],
+  "flags": [
+    "RUNTIME_TESTS_NOT_EXECUTED: available Python lacks pydantic; the supplied gate's passing results were not independently reproduced.",
+    "PUBLIC_PROSE: generation-plans.md and pilot0.md changed.",
+    "INVARIANT_AUDIT: reviewed I1-I16 against the diff and relevant integration code. No demonstrated invariant violation: judgments remain human-authored and UNKNOWN stays separate; append-only guards remain; evaluation, confidence, public serialization, dependencies, existing tests and protected judge code are unchanged. The diff alone cannot establish historical Git actions.",
+    "TEST_ORACLE_GAP: tree/tests/test_generation.py:180 can pass through immutable-revision rejection without exercising BindingRecord chronology admission."
+  ]
+}

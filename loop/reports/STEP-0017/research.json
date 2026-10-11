@@ -1,0 +1,7 @@
+{
+  "claims": [],
+  "item": "L11",
+  "proposals": [],
+  "step": 17,
+  "summary": "claims.json contains no claims, the ledger excerpt is empty, and landscape_required is false. The direct-instruction fast path applies; no live search is required."
+}

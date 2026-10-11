@@ -1,0 +1,139 @@
+{
+  "blocking_findings": [],
+  "claims_for_research": [
+    {
+      "claim": "Python 3.12 sqlite3.connect with uri=True accepts a SQLite file URI using mode=ro and rejects database writes.",
+      "id": "C001",
+      "location": "tree/loop/reports/STEP-0022-L12-A1.md:43"
+    },
+    {
+      "claim": "After its first read establishes a snapshot, an explicit SQLite read transaction continues to see that snapshot until the transaction ends.",
+      "id": "C002",
+      "location": "tree/loop/reports/STEP-0022-L12-A1.md:46"
+    },
+    {
+      "claim": "Python 3.12 JSON decoding supplies ordered object name/value pairs to object_pairs_hook, permitting duplicate-key rejection before dictionary construction.",
+      "id": "C003",
+      "location": "tree/loop/reports/STEP-0022-L12-A1.md:49"
+    },
+    {
+      "claim": "Python 3.12 JSON decoding accepts NaN and infinity tokens by default; parse_constant can reject them and parse_float controls fractional-number conversion.",
+      "id": "C004",
+      "location": "tree/loop/reports/STEP-0022-L12-A1.md:52"
+    }
+  ],
+  "diff_sha256": "a27831c5ae9ec2ddb29f55540f87ba23b0c979025d0302097e42c208653634e1",
+  "flags": [
+    "Independent full-suite execution was unavailable: the accessible Python lacks SQLAlchemy, and filesystem permissions are read-only. In-memory checks used isolated imports and a lightweight test runner; they do not establish full application integration or filesystem snapshot behavior.",
+    "Scope of acceptance is L12-A1 only. All-rule declarations, exhaustive rule contracts, ready=false integration and snapshot persistence remain obligations of the approved later children."
+  ],
+  "item": "L12-A1",
+  "loophole_audit": [
+    {
+      "criterion": "Shared boundary returns AVAILABLE, UNKNOWN or INTEGRITY_FAILURE with the specified meanings.",
+      "evidence": "test_shared_field_contract and test_numeric_guard distinguish the states with explicit reasons and value=None on failure. Independent direct and retained probes confirmed these distinctions; mutations removing key guards failed tests.",
+      "lazy_pass": "Define the three labels but collapse malformed evidence into missingness, or return default values for missing evidence.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Use the existing split mechanism if necessary; never weaken tests to fit the 900-line budget.",
+      "evidence": "The accepted split explicitly assigns this child's two criteria. Independent diff counting found 694 product/test additions, no deletions and no edits to existing tests.",
+      "lazy_pass": "Delete tests, conceal product code in excluded report paths, or silently defer the substantive boundary acceptance.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Preserve original types and explicitly valid false, zero and empty values.",
+      "evidence": "field checks presence before Contract.problem; test_shared_field_contract covers false, zero and empty containers, while test_revision_guard rejects booleans and numeric strings. Result truthiness raises explicitly.",
+      "lazy_pass": "Use truthiness or coercion so missing values and valid boundary values become indistinguishable.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Direct and retained fields share one boundary with distinct missing, null and malformed diagnostics.",
+      "evidence": "RawRecord.field calls the same field function. test_direct_and_retained_prerequisite_contract exercises dimension, duration and coverage through both paths with recomputed outer hashes to isolate field checks.",
+      "lazy_pass": "Validate direct inputs strictly but allow retained inputs through model defaults or a weaker reader.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Resolve only explicit references and verify exact identities and hashes.",
+      "evidence": "test_explicit_reference_components, test_row_identity_not_sql_collation, test_retained_identity_and_version_contract and test_exact_revision_pin_and_arbitrary_mapping distinguish these failures. The admitted prediction-map control preserves hypothesis IDs named kind and id.",
+      "lazy_pass": "Default to revision 1/latest, infer references from arbitrary dictionaries, or trust a matching database lookup without checking its payload and pins.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Preserve diagnostic raw fields without allowing damaged records to provide checked support.",
+      "evidence": "test_field_and_integrity_diagnostics_separate_and_raw_is_unchecked and an independent in-memory probe preserve null-field UNKNOWN while blocking valid-looking fields after digest failure. Defensive-copy removal caused a direct test failure.",
+      "lazy_pass": "Return readable fields as AVAILABLE despite a failed record digest, or expose mutable unchecked data as the checked result.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Read existing stores without creating or repairing them, using one snapshot and closing sessions.",
+      "evidence": "Inspected the mode=ro connection, explicit BEGIN and cleanup paths. test_missing_store_readonly_cleanup_and_snapshot, test_success_nonmutation_uri_escaping_and_exception_cleanup and test_failed_enter_closes_connection assert observable behavior.",
+      "lazy_pass": "Construct Repository, repair malformed storage, or perform separate reads that can observe inconsistent revisions.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Provide focused positive and negative contracts without claiming later lint integration is complete.",
+      "evidence": "Tests include admitted positive records and raw corruption controls with specific diagnostics. Outer hashes are recomputed for field and frozen-digest tests. The module and Plan explicitly reserve rule evaluation and readiness for later children.",
+      "lazy_pass": "Test only synthetic happy paths, let outer hash failures mask field validators, or describe primitive success as ready=true.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [],
+  "role": "evaluator",
+  "round": 1,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Read builder-authored Plan, Probes, module documentation and test comments; found no claim of completed lint/readiness integration or real-media validity.",
+        "Compared the Prior attempts mapping against all six blocking findings in STEP-0019/eval_r1.json and eval_r2.json, plus R0019-C001: each has explicit ownership consistent with the accepted split.",
+        "Independently verified the three repository source hashes recorded in Probes and confirmed the sealed plan text appears unchanged in the report.",
+        "Routed the four external Python/SQLite behavior claims to claims_for_research without an accuracy penalty."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "Executed 65 direct test cases using an in-memory runner: missing/null values remain UNKNOWN; wrong types, invalid vocabulary and impossible numeric values produce INTEGRITY_FAILURE; valid false, zero and empty containers remain available under their declared contracts.",
+        "Independent in-memory retained probes confirmed null duration remains UNKNOWN, malformed duration fails integrity, and a bad stored digest blocks otherwise valid field support.",
+        "Inspected test_explicit_reference_components, test_reference_envelope_and_no_latest_fallback and test_exact_revision_pin_and_arbitrary_mapping: their assertions distinguish explicit revisions, absent targets and ordinary data mappings.",
+        "Checked I1/I2/I5/I6/I7/I8/I9: the change introduces no human judgments, readiness decisions, intent exceptions, aggregation or probability arithmetic."
+      ],
+      "score": 4
+    },
+    "production_quality": {
+      "evidence": [
+        "Executed 65 direct test cases successfully through a lightweight in-memory runner. Mutations removing missing-value handling, original-type checking, finite-number checking, vocabulary checking, digest-shape checking or defensive copying each caused test failures.",
+        "Read all 441 test lines, including retained corruption, independent outer/frozen digest failures, admitted fractional records, cleanup, read-only access and snapshot controls. Rejection assertions identify states and reason fragments rather than accepting arbitrary failures.",
+        "Checked I4/I10/I11/I12/I13: no existing tests, protected artifacts, dependencies or public serializers change; diagnostic reasons avoid raw exception details; deterministic diagnostics have a repeated-input test.",
+        "The supplied gate reports 177 focused cases and 1391 total passing tests. This is corroborating harness evidence, not an independently reproduced full-suite result."
+      ],
+      "score": 4
+    },
+    "relation": {
+      "evidence": [
+        "Traced RawReader against existing artifact registration, persistence envelopes, schema version 1, Artifact.digest and TestPlan.freeze_digest; exact identities and supplied digest pins are checked before field support is available.",
+        "Inspected test_retained_identity_and_version_contract, test_stored_digest_guard, test_exact_revision_pin_and_arbitrary_mapping and test_frozen_digest_independent_of_outer_hash for distinct failure assertions.",
+        "Confirmed Contract, EvidenceResult and RawRecord are internal transient helpers, not new persisted domain artifacts. Audit persistence, snapshot embedding and ruleset versioning remain explicitly assigned to later split children.",
+        "Checked I3: no existing authored records or history are modified; production access uses SELECT operations."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Compared all three changed files with the sealed Plan, STEP-0021/split.json and current backlog acceptance: the implementation remains confined to evidence primitives, raw retained reading and focused tests.",
+        "Checked the DEFERRED list in tree/loop/INSTRUCTIONS.md:952; no deferred capability is implemented."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Counted 253 product additions and 441 test additions: 694 counted changed lines against the configured 900-line maximum, with zero deletions.",
+        "Confirmed the only additional file is the permitted step report; no implementation is hidden in generated report paths.",
+        "Checked I14/I15/I16 against the diff: no deferred work, main manipulation, harness modification or protected evaluation-material changes are present."
+      ],
+      "score": 4
+    }
+  },
+  "step": 22,
+  "summary": "No material defect found within the approved primitive-layer scope. Read the complete diff and all changed files, checked historical finding ownership, exercised boundary cases in memory, and confirmed six deliberate mutations were detected by the direct tests. Full-suite execution was not independently reproduced."
+}

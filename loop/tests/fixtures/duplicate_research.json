@@ -1,0 +1,30 @@
+{
+  "step": 0,
+  "item": "L00",
+  "summary": "SYNTHETIC duplicate-ID regression fixture; no model or web calls.",
+  "claims": [
+    {
+      "id": "C1",
+      "claim": "TEST-ONLY claim from plan.",
+      "origin": "plan",
+      "verdict": "UNVERIFIABLE",
+      "sources": [],
+      "newer_practice": null,
+      "affects_this_step": false,
+      "recommended_action": "Synthetic fixture only; no external factual assertion.",
+      "action_required": false
+    },
+    {
+      "id": "C1",
+      "claim": "TEST-ONLY claim from evaluator.",
+      "origin": "evaluator",
+      "verdict": "UNVERIFIABLE",
+      "sources": [],
+      "newer_practice": null,
+      "affects_this_step": false,
+      "recommended_action": "Synthetic fixture only; no external factual assertion.",
+      "action_required": false
+    }
+  ],
+  "proposals": []
+}

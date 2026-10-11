@@ -1,0 +1,91 @@
+{
+  "step": 17,
+  "item": "L11",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented relation v2 and private snapshot integration. First advisory gate passed: 1112 tests; 630 changed lines.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/relation_v2.py:8 implements L11 fields; src/eval_lab/pilot.py:379 adds scoped snapshot discovery."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "Probes preceded implementation; 70 initial test failures were observed. G11 confirms the sealed Plan is unchanged.",
+        "tests/test_relation_v2.py:117 and tests/test_relation_v2.py:224 verify explicit purposes and predecessor rejection."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "tests/test_relation_v2_snapshots.py:14 verifies literal exported payloads, digests, exact dependencies, unrelated-record exclusions and unchanged earlier exports after successors and reopening.",
+        "tests/test_relation_v2.py:268 verifies concurrent exclusivity; tests/test_relation_v2.py:289 verifies read-only legacy loading."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Advisory attempt 1 passed 1112 product tests, frozen harness tests and approval checks. Existing tests were unchanged; documentation and CLI help were updated.",
+        "Deleting relation_contract causes test_required_warrant_cannot_be_replaced_by_purpose to fail; deleting validate_admission causes test_admission_pins_anchors_and_exact_binding to fail."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "tests/test_relation_v2.py:84 checks independent literal payloads with distinct authored fields; purpose-for-warrant substitution failed both support and contradiction cases.",
+        "Disabling snapshot discovery failed tests/test_relation_v2_snapshots.py:14. Validation claims remain limited to offline software behavior."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "G7 reports 630/900 changed lines. G5/G6/G10 confirm no protected, forbidden or dependency changes. No network use, deferred implementation or Git history changes."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Private snapshot inclusion",
+      "lazy_pass": "Test only repository storage.",
+      "present_in_diff": false,
+      "evidence": "The generated-media integration test exercises ordinary snapshot/export APIs without v2 submission envelopes."
+    },
+    {
+      "criterion": "Independent field expectations",
+      "lazy_pass": "Derive expected payloads from actual records or reuse purpose as warrant.",
+      "present_in_diff": false,
+      "evidence": "Independent literal payloads and distinct field values detect warrant substitution."
+    },
+    {
+      "criterion": "Validator sensitivity",
+      "lazy_pass": "Let unrelated rejection paths mask missing validators.",
+      "present_in_diff": false,
+      "evidence": "Fresh identities/revisions, specific exceptions and messages, and successful deletion-sensitivity checks cover both new validators."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "R1-F1",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "R2-F1",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "eval_r1.json:production_quality",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "PUBLIC_PROSE: docs/relations-v2.md and snapshot/export CLI help.",
+    "Advisory only: G14 was skipped. Authoritative verification and independent evaluation remain controller-owned.",
+    ""
+  ]
+}

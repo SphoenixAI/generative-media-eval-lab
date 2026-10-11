@@ -1,0 +1,378 @@
+{
+  "step": 11,
+  "item": "L04",
+  "summary": "Verified all 17 requested claim occurrences: 16 CONFIRMED and 1 UNVERIFIABLE. Reused matching same-day ledger evidence, reopened primary sources, and independently assessed actionability. Searched for relevant developments from 2025-04-09 through 2026-10-09. R0011-C014 requires qualifying the exact checksum attribution because the permitted inputs omit the attributed hashes and build identifiers. No landscape scan was required. These findings verify external claims, not implementation correctness.",
+  "claims": [
+    {
+      "id": "R0011-C001",
+      "claim": "Pydantic v2's model_copy(update=...) does not validate the supplied update values before creating the copied model.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://pydantic.dev/docs/validation/latest/api/pydantic/base_model/",
+          "title": "BaseModel — Pydantic documentation: model_copy",
+          "accessed": "2026-10-09",
+          "quote": "no validation is performed on updated values."
+        }
+      ],
+      "newer_practice": {
+        "summary": "Pydantic 2.14.0 retains unvalidated updates and avoids deep-copying fields replaced by updates. This reinforces the validation limitation; it requires no change to this step.",
+        "url": "https://raw.githubusercontent.com/pydantic/pydantic/v2.14.0/pydantic/main.py",
+        "date": "2026-10-08"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required to the claim. Preserve the distinction between copying and validation; model_copy(update=...) is not a validation boundary.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C002",
+      "claim": "Pydantic 2.13.5's JsonValue union uses a discriminator with list, dict, string, boolean, integer, float and null variants, and has no tuple variant.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/pydantic/pydantic/v2.13.5/pydantic/types.py",
+          "title": "Pydantic v2.13.5 types.py — JsonValue definition",
+          "accessed": "2026-10-09",
+          "quote": "Tag('list') … Tag('dict') … Tag('str') … Tag('bool') … Tag('int') … Tag('float') … Tag('NoneType') … Discriminator("
+        }
+      ],
+      "newer_practice": {
+        "summary": "Pydantic 2.14.0 retains the same seven tagged alternatives and discriminator, without a tuple branch. The version-specific claim remains correct; no step change is required.",
+        "url": "https://raw.githubusercontent.com/pydantic/pydantic/v2.14.0/pydantic/types.py",
+        "date": "2026-10-08"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required. Inspection of the complete pinned union confirms the listed alternatives and absence of a tuple alternative.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C003",
+      "claim": "SQLite permits one simultaneous write transaction, and BEGIN IMMEDIATE starts a write transaction immediately or can fail with SQLITE_BUSY when another writer is active.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.sqlite.org/lang_transaction.html",
+          "title": "SQLite — Transaction, sections 2.1 and 2.2",
+          "accessed": "2026-10-09",
+          "quote": "only one simultaneous write transaction. … BEGIN IMMEDIATE might fail with SQLITE_BUSY"
+        }
+      ],
+      "newer_practice": {
+        "summary": "SQLite 3.51.3 fixes the WAL-reset corruption bug. This maintenance development does not change the claimed transaction semantics. The permitted inputs establish neither WAL use nor an affected runtime, so no required step change follows.",
+        "url": "https://www.sqlite.org/releaselog/3_51_3.html",
+        "date": "2026-03-13"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No correction required. Retain the possibility of SQLITE_BUSY; immediate transaction initiation does not guarantee successful acquisition when another writer is active.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C004",
+      "claim": "SQLite trigger execution of RAISE(ABORT, message) terminates the triggering statement and returns SQLITE_CONSTRAINT with the supplied message.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.sqlite.org/lang_createtrigger.html",
+          "title": "SQLite — CREATE TRIGGER, section 6: The RAISE() function",
+          "accessed": "2026-10-09",
+          "quote": "current query terminates. … SQLITE_CONSTRAINT … along with the specified error message."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change required. The trigger contract supports the statement. Do not expand it into a claim that ABORT necessarily rolls back the entire surrounding transaction. No superseding practice was found.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C005",
+      "claim": "Python 3.12's standard-library hashlib includes sha256 and supports hexadecimal hash output through hexdigest.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/hashlib.html",
+          "title": "Python 3.12 — hashlib: Secure hashes and message digests",
+          "accessed": "2026-10-09",
+          "quote": "hashlib.sha256(b\"Nobody inspects the spammish repetition\").hexdigest() … containing only hexadecimal digits."
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.14 recommends positional initial-data arguments for backwards compatibility and deprecates the string keyword spelling. SHA-256 availability and hexdigest remain unchanged; no conflicting usage is supplied, so this does not change the step.",
+        "url": "https://docs.python.org/3/whatsnew/3.14.html",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required. The versioned standard-library documentation directly demonstrates sha256(...).hexdigest().",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C006",
+      "claim": "RFC 8785 sorts JSON object property names by UTF-16 code units and requires UTF-8 encoding of the resulting serialization.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html",
+          "title": "RFC 8785 — JSON Canonicalization Scheme, sections 3.2.3 and 3.2.4",
+          "accessed": "2026-10-09",
+          "quote": "arrays of UTF-16 [UNICODE] code units. … MUST be encoded in UTF-8."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change required. Keep property ordering separate from output encoding; these two requirements alone do not establish complete JCS conformance. No newer superseding requirement was found.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C007",
+      "claim": "A log limited to this CLI's access attempts and local seal, plan and registration events cannot establish that no earlier external viewing occurred or that media generation followed sealing.",
+      "origin": "plan",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://csrc.nist.gov/glossary/term/Log",
+          "title": "NIST CSRC Glossary — Log",
+          "accessed": "2026-10-09",
+          "quote": "A record of the events occurring within an organization’s systems and networks."
+        }
+      ],
+      "newer_practice": {
+        "summary": "C2PA 2.4 introduces repository receipts attesting manifest ingestion. Their event-specific scope does not establish absence of external viewing or generation after sealing. This reinforces the limitation and does not change the step.",
+        "url": "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html",
+        "date": "2026-04"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required. This is a scope-based inference: histories differing only in unobserved external viewing or earlier generation can produce identical CLI logs. Preserve the explicit limitation.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C008",
+      "claim": "Pydantic v2 model_copy(update=...) does not validate supplied update values.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://pydantic.dev/docs/validation/latest/api/pydantic/base_model/",
+          "title": "BaseModel — Pydantic documentation: model_copy",
+          "accessed": "2026-10-09",
+          "quote": "no validation is performed on updated values."
+        }
+      ],
+      "newer_practice": {
+        "summary": "Pydantic 2.14.0 still does not validate updates, while improving deep-copy handling of replaced fields. This reinforces the evaluator's statement and requires no step change.",
+        "url": "https://raw.githubusercontent.com/pydantic/pydantic/v2.14.0/pydantic/main.py",
+        "date": "2026-10-08"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No factual correction required. The documented API behavior is confirmed; this does not independently establish whether the implementation uses model_copy correctly.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C009",
+      "claim": "Pydantic 2.13.5 JsonValue uses list, dict, string, boolean, integer, float and null alternatives, without a tuple alternative.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/pydantic/pydantic/v2.13.5/pydantic/types.py",
+          "title": "Pydantic v2.13.5 types.py — JsonValue definition",
+          "accessed": "2026-10-09",
+          "quote": "Tag('list') … Tag('dict') … Tag('str') … Tag('bool') … Tag('int') … Tag('float') … Tag('NoneType') … Discriminator("
+        }
+      ],
+      "newer_practice": {
+        "summary": "Pydantic 2.14.0 retains these alternatives and has no tuple branch. This does not supersede the accurately pinned 2.13.5 statement or require a step change.",
+        "url": "https://raw.githubusercontent.com/pydantic/pydantic/v2.14.0/pydantic/types.py",
+        "date": "2026-10-08"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required. The complete version-pinned definition supports the evaluator's enumeration.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C010",
+      "claim": "SQLite permits one simultaneous write transaction; BEGIN IMMEDIATE starts one immediately or can fail with SQLITE_BUSY.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.sqlite.org/lang_transaction.html",
+          "title": "SQLite — Transaction, sections 2.1 and 2.2",
+          "accessed": "2026-10-09",
+          "quote": "only one simultaneous write transaction. … BEGIN IMMEDIATE might fail with SQLITE_BUSY"
+        }
+      ],
+      "newer_practice": {
+        "summary": "SQLite 3.51.3 fixes a WAL-reset corruption bug without changing these transaction semantics. Neither WAL use nor an affected runtime is established here, so this finding does not require a step change.",
+        "url": "https://www.sqlite.org/releaselog/3_51_3.html",
+        "date": "2026-03-13"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No correction required to the evaluator's statement. Preserve SQLITE_BUSY as an expected possible outcome rather than treating immediate initiation as guaranteed success.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C011",
+      "claim": "SQLite trigger RAISE(ABORT, message) terminates the triggering statement and returns SQLITE_CONSTRAINT with the supplied message.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.sqlite.org/lang_createtrigger.html",
+          "title": "SQLite — CREATE TRIGGER, section 6: The RAISE() function",
+          "accessed": "2026-10-09",
+          "quote": "current query terminates. … SQLITE_CONSTRAINT … along with the specified error message."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change required. Official documentation confirms termination and the returned constraint error/message. No newer practice superseding this behavior was found.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C012",
+      "claim": "Python 3.12 hashlib includes sha256 and hexadecimal output through hexdigest.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3.12/library/hashlib.html",
+          "title": "Python 3.12 — hashlib: Secure hashes and message digests",
+          "accessed": "2026-10-09",
+          "quote": "hashlib.sha256(b\"Nobody inspects the spammish repetition\").hexdigest() … containing only hexadecimal digits."
+        }
+      ],
+      "newer_practice": {
+        "summary": "Python 3.14 recommends positional initial-data arguments and deprecates the string keyword spelling. These changes do not alter the claimed APIs and establish no required change to this step.",
+        "url": "https://docs.python.org/3/whatsnew/3.14.html",
+        "date": "2025-10-07"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required. Both SHA-256 construction and hexadecimal digest output are documented for Python 3.12.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C013",
+      "claim": "RFC 8785 sorts JSON object property names by UTF-16 code units and requires UTF-8 output encoding.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://www.rfc-editor.org/rfc/rfc8785.html",
+          "title": "RFC 8785 — JSON Canonicalization Scheme, sections 3.2.3 and 3.2.4",
+          "accessed": "2026-10-09",
+          "quote": "arrays of UTF-16 [UNICODE] code units. … MUST be encoded in UTF-8."
+        }
+      ],
+      "newer_practice": null,
+      "affects_this_step": true,
+      "recommended_action": "No change required. The ordering and encoding statements match the RFC. No newer superseding requirement was found; this confirmation does not certify the implementation's complete JCS conformance.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C014",
+      "claim": "OSXExperts publishes the executable checksum values attributed to its checksum page; current download correspondence is explicitly unverified.",
+      "origin": "evaluator",
+      "verdict": "UNVERIFIABLE",
+      "sources": [
+        {
+          "url": "https://www.osxexperts.net/",
+          "title": "OSXExperts.NET — macOS FFmpeg and ffprobe builds",
+          "accessed": "2026-10-09",
+          "quote": "SHA256 checksum of FFmpeg file : 591260c945d0eef150e3bf82b0ef988bd36a9cecc18ff05d6679617159f0a95e … SHA256 checksum of ffprobe file : e11c17e8200b3ee4c4c186d245e2b4053f01d56957336c1817fca0b997469106"
+        }
+      ],
+      "newer_practice": {
+        "summary": "Upstream FFmpeg 9.0.2 was released on 2026-09-18; its official distribution provides signed source releases. This does not verify third-party executable hashes or resolve the missing attribution details, so it adds no separate required change.",
+        "url": "https://ffmpeg.org/download.html",
+        "date": "2026-09-18"
+      },
+      "affects_this_step": true,
+      "recommended_action": "The publisher demonstrably lists executable checksums, but neither permitted file supplies the attributed values, versions or architectures for comparison. Qualify the exact-value attribution as unverified until those details are matched to the publisher, or remove it. Retain the existing current-download disclaimer; it does not bound the separate attribution assertion.",
+      "action_required": true
+    },
+    {
+      "id": "R0011-C015",
+      "claim": "FFprobe decoded timestamps and time bases support variable-rate frame addressing independently of rounded average FPS.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://ffmpeg.org/doxygen/trunk/ffprobe_8c_source.html",
+          "title": "FFmpeg — fftools/ffprobe.c source: frame timestamp output",
+          "accessed": "2026-10-09",
+          "quote": "print_time(\"best_effort_timestamp_time\", frame->best_effort_timestamp, &stream->time_base);"
+        },
+        {
+          "url": "https://ffmpeg.org/doxygen/trunk/structAVFrame.html",
+          "title": "FFmpeg — AVFrame: best_effort_timestamp",
+          "accessed": "2026-10-09",
+          "quote": "frame timestamp estimated using various heuristics, in stream time base"
+        }
+      ],
+      "newer_practice": {
+        "summary": "FFmpeg 9.0.2 is a newer upstream release. Current official frame documentation and ffprobe source retain per-frame timestamps and stream time bases. No superseding addressing practice requiring a step change was found.",
+        "url": "https://ffmpeg.org/download.html",
+        "date": "2026-09-18"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No correction required. Independence from rounded average FPS follows from using each frame's timestamp and time base. Preserve the distinction between this capability and guaranteed timestamp accuracy or successful seeking; best-effort timestamps can be heuristic.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C016",
+      "claim": "FFmpeg -noautorotate disables automatic rotation, explicit mapping selects the specified stream, and select's n is the zero-based filter-input frame number.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://ffmpeg.org/ffmpeg.html",
+          "title": "FFmpeg documentation — autorotate and manual stream selection",
+          "accessed": "2026-10-09",
+          "quote": "use -noautorotate to disable it. … only user-mapped streams are included"
+        },
+        {
+          "url": "https://ffmpeg.org/ffmpeg-filters.html#select_002c-aselect",
+          "title": "FFmpeg Filters Documentation — select, aselect: n",
+          "accessed": "2026-10-09",
+          "quote": "The (sequential) number of the filtered frame, starting from 0."
+        }
+      ],
+      "newer_practice": {
+        "summary": "FFmpeg 9.0.2 is a newer release, and current official documentation continues to specify these behaviors. No relevant superseding practice requiring a change to this step was found.",
+        "url": "https://ffmpeg.org/download.html",
+        "date": "2026-09-18"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No change required to the stated option semantics. Keep n described as the index entering select, since upstream seeking or filtering can change its relationship to the original file's frame index.",
+      "action_required": false
+    },
+    {
+      "id": "R0011-C017",
+      "claim": "FFmpeg can fall back from a requested pixel format.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://ffmpeg.org/ffmpeg.html",
+          "title": "FFmpeg documentation — Advanced Video options: pix_fmt",
+          "accessed": "2026-10-09",
+          "quote": "print a warning and select the best pixel format supported by the encoder."
+        }
+      ],
+      "newer_practice": {
+        "summary": "FFmpeg 9.0.2 is a newer release. Current documentation still describes fallback and the existing +pix_fmt fail-on-mismatch option. No new requirement changing this step was found.",
+        "url": "https://ffmpeg.org/download.html",
+        "date": "2026-09-18"
+      },
+      "affects_this_step": true,
+      "recommended_action": "No correction required. Retain the fallback caveat. The documented +pix_fmt option can require failure when the requested format is unavailable, but the supplied claim establishes no missing implementation requirement.",
+      "action_required": false
+    }
+  ],
+  "proposals": []
+}

@@ -1,6 +1,6 @@
 # Domain model and persistence
 
-The implemented model contains **17 registered artifact types** plus typed value objects. Definitions live in `src/eval_lab/domain.py`; storage and relationship checks live in `src/eval_lab/persistence.py`.
+The implemented model contains registered artifact types plus typed value objects. Core definitions live in `src/eval_lab/domain.py`, with additive Pilot 0 and intent v2 modules; storage and relationship checks live in `src/eval_lab/persistence.py`. See [Intent v2 and derived provenance](intent-provenance.md) for exact revision pins, legacy compatibility and private binding history.
 
 ## Records that exist
 
@@ -38,4 +38,4 @@ The Phase 4 presentation serializer accepts only assets marked `synthetic_fixtur
 
 There are no implemented GoldExample, Adjudication, BenchmarkSuite, RegressionReport or DriftReport engines; no completed VFX cost estimator; no authentication/authorization product; no real provider execution; no production media ingestion pipeline; and no final frontend. Any later-phase fixture labels or assessment recommendations demonstrate contract shape, not implementation of those subsystems.
 
-The ontology's approval and provenance labels are trusted authored inputs. A production service must bind users and agents to authenticated principals and enforce authority outside these local record constructors.
+The legacy ontology's approval and provenance labels are trusted authored inputs. Intent v2 binding provenance is derived from pinned local chronology, whose event evidence remains unauthenticated. A production service must bind users and agents to authenticated principals and enforce authority outside these local record constructors.

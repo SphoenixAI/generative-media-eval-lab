@@ -1,0 +1,31 @@
+{
+  "checked_at": "2026-10-09T14:33:53.913677+00:00",
+  "hotfix_commit": "4180a5dc5b09c6a248235cec666e90606d88ebc8",
+  "loop_tests_passed": 107,
+  "new_tests": 19,
+  "dry_run": {
+    "dry_run": "PASS",
+    "isolated_local_remote": true,
+    "model_calls": 0,
+    "decisions": [
+      {
+        "decision": "INTEGRATE",
+        "rounds": 1,
+        "rule": "R6",
+        "stop": false
+      }
+    ]
+  },
+  "protected_hashes_unchanged": 16,
+  "main_unchanged": "0398762b9f32c6eef0366b576c5251016792354c",
+  "L07": "DONE",
+  "step0005_original_files_unchanged": 499,
+  "step0005_historical_status": "REVERT / R4",
+  "L02": {
+    "retries": 1,
+    "status": "PENDING"
+  },
+  "next_eligible": "L02",
+  "recovery_source_step": 5,
+  "expected_full_diff_sha256": "a7db0d4ac8839ecfc117dbeeef15e49cdc197330233ce8d402c0ecd2fbf20bad"
+}

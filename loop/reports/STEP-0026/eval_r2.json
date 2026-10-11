@@ -1,0 +1,121 @@
+{
+  "blocking_findings": [],
+  "claims_for_research": [],
+  "diff_sha256": "c03cb6c78a1dfbdf3e9fd5423239233a4178f1228e4cd61c6f141f3afae94b68",
+  "flags": [
+    "Full pytest was not independently executed: the available interpreter lacks pytest. The supplied gate reports 2955 passing tests.",
+    "Independent replays used actual preparation/reader/test bodies with a lightweight pytest substitute and substituted artifact-kind registry. SQLite checks used in-memory databases. Repository-admitted representative tests and retained filesystem preservation were not independently executed.",
+    "Reviewed I1-I16 against the changed code and paths. No real judgment/history writes, UNKNOWN-to-clean conversion, protected artifact changes, intent/measurement conflation, operational mutation, averaging, probability arithmetic, runtime network dependency, test weakening, public serialization change, unsupported determinism claim, deferred implementation or judge edit was established. Main and external filesystem integrity were not independently verified.",
+    "Independently computed the diff SHA-256 and confirmed it matches diff_sha256.txt."
+  ],
+  "item": "L12-A2b",
+  "loophole_audit": [
+    {
+      "criterion": "Declare prerequisites and consume them through the shared availability boundary.",
+      "evidence": "test_inventory_exact and test_boundary_consumption compare independent declarations, contracts and multiplicities; replayed declaration and boundary-bypass controls detect omissions.",
+      "lazy_pass": "Publish an inventory while reading unchecked descendants or deduplicating repeated obligations.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Check decoded timelines and temporal coordinates.",
+      "evidence": "test_motion_and_full_clip_contract rejects unavailable or invalid duration; test_semantic_guard checks timeline structure; test_valid_branches preserves coordinates and decoded bounds separately.",
+      "lazy_pass": "Skip decoded duration for full clips or discard out-of-range coordinates before later predicates can inspect them.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Require derivatives and exact selected-index/media correspondence for frame attachments.",
+      "evidence": "test_frame_attachment_requires_derivative and branch-removal controls catch the null-derivative bypass. Fixtures use manifest indices [2,0,2], with exact correspondence, membership and interval controls.",
+      "lazy_pass": "Treat null derivatives as optional despite selected frames, or interpret selected indices as manifest positions.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Check motion dimensions and support context.",
+      "evidence": "test_motion_and_full_clip_contract, test_collection_contract and test_context_and_correspondence assert explicit failures; valid non-motion and explicitly empty support remain supported.",
+      "lazy_pass": "Interpret invalid dimensions as non-motion or unavailable enumeration as empty support.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Check relation vocabulary and purposes across legacy and v2 branches.",
+      "evidence": "The expanded endpoint matrix checks both versions. Independent legacy-only subject and object guard removals now fail on both adapters; v2 missing or malformed purposes cannot select legacy compatibility.",
+      "lazy_pass": "Validate only v2 endpoint kinds while accepting legacy relations through an UNSPECIFIED compatibility shortcut.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Check generation-arm sample-design activation and optional branches.",
+      "evidence": "test_branch_guard_deletion detects both activation shortcuts; field and semantic controls exercise decision rules and exclusive count/stopping alternatives.",
+      "lazy_pass": "Accept absent designs for generation arms or ignore present designs on nongeneration arms.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Provide isolated valid/failing controls and deletion-sensitive tests for new rejection guards.",
+      "evidence": "Semantic fixtures recompute hashes and pins, and rejection assertions identify the intended diagnostic. The round-1 legacy gap now has valid controls, exact failures and named removal controls.",
+      "lazy_pass": "Use unrelated integrity failures or one relation version to mask an untested semantic rejection branch.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Preserve source records and expose only bounded prerequisite preparation.",
+      "evidence": "Inspected read-only preparation and support denial; test_preservation_and_subset checks repeatability and preservation. No ready or complete-lint result is introduced.",
+      "lazy_pass": "Repair retained payloads or advertise partial preparation as complete lint/readiness.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0026-R1-001",
+      "status": "RESOLVED"
+    }
+  ],
+  "role": "evaluator",
+  "round": 2,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Read builder-authored Plan, Probes, comments and docstrings; compared behavioral claims with local domain, admission and reader contracts.",
+        "Compared all seven STEP-0023 finding records with the Plan's Prior attempts mapping and checked the referenced STEP-0019 and STEP-0025 handoffs.",
+        "Found no contradicted builder-authored claim or external claim requiring research; excluded harness bookkeeping and researcher-owned context from accuracy scoring."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "Checked acceptance against test_declared_field_contract, test_semantic_guard, test_frame_attachment_requires_derivative, test_motion_and_full_clip_contract, test_relation_vocabulary_contract and branch-removal controls.",
+        "Replayed 555 direct and 553 in-memory SQLite test cases without failures, subject to the execution limitations in flags.",
+        "Independently removed subject and object endpoint validation separately for each relation version; all eight adapter/version/endpoint experiments failed at the intended diagnostic assertion."
+      ],
+      "score": 4
+    },
+    "production_quality": {
+      "evidence": [
+        "Replayed the focused field, semantic, declaration, consumption and mutation controls; expectations identify literal diagnostic subjects, paths, states and reasons.",
+        "Verified test_relation_vocabulary_contract now includes valid and invalid legacy subject/object controls, and independently confirmed their deletion sensitivity.",
+        "Checked that integrated test files are unchanged and direct preservation/reordered-input controls pass."
+      ],
+      "score": 4
+    },
+    "relation": {
+      "evidence": [
+        "Compared relation endpoints and purposes with domain.py and relation_v2.py, including legacy compatibility and the v2 intent-kind branch.",
+        "Replayed exact dependency, revision, digest, pin and media-correspondence controls.",
+        "Checked that Prepared is private transient preparation, not a new authored artifact requiring persistence, versioning or snapshot registration."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Read the complete diff and opened every changed file; verified the new files match their patch contents.",
+        "Compared implementation with STEP-0024/split.json: changes implement the assigned E3/E4/W1/W4/W5 prerequisites without taking over sibling predicates or readiness integration."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Compared changed paths with the sealed plan, split allocation and all DEFERRED backlog entries; found no out-of-scope implementation.",
+        "Independently counted exactly 900 product/test changed lines.",
+        "Checked that no dependency, public surface, domain schema, historical report or harness source is changed."
+      ],
+      "score": 4
+    }
+  },
+  "step": 26,
+  "summary": "The round-1 legacy endpoint coverage gap is resolved. Independent removal experiments now fail on the intended diagnostic assertions for each endpoint and relation version. No remaining material issue was established within this child's sealed scope."
+}

@@ -1,0 +1,175 @@
+{
+  "step": 3,
+  "item": "L02",
+  "role": "evaluator",
+  "round": 2,
+  "diff_sha256": "88afac8947488a70703a48e69fdcf635de3a90ecece2a665b9b7b5249c094d0c",
+  "summary": "The round-1 provenance-promotion bypass is resolved. A material relationship gap remains: admission groups checksum-identical aliases into one binding lineage, but private snapshots recognize only exact registration/media references. An admitted binding on an alias can therefore disappear from the original clip's snapshot, while creating a replacement binding is prohibited.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read the entire diff and opened all eight changed files; verified every diff hunk against tree/.",
+        "Compared the changes with plan.md and the backlog's DEFERRED entries. The implementation remains focused on L02."
+      ]
+    },
+    "intention": {
+      "score": 2,
+      "evidence": [
+        "The sealed requirement to include relevant binding history in private snapshots is not satisfied for checksum-identical aliases: src/eval_lab/pilot.py:328-333.",
+        "Independently verified the 13-row ordering oracle and inspected the reason, exact-seal, declaration and provenance-transition rejection tests."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/intent_v2.py:233-238 recognizes checksum-identical anchors as one lineage, but src/eval_lab/pilot.py:332 does not use that identity when collecting snapshot roots.",
+        "An extracted-function probe admitted the first binding on an alias, omitted it from the original clip's snapshot, and rejected a replacement binding on the original anchors.",
+        "Checked schema_version=2, artifact registration, nested digest validation, predecessor pins and SQL reference traversal. The separate lint command remains outside this sealed step."
+      ]
+    },
+    "production_quality": {
+      "score": 2,
+      "evidence": [
+        "test_double_anchor_alias_cannot_promote_reconstructed starts with a binding on the original anchors; it does not cover an alias receiving the first binding.",
+        "test_private_snapshot_contains_binding_closure_and_freezes_exports binds only exact clip anchors, so it cannot detect the admission/snapshot identity mismatch.",
+        "All five changed Python files compile in memory. The available Python lacks Pydantic, SQLAlchemy and pytest; the supplied 373-test result was not independently reproduced."
+      ]
+    },
+    "accuracy": {
+      "score": 2,
+      "evidence": [
+        "docs/intent-provenance.md:73-75 and src/eval_lab/pilot_cli.py:40 claim inclusion of selected clips' binding history without accounting for aliases that admission treats as the same original registration.",
+        "Verified the diff hash, 822 counted changed lines, sealed plan equality, all 16 supplied protected hashes and completeness of the timestamp-order oracle.",
+        "External claims are listed for research; the embedded research report was not treated as independent verification."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared all changed paths with the sealed plan: types, persistence admission, private snapshots, associated help, tests and documentation are within scope.",
+        "Confirmed the diff contains no dependency changes, existing baseline-test changes, protected-file changes, harness changes or DEFERRED implementation."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "L02-R2-01",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/pilot.py:328-333; src/eval_lab/intent_v2.py:228-238; tests/test_intent_v2.py:397-443",
+      "description": "Admission and snapshot collection disagree about registration identity. Register clip A, persist checksum-identical copies of its media and ingestion under new IDs, and store the first binding against those copied anchors. With no previous binding, admission accepts it. Snapshotting A then omits that binding because neither copied reference matches A's references. Attempting a binding on A's original anchors is subsequently rejected as a second lineage because the checksums match. Thus the sole admitted lineage for the original media is absent from its private snapshot/export. Executing the extracted admission and snapshot functions with field-only stand-ins reproduced omission and replacement rejection; the control using original anchors was included. This was a source-level reproduction, not a full repository execution.",
+      "required_fix": "Make snapshot reachability consistent with the original-registration identity enforced at admission, so an accepted alias binding cannot become unreachable from the corresponding selected clip. Add a repository/workspace regression where an alias receives the first binding, then verify snapshot/export inclusion of that binding and its pinned dependency closure while retaining unrelated-media exclusion."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Every derivation case is tested.",
+      "lazy_pass": "Test only one example per class, or obtain expected values from the production classifier.",
+      "present_in_diff": false,
+      "evidence": "test_all_orderings_and_view_boundaries uses an explicit 13-row oracle crossed with four view states and two origins. Independent enumeration confirmed the 13 weak orderings and SEALED labels. Additional tests address missing evidence, membership, declarations and malformed pins."
+    },
+    {
+      "criterion": "A revision cannot borrow an earlier revision's seal.",
+      "lazy_pass": "Compare intent IDs while ignoring revision and digest.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/intent_v2.py:168 compares complete pins. test_exact_revision_membership_and_registration_are_required and test_borrowed_seal_degrades_and_history_survives_reopen assert RECONSTRUCTED after changing the intent revision while retaining the prior seal."
+    },
+    {
+      "criterion": "A revision without a reason is rejected.",
+      "lazy_pass": "Validate ordinary constructors but admit invalid copied objects.",
+      "present_in_diff": false,
+      "evidence": "test_invalid_and_omitted_reason_on_initial_successor_and_copies exercises missing, null, empty, whitespace and unknown reasons for initial and successor revisions, including repository admission. Otherwise-valid identities and predecessors isolate the requirement."
+    },
+    {
+      "criterion": "No edit can raise a record's provenance.",
+      "lazy_pass": "Reject same-ID promotion but allow renamed ingestion and media anchors to reset the ceiling.",
+      "present_in_diff": false,
+      "evidence": "test_no_edit_can_promote_binding, the 16 explicit history transitions, and the new double-anchor tests require specific ceiling rejection. An extracted admission probe rejects the round-1 bypass; removing the checksum comparison admits it, demonstrating that the new regression targets the fix."
+    },
+    {
+      "criterion": "V2 context, criteria and expected deviations enforce the specified contract.",
+      "lazy_pass": "Add fields without enforcing meaningful text or criterion/deviation relationships.",
+      "present_in_diff": false,
+      "evidence": "test_context_criteria_deviations_and_blank_text covers blank text, empty/duplicate criteria, missing targets, mismatched dimensions, priorities, viewing profiles and prohibited dimension labels."
+    },
+    {
+      "criterion": "Malformed evidence and invalid pins are rejected; only FOUND/PROMPT_ONLY is declarable.",
+      "lazy_pass": "Trust a supplied provenance label or bypass validation through nested model copies.",
+      "present_in_diff": false,
+      "evidence": "test_chronological_provenance_is_never_declared, test_prompt_only_declaration_is_found_only, test_copied_nested_input_digest_and_reference_types_revalidate and test_bad_seal_and_plan_pin_kinds_and_unmatched_digest exercise these boundaries."
+    },
+    {
+      "criterion": "Pilot 0 compatibility preserves original payloads and reconstructed provenance.",
+      "lazy_pass": "Insert v2 defaults into legacy records and silently change their digests.",
+      "present_in_diff": false,
+      "evidence": "LegacyIntentView is separate from IntentSpec. test_legacy_view_preserves_payload_and_digest checks unchanged references, canonical bytes and digest, absent invented fields and frozen assignment."
+    },
+    {
+      "criterion": "Private snapshots include relevant binding history and pinned dependency closure.",
+      "lazy_pass": "Test only exact-reference bindings while using a broader identity rule elsewhere.",
+      "present_in_diff": true,
+      "evidence": "test_private_snapshot_contains_binding_closure_and_freezes_exports uses exact anchors exclusively. src/eval_lab/pilot.py:332 omits checksum aliases even though src/eval_lab/intent_v2.py:233-238 treats them as the same lineage. The extracted-function probe demonstrated the resulting omission."
+    },
+    {
+      "criterion": "Provenance remains separate from judgments and documents its evidentiary limits.",
+      "lazy_pass": "Treat local ordering as proof of generation order or automatically turn missing judgments into acceptance.",
+      "present_in_diff": false,
+      "evidence": "docs/intent-provenance.md:43-57 limits timestamp evidence, and lines 76-79 state UNKNOWN and I7 restrictions. The snapshot workflow test explicitly asserts quality_verdict remains UNKNOWN."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "L02-R1-01",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "id": "L02-P3-M01",
+      "claim": "Pydantic v2 BaseModel.model_copy(update=...) does not validate supplied update values.",
+      "location": "loop/reports/STEP-0003-L02.md:36; src/eval_lab/intent_v2.py:164"
+    },
+    {
+      "id": "L02-P3-M02",
+      "claim": "RFC 3161 defines evidence that a datum existed before a particular time, requires a trustworthy time source, and does not examine the timestamped imprint beyond its length.",
+      "location": "loop/reports/STEP-0003-L02.md:40"
+    },
+    {
+      "id": "L02-P3-M03",
+      "claim": "Local seal-plan-registration timestamps alone cannot prove generation followed intent sealing; witnessing intent existence does not itself witness generation.",
+      "location": "loop/reports/STEP-0003-L02.md:44; docs/intent-provenance.md:54-55"
+    },
+    {
+      "id": "L02-R2-C04",
+      "claim": "SQLAlchemy provides a PostgreSQL dialect.",
+      "location": "docs/domain-model.md:33"
+    },
+    {
+      "id": "L02-R2-C05",
+      "claim": "Pydantic 2.13 changed RootModel shallow-copy behavior without adding validation of model_copy update values, with the cited release dated 2026-04-13.",
+      "location": "loop/reports/STEP-0003-L02.md:180; loop/reports/STEP-0003-L02.md:183"
+    },
+    {
+      "id": "L02-R2-C06",
+      "claim": "RFC 9921, dated February 2026, standardizes COSE timestamp headers, distinguishes payload and signature timestamp semantics, and preserves the cited RFC 3161 properties.",
+      "location": "loop/reports/STEP-0003-L02.md:181-185"
+    },
+    {
+      "id": "L02-R2-C07",
+      "claim": "SQLAlchemy 2.1 changes the default driver for postgresql:// URLs to psycopg 3, with the cited release dated 2026-09-24.",
+      "location": "loop/reports/STEP-0003-L02.md:186"
+    }
+  ],
+  "flags": [
+    "Independent validation comprised source inspection, complete diff/tree comparison, hash checks, in-memory compilation, independent ordering enumeration and extracted-function probes. The supplied gate reports 373 passing tests; that runtime result was not independently reproduced.",
+    "I1/I4/I10/I11/I14/I16: no real-media judgments, dependency edits, baseline-test weakening, protected-file edits, deferred implementation or judge-code changes appear in the diff. All 16 locally supplied protected hashes matched.",
+    "I2/I5/I6/I7/I8/I9/I12: inspected affected paths and the public presentation allowlist. The change adds no automatic acceptability judgment, policy mutation, averaging, probability arithmetic or public binding serialization.",
+    "I3/I13: exact predecessor pins and append-only storage remain intact; explicit evidence supports deterministic classification. The blocking finding concerns omitted snapshot roots, not overwritten history.",
+    "I15: no Git-changing implementation appears in the diff. Remote/main state was not independently inspected under the folder-only restriction.",
+    "The report retains a claim that an earlier advisory attempt failed G6. Current gate.json reports G6 passing; the controller must account for the rubric's any-round G6 rule using authoritative history.",
+    "PUBLIC_PROSE: both changed documentation files require the designated human review.",
+    "The PostgreSQL documentation now explicitly leaves repository readiness unestablished; its dialect-capability claim remains listed for external research."
+  ]
+}

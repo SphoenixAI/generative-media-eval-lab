@@ -1,0 +1,16 @@
+{
+  "action": "Existing split controller handoff after build-phase feasibility probe; no product implementation",
+  "at": "2026-10-10T10:59:13.122008-07:00",
+  "builder_pid": 30781,
+  "builder_status": "INTERRUPTED_FOR_SPLIT_HANDOFF",
+  "counter_reset": false,
+  "limitation": "Tests do not prove absence of side effects outside checked paths.",
+  "main_and_pilot_unchanged": true,
+  "product_paths_unchanged": true,
+  "product_retry_charged": false,
+  "protected_hashes_unchanged": true,
+  "runner_pid": 30135,
+  "sealed_plan_unchanged": true,
+  "split_request_sha256": "82f20977e17998e5126cab76ad25c81848a135e5956859e36a2406b25d6188cb",
+  "step": 21
+}

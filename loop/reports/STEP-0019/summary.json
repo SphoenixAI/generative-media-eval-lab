@@ -1,0 +1,36 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 2,
+    "intention": 4,
+    "production_quality": 2,
+    "relation": 2,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "REVERT",
+  "flags": [
+    "HASH: Independently recomputed diff.patch SHA-256 and matched diff_sha256.txt.",
+    "INVARIANTS: Demonstrated I2 violations. Inspected I1 and I3-I16 against the diff and integration paths; found no additional violation. Historical Git actions and real-media behavior were not independently verified.",
+    "PRIOR_ATTEMPTS: Earlier supplied step reports contain no L12 attempt, consistent with the sealed Plan's original empty mapping. Checked all four current round-1 findings separately.",
+    "PUBLIC_PROSE",
+    "VALIDATION: Independently ran 67 tests, 13 in-memory rule-removal mutations, admission-validator deletion checks and retained-query adversarial probes. Twelve filesystem/media workflow cases were inspected but not rerun under the read-only sandbox. The supplied gate reports 1,293 passing tests; that is separate evidence."
+  ],
+  "gate": true,
+  "item": "L12",
+  "passed": 1293,
+  "research": {
+    "UNVERIFIABLE": 1
+  },
+  "rounds": 2,
+  "rule": "R0",
+  "scores": {
+    "accuracy": 2,
+    "intention": 0,
+    "production_quality": 2,
+    "relation": 4,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 19
+}

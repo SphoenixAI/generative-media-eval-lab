@@ -1,0 +1,78 @@
+{
+  "findings": [
+    {
+      "description": "Unavailable motion-evidence coverage becomes a clean result. shape accepts null without checking the annotation, and W1 recognizes only the literal 'unknown'. With coverage=null, neither the UNKNOWN branch nor the still-frame branch fires. Independently reproduced through query using an in-memory SQLite database containing a typed motion observation, retained evidence, matching media/timeline and corrected hash pins: status=COMPLETE, ready=true, findings=[], unknown=[]. Direct evaluate also silently passes omitted coverage.",
+      "dimension": "intention",
+      "id": "F0019-R1-001"
+    },
+    {
+      "description": "The hypothesis warrant branch cannot succeed for normally admitted records: TerminalVerdict.intent must be IntentSpecV2, while Hypothesis.intent must be IntentSpec. The positive test changes the hypothesis to IntentSpecV2 and bypasses admission. Independently confirmed that model validation rejects that fixture. Also persisted a verdict citing a legacy hypothesis, its warranted support relation, explicit MUST relevance, and a same-media v2 fulfills relation anchored to that MUST criterion; lint still emitted E1. The checker ignores the existing relevance mapping and evidence-to-intent path.",
+      "dimension": "relation",
+      "id": "F0019-R1-002"
+    },
+    {
+      "description": "Reference discovery treats every dictionary containing kind and id as a Ref. TestPlan.predictions is keyed by arbitrary hypothesis IDs, so a valid plan for hypotheses named 'kind' and 'id' is reported as INTEGRITY_FAILURE with 'reference requires explicit revision'. Independently constructed and persisted those hypotheses, their CompetingSet and the TestPlan successfully, then reproduced the false lint rejection. Existing TestPlan validation explicitly preserves predictions as a data mapping.",
+      "dimension": "production_quality",
+      "id": "F0019-R1-003"
+    },
+    {
+      "description": "LintResult is registered but has no admission check for its input digest pins or aggregate input identity. Generic reference validation checks existence only, and the specialized admission dispatcher excludes LintResult. Independently persisted and reloaded a COMPLETE, ready=true audit whose existing dataset input had an incorrect all-f digest and whose input_sha256 was 'not-a-digest'. Snapshot/export integrity checks validate the outer artifact digest, not these claimed input identities.",
+      "dimension": "relation",
+      "id": "F0019-R1-004"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "plan.md:83 promises unavailable coverage remains UNKNOWN/incomplete; the null-coverage query instead reports COMPLETE and ready=true.",
+        "plan.md:52 promises a hypothesis/evidence warrant path; the implemented positive test depends on an inadmissible hypothesis.",
+        "Inspected earlier evaluator report identities: none concerns L12, consistent with the Plan's empty Prior attempts mapping.",
+        "Excluded harness report sections from accuracy scoring."
+      ],
+      "id": "F0019-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "src/eval_lab/lint.py:203: an independent in-memory SQLite query with null motion-evidence coverage returned COMPLETE, ready=true, no findings and no unknowns, violating I2.",
+        "test_all_rules_exactly_once_and_clean_graph passes with literal rule, level and subject expectations, but does not cover this missing-context case."
+      ],
+      "id": "F0019-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "Independently ran tests/test_lint.py: 60 passed.",
+        "tests/test_lint.py:248 constructs the positive E1 hypothesis with an intent kind rejected by normal admission.",
+        "src/eval_lab/lint.py:47 interprets valid TestPlan.predictions keys named kind and id as a reference; independently reproduced rejection after successful Repository.put.",
+        "tests/test_lint_workflow.py:80 checks snapshot persistence and replay, but lacks negative tests for the new audit artifact's digest contract."
+      ],
+      "id": "F0019-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "src/eval_lab/lint.py:130 requires a hypothesis to reference the verdict's IntentSpecV2, while domain.py:455 requires Hypothesis.intent to reference IntentSpec.",
+        "src/eval_lab/lint.py:23 and persistence.py:225 permit persisted LintResult inputs with incorrect digest pins and an invalid input_sha256.",
+        "Inspected registration, inherited schema version, snapshot inclusion and private replay; those integration paths exist."
+      ],
+      "id": "F0019-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read all 1,096 lines of diff.patch and opened all eight changed files. Changes implement L12 lint, readiness, private snapshots, documentation and tests."
+      ],
+      "id": "F0019-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared the complete diff with the sealed Plan and backlog DEFERRED entries D01\u2013D14; found no deferred implementation or unrelated feature.",
+        "The repository callback implements the sealed requirement to recheck readiness inputs under the writer lock."
+      ],
+      "id": "F0019-R1-D-scope"
+    }
+  ]
+}

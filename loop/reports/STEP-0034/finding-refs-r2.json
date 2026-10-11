@@ -1,0 +1,85 @@
+{
+  "findings": [
+    {
+      "description": "The assigned nine-rule accounting foundation remains largely unimplemented. Expansion supports only temporal image Evidence with an empty PilotSubmission collection. Video Evidence, nonempty submission collections and all other temporal/warrant roots receive explicit unavailable diagnostics. All 24 broad root-profile controls fail in the supplied round-2 gate. Preserving semantic INCOMPLETE does not satisfy the required prerequisite accounting.",
+      "dimension": "intention",
+      "id": "F0034-R2-001"
+    },
+    {
+      "description": "Dependency declarations are still not independently expanded. Evidence fields are enumerated, but MediaAsset is reduced to a hard-coded type read. Fresh direct and in-memory SQLite probes added revision=count and then an absent required_unread=text declaration to MediaAsset. Both audits retained empty diagnostics and usable support; expected MediaAsset paths remained only identity and type. The existing unread-declaration test mutates only Evidence.",
+      "dimension": "intention",
+      "id": "F0034-R2-002"
+    },
+    {
+      "description": "Checked optional applicability remains incomplete. Fresh probes on both reader paths confirmed that a submission with frame_indices=[] and derivative=null passes the integrated temporal preparer, while audit rejects the root and records zero checked-inactive obligations. Only Evidence timestamp inactivity is implemented. The binding attachment inactivity requirement and its false-active/false-inactive controls remain absent.",
+      "dimension": "intention",
+      "id": "F0034-R2-003"
+    },
+    {
+      "description": "Media-scoped preparation and root classification remain absent. Receipt.classified is never populated; no scope pin or exact membership chain establishes ACTIVE or excluded roots. Receipt.merge concatenates manually supplied receipts, and its test checks selected fields from two independent image audits. This cannot establish complete accounting for every classified root or detect omitted scoped contributions.",
+      "dimension": "relation",
+      "id": "F0034-R2-004"
+    },
+    {
+      "description": "Acceptance tests remain failing and incomplete. The focused controls establish an image VALUE omission and selected reconciliation faults, but do not establish warrant-consumer omission sensitivity, complete activation/use/association inventories, the other boundary-mode deletion controls, media-scope accounting or dropped aggregation. Broad root tests assert generic support and nonempty ledgers, rather than independent whole-profile obligations, and all 24 fail. Removing the entire reconciliation function is not a deletion witness for each validator.",
+      "dimension": "production_quality",
+      "id": "F0034-R2-005"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Checked changed comments, docstrings, tests, Plan and Probes against supplied source. The accounting module explicitly describes incomplete construction and does not claim lint/readiness completion.",
+        "Compared every blocking finding in both evaluator rounds of Steps 0023, 0030, 0032 and 0033 with the Plan's Prior attempts mapping; each has an owned remedy or preserved sibling obligation.",
+        "Locally verified the repository facts underlying R0034-C001 through R0034-C010 using evidence-state implementations, reader inheritance, preparer branches, literal tests, configuration, gate counting, backlog and approved split.",
+        "Excluded harness bookkeeping and researcher-owned verdicts from builder accuracy scoring. No new external factual claim requires research."
+      ],
+      "id": "F0034-R2-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "src/eval_lab/lint_accounting.py:198-226,248-252 implements only image Evidence with an empty submission collection; other assigned profiles remain unavailable.",
+        "Independent direct and in-memory SQLite probes added required MediaAsset declarations revision=count and required_unread=text; both produced diagnostics=(), successful support and no corresponding expected obligation.",
+        "Independent probes confirmed that checked empty frame_indices with null derivative passes the integrated preparer but receives unsupported-root diagnostics and no inactive accounting from audit."
+      ],
+      "id": "F0034-R2-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "gate.json reports all 24 direct/retained test_all_owned_root_profiles instances failing.",
+        "tests/test_lint_accounting.py:53-58 checks literal field inventories and mode names, but not activation dependencies, declared uses or association identities.",
+        "tests/test_lint_accounting.py:119-129 deletes the entire reconciliation function; it does not establish deletion sensitivity for each new guard.",
+        "tests/test_lint_accounting.py:161-182 checks selected merged observations and inactive paths without complete expected-ledger assertions or dropped-aggregation controls."
+      ],
+      "id": "F0034-R2-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "src/eval_lab/lint_accounting.py:70-88 defines classified receipts and concatenation, but no production path populates classifications or establishes exact media-scope membership.",
+        "src/eval_lab/lint_accounting.py:229 accepts a root reference and profile, with no scoped preparation caller.",
+        "Checked BoundaryEvent, Obligation, Inactive and Receipt: these are private transient structures linked to existing readers/preparers. Persistent domain types and snapshot integration remain outside this child's scope."
+      ],
+      "id": "F0034-R2-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read all of diff.patch and all six changed files under tree; changes concern the approved temporal/warrant prerequisite-accounting foundation."
+      ],
+      "id": "F0034-R2-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Independently counted 587 non-report added/deleted lines, below the 900-line cap.",
+        "Compared the patch with the sealed partition and DEFERRED list: no HISTORY, COMPUTED, role implementation, intent-scope selector, final semantic completion, frontend or runtime dependency was added.",
+        "Checked changed paths and preserved existing tests: no canonical_json.py, protected harness, public serializer, authored-history or pilot-local modification appears in the patch."
+      ],
+      "id": "F0034-R2-D-scope"
+    }
+  ]
+}

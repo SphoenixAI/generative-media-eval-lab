@@ -1,0 +1,151 @@
+{
+  "step": 4,
+  "item": "L07",
+  "role": "evaluator",
+  "round": 2,
+  "diff_sha256": "f50a6dfbb7120200de54f416f06b5a07de844380761c5c9a4c28c5f39004d1d0",
+  "summary": "Round-1 F1 is resolved. No material implementation or scope defect found in the full diff and changed files. Independent runtime verification remains unavailable because the available Python lacks Pydantic; supplied gate results report 251 passing tests.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all 1,037 lines of diff.patch and opened all eight changed files. Compared changes with L07, plan.md and tree/loop/NORTH_STAR.md: changes implement hypothesis sets, their constraints and private authoring."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "Mapped all nine sealed criteria to behavioral assertions in tree/tests/test_competing_sets.py; checked their inputs and failure paths for unrelated-error masking.",
+        "Traced the repaired relation tests at tree/tests/test_competing_sets.py:145-201: fresh identities, persisted endpoint revisions, specific errors and otherwise-valid evidence remove the F1 masking mechanisms.",
+        "Checked I1-I16 against touched code, fixtures, persistence, serialization and changed paths; found no demonstrated invariant violation."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Traced CompetingSet registration, inherited schema_version, exact member references, predecessor validation, SQL reference persistence, PilotSubmission linkage and snapshot traversal.",
+        "Inspected test_revision_admission_uses_exact_pins_and_retains_history and test_private_cli_draft_authoring_sessions_show_and_pinned_exports for preserved historical pins and exports.",
+        "Checked lint applicability against tree/loop/backlog.toml:209-223: L12 owns the future lint subsystem and is explicitly outside this sealed plan."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Parsed every changed Python file successfully and inspected positive, negative, revision, concurrency, CLI, persistence and privacy tests.",
+        "Checked that exclusivity tests require the intended error and the concurrent test requires exactly one accepted record, rather than accepting arbitrary failures.",
+        "Inspected gate.json: all gates report passing, with 251 product tests. These runtime results were not independently reproduced."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Compared added documentation, comments, docstrings and CLI descriptions with implementation: structural residuals, exact pins, retained constraints, refinement direction and absence of confidence arithmetic agree.",
+        "Independently recomputed the diff hash, reported final domain/test hashes and sealed Plan hash; all match.",
+        "Checked explicit confidence expectations None, 0.8, 0.9 and 0.95 and UNKNOWN assertions. External methodological claims are listed for research, without treating the report's conclusions as independent verification."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared all eight changed paths with the sealed plan's expected files and verified its Plan section matches plan.md.",
+        "Inspected DEFERRED D01-D14 and the excluded adjacent backlog items; no corresponding capability is introduced.",
+        "Recomputed all 16 protected-file hashes with no mismatches. The diff contains no existing-test, dependency, protected-artifact or harness changes."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "L07 acceptance: tests.",
+      "lazy_pass": "Add presence checks or negative tests that pass because an unrelated error occurs.",
+      "present_in_diff": false,
+      "evidence": "Inspected behavioral assertions throughout tree/tests/test_competing_sets.py. The previously masked relation cases now use fresh identities and specific errors; evidence-backed observed-status cases isolate the required restriction."
+    },
+    {
+      "criterion": "Plan 1: registered, persistable sets with valid pinned membership.",
+      "lazy_pass": "Store arbitrary IDs without checking existence, revision, kind or intent.",
+      "present_in_diff": false,
+      "evidence": "test_single_named_member_and_supplied_residual and test_set_reference_boundaries_and_copy_revalidation exercise singleton acceptance, duplicate identities, wrong kinds, dangling revisions and cross-intent members. Invalid repository candidates have no preexisting set revision to mask rejection."
+    },
+    {
+      "criterion": "Plan 2: explicit flags and exactly one residual for exhaustive sets.",
+      "lazy_pass": "Always append a residual or coerce missing and nonboolean flags.",
+      "present_in_diff": false,
+      "evidence": "test_flags_residual_and_claim_confidence_are_independent checks all four flag combinations against explicit member lists. test_flags_require_explicit_booleans rejects coercions and omissions; malformed-residual tests include valid named membership."
+    },
+    {
+      "criterion": "Plan 3: residual is structural and does not manufacture a hypothesis.",
+      "lazy_pass": "Create a residual hypothesis with confidence, evidence or supported status.",
+      "present_in_diff": false,
+      "evidence": "tree/src/eval_lab/domain.py:308-311 permits only the residual kind and prescribed description. Tests assert exact serialization, unchanged hypothesis inventory and bytes, and rejection of residual evidence/status fields."
+    },
+    {
+      "criterion": "Plan 4: both relation kinds enforce endpoint and epistemic contracts.",
+      "lazy_pass": "Accept predicate names while allowing self-relations or observations; let unrelated validation failures satisfy tests.",
+      "present_in_diff": false,
+      "evidence": "test_relation_contract_and_no_inferred_edges checks fresh invalid identities, specific errors, required fields, cross-intent endpoints and preserved direction. test_hypothesis_relation_with_persisted_evidence_is_still_a_claim supplies valid persisted evidence and a positive control for both predicates. Removing the relevant guards would leave these candidates otherwise admissible."
+    },
+    {
+      "criterion": "Plan 5: transactional exclusivity in both admission orders.",
+      "lazy_pass": "Check only CLI input or only relations added after sets.",
+      "present_in_diff": false,
+      "evidence": "tree/src/eval_lab/persistence.py:193-244 checks both paths inside the SQLite writer transaction. test_exclusivity_both_insertion_orders_and_endpoint_orders covers both orders and directions; overlapping-set and concurrent-admission tests check permission boundaries and committed record counts."
+    },
+    {
+      "criterion": "Plan 6: exact retained pins and append-only revisions.",
+      "lazy_pass": "Consult only the latest set or transfer membership automatically to newer hypothesis revisions.",
+      "present_in_diff": false,
+      "evidence": "test_revision_admission_uses_exact_pins_and_retains_history rejects compatibility against retained exclusive pins, admits a newer hypothesis revision outside those pins, rejects conflicting revised admissions, and checks unchanged old bytes and hashes. Domain validation requires the immediate predecessor."
+    },
+    {
+      "criterion": "Plan 7: claim-local confidence and preservation of unknown states.",
+      "lazy_pass": "Normalize confidences or assign the residual a complement.",
+      "present_in_diff": false,
+      "evidence": "test_flags_residual_and_claim_confidence_are_independent checks unchanged None/0.8/0.9 values and absence of set confidence. Relation tests check 0.95 and no inferred edges; authoring integration checks None and UNKNOWN. No added runtime path performs confidence arithmetic or creates a verdict."
+    },
+    {
+      "criterion": "Plan 8: private authoring, submission linkage and pinned exports.",
+      "lazy_pass": "Persist orphan sets or export current records instead of snapshot pins.",
+      "present_in_diff": false,
+      "evidence": "test_private_cli_draft_authoring_sessions_show_and_pinned_exports exercises draft rejection, CLI submission, author/session linkage, private show, short-reference resolution, predecessor/member inclusion and unchanged earlier exports. The invalid-authoring test checks session and intent boundaries."
+    },
+    {
+      "criterion": "Plan 9: deterministic serialization, compatibility and privacy.",
+      "lazy_pass": "Compare an object only with itself, change existing serialized defaults, or expose private sets through generic serialization.",
+      "present_in_diff": false,
+      "evidence": "Tests independently reconstruct fixed-input sets, revalidate JSON and reopen storage, supplementing round-trip comparisons with explicit member lists and old field sets. Inspected presentation.py's explicit allowlist and blind/revealed public/embed assertions. Protected hashes match and existing tests are unchanged."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F1",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "id": "C1",
+      "claim": "A static-camera regeneration changes the generated sample as well as camera instructions; multiple controlled replicates are needed rather than attributing causality to one improved clip. This methodological caution occurs in unchanged documentation and is repeated in the report.",
+      "location": "tree/docs/hypothesis-testing.md:7; tree/loop/reports/STEP-0004-L07.md:161-165"
+    },
+    {
+      "id": "C2",
+      "claim": "Random variation is not itself proof of formal causal confounding.",
+      "location": "tree/loop/reports/STEP-0004-L07.md:161"
+    },
+    {
+      "id": "C3",
+      "claim": "Park et al., Evaluating Generative AI in the Lab, v2 dated 2026-01-28, recommend documenting prompts, outputs, latency and contextual variables to distinguish design effects from stochastic model variation.",
+      "location": "tree/loop/reports/STEP-0004-L07.md:165"
+    }
+  ],
+  "flags": [
+    "PUBLIC_PROSE",
+    "Independent runtime and mutation-test execution unavailable: available Python 3.14.7 raises ModuleNotFoundError for pydantic. Supplied passing results are not independently reproduced.",
+    "I1/I2/I5-I9: inspected structural residual construction, synthetic fixtures, claims-only relations, unchanged confidence and UNKNOWN behavior; no automatic real-media judgment found.",
+    "I3/I13: inspected append-only persistence, predecessor pins and deterministic round-trip tests; verified recorded source/test and Plan hashes.",
+    "I4/I10/I11/I12/I14/I16: checked protected hashes, changed paths, dependencies, existing tests, public allowlist and deferred scope; no violation found.",
+    "I15 and external I1 state: gate.json reports unchanged remote main and pilot listing. Those external states were not accessed under the folder-only restriction.",
+    "External research claims were inventoried but not independently sourced under the folder-only restriction."
+  ]
+}

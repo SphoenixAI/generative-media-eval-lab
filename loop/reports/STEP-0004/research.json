@@ -1,0 +1,35 @@
+{
+  "claims": [
+    {
+      "affects_this_step": false,
+      "claim": "A static-camera regeneration is confounded by changes to the generated sample; multiple controlled replicates should be used instead of attributing causality to one improved clip. This is an existing methodological claim in unchanged context.",
+      "id": "R0004-C001",
+      "newer_practice": {
+        "date": "2026-01-28",
+        "summary": "Park et al., v2, recommend documenting prompts, outputs, latency, and contextual variables to distinguish design effects from stochastic model variation. This recent guidance reinforces the existing caution and does not require changing this step.",
+        "url": "https://arxiv.org/html/2601.16740v2#S5.SS2"
+      },
+      "origin": "evaluator",
+      "recommended_action": "Retain the existing warning. For a future camera-effect experiment, compare replicated baseline and static-camera conditions while holding other controllable inputs and model settings fixed; preserve all outputs and report variability. Treat a single improved clip as exploratory evidence. Replication alone does not remove systematic confounding.",
+      "sources": [
+        {
+          "accessed": "2026-10-08",
+          "quote": "Replication allows us to compute a model-independent estimate of the process standard deviation.",
+          "title": "NIST/SEMATECH e-Handbook: What are some general design principles for process modeling?",
+          "url": "https://www.itl.nist.gov/div898/handbook/pmd/section3/pmd33.htm"
+        },
+        {
+          "accessed": "2026-10-08",
+          "quote": "Generative AI (GenAI) systems are inherently non-deterministic, producing varied outputs even for identical inputs.",
+          "title": "Evaluating Generative AI in the Lab: Methodological Challenges and Guidelines (v2)",
+          "url": "https://arxiv.org/html/2601.16740v2"
+        }
+      ],
+      "verdict": "CONFIRMED"
+    }
+  ],
+  "item": "L07",
+  "proposals": [],
+  "step": 4,
+  "summary": "Confirmed as a methodological caution: one regenerated clip cannot isolate a camera intervention from other sample changes. This application is an inference from experimental-design guidance and research on generative variability, not verification of a particular clip. Random variation is not itself proof of formal causal confounding. The ledger was empty; no landscape scan was required. Repository-history assertions were not independently checked."
+}

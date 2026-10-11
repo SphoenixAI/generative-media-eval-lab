@@ -1,0 +1,41 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 2,
+    "intention": 2,
+    "production_quality": 2,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "REVERT",
+  "flags": [
+    "I1/I4/I10/I11/I14/I16: no real-media judgments, dependency edits, baseline-test weakening, protected-file edits, deferred implementation or judge-code changes appear in the diff. All 16 locally supplied protected hashes matched.",
+    "I15: no Git-changing implementation appears in the diff. Remote/main state was not independently inspected under the folder-only restriction.",
+    "I2/I5/I6/I7/I8/I9/I12: inspected affected paths and the public presentation allowlist. The change adds no automatic acceptability judgment, policy mutation, averaging, probability arithmetic or public binding serialization.",
+    "I3/I13: exact predecessor pins and append-only storage remain intact; explicit evidence supports deterministic classification. The blocking finding concerns omitted snapshot roots, not overwritten history.",
+    "Independent validation comprised source inspection, complete diff/tree comparison, hash checks, in-memory compilation, independent ordering enumeration and extracted-function probes. The supplied gate reports 373 passing tests; that runtime result was not independently reproduced.",
+    "PUBLIC_PROSE",
+    "PUBLIC_PROSE: both changed documentation files require the designated human review.",
+    "The PostgreSQL documentation now explicitly leaves repository readiness unestablished; its dialect-capability claim remains listed for external research.",
+    "The report retains a claim that an earlier advisory attempt failed G6. Current gate.json reports G6 passing; the controller must account for the rubric's any-round G6 rule using authoritative history."
+  ],
+  "gate": true,
+  "item": "L02",
+  "passed": 373,
+  "research": {
+    "CONFIRMED": 6,
+    "UNVERIFIABLE": 1
+  },
+  "rounds": 2,
+  "rule": "R3",
+  "scores": {
+    "accuracy": 2,
+    "intention": 2,
+    "production_quality": 2,
+    "relation": 2,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 3
+}

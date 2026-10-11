@@ -1,0 +1,35 @@
+{
+  "resolutions": [
+    {
+      "ref": "F0032-R1-001",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Requested implementation declined under the sealed 900-line cap; candidate is at 899 lines. Independent role-access expansion and its required controls remain missing. Finding remains valid and blocking."
+    },
+    {
+      "ref": "F0032-R1-002",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Complete computed-input and conditional-reference validation cannot fit the remaining budget with required controls. Declaration constants alone would be insufficient. Finding remains valid; computed-input acceptance still fails."
+    },
+    {
+      "ref": "F0032-R1-003",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Validated scope membership and applicability accounting exceed the remaining budget. Both checked-inactivity sentinels remain failing; no inactive entries were fabricated."
+    },
+    {
+      "ref": "F0032-R1-004",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Exhaustive declaration reconciliation requires structural changes and isolated controls beyond the remaining budget. Unread-declaration and missing-rule defects remain blocking; traversal alignment does not resolve them."
+    },
+    {
+      "ref": "F0032-R1-005",
+      "action": "FIXED",
+      "evidence": "Aligned ingestion and observation traversal in src/eval_lab/lint_rule_expansion.py, preserving exact occurrence accounting. test_multi_record_accounting passes 24 direct/retained controls, including reordered inputs and missing/extra reads. Independently reverting either fix fails four ordinary controls; witnesses are in ../Content Evaluator - loop-runs/0032/advisory/enhancer-mutation-results.json."
+    },
+    {
+      "ref": "F0032-R1-006",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Complete role/declaration/applicability guard coverage exceeds the remaining budget; existing tests were preserved. Advisory gate: 5252 passed, five failed; G1/G12 fail, G7 confirms 899/900 lines. Candidate remains incomplete; do not integrate. Individual dispositions and evidence are recorded in loop/reports/STEP-0032-L12-A2d1.md.\n"
+    }
+  ],
+  "amendments": []
+}

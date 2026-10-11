@@ -1,0 +1,64 @@
+{
+  "findings": [
+    {
+      "description": "Resolution checks a reconstructed TestPlan rather than the retained frozen JSON. Delete a default-valued field such as schema_version or tool_version from a valid frozen row while retaining its stored hashes. Repository.get and the transactional getter first call model_validate_json, which restores that field; TestPlan.contract then hashes model_dump, and the repository compares the reconstructed artifact digest. Both checks therefore see the original values and permit resolution. The existing verify-test-plan path explicitly checks freeze_digest on raw parsed payloads before normalization, and test_retained_default_deletion_is_integrity_failure establishes that this corruption must be rejected. The new resolver bypasses that protection, contrary to Plan criterion 1 and the documentation.",
+      "dimension": "intention",
+      "id": "F0016-R2-001"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "docs/hypothesis-testing.md:185-186 states that corrupted records reject admission, but deleting schema_version or tool_version from retained frozen-plan JSON is normalized away before resolution checks.",
+        "Reviewed changed comments, docstrings, CLI help, Plan and Probes; no new external claim requiring research was identified.",
+        "Checked the Plan's round-1 Prior attempts statement against earlier report identities: no earlier L10 attempt appears. enhancement.json separately maps both supplied round-1 findings."
+      ],
+      "id": "F0016-R2-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "src/eval_lab/resolutions.py:131-137 obtains the frozen plan through model-normalizing repository reads rather than checking its retained JSON before defaults are restored.",
+        "src/eval_lab/persistence.py:218-223 repeats this behavior during transactional admission.",
+        "Literal elimination, residual, role-rejection and sample-threshold tests otherwise exercise the principal acceptance requirements."
+      ],
+      "id": "F0016-R2-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "tests/test_resolutions.py:274-290 tests altered outcomes and hashes but omits default-field deletion from frozen payloads.",
+        "tests/test_test_plan_workflow.py:154-165 already establishes default-field deletion as an integrity failure for verification, but that protection is not exercised through resolve.",
+        "The new timestamp tests isolate initial and successor admission without revision collisions; the new privacy test establishes exact intent association and covers all four presentation states."
+      ],
+      "id": "F0016-R2-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "Traced ResolutionEvent registration, inherited schema version, predecessor pins, dependency closure and persisted foreign-key references.",
+        "Inspected private show/schema integration and snapshot roots, including cross-clip evidence, retained event revisions and unchanged earlier exports.",
+        "Checked lint applicability against the backlog: general resolution lint belongs to downstream L12; no existing registration was omitted."
+      ],
+      "id": "F0016-R2-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read all 1104 lines of diff.patch and opened all eight changed files under tree.",
+        "Compared the implementation with L10 and the sealed Plan; changes concern resolution events and their required integration."
+      ],
+      "id": "F0016-R2-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared all changed paths with the sealed Plan's expected files and inspected DEFERRED D01-D14; no deferred implementation was found.",
+        "Checked I1-I16 against affected paths: synthetic fixtures, append-only storage, unchanged judgment and decision records, no probability arithmetic, network/model calls, dependency additions, protected-file edits, existing-test weakening or harness edits.",
+        "No invariant violation was demonstrated; the retained-payload validation gap is a material contract failure."
+      ],
+      "id": "F0016-R2-D-scope"
+    }
+  ]
+}

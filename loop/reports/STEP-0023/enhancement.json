@@ -1,0 +1,25 @@
+{
+  "resolutions": [
+    {
+      "ref": "F0023-R1-001",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Finding upheld; implementation rejected for this step under the sealed size stop. Direct and retained probes still reproduce the missing-derivative defect. The patch uses 899/900 lines; required fixes and controls cannot fit. Remains blocking, documented in loop/reports/STEP-0023-L12-A2.md."
+    },
+    {
+      "ref": "F0023-R1-002",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Finding upheld; implementation rejected under the same size constraint. Direct and retained probes still accept unrelated FirstView content with matching timestamps and valid pins. Remains blocking; the existing decomposition proposal requires approved acceptance changes."
+    },
+    {
+      "ref": "F0023-R1-003",
+      "action": "FIXED",
+      "evidence": "Chronology comparisons now use validated datetime instants while preserving payloads. tests/test_lint_prerequisites.py::test_binding_timestamp_instants passes eight direct/retained equivalence and mismatch controls. Independently deleting either guard fails its negative controls. Focused tests: 291 passed. Advisory gate: 1,505 passed, 899/900 lines; G14 skipped."
+    },
+    {
+      "ref": "F0023-R1-004",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Timestamp deletion controls were added, but comprehensive validator and declaration/access coverage remains incomplete. Completing it exceeds the sealed cap; the split mechanism cannot divide the single acceptance criterion into nonempty children. No tests were weakened. L12-A2 remains incomplete despite the passing advisory gate. Plan unchanged; no research claims require amendments.\n"
+    }
+  ],
+  "amendments": []
+}

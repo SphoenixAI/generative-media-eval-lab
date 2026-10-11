@@ -1,0 +1,152 @@
+{
+  "blocking_findings": [
+    {
+      "description": "Direct admission does not enforce application ownership of created_at. Preparing a valid event and changing only created_at to another timezone-aware timestamp leaves every DERIVED field unchanged. validate_admission explicitly copies the supplied timestamp into its expected event and compares only DERIVED, so Repository.put accepts and permanently retains the forged import time. The JSON-input rejection test does not cover this direct model-copy path required by Plan criteria 8-9.",
+      "dimension": "intention",
+      "id": "F0016-R1-001",
+      "invariant": null,
+      "location": "src/eval_lab/resolutions.py:104-105,206-210; tests/test_resolutions.py:212-217",
+      "required_fix": "Enforce application ownership of the persisted timestamp at the repository admission boundary. Add a fresh-ID direct-admission test using a valid but altered timestamp, with a specific rejection assertion and verification that no event was appended.",
+      "severity": "MATERIAL"
+    },
+    {
+      "description": "The privacy assertion serializes seed_review's boundary-case, whose intent and media are unrelated to the TEST-ONLY resolution fixtures. A serializer that incorrectly exposes resolutions belonging to the serialized case would still pass because this case has none. No pairwise submission is made, so the revealed results branch is also untested. This does not prove Plan criterion 10's public/embed omission requirement.",
+      "dimension": "production_quality",
+      "id": "F0016-R1-002",
+      "invariant": null,
+      "location": "tests/test_resolution_workflow.py:82-86",
+      "required_fix": "Create resolution records associated with the actual serialized case's intent or media, assert that association as a positive precondition, and verify omission of distinctive event/input/reason markers in both public and embed payloads across blind and revealed states. Confirm the test fails when associated resolution data is deliberately exposed.",
+      "severity": "MATERIAL"
+    }
+  ],
+  "claims_for_research": [],
+  "diff_sha256": "311d882b3d44012e5730b845f5f9298775ae63bc733a7f3d0ba923786249d8a0",
+  "flags": [
+    "Independent test execution unavailable: accessible Python raises ModuleNotFoundError for pydantic.",
+    "The supplied gate reports 1118 passing tests; treated as harness evidence, not independently verified execution.",
+    "Actual diff.patch SHA-256 matches diff_sha256.txt."
+  ],
+  "item": "L10",
+  "loophole_audit": [
+    {
+      "criterion": "L10 acceptance and Plan 1: frozen plan, exact pins, declared outcome and evidence",
+      "evidence": "test_prerequisite_rejections_do_not_append, test_exact_inputs and test_retained_plan_integrity_and_missing_dependencies isolate draft, category, pin, missing-record and corruption failures; resolutions.py:124-128 validates the retained freeze.",
+      "lazy_pass": "Check only a frozen flag or accept any outcome while rejecting one malformed example.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 2: prediction-based named-member statuses without judgment mutation",
+      "evidence": "test_literal_elimination_overlap_identical_and_residual supplies literal expectations for distinct, overlapping and identical predictions and compares retained Hypothesis bytes before and after.",
+      "lazy_pass": "Hard-code one winner or update Hypothesis records in place.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 3: residual and non-exhaustive behavior",
+      "evidence": "Literal status tests cover residual alongside named survivors and residual-only survival; test_nonexhaustive_and_indeterminate_are_explicit checks no inserted residual.",
+      "lazy_pass": "Always append a residual or eliminate it when a named member survives.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 4: pair-specific TEST_RESULT eligibility for the exact plan and arm",
+      "evidence": "test_scoped_plan_links_and_context_corrections_do_not_rewrite_replay uses foreign links that sort first; the h=(31,12) prerequisite case makes a later-checked member fail. resolutions.py:138-153 scopes and checks every pair.",
+      "lazy_pass": "Reuse a qualifying role from another plan or check only the first hypothesis.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 5: sufficient distinct samples in every arm",
+      "evidence": "Tests cover (3,0), (2,1), generation-arm shortages, exact/above thresholds and duplicate submissions, frames, evidence revisions, registrations and cross-arm source reuse; resolutions.py:155-164 derives units and per-arm counts.",
+      "lazy_pass": "Pool counts across arms or count repeated frames and registrations as independent samples.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 6: attributed stopping declaration",
+      "evidence": "test_stopping_declarations_are_attributed_and_exact rejects absent, false, wrong-author, wrong-plan, wrong-rule, wrong-arm, wrong-sample and blank-reason declarations; a separate test rejects stopping declarations under fixed-count designs.",
+      "lazy_pass": "Treat a nonempty stopping-rule string or any true flag as sufficient.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 7: reasoned INDETERMINATE without bypass",
+      "evidence": "Reasonless requests are rejected; test_indeterminate_does_not_waive_sample_requirements checks insufficient samples, and test_no_design_still_checks_every_arm_and_indeterminate_retains_residual has literal member statuses.",
+      "lazy_pass": "Use INDETERMINATE as an escape from evidence or sample validation.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Plan 8: immutable events and application-owned metadata",
+      "evidence": "created_at is omitted from DERIVED at resolutions.py:104-105 and copied unchanged into the expected event at :207. Existing correction tests meaningfully cover predecessor and revision-reason requirements.",
+      "lazy_pass": "Protect human JSON fields but trust copied event metadata during direct persistence.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Plan 9: transactional admission and captured context",
+      "evidence": "test_transaction_checks_live_context_after_preparation meaningfully exercises stale-context rejection, but direct admission still trusts created_at. Other derived fields and nested copied inputs have rejection tests.",
+      "lazy_pass": "Validate only before insertion or trust all supplied event fields.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Plan 10: private integration and public/embed omission",
+      "evidence": "tests/test_resolution_workflow.py:82-86 does exactly this. Earlier assertions in that test meaningfully verify private display, schema exposure, event histories, cross-clip snapshot closure and unchanged old exports.",
+      "lazy_pass": "Demonstrate omission using a public case with no associated private event.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Plan 11: deterministic classification and pinned replay",
+      "evidence": "Replay comparisons are supplemented by literal member statuses, counts, sample identities and an input hash. Tests also reverse repository enumeration and append later hypothesis, plan and link revisions.",
+      "lazy_pass": "Compare two executions of the same buggy classifier without independent expected values.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [],
+  "role": "evaluator",
+  "round": 1,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Reviewed builder-authored Plan, Probes, added documentation, comments, docstrings and CLI help against source; external methodological validity is explicitly disclaimed.",
+        "Verified the Plan's Prior attempts statement against supplied reports: no earlier L10 or step-16 evaluation was present.",
+        "No new claim requiring an outside source was identified; harness bookkeeping was excluded from accuracy scoring."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "src/eval_lab/resolutions.py:206-210 trusts event.created_at and excludes it from comparison, contrary to Plan criteria 8-9's application-owned timestamp and forged-copy admission requirements.",
+        "test_literal_elimination_overlap_identical_and_residual uses literal statuses; test_prerequisite_rejections_do_not_append isolates unfrozen plans, disallowed roles and insufficient per-arm samples."
+      ],
+      "score": 2
+    },
+    "production_quality": {
+      "evidence": [
+        "tests/test_resolution_workflow.py:82-86 checks public/embed omission against an unrelated case and only the blind presentation path.",
+        "tests/test_resolutions.py:212-217 omits created_at from direct repository forgery cases.",
+        "Supplied gate.json reports 1118 passing tests; this was not independently reproduced because pydantic is unavailable in the accessible Python."
+      ],
+      "score": 2
+    },
+    "relation": {
+      "evidence": [
+        "Traced ResolutionEvent registration, inherited schema version, predecessor pins, dependency pins and foreign-key persistence through resolutions.py and persistence.py.",
+        "Inspected snapshot roots and transitive reference traversal in pilot.py:372-380, plus private show and runtime schema integration in pilot_cli.py.",
+        "Inspected test_cli_show_schema_reopen_snapshots_and_public_boundaries for event history, cross-clip evidence closure, reopen replay and unchanged earlier exports.",
+        "Checked typed admission validators and repository reference checks; no separate product lint registry requiring registration was found."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Read all 1010 lines of diff.patch and opened all eight changed files under tree; changes implement L10 resolution events and their integration.",
+        "Compared changes with item.json and the sealed Plan; no unrelated product work found."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Compared every changed path with the sealed Plan's expected files; all eight match.",
+        "Checked all fourteen DEFERRED backlog entries; no deferred implementation, runtime dependency addition, protected-file edit or existing-test modification appears in the diff.",
+        "Checked I1-I16 against affected paths: synthetic fixtures, append-only storage, unchanged judgment/decision surfaces, no confidence arithmetic, no network/model calls, and no harness or Git publication changes. Privacy test coverage remains a finding, not evidence of an actual I12 violation."
+      ],
+      "score": 4
+    }
+  },
+  "step": 16,
+  "summary": "Two material gaps: direct repository admission accepts forged application timestamps, and the public/embed test uses an unrelated case, leaving the intended privacy boundary unproved. Core elimination and prerequisite tests have meaningful literal oracles. Independent test execution was unavailable because the available Python lacks pydantic."
+}

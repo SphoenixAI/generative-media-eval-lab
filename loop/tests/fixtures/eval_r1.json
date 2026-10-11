@@ -1,0 +1,70 @@
+{
+  "step": 0,
+  "item": "L00",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "DRY_RUN_HASH_REPLACED_BY_RUNNER",
+  "summary": "SYNTHETIC DRY-RUN ONLY: canned role output exercises orchestration, not independent evaluation.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "SYNTHETIC DRY-RUN ONLY: fixture for the success branch."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "SYNTHETIC DRY-RUN ONLY: fixture for the success branch."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "SYNTHETIC DRY-RUN ONLY: fixture for the success branch."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "SYNTHETIC DRY-RUN ONLY: fixture for the success branch."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "SYNTHETIC DRY-RUN ONLY: fixture for the success branch."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "SYNTHETIC DRY-RUN ONLY: fixture for the success branch."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "loop/tests pass.",
+      "lazy_pass": "Claim success without running the gate.",
+      "present_in_diff": false,
+      "evidence": "SYNTHETIC DRY-RUN ONLY: the real gate still runs."
+    },
+    {
+      "criterion": "The gate passes on unchanged product code.",
+      "lazy_pass": "Claim success without running the gate.",
+      "present_in_diff": false,
+      "evidence": "SYNTHETIC DRY-RUN ONLY: the real gate still runs."
+    },
+    {
+      "criterion": "baseline.json matches a fresh test run.",
+      "lazy_pass": "Claim success without running the gate.",
+      "present_in_diff": false,
+      "evidence": "SYNTHETIC DRY-RUN ONLY: the real gate still runs."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": []
+}

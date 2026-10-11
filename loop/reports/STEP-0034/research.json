@@ -1,0 +1,118 @@
+{
+  "claims": [
+    {
+      "action_required": true,
+      "affects_this_step": true,
+      "claim": "`src/eval_lab/lint_evidence.py` defines the evidence-result states AVAILABLE, UNKNOWN and INTEGRITY_FAILURE, and `RawRecord.field` prevents damaged-record values from supplying available support.",
+      "id": "R0034-C001",
+      "newer_practice": null,
+      "origin": "plan",
+      "recommended_action": "Supply revision-specific evidence for the state definitions and damaged-record guard. Until verified, mark this as an implementation assumption and remove any assertion that the guard is already established.",
+      "sources": [],
+      "verdict": "UNVERIFIABLE"
+    },
+    {
+      "action_required": true,
+      "affects_this_step": true,
+      "claim": "`src/eval_lab/lint_evidence.py::RawRecord.presence` distinguishes a missing optional slot from an explicitly present null slot, returning UNKNOWN for the former and an AVAILABLE false presence value for the latter.",
+      "id": "R0034-C002",
+      "newer_practice": null,
+      "origin": "plan",
+      "recommended_action": "Supply the revision-specific presence implementation and evidence covering missing versus explicit-null inputs. Until verified, label these return semantics as an assumption.",
+      "sources": [],
+      "verdict": "UNVERIFIABLE"
+    },
+    {
+      "action_required": true,
+      "affects_this_step": true,
+      "claim": "`src/eval_lab/lint_prerequisites.py::DirectRecords` reuses `RawReader.read` for exact integrity checks, and the temporal collection access checks the explicit direct inventory against enumerated identities.",
+      "id": "R0034-C003",
+      "newer_practice": null,
+      "origin": "plan",
+      "recommended_action": "Supply revision-specific excerpts showing the RawReader.read delegation and inventory comparison. Mark both assertions as assumptions until their actual checks and failure behavior are verified.",
+      "sources": [],
+      "verdict": "UNVERIFIABLE"
+    },
+    {
+      "action_required": true,
+      "affects_this_step": true,
+      "claim": "`src/eval_lab/lint_temporal_prerequisites.py` and `src/eval_lab/lint_warrant_prerequisites.py` declare fields in SPECS and append their present obligation logs while reading, so those logs alone do not enumerate a declared field that was never read.",
+      "id": "R0034-C004",
+      "newer_practice": null,
+      "origin": "plan",
+      "recommended_action": "Supply the SPECS declarations and all relevant obligation-log population paths to establish whether unread declarations are omitted. Until verified, present the claimed accounting gap as a hypothesis.",
+      "sources": [],
+      "verdict": "UNVERIFIABLE"
+    },
+    {
+      "action_required": true,
+      "affects_this_step": true,
+      "claim": "The integrated temporal attachment handler returns without derivative traversal only when checked frame indices are empty and derivative presence is false, and otherwise checks attachment correspondence.",
+      "id": "R0034-C005",
+      "newer_practice": null,
+      "origin": "plan",
+      "recommended_action": "Supply the complete relevant attachment-handler control flow and boundary-case evidence establishing the exclusive early-return condition. Until verified, mark the claimed integrated behavior as an assumption.",
+      "sources": [],
+      "verdict": "UNVERIFIABLE"
+    },
+    {
+      "action_required": true,
+      "affects_this_step": true,
+      "claim": "The integrated temporal sample handler checks a supplied sample design even when no generation-plan reference is active.",
+      "id": "R0034-C006",
+      "newer_practice": null,
+      "origin": "plan",
+      "recommended_action": "Supply the sample-handler branch and evidence for a supplied sample design with no active generation-plan reference. Until verified, label this behavior as assumed rather than integrated fact.",
+      "sources": [],
+      "verdict": "UNVERIFIABLE"
+    },
+    {
+      "action_required": true,
+      "affects_this_step": true,
+      "claim": "`src/eval_lab/lint_warrant_prerequisites.py` already uses parsed timestamps for registration/view correspondence and contains a FirstView content-correspondence guard with focused controls in `tests/test_lint_warrant_prerequisites.py`.",
+      "id": "R0034-C007",
+      "newer_practice": null,
+      "origin": "plan",
+      "recommended_action": "Supply revision-specific timestamp-comparison and FirstView-guard excerpts with the named test controls. Until verified, mark their existence and coverage as assumptions.",
+      "sources": [],
+      "verdict": "UNVERIFIABLE"
+    },
+    {
+      "action_required": true,
+      "affects_this_step": true,
+      "claim": "`loop/config.toml` sets max_changed_lines to 900, and `loop/gates.py` counts added plus removed non-generated lines, including untracked text files.",
+      "id": "R0034-C008",
+      "newer_practice": null,
+      "origin": "plan",
+      "recommended_action": "Supply the active configuration and gate-counting excerpts covering additions, removals, generated-file exclusions and untracked text. Until verified, label the 900-line limit and counting semantics as unverified planning assumptions.",
+      "sources": [],
+      "verdict": "UNVERIFIABLE"
+    },
+    {
+      "action_required": true,
+      "affects_this_step": true,
+      "claim": "The L12-A2d1a entry in `loop/backlog.toml` authorizes no new dependency, protected-file edit or existing-test weakening, while its inherited operator constraint requires a size stop above 500 lines at the literal-inventory/deleted-real-read checkpoint.",
+      "id": "R0034-C009",
+      "newer_practice": null,
+      "origin": "plan",
+      "recommended_action": "Supply the authoritative backlog and inherited operator-constraint excerpts. Preserve the stated restrictions conservatively, but mark their attribution and checkpoint threshold as unverified until the excerpts establish them.",
+      "sources": [],
+      "verdict": "UNVERIFIABLE"
+    },
+    {
+      "action_required": true,
+      "affects_this_step": true,
+      "claim": "`loop/proposals/APPROVED-L12-A2d1-split.toml` assigns temporal/warrant accounting to d1a and role/history/computed/all-rule accounting to d1b; the active backlog notes keep complete semantic work outside both children.",
+      "id": "R0034-C010",
+      "newer_practice": null,
+      "origin": "plan",
+      "recommended_action": "Supply the approved split and active backlog excerpts establishing each child's scope and the semantic-work exclusion. Until verified, mark this allocation as a scope assumption rather than confirmed authorization.",
+      "sources": [],
+      "verdict": "UNVERIFIABLE"
+    }
+  ],
+  "item": "L12-A2d1a",
+  "proposals": [],
+  "step": 34,
+  "summary": "Read only claims.json and the empty ledger.jsonl. Live searches on 2026-10-11, including searches for updates from the preceding 18 months, found no relevant public primary sources. The ten requested claims assert repository behavior or constraints whose supporting files were outside the permitted reads. They remain UNVERIFIABLE, not disproven; no supporting quotations or applicable newer practice could be established. Action is required because the supplied plan presents these assertions as facts rather than bounded assumptions. No landscape scan was required."
+}

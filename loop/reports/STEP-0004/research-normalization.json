@@ -1,0 +1,13 @@
+{
+  "canonical_sha256": "69d7b9b9807cb9137522807a994e6fc04740040e9a16b8804d001c724bd95ae6",
+  "raw_sha256": "5b3070cd5b0f88102ecafaed17373f116aea10781eea708428c4756cf606f155",
+  "unresolved_proposals": [],
+  "view_claims": [
+    {
+      "claim": "A static-camera regeneration is confounded by changes to the generated sample; multiple controlled replicates should be used instead of attributing causality to one improved clip. This is an existing methodological claim in unchanged context.",
+      "id": "R0004-C001",
+      "location": "tree/docs/hypothesis-testing.md:7",
+      "origin": "evaluator"
+    }
+  ]
+}

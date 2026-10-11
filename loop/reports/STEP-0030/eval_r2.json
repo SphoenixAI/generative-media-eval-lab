@@ -1,0 +1,155 @@
+{
+  "blocking_findings": [
+    {
+      "description": "F0030-R1-001 remains unresolved. There is no all-rule composition module, production rule manifest, checked complete scope or independent expected-consumption audit. The candidate still returns only a partial role group. All 30 conjunction tests fail in the supplied gate. A proposal to retain an incomplete attempt does not satisfy the sealed acceptance.",
+      "dimension": "intention",
+      "id": "F0030-R2-001",
+      "invariant": null,
+      "location": "tests/test_lint_context.py:14-16; src/eval_lab/lint_role_prerequisites.py:319-322",
+      "required_fix": "Complete the planned composition and independent declaration/consumption checks, including active/inactive coverage, checked scope and diagnostic propagation, and pass the conjunction tests. If the size contingency prevents completion, keep the attempt non-integrable pending authorized acceptance-preserving replanning.",
+      "severity": "SEVERE"
+    },
+    {
+      "description": "The alternative endpoint-kind guard applies independently to legacy and v2 relations, but its isolated negative tests only RelationClaim. In independent direct and in-memory SQLite executions, bypassing rejection only for RelationClaimV2 left all 540 parameterized role cases passing per adapter. A v2 alternative whose object was an existing Evidence record then returned no diagnostics and usable support. The unmodified guard rejects it correctly; this is a missing deletion-sensitive branch control.",
+      "dimension": "production_quality",
+      "id": "F0030-R2-002",
+      "invariant": null,
+      "location": "src/eval_lab/lint_role_prerequisites.py:235-236; tests/test_lint_role_prerequisites.py:247-275",
+      "required_fix": "Add an isolated RelationClaimV2 endpoint-kind negative with otherwise valid references, a valid counterpart, literal subject/state/path/reason and denied support. Demonstrate on both adapters that deleting only that branch's rejection fails the ordinary control while preserving dependency reads.",
+      "severity": "MATERIAL"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants, including equality of 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z. Researcher context reports confirmation; external documentation was not independently accessed within this folder-only evaluation.",
+      "id": "R0030-C001",
+      "location": "loop/reports/STEP-0030-L12-A2d.md:74-76"
+    }
+  ],
+  "diff_sha256": "3e0eea1346321ea3faa7a4b5d1c0f7db08c5f938c6b15641d23b8212479b5b21",
+  "flags": [
+    "Independent executions used actual preparation, reader, canonicalization and test functions with substituted import wiring, an artifact-kind registry and manual parameterization. SQLite databases were in memory with query_only enabled. These checks do not establish installed-package or on-disk retained integration.",
+    "The accessible Python lacks pytest, pydantic and SQLAlchemy. Full-suite results are supplied gate evidence, not an independently rerun suite.",
+    "Reviewed I1-I16 against the diff and relevant behavior. No score-zero invariant violation is established: the change adds private partial preparation without judgment authoring, history writes, operational decisions, averaging, probability arithmetic, runtime networking, public serialization, test weakening, deferred implementation or harness modification.",
+    "Supplied gate.json also reports blocking G12 approval failure. Its G5/G6/G14 checks pass, but external repository and filesystem state was not independently inspected outside the permitted folder."
+  ],
+  "item": "L12-A2d",
+  "loophole_audit": [
+    {
+      "criterion": "Declare and check confidence history and evidence/run/arm dependencies.",
+      "evidence": "Inspected correspondence guards and independently executed confidence/history controls. test_instrument_run_unknown_arm_isolated now rejects the exact InstrumentRun subject and detects deletion limited to that branch.",
+      "lazy_pass": "Resolve references without validating their semantic correspondence, or count one shared-label test as coverage for multiple branches.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Preserve checked role timing for each exact evidence/hypothesis/link/plan/arm association.",
+      "evidence": "src/eval_lab/lint_role_prerequisites.py:288-289 retains complete association keys and timing tuples. The literal multi-evidence expectations in test_resolution_timing_keeps_exact_associations passed for both input orders and adapters.",
+      "lazy_pass": "Read every link but expose only the final link's timing values.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Verify exact frozen-plan integrity and predecessor operands.",
+      "evidence": "src/eval_lab/lint_role_prerequisites.py:152-153 uses serialized structural comparison and :169 validates the draft predecessor. test_freeze_json_types_and_predecessor_validation and test_freeze_predecessor_required_sample_input passed in independent executions.",
+      "lazy_pass": "Compare decoded dictionaries with equality that conflates boolean and integer values, or validate only the frozen successor.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Preserve residual absence and validate alternative membership.",
+      "evidence": "Inspected competing() and alternatives(); test_no_residual_repair and separate legacy/v2 self-edge and intent-correspondence cases passed through both independently exercised adapters.",
+      "lazy_pass": "Normalize raw sets to insert residuals, or accept self-edges and wrong-intent alternatives.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Every new rejection guard has isolated literal diagnostics and deletion-sensitive controls.",
+      "evidence": "The RelationClaimV2-only endpoint-kind mutation survives all 540 role cases per adapter. tests/test_lint_role_prerequisites.py:254 supplies only a legacy endpoint-kind negative.",
+      "lazy_pass": "Test one artifact kind for a shared guard and assume its other branch is covered.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Verify the all-rule conjunction; missing declarations or unconsumed prerequisites cannot yield a usable complete context.",
+      "evidence": "eval_lab.lint_context is absent. The tests for missing groups, deleted declarations and skipped consumption cannot exercise their intended behavior.",
+      "lazy_pass": "Provide partial preparers and declaration tables without implementing independent completeness verification.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Every lint rule declares its required evidence fields and every prerequisite passes through one shared availability boundary.",
+      "evidence": "The field matrix calls _Preparation.value directly. prepare() derives declared names from p.obligations at src/eval_lab/lint_role_prerequisites.py:319, while the independent all-rule audit remains absent.",
+      "lazy_pass": "Test field access in isolation and derive declared obligations solely from reads that happened.",
+      "present_in_diff": true
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0030-R1-001",
+      "status": "UNRESOLVED"
+    },
+    {
+      "ref": "F0030-R1-002",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0030-R1-003",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0030-R1-004",
+      "status": "RESOLVED"
+    }
+  ],
+  "role": "evaluator",
+  "round": 2,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Read changed comments, docstrings, Plan and Probes and checked their local premises against the referenced reader, preparation, domain, role, resolution and confidence implementations.",
+        "Compared the Prior attempts mapping with all seven supplied STEP-0023 findings and F0027-R1-001; every finding has an ownership mapping.",
+        "Recomputed all seven source/test hashes in Probes and confirmed agreement; verified plan.md matches the report's Plan.",
+        "Excluded harness bookkeeping and researcher-owned research.json from builder accuracy scoring. Routed the external datetime claim to claims_for_research."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "tests/test_lint_context.py:14-16 requires eval_lab.lint_context, which remains absent.",
+        "src/eval_lab/lint_role_prerequisites.py:319-322 derives declared and consumed inventories from performed reads; the planned independent all-rule completeness audit does not exist.",
+        "tests/test_lint_role_prerequisites.py:247-275 covers alternative endpoint-kind rejection only for RelationClaim, leaving the distinct RelationClaimV2 branch without its required control."
+      ],
+      "score": 1
+    },
+    "production_quality": {
+      "evidence": [
+        "Supplied gate.json records 6179 passed and 30 failed tests; all failures belong to tests/test_lint_context.py.",
+        "Independently executed 540 parameterized role-test cases per adapter using isolated import wiring; both DirectRecords and in-memory SQLite executions passed.",
+        "Disabling only the RelationClaimV2 alternative endpoint-kind rejection at src/eval_lab/lint_role_prerequisites.py:235 left all 540 cases passing on each adapter, while the malformed relation became usable without diagnostics.",
+        "tests/test_lint_role_prerequisites.py:279-315 exercises value() directly, so its field matrix cannot establish that preparation consumes every declared prerequisite."
+      ],
+      "score": 1
+    },
+    "relation": {
+      "evidence": [
+        "Inspected exact reference/pin resolution, confidence predecessor identity, context histories, captured resolution dependencies and frozen-plan correspondence.",
+        "Independently executed test_resolution_timing_keeps_exact_associations for both input orders through DirectRecords and an in-memory SQLite RawReader; all four literal association expectations passed.",
+        "Confirmed Prepared is transient and introduces no persisted artifact or schema. No new persisted type requires registration, migration, snapshot pinning or serialization."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Read all 1087 lines of diff.patch, opened all five changed files, and verified every added patch body matches its tree file.",
+        "Compared the changes with L12-A2d and the sealed Plan: the implementation, tests and bounded-replanning proposals address the assigned prerequisite work."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Recomputed 882 counted added lines against the unchanged 900-line cap.",
+        "Compared all changed paths with the sealed Plan, its size contingency and configured exceptions; the proposals do not alter acceptance or backlog state.",
+        "Checked D01-D14 against the implementation: no deferred functionality was added.",
+        "Verified the patch only adds files and does not modify integrated tests, dependencies, persisted schemas, public serializers or harness code."
+      ],
+      "score": 4
+    }
+  },
+  "step": 30,
+  "summary": "Not integrable. The all-rule conjunction remains absent. Three targeted round-1 findings are resolved, but a separate alternative-relation validation branch lacks deletion-sensitive coverage."
+}

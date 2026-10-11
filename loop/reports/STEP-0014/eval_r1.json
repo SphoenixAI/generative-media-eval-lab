@@ -1,0 +1,155 @@
+{
+  "blocking_findings": [
+    {
+      "description": "Retained TestPlan JSON is parsed and immediately accessed with data.get before its object shape is validated. If corruption replaces the payload with [], null, a number or a string, AttributeError escapes both verify() and the CLI handler. An extracted-function probe using in-memory SQLite reproduced all four cases. This violates sealed criterion 8 and the documented structured corruption response; existing corruption tests only exercise object-shaped payloads or stored hashes.",
+      "dimension": "production_quality",
+      "id": "F0014-R1-001",
+      "invariant": null,
+      "location": "src/eval_lab/test_plans.py:182-199; tests/test_test_plan_workflow.py:55-82",
+      "required_fix": "Validate the retained payload's object shape before accessing fields and return INTEGRITY_FAILURE for malformed records. Add API and CLI regression cases asserting the status, exit 2, absence of diagnosticity and unchanged database bytes.",
+      "severity": "MATERIAL"
+    },
+    {
+      "description": "The new TestPlan paths recursively apply raw_payload's reference heuristic to predictions. A legal competing set containing hypotheses with IDs 'kind' and 'id' requires a prediction map with those keys; raw_payload rejects that map with 'pins require an explicit revision'. These IDs are permitted by the existing Hypothesis contract. Executing the helper on this map reproduced the rejection; adding an unrelated 'revision' hypothesis changes whether the heuristic fires. The plan therefore cannot represent every valid named-hypothesis set.",
+      "dimension": "intention",
+      "id": "F0014-R1-002",
+      "invariant": null,
+      "location": "src/eval_lab/test_plans.py:64-67; src/eval_lab/persistence.py:242; src/eval_lab/assessments.py:14-17",
+      "required_fix": "Apply explicit-revision validation to actual reference fields without interpreting prediction-map keys as reference metadata. Add a valid-set regression using these hypothesis IDs through construction, import, persistence and freezing, while retaining rejection tests for genuinely missing pin revisions.",
+      "severity": "MATERIAL"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "claim": "RFC 8785 recursively sorts object property names by unsigned UTF-16 code units, preserves array order and encodes canonical output in UTF-8.",
+      "id": "L08-M01",
+      "location": "loop/reports/STEP-0014-L08.md:47"
+    },
+    {
+      "claim": "RFC 8785 omits whitespace between JSON tokens and preserves Unicode string data without normalization.",
+      "id": "L08-M02",
+      "location": "loop/reports/STEP-0014-L08.md:51"
+    },
+    {
+      "claim": "Python hashlib supplies SHA-256 and hexdigest returns a hexadecimal textual digest.",
+      "id": "L08-M03",
+      "location": "loop/reports/STEP-0014-L08.md:55"
+    }
+  ],
+  "diff_sha256": "f3f29c6c3fa8303bed9ec8b6e014b969d85cd2edaf127b052de9a097f798fa1a",
+  "flags": [
+    "Validation limitation: full product suites were not independently rerun. Extracted-function probes used standard-library Python and in-memory SQLite; gate.json's reported pass count is supplied evidence.",
+    "Reviewed I1-I16 against the diff and relevant integration paths; no invariant violation demonstrated. Historical Git actions and external runtime state were not independently verified."
+  ],
+  "item": "L08",
+  "loophole_audit": [
+    {
+      "criterion": "Complete private contract",
+      "evidence": "test_structure_guards, test_arm_fields_are_required and test_pins_and_nested_copy_admission target specific validation failures. Inspected runtime paths: instrument protocols remain inert text.",
+      "lazy_pass": "Expose fields in a model while permitting invalid nested values or executing declared instruments.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Prediction coverage and rejection of empty predictions",
+      "evidence": "test_prediction_guards and test_nested_prediction_mutation_rejected_at_admission meaningfully reject empty/invalid outcomes, but all hypothesis IDs avoid the raw_payload collision demonstrated in F2.",
+      "lazy_pass": "Validate only convenient fixture IDs, leaving legal prediction-map keys unsupported.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Ordered diagnosticity and residual exclusion",
+      "evidence": "test_literal_classes_order_and_residual asserts literal classes, compatible sets, unpredicted lists and residual text for both residual states. Independent extracted-function checks confirmed the specified precedence.",
+      "lazy_pass": "Classify any overlap as non-diagnostic, or count the residual as a hypothesis.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "One fixture per class, identical-prediction pair and single hypothesis",
+      "evidence": "test_single_and_identical_pair expects PARTIALLY_DIAGNOSTIC for A=X, B=X, C=Y and NON_DIAGNOSTIC for a single hypothesis. Reversing those rules would fail literal assertions.",
+      "lazy_pass": "Provide fixture names without discriminating assertions, or treat one identical pair as universal agreement.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Sample-design rule",
+      "evidence": "test_generation_requires_design_in_mixed_arms_and_decision_rule places the referenced generation arm after a null arm. test_sample_design_guard rejects neither/both alternatives, booleans, nonpositive counts and blank rules with specific messages.",
+      "lazy_pass": "Check only the first arm or accept an empty sample-design object.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Explicit freezing and immutable revisions",
+      "evidence": "test_cli_import_freeze_readonly_verify_and_schema checks draft freeze fields; test_import_rejects_application_owned_fields rejects supplied metadata. Successor/correction and admission tests check retained history, stale targets and conflicting revisions.",
+      "lazy_pass": "Auto-freeze imports or overwrite a retained draft while exposing an explicit command.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Defined freeze digest",
+      "evidence": "test_literal_canonical_vector_and_digest supplies literal canonical bytes and a literal digest independently verified during review. Field and pin mutation tests reject altered payloads; the digest covers the complete model except frozen_digest.",
+      "lazy_pass": "Hash only predictions or compare a digest with another invocation of the same implementation.",
+      "present_in_diff": false
+    },
+    {
+      "criterion": "Verification and failure evidence",
+      "evidence": "test_verification_failures_remain_nonzero_and_readonly and test_retained_default_deletion_is_integrity_failure cover useful cases but omit JSON shape corruption. F1 demonstrates that omission defeats the promised structured failure.",
+      "lazy_pass": "Handle only selected well-shaped corruption fixtures and let malformed retained records crash.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Bounded private integration",
+      "evidence": "Inspected registration, roots and recursive reference closure. test_private_histories_snapshot_scope_and_public_omission checks relevant revisions, dependency inclusion, unrelated-plan exclusion and unchanged earlier exports; unchanged public serializers explicitly allowlist their output.",
+      "lazy_pass": "Persist plans without snapshot dependencies, include every unrelated plan, or expose private declarations publicly.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [],
+  "role": "evaluator",
+  "round": 1,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "docs/hypothesis-testing.md:114 promises corruption yields INTEGRITY_FAILURE and line 115 promises exit 2; retained payloads [], null, 42 and a JSON string instead escape verification as AttributeError.",
+        "Compared the report's Plan with plan.md: exact match. Searched supplied earlier step reports for L08; none precedes this step, consistent with its empty Prior attempts mapping.",
+        "External RFC and Python documentation claims are routed to claims_for_research without an additional accuracy penalty."
+      ],
+      "score": 2
+    },
+    "intention": {
+      "evidence": [
+        "src/eval_lab/test_plans.py:66 delegates arbitrary prediction maps to raw_payload, which rejects valid hypothesis IDs 'kind' and 'id' as an incomplete reference.",
+        "src/eval_lab/test_plans.py:184 assumes retained JSON is an object; non-object corruption escapes the promised INTEGRITY_FAILURE result.",
+        "test_literal_classes_order_and_residual, test_single_and_identical_pair, test_prediction_guards and test_generation_requires_design_in_mixed_arms_and_decision_rule provide meaningful literal or guard-specific oracles for the principal acceptance cases."
+      ],
+      "score": 2
+    },
+    "production_quality": {
+      "evidence": [
+        "tests/test_test_plan_workflow.py:55 tests digest corruption and selected object mutations, but omits non-object retained JSON; the verifier consequently has an uncaught AttributeError path.",
+        "tests/test_test_plans.py:12 uses only prefixed hypothesis IDs, missing the prediction-map/reference collision.",
+        "Independently executed extracted classification functions against literal expected labels and verified the literal canonical vector's SHA-256. Full suites were not rerun because the available Python lacks Pydantic; gate.json reports 949 passing tests."
+      ],
+      "score": 2
+    },
+    "relation": {
+      "evidence": [
+        "Traced TestPlan registration, schema version, immediate predecessor pins, transactional admission, dependency traversal and persisted reference edges through test_plans.py, persistence.py and intent_v2.py.",
+        "Inspected test_private_histories_snapshot_scope_and_public_omission and the snapshot closure: relevant histories and generation/set/hypothesis dependencies are included; unrelated plan identities are excluded.",
+        "Checked lint applicability: the general lint command and TestPlan rules belong to downstream L12; no existing lint integration was omitted."
+      ],
+      "score": 4
+    },
+    "relevance": {
+      "evidence": [
+        "Read the complete diff and opened all eight changed files; changes implement L08 declarations, freezing, verification, private integration, tests and documentation.",
+        "Compared the implementation with item.json, the sealed Plan and NORTH_STAR.md; no tangential implementation identified."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Compared all changed paths and implementation additions with the sealed Plan's expected files and exclusions.",
+        "Checked DEFERRED D01-D14: no execution of instruments, live models, probability arithmetic, external timestamping, studies or frontend was added.",
+        "Inspected the diff for protected files, dependencies, existing-test weakening and judge edits; none appears."
+      ],
+      "score": 4
+    }
+  },
+  "step": 14,
+  "summary": "Two material gaps: malformed retained TestPlan payloads can crash verification, and valid hypothesis IDs can trigger erroneous reference validation. Core classification and the literal digest vector passed independent extracted-function checks."
+}

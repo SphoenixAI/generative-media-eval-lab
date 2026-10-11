@@ -1,0 +1,156 @@
+{
+  "step": 32,
+  "item": "L12-A2d1",
+  "role": "evaluator",
+  "round": 1,
+  "diff_sha256": "7961fe9b97c2d65f13936f2cfda92833cf5c1387878c1631d488fa51b9f780b0",
+  "summary": "The assigned contract remains incomplete. Five acceptance-test instances fail in the supplied gate. Independent probes also found successful accounting with unconsumed declarations and rejection of valid multi-record inputs.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all of diff.patch and all six changed files; changes concern the assigned declaration and evidence-accounting foundation."
+      ]
+    },
+    "intention": {
+      "score": 1,
+      "evidence": [
+        "src/eval_lab/lint_context.py:97 rejects all role auditing without providing the planned independent primitive-access audit.",
+        "tests/test_lint_rule_manifest.py:261,272,282 expose missing computed declarations, role-access expansion and checked inactivity.",
+        "Independent mutation probes returned successful receipts despite an additional required declaration remaining unread."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/lint_rule_manifest.py:50 declares CompetingSet members as mappings but lacks their conditional Hypothesis reference dependency.",
+        "src/eval_lab/lint_rule_manifest.py:55 omits the computed Evidence digest input declaration required by tests/test_lint_rule_manifest.py:261.",
+        "Checked that Receipt is transient infrastructure; persisted artifact and snapshot integration are outside this approved child."
+      ]
+    },
+    "production_quality": {
+      "score": 1,
+      "evidence": [
+        "gate.json reports five failed tests and failing G1/G12.",
+        "Independent direct-record and in-memory SQLite probes rejected two valid ingestions with 'prerequisite accounting mismatch' while the existing temporal preparer accepted them.",
+        "tests/test_lint_rule_manifest.py:88 tests only confidence among the newly introduced role field contracts; role edge and exact-history primitives lack isolated controls."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Read builder-authored Plan, Probes, comments, docstrings and tests; distinguished planned behavior from implemented behavior and excluded harness bookkeeping from accuracy scoring.",
+        "Compared the Prior attempts mapping with every blocking finding in supplied Step 23, Step 27 and Step 30 reports; mappings preserve outstanding sibling obligations and historical rejection status.",
+        "Found no new external factual claim requiring research."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared changed paths and behavior with the sealed plan, Step 31 partition and all DEFERRED backlog entries; no deferred functionality or unrelated product work was added.",
+        "Confirmed 869 product/test additions, below the 900-line limit; existing tests, protected artifacts, dependencies and harness implementation are unchanged."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "F1",
+      "dimension": "intention",
+      "severity": "SEVERE",
+      "invariant": null,
+      "location": "src/eval_lab/lint_context.py:97-98; tests/test_lint_rule_manifest.py:272-279",
+      "description": "There is no independent role-access expansion. audit rejects owner='role' immediately, and audit_role_access does not exist. Consequently E5/E6/W2/W3 have declaration strings and callable primitives but no accounting that establishes their required primitive accesses. Both adapter instances of the dedicated acceptance sentinel fail. Deferring role domain semantics to d2 does not defer this child's explicitly assigned declaration/access foundation.",
+      "required_fix": "Implement independent role primitive-access obligation expansion and accounting, preserving explicit denial of complete semantic support. Pass the direct and retained role-access controls and add isolated missing, substituted and unconsumed access negatives."
+    },
+    {
+      "id": "F2",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_rule_manifest.py:47-67; tests/test_lint_rule_manifest.py:261-269",
+      "description": "The claimed all-rule inventory is incomplete. COMPUTED is absent, so Evidence digest inputs and TestPlan authored-content operands are not declared as required by the sealed plan and the failing computed-input sentinel. CompetingSet.members also declares only mapping shape, kind and residual description; it does not declare the conditional exact Hypothesis reference for named members. The literal test inventory repeats that omission, so dictionary equality cannot establish complete dependency coverage.",
+      "required_fix": "Complete the raw and computed operand inventory against the existing local contracts, including conditional named-member references and computed-input dependencies. Route each input and computed result through the shared boundary and add independent literal controls for valid and damaged dependencies."
+    },
+    {
+      "id": "F3",
+      "dimension": "intention",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_context.py:120-152; tests/test_lint_rule_manifest.py:282-287",
+      "description": "prepare validates scope pins and enumerates kinds, then discards the collection results. It neither establishes root membership relative to the checked scope nor records checked active/inactive rule obligations. Receipt has no inactive accounting, and both checked-inactivity sentinel instances fail. The unconditional role-semantics diagnostic prevents a complete clean result, but does not fulfill the planned scope and applicability foundation.",
+      "required_fix": "Implement checked root membership and explicit applicability accounting from validated scope, collections and discriminants. Preserve incomplete semantic status while testing valid empty scope, active roots, damaged membership and falsely inactive branches on both adapters."
+    },
+    {
+      "id": "F4",
+      "dimension": "intention",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_rule_manifest.py:111-144; src/eval_lab/lint_rule_expansion.py:12-19; src/eval_lab/lint_context.py:99-116",
+      "description": "Expected obligations are a second manually executed recipe, not an exhaustive expansion of declarations. The manifest supplies a contract only after a recipe requests a path; nothing reconciles declared active fields with requested paths. In isolated direct and SQLite-reader probes, adding the same required text field to the manifest and live Evidence declarations, leaving it absent and unread, still produced no diagnostics and successful support. Removing every entry from lint_context.RULES likewise left successful auditing unchanged. Comparing the two execution traces therefore cannot detect all omitted rules or unconsumed declarations.",
+      "required_fix": "Establish expected active obligations independently from the complete declarations and checked applicability, then reconcile actual consumption against them. Validate live rule ownership and dependency declarations. Add deletion-sensitive controls for unread declarations, missing rules and substituted occurrence/dependency identities."
+    },
+    {
+      "id": "F5",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_rule_expansion.py:32-36,75-77; src/eval_lab/lint_context.py:69-70",
+      "description": "Exact event-list equality rejects valid graphs because expansion and preparation traverse collections in different orders. Expansion.media validates each ingestion immediately, whereas the temporal preparer first resolves all candidate media edges. Expansion.observation resolves all evidence edges before preparing evidence, whereas the preparer resolves and prepares each in turn. Independent probes found no baseline diagnostics but an accounting mismatch for two valid ingestions on direct and in-memory SQLite paths, and for two valid observation evidence references on the direct path. Single-member fixtures conceal this defect.",
+      "required_fix": "Make accounting preserve dependency association and multiplicity without depending on these incidental traversal-order differences, or align traversal consistently. Add literal multi-ingestion and multi-evidence positive controls, reordered-input controls and missing/extra-occurrence negatives on both adapters."
+    },
+    {
+      "id": "F6",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tests/test_lint_rule_manifest.py:47-102,136-162,216-241; src/eval_lab/lint_role_prerequisites.py:18-48",
+      "description": "Focused controls do not cover every newly introduced validator and access branch as sealed. The new role field matrix exercises only Hypothesis.confidence; role edge resolution, exact-history access and prediction-key path handling have no isolated valid/negative controls. Accounting substitution tests target only temporal Evidence.coverage, and there are no controls for unread declarations or per-association occurrence substitution. Existing generic boundary tests cannot prove that this new wiring invokes the correct boundary and dependency checks.",
+      "required_fix": "Add missing/null/malformed/valid controls for the new role plumbing and isolated declaration, dependency, applicability and occurrence guards. Assert literal subject/state/path/reason and denied support, and demonstrate that deleting each relevant guard fails its ordinary control on direct and retained paths. Do not defer these new-validator controls to A3 or d2."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Assigned acceptance and sharper criterion 1: every rule declares all required evidence.",
+      "lazy_pass": "List every rule name and copy field inventories while omitting computed operands and conditional reference dependencies.",
+      "present_in_diff": true,
+      "evidence": "RULES lists all thirteen names, but COMPUTED is absent and CompetingSet named-member reference dependencies are undeclared; test_all_declared_role_operands_include_computed_inputs fails."
+    },
+    {
+      "criterion": "Sharper criterion 2: independent expected obligations detect omissions and incorrect consumption.",
+      "lazy_pass": "Compare two hand-written read traces that both omit the same declared prerequisite.",
+      "present_in_diff": true,
+      "evidence": "Independent probes added an unread required declaration to both declaration tables and still obtained successful receipts; lint_context.RULES can be emptied without affecting auditing."
+    },
+    {
+      "criterion": "Sharper criterion 3: only AVAILABLE discharges an obligation and diagnostics survive.",
+      "lazy_pass": "Check only values reached by the recipes and treat unreachable declared prerequisites as satisfied.",
+      "present_in_diff": true,
+      "evidence": "Reached field failures are retained by _Audit.record and deny Receipt.support, but unread declarations never become obligations; demonstrated by the missing-field mutation probe."
+    },
+    {
+      "criterion": "Sharper criterion 4: checked inactivity and scope membership.",
+      "lazy_pass": "Enumerate collections and return a generic incomplete diagnostic without establishing applicability.",
+      "present_in_diff": true,
+      "evidence": "prepare discards collection results and has no inactive accounting; test_checked_inactivity_is_explicit fails for both adapters."
+    },
+    {
+      "criterion": "Sharper criterion 5: isolated controls and deletion witnesses for every new guard.",
+      "lazy_pass": "Test one scalar and one accessor substitution, then count generic boundary coverage as proof of all new wiring.",
+      "present_in_diff": true,
+      "evidence": "Role field controls cover confidence only; role edge/exact/prediction access and declaration-to-obligation completeness lack isolated controls."
+    },
+    {
+      "criterion": "Sharper criterion 6: partial accounting must not imply complete lint or readiness.",
+      "lazy_pass": "Expose a successful partial receipt as ready or complete despite missing role semantics.",
+      "present_in_diff": false,
+      "evidence": "prepare always includes the role-semantics UNKNOWN diagnostic; Receipt.support denies that result, and no ready/verdict/decision/status field is introduced."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "Full pytest execution was unavailable: the accessible interpreter lacks pytest, pydantic and sqlalchemy. Supplied gate outcomes were checked against source; independent probes used actual accounting/boundary/reader code with unavailable imports stubbed. SQLite probes were in-memory, not fresh on-disk retained tests.",
+    "Reviewed I1-I16 against the diff and available evidence. No demonstrated invariant violation warrants a zero score. External repository/main state was not independently inspected.",
+    "Recomputed diff.patch SHA-256 and confirmed it matches diff_sha256.txt."
+  ]
+}

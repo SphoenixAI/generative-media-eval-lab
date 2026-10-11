@@ -1,0 +1,44 @@
+{
+  "checked_at": "2026-10-09T03:25:22.329034+00:00",
+  "hotfix_commit": "8ef080cdeb7ef7a0ba3856a04dd1da6ea3bd9275",
+  "harness_tests_passed": 88,
+  "new_regression_tests_passed": 16,
+  "fixture": "loop/tests/fixtures/duplicate_research.json",
+  "dry_run": {
+    "dry_run": "PASS",
+    "isolated_local_remote": true,
+    "model_calls": 0,
+    "decisions": [
+      {
+        "decision": "INTEGRATE",
+        "rounds": 1,
+        "rule": "R6",
+        "stop": false
+      }
+    ]
+  },
+  "protected_files_unchanged": 16,
+  "main_head_unchanged": "0398762b9f32c6eef0366b576c5251016792354c",
+  "remote_main_unchanged": "0398762b9f32c6eef0366b576c5251016792354c",
+  "historical_files_unchanged": 214,
+  "step_0002": "ABANDONED",
+  "classification": "HARNESS_INFRASTRUCTURE_FAILURE: duplicate model-authored research claim ids",
+  "L02": {
+    "retries": 0,
+    "status": "PENDING"
+  },
+  "next_item": "L02",
+  "expected_next_step": 3,
+  "L00_bootstrap": "INTEGRATE",
+  "branch": "loop/integration",
+  "clean_before_verification_record": true,
+  "STOP_absent": true,
+  "lock_absent": true,
+  "codex_version": "codex-cli 0.162.0-alpha.2",
+  "required_CLI_flags_available": true,
+  "continuous_limits": {
+    "max_steps": 12,
+    "until": "07:30",
+    "timezone": "America/Los_Angeles"
+  }
+}

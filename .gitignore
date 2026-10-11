@@ -47,3 +47,5 @@ htmlcov/
 !tests/**/*.[jJ][pP][eE][gG]
 !tests/**/*.[gG][iI][fF]
 !tests/**/*.[wW][eE][bB][pP]
+
+loop/STOP_AFTER_STEP

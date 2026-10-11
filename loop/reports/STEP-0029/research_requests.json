@@ -1,0 +1,16 @@
+{
+  "claims": [
+    {
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants, so 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z compare equal when parsed as aware datetimes.",
+      "id": "R0029-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python 3.12 compares aware datetimes with different fixed UTC offsets by represented instants; parsed 2026-09-30T17:00:01-07:00 and 2026-10-01T00:00:01Z therefore compare equal.",
+      "id": "R0029-C002",
+      "location": "loop/reports/STEP-0029-L12-A2c.md:90",
+      "origin": "evaluator"
+    }
+  ]
+}

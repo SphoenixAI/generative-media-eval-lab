@@ -1,0 +1,97 @@
+{
+  "step": 7,
+  "item": "L03",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented seal-intent and read-only verify-seal. Advisory gate passed on attempt 1: 541 tests passed, including 81 new tests. Sealed Plan and 16 protected files remain unchanged.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/pilot_cli.py:22 implements both requested L03 commands.",
+        "src/eval_lab/seals.py:64 creates immutable local seals from supplied v2 intent files."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "tests/test_canonical_json.py:26 verifies stable digests across formatting and key order; line 32 tests non-ASCII ordering.",
+        "tests/test_seals.py:119 tests immutability; line 200 tests stored-record tampering.",
+        "Advisory G11 confirmed that the sealed Plan matches."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/seals.py:45 validates canonical source, file digest and exact intent pin together.",
+        "src/eval_lab/persistence.py:216 includes seals in transactional pin admission.",
+        "tests/test_seals.py:291 confirms existing artifact digests and public/embed payloads remain unchanged."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Tests failed before implementation; the additional large-integer error test also failed before its fix.",
+        "All 541 product tests, frozen harness tests and approval checks passed.",
+        "tests/test_seals.py:42 exercises subprocess CLI behavior and read-only verification; docs/intent-seals.md:3 documents the commands."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "tests/test_canonical_json.py:21 uses independent expected bytes; line 26 supplies a fixed SHA-256 vector.",
+        "tests/test_canonical_json.py:85 proves digest determinism across separate processes.",
+        "docs/intent-seals.md:11 defines the restricted integer profile; line 46 states local-clock and declared-witness limitations."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Advisory G7 counted 703 changed product lines against the 900-line limit.",
+        "No existing tests, dependencies, protected artifacts or harness files changed. No DEFERRED work, network access or Git mutations occurred."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "The digest is stable across key order and whitespace.",
+      "lazy_pass": "Hash raw input or test only identical serialization.",
+      "present_in_diff": false,
+      "evidence": "tests/test_canonical_json.py:26 checks equivalent representations against one fixed digest; tests/test_seals.py:42 reformats the actual source."
+    },
+    {
+      "criterion": "Any change to a value changes the digest.",
+      "lazy_pass": "Ignore nested content, array order or string whitespace.",
+      "present_in_diff": false,
+      "evidence": "tests/test_canonical_json.py:54 and :58 cover distinct value, array-order and string-whitespace mutations. Coverage is finite, not a universal collision-free claim."
+    },
+    {
+      "criterion": "Key-ordering vectors with non-ASCII keys pass.",
+      "lazy_pass": "Use ordinary code-point sorting or ASCII-only fixtures.",
+      "present_in_diff": false,
+      "evidence": "tests/test_canonical_json.py:32 checks the published vector, including supplementary-plane ordering, against independent expected bytes."
+    },
+    {
+      "criterion": "Tampering is detected.",
+      "lazy_pass": "Check only the newest seal or trust archived content without checking the source.",
+      "present_in_diff": false,
+      "evidence": "tests/test_seals.py:83 checks every retained event; :200 tests store corruption; :272 tests invalid current content."
+    },
+    {
+      "criterion": "Seals are immutable.",
+      "lazy_pass": "Rely only on frozen assignment while permitting copied models or replacement revisions.",
+      "present_in_diff": false,
+      "evidence": "tests/test_seals.py:110, :119 and :257 cover copied models, revision 2, conflicts, SQL guards, nested values and retained bytes."
+    }
+  ],
+  "prior_findings": [],
+  "claims_for_research": [],
+  "flags": [
+    "PUBLIC_PROSE: docs/intent-seals.md is a new command guide. HOME_PATH: reproducibility paths appear in the private step report.",
+    "Advisory G14 explicitly skipped authoritative integrity checking. Independent evaluation and research remain controller phases.",
+    "The sealed Plan retains method claims L03-P7-M01 through L03-P7-M14. No network research was performed during this build.",
+    ""
+  ]
+}

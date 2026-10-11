@@ -1,0 +1,147 @@
+{
+  "step": 14,
+  "item": "L08",
+  "role": "evaluator",
+  "round": 2,
+  "diff_sha256": "b88ed88810c0b359f39c982a8967b6284613f92bec0762bede50c79aa41e8873",
+  "summary": "Both round-1 findings are resolved. No remaining material issue found. Independent extracted-function checks passed; full product tests could not be rerun with the available dependencies.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Read all of diff.patch and opened all eight changed files under tree; additions implement L08 declarations, classification, freezing, verification and private integration.",
+        "Compared the change with item.json, the sealed Plan and NORTH_STAR.md; no tangential implementation identified."
+      ]
+    },
+    "intention": {
+      "score": 4,
+      "evidence": [
+        "Matched each acceptance criterion to the tests identified in loophole_audit and inspected their literal expectations and guard-specific rejection messages.",
+        "Independently executed 12 extracted classifier cases covering all classes, identical predictions, a single hypothesis, zero hypotheses and both residual states.",
+        "Executed the extracted prediction prevalidator: hypothesis IDs 'kind', 'id' and 'revision' are preserved, while missing revisions in actual pins remain rejected.",
+        "Reviewed applicable I1-I16 boundaries: declarations remain inert, missing evidence remains UNKNOWN, freezing appends revisions, and no judgment, probability arithmetic or deferred execution was introduced."
+      ]
+    },
+    "relation": {
+      "score": 4,
+      "evidence": [
+        "Traced TestPlan registration, inherited schema version, immediate predecessor pins, transactional admission and persisted reference edges through test_plans.py, persistence.py and intent_v2.py.",
+        "Inspected snapshot root discovery and recursive dependency closure, plus test_private_histories_snapshot_scope_and_public_omission; relevant histories and dependencies are retained and unrelated plan identities are excluded.",
+        "Checked lint applicability against backlog L12: frozen-digest and sample-design lint rules are assigned to that downstream item; no existing lint hook was omitted."
+      ]
+    },
+    "production_quality": {
+      "score": 4,
+      "evidence": [
+        "Inspected both new test files for positive, negative and boundary coverage, fresh admission targets, specific errors and literal oracles.",
+        "Independently verified the literal canonical byte vector and its SHA-256 digest.",
+        "Executed the extracted verifier with in-memory SQLite for five non-object payload shapes; all returned the exact expected INTEGRITY_FAILURE response.",
+        "Inspected the new API/CLI corruption regression, prediction-key workflow regression and nine actual-pin revision rejection cases; reverting either fix defeats its corresponding assertions."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Compared builder-authored code, comments, documentation, CLI help, Plan and Probes with implementation paths and test oracles; no remaining checkable contradiction found.",
+        "Confirmed the report's Plan matches plan.md exactly. Searched supplied earlier evaluation reports for L08 and found none preceding this step, consistent with the Plan's empty Prior attempts mapping.",
+        "Kept researcher-owned research.json and harness report sections outside builder accuracy scoring; external method claims are listed separately."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Compared changed paths with the sealed Plan's expected files and exclusions; both enhancements directly address canonical round-1 findings.",
+        "Checked DEFERRED D01-D14 against the implementation: no instrument execution, live model, statistical engine, external timestamping, study or frontend was added.",
+        "Inspected the diff for dependency changes, protected-file edits, existing-test weakening and judge modifications; none appears."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Complete private contract",
+      "lazy_pass": "Declare the fields but accept invalid nested values, dangling pins or executable instrument protocols.",
+      "present_in_diff": false,
+      "evidence": "test_structure_guards, test_arm_fields_are_required and test_pins_and_nested_copy_admission assert specific validation failures. test_instrument_declaration_and_sample_size_profile checks inert declaration behavior; runtime inspection found no instrument invocation."
+    },
+    {
+      "criterion": "Prediction coverage and rejection of empty predictions",
+      "lazy_pass": "Validate only convenient hypothesis IDs or reject malformed predictions through an unrelated admission conflict.",
+      "present_in_diff": false,
+      "evidence": "test_prediction_guards uses fresh plans and specific errors for empty, missing, extra, residual, duplicate and undeclared predictions. test_nested_prediction_mutation_rejected_at_admission covers mutation. The new prediction-key workflow covers legal metadata-like IDs without relaxing actual pin validation."
+    },
+    {
+      "criterion": "Ordered diagnosticity, residual exclusion and UNPREDICTED outcomes",
+      "lazy_pass": "Classify any overlap as non-diagnostic, include the residual, or omit uncovered outcomes.",
+      "present_in_diff": false,
+      "evidence": "test_literal_classes_order_and_residual asserts literal labels, compatible sets, uncovered outcomes and exact residual text with both residual states and reordered predictions. Independent extracted-function checks matched those rules."
+    },
+    {
+      "criterion": "One fixture per class, identical-prediction pair and single-hypothesis plan",
+      "lazy_pass": "Provide named fixtures without discriminating assertions, or mistake one identical pair for universal agreement.",
+      "present_in_diff": false,
+      "evidence": "test_literal_classes_order_and_residual supplies all three classes. test_single_and_identical_pair expects PARTIALLY_DIAGNOSTIC for A=X, B=X, C=Y and NON_DIAGNOSTIC for one hypothesis; incorrect precedence fails those literal assertions."
+    },
+    {
+      "criterion": "Sample-design rule",
+      "lazy_pass": "Check only the first arm or accept an empty design.",
+      "present_in_diff": false,
+      "evidence": "test_generation_requires_design_in_mixed_arms_and_decision_rule places the referenced arm after a null arm and checks the missing decision rule. test_sample_design_guard rejects neither/both alternatives, booleans, nonpositive counts and blank rules. Positive cases preserve literal count and stopping-rule values."
+    },
+    {
+      "criterion": "Explicit freeze and immutable revisions",
+      "lazy_pass": "Automatically freeze imports or overwrite a draft while exposing a nominal freeze command.",
+      "present_in_diff": false,
+      "evidence": "test_cli_import_freeze_readonly_verify_and_schema checks draft freeze fields and NOT_FROZEN. Import metadata rejection, successor/correction, stale-target and immutable-revision tests exercise separate guards. Persistence retains predecessor pins and append-only admission."
+    },
+    {
+      "criterion": "Defined freeze digest",
+      "lazy_pass": "Hash only predictions or compare a digest with another invocation of the same implementation.",
+      "present_in_diff": false,
+      "evidence": "test_literal_canonical_vector_and_digest contains literal canonical bytes and an independently checked expected digest. Field, pin and set-revision mutation tests reject altered frozen payloads; key-order and whitespace permutations preserve the literal digest."
+    },
+    {
+      "criterion": "Verification and failure evidence",
+      "lazy_pass": "Verify only self-consistent candidate hashes, silently repair records, or crash on malformed retained JSON.",
+      "present_in_diff": false,
+      "evidence": "test_verification_failures_remain_nonzero_and_readonly checks missing evidence, corruption and a forged candidate with recomputed digest. test_nonobject_retained_payload_is_readonly_integrity_failure covers five JSON shapes in both draft ancestry and frozen records through API and CLI, with exact responses and unchanged database bytes."
+    },
+    {
+      "criterion": "Bounded private integration",
+      "lazy_pass": "Persist plans without dependencies, include unrelated plans in snapshots, or expose private declarations publicly.",
+      "present_in_diff": false,
+      "evidence": "test_private_histories_snapshot_scope_and_public_omission checks relevant revisions and dependencies, unrelated-plan exclusion, unchanged earlier exports and unchanged public/embed output. Inspected the unchanged allowlist serializers and new snapshot closure."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0014-R1-001",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0014-R1-002",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [
+    {
+      "id": "R0014-C001",
+      "claim": "RFC 8785 recursively sorts JSON object property names by unsigned UTF-16 code units, preserves array element order and encodes canonical output in UTF-8.",
+      "location": "loop/reports/STEP-0014-L08.md:47; docs/hypothesis-testing.md:103-107"
+    },
+    {
+      "id": "R0014-C002",
+      "claim": "RFC 8785 omits whitespace between JSON tokens and preserves Unicode string data without normalization.",
+      "location": "loop/reports/STEP-0014-L08.md:51; docs/hypothesis-testing.md:107"
+    },
+    {
+      "id": "R0014-C003",
+      "claim": "Python hashlib supplies SHA-256 and hexdigest returns a hexadecimal textual digest.",
+      "location": "loop/reports/STEP-0014-L08.md:55"
+    }
+  ],
+  "flags": [
+    "Independent validation limitation: available Python lacks Pydantic, SQLAlchemy and pytest. Full product suites were not rerun; gate.json's 970 passing tests remain supplied evidence. Executed probes covered extracted functions, not the complete application.",
+    "Reviewed I1-I16 against the diff and relevant integration paths; no invariant violation demonstrated. Historical Git actions and external runtime state were not independently verified."
+  ]
+}

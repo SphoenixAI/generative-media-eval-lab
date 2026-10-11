@@ -1,0 +1,35 @@
+{
+  "step": 1,
+  "item": "L00",
+  "summary": "C1 is confirmed for automatic import-time bytecode-cache writes when Python honors environment variables. The ledger is empty. The last-18-month search found a documentation clarification, but no superseding practice affecting this step. No landscape scan was required.",
+  "claims": [
+    {
+      "id": "C1",
+      "claim": "Setting PYTHONDONTWRITEBYTECODE=1 prevents Python interpreter bytecode-cache writes.",
+      "origin": "evaluator",
+      "verdict": "CONFIRMED",
+      "sources": [
+        {
+          "url": "https://docs.python.org/3/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE",
+          "title": "Command line and environment — Python documentation",
+          "accessed": "2026-10-09",
+          "quote": "If this is set to a non-empty string, Python won’t try to write .pyc files on the import of source modules."
+        },
+        {
+          "url": "https://github.com/python/cpython/issues/143134",
+          "title": "PYTHONDONTWRITEBYTECODE documentation is incorrect · Issue #143134 · python/cpython",
+          "accessed": "2026-10-09",
+          "quote": "Specifically, this means that PYTHONDONTWRITEBYTECODE=0 will not suppress writing .pyc files, even though the environment variable is assigned a non-empty string \"0\"."
+        }
+      ],
+      "newer_practice": {
+        "summary": "A documentation issue reports that value 0 does not suppress writes; the linked clarification remains pending. This concerns the documentation's broader non-empty-string wording and does not change this step's explicit value 1.",
+        "url": "https://github.com/python/cpython/issues/143134",
+        "date": "2025-12-24"
+      },
+      "affects_this_step": false,
+      "recommended_action": "Retain PYTHONDONTWRITEBYTECODE=1 in the environment before interpreter startup. Describe its scope as automatic .pyc writes during source-module imports. If Python is launched with -E or -I, use -B explicitly because those modes ignore Python environment variables."
+    }
+  ],
+  "proposals": []
+}

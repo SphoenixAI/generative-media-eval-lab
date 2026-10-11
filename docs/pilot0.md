@@ -1,5 +1,7 @@
 # Pilot 0: first human-authored real-media cases
 
+The [private generation lifecycle](generation-lifecycle.md) adds optional plans, FOUND/PLANNED origins, selection corrections and first-access logs without changing legacy intent authoring.
+
 Phase 4 was accepted. Pilot 0 adds local file evidence and a private CLI authoring workflow. It does not execute Phases 5+, run a multimodal judge, create gold references, run hypothesis tests, detect regressions, estimate VFX work or publish real media.
 
 The prepared `pilot-local` workspace starts with **zero selected clips and zero substantive judgments**. Sphoenix supplies the 12–20 selections, creative intentions, observations, hypotheses, relation purposes, proposed tests and confidence revisions. Blank forms deliberately fail validation until completed. The automated tests use generated technical video patterns with test-only text, never empirical pilot cases.
@@ -14,7 +16,9 @@ cd generative-media-eval-lab
 .venv/bin/eval-pilot init pilot0
 ```
 
-The checked ffmpeg/ffprobe executables are installed locally in `.tools`. On another Apple Silicon Mac, `python3 scripts/install_media_tools.py` downloads the same third-party builds and verifies their published SHA-256 checksums. Alternatively install FFmpeg yourself or set absolute `EVAL_LAB_FFMPEG` and `EVAL_LAB_FFPROBE` paths. Every ingestion/extraction records the executed binary's hash and full version/build string. `uv sync --frozen --extra test` installs the Python environment; there are no new Python runtime dependencies.
+The optional Apple Silicon installer, `python3 scripts/install_media_tools.py`, requests OSXExperts' [ffmpeg9arm.zip](https://www.osxexperts.net/ffmpeg9arm.zip) and [ffprobe9arm.zip](https://www.osxexperts.net/ffprobe9arm.zip). It compares the **extracted executable bytes**, not the ZIP archives, with hard-coded SHA-256 values: ffmpeg `591260c945d0eef150e3bf82b0ef988bd36a9cecc18ff05d6679617159f0a95e` and ffprobe `e11c17e8200b3ee4c4c186d245e2b4053f01d56957336c1817fca0b997469106`. Attribution of these exact values and their version/architecture pairing to the [provider's checksum page](https://www.osxexperts.net/) remains unverified. The retained [local toolchain record](../outputs/pilot0/toolchain.json) reports version 9.0 for both. Current download-to-checksum correspondence and provider authenticity have not been independently verified in this step; these URLs alone do not guarantee unchanged builds.
+
+Alternatively install FFmpeg yourself or set absolute `EVAL_LAB_FFMPEG` and `EVAL_LAB_FFPROBE` paths. Every ingestion/extraction records the executed binary's hash and full version/build string. `uv sync --frozen --extra test` installs the Python environment; there are no new Python runtime dependencies.
 
 ### 1. Register your selected file
 
@@ -152,7 +156,9 @@ Supported intake is one local video stream, up to 2 GB, 300 seconds and 90,000 d
 
 Frame manifests pin binary hash/build, source/probe hashes, integer PTS, time base, requested/actual relative timestamps, dimensions and recipe. Variable-rate clips use their decoded timeline. A request after the last frame onset is rejected even if it lies before the final frame's estimated end. Duration includes a recorded basis: decoded final-frame duration where available, otherwise a declared estimate. Average FPS is metadata, never the addressing rule.
 
-Extraction preserves coded orientation and geometry, converts to RGB24 PNG, and applies no intentional crop, scale or tone mapping. Rotation, pixel format, color metadata and sample aspect ratio are retained in ingestion. Therefore, review the original for display orientation, audio and color/HDR judgments; derivatives do not establish a color-managed or exhaustive temporal observation. The chosen behavior follows the [ffprobe metadata interface](https://ffmpeg.org/ffprobe.html), [FFmpeg stream/rotation options](https://ffmpeg.org/ffmpeg.html) and [select filter](https://ffmpeg.org/ffmpeg-filters.html#select_002c-aselect). Reproducible PNG bytes were tested under the pinned local build, not promised across all platforms/builds.
+The [extraction recipe](../src/eval_lab/media.py) requests coded orientation with input option `-noautorotate`, explicitly maps `0:{stream_index}`, selects `select=eq(n\,{frame_index})`, and requests one PNG with `-frames:v 1 -fps_mode passthrough -c:v png -pix_fmt rgb24`. Ingestion admits exactly one non-cover-art video stream and probes frames with `-select_streams V:0`; extraction maps that stream's retained absolute index. The [FFmpeg contracts](https://ffmpeg.org/ffmpeg.html) describe disabling automatic rotation and explicit stream mapping; [select's `n`](https://ffmpeg.org/ffmpeg-filters.html#select_002c-aselect) is the zero-based filter-input frame number, which this recipe uses without preceding frame filters. These options apply no intentional crop, scale or tone mapping.
+
+RGB24 is requested, not independently guaranteed by the runtime's PNG signature/dimension checks: FFmpeg documents possible pixel-format fallback. Confirm the resulting PNG's pixel format when it matters. Rotation, source pixel format, color metadata and sample aspect ratio are retained in ingestion; review the original for display orientation, audio and color/HDR judgments. Derivatives do not establish a color-managed or exhaustive temporal observation. Reproducible PNG bytes were tested under the pinned local build, not promised across all platforms/builds.
 
 ## Manifest example and contracts
 

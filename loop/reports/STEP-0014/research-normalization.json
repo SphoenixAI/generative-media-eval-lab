@@ -1,0 +1,43 @@
+{
+  "canonical_sha256": "ba37a294362e045e1b2118c29092447b5e384c26da53a0b6f2062308e213346f",
+  "raw_sha256": "e51b93f1a2edd12e20a1867804f536e6486ba8b1505112b11c8d3b49479036e0",
+  "unresolved_proposals": [],
+  "view_claims": [
+    {
+      "claim": "RFC 8785 recursively sorts JSON object property names by unsigned UTF-16 code units, preserves array element order and encodes the canonical result in UTF-8.",
+      "id": "R0014-C001",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 8785 omits whitespace between JSON tokens and preserves Unicode string data without Unicode normalization.",
+      "id": "R0014-C002",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "Python's hashlib module supplies SHA-256, and a hash object's hexdigest method returns a hexadecimal text representation of the digest.",
+      "id": "R0014-C003",
+      "location": "sealed plan",
+      "origin": "plan"
+    },
+    {
+      "claim": "RFC 8785 recursively sorts object property names by unsigned UTF-16 code units, preserves array order and encodes canonical output in UTF-8.",
+      "id": "R0014-C004",
+      "location": "loop/reports/STEP-0014-L08.md:47",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "RFC 8785 omits whitespace between JSON tokens and preserves Unicode string data without normalization.",
+      "id": "R0014-C005",
+      "location": "loop/reports/STEP-0014-L08.md:51",
+      "origin": "evaluator"
+    },
+    {
+      "claim": "Python hashlib supplies SHA-256 and hexdigest returns a hexadecimal textual digest.",
+      "id": "R0014-C006",
+      "location": "loop/reports/STEP-0014-L08.md:55",
+      "origin": "evaluator"
+    }
+  ]
+}

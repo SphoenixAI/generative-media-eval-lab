@@ -1,0 +1,111 @@
+{
+  "step": 33,
+  "item": "L12-A2d1",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Implemented declaration-driven prerequisite accounting, role access, computed operands and checked applicability. Final advisory passed: 5,485 tests; exactly 900 changed lines. Full semantic preparation remains UNKNOWN.",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "src/eval_lab/lint_rule_manifest.py:11 declares ownership and prerequisites for all 13 rules.",
+        "Changes target the five binding Step 0032 findings."
+      ]
+    },
+    "intention": {
+      "score": 3,
+      "evidence": [
+        "src/eval_lab/lint_rule_expansion.py:38 expands declarations independently of observed consumption.",
+        "src/eval_lab/lint_context.py:117 retains checked scope, collections and applicability while denying complete semantic support."
+      ]
+    },
+    "relation": {
+      "score": 3,
+      "evidence": [
+        "src/eval_lab/lint_context.py:44 reconciles contracts, dependency identities and occurrence associations.",
+        "tests/test_lint_rule_manifest.py:131 verifies an unread declaration against an otherwise valid role profile."
+      ]
+    },
+    "production_quality": {
+      "score": 3,
+      "evidence": [
+        "385 focused tests pass on direct and retained readers; initial 93 controls were observed failing before implementation.",
+        "Deletion witnesses: test_accounting_guard_deletion, test_isolated_guard_deletion and test_final_guard_deletion.",
+        "Final advisory G7 confirms 900/900 changed lines; existing tests remain unchanged."
+      ]
+    },
+    "accuracy": {
+      "score": 3,
+      "evidence": [
+        "tests/test_lint_rule_manifest.py:348 supplies an independently authored literal inventory.",
+        "tests/test_lint_rule_manifest.py:434 verifies that receipts exclude unchecked descendant values.",
+        "../Content Evaluator - loop-runs/0033/advisory/gate_r1-attempt-003.json records 5,485 passing tests and zero failures; G14 is explicitly skipped."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "Sealed Plan hash remains 015bd5ea70fac41dff550d0921ec0f7b34d97a2396e2d16f99fdce7257234c61.",
+        "Final advisory G5, G6, G10 and G11 passed; no protected changes, dependencies, network use or Git mutations.",
+        "Role semantics, final predicates and readiness remain outside this implementation."
+      ]
+    }
+  },
+  "blocking_findings": [],
+  "loophole_audit": [
+    {
+      "criterion": "Independent expected obligations",
+      "lazy_pass": "Infer expectations from performed reads.",
+      "present_in_diff": false,
+      "evidence": "Declaration expansion and fixed consumer execution use separate passes; unread declarations and missing rules have rejection controls."
+    },
+    {
+      "criterion": "Association accounting",
+      "lazy_pass": "Allow repeated reads to discharge unrelated dependencies.",
+      "present_in_diff": false,
+      "evidence": "test_role_consumption_accounting rejects dependency, contract, association and repeated-read substitutions."
+    },
+    {
+      "criterion": "Checked inactivity",
+      "lazy_pass": "Treat unavailable scope or collections as absence.",
+      "present_in_diff": false,
+      "evidence": "Scope negatives deny inactivity; complete empty inventories retain explicit CHECKED-INACTIVE justification."
+    },
+    {
+      "criterion": "Incomplete semantics",
+      "lazy_pass": "Present prerequisite accounting as complete lint or readiness.",
+      "present_in_diff": false,
+      "evidence": "Full prepare always includes UNKNOWN for unavailable role semantics and denies support."
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0032-R2-001",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0032-R2-002",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0032-R2-003",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0032-R2-004",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0032-R2-005",
+      "status": "RESOLVED"
+    }
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "Resolution statuses are builder assessments pending independent evaluation.",
+    "All three advisory attempts used. Advisory evidence does not replace authoritative gates; G14 remains unverified.",
+    "Changed-line budget fully used: 900/900.",
+    ""
+  ]
+}

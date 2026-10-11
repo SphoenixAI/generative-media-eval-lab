@@ -1,0 +1,79 @@
+{
+  "findings": [
+    {
+      "description": "PilotSubmission.derivative is always treated as optionally absent. No preparation branch makes it required when frame_indices is nonempty, validates the selected indices against the derivative, or establishes the attachment's media correspondence. Consequently, a submission with frame_indices=[0] and derivative=null produces a usable E3 context with no diagnostic. I reproduced that result using the actual preparation/reader functions in an isolated standard-library harness, supplied repository schemas, and equivalent schemas for the selected MediaAsset/Evidence fields. The existing pilot admission contract explicitly requires a derivative for frame attachments. This violates the sealed requirement that active dependent prerequisites be available before construction of a usable branch.",
+      "dimension": "intention",
+      "id": "F0023-R1-001"
+    },
+    {
+      "description": "BindingContext replay checks a referenced FirstView's created_at against binding.first_view_at but never checks that the FirstView media/registration identify the binding's content. An unrelated, correctly pinned FirstView with the same timestamp can therefore supply usable chronology. Merely declaring and traversing FirstView.media and registration does not establish their relationship to this binding. The existing generation.validate_admission contract explicitly checks this content identity, so this is a lost prerequisite consistency check rather than a new policy request.",
+      "dimension": "relation",
+      "id": "F0023-R1-002"
+    },
+    {
+      "description": "Chronology correspondence uses raw string equality. The boundary validates timestamps but returns their original strings. Existing Artifact timestamps may retain a non-UTC offset, while IntentBinding Instant fields normalize to UTC. Thus an admissible registration created_at of 2026-09-30T17:00:01-07:00 and registered_at of 2026-10-01T00:00:01Z are incorrectly rejected as a binding registration mismatch. Independently confirmed these strings represent the same instant. The FirstView comparison has the same problem.",
+      "dimension": "relation",
+      "id": "F0023-R1-003"
+    },
+    {
+      "description": "The focused tests do not satisfy A2 oracle rule 4 or the sealed requirement to cover each new branch/adapter. For example, no negative case exercises binding registration mismatch, binding chronology time mismatch, binding seal intent mismatch, binding origin anchors mismatch, or run link context mismatch. Existing admitted fixtures exercise successful correspondence, while corruption cases target other conditions. Removing these rejection guards would not change those test expectations. The inventory test also proves only a small subset of declarations, and its uniqueness assertion checks a value already deduplicated by production code. The exhaustive A3 matrix does not excuse these missing A2 validator controls.",
+      "dimension": "production_quality",
+      "id": "F0023-R1-004"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Read builder-authored Plan, Probes, comments and docstrings; checked repository premises against the corresponding models, reader, configuration and split implementation.",
+        "Compared the Prior attempts mapping with all six STEP-0019 blocking findings and the canonicalization research handoff; their ownership is explicitly mapped consistently with the accepted split.",
+        "Kept harness-owned report sections and recorded test results separate from builder accuracy evidence. Found no new external claim requiring research."
+      ],
+      "id": "F0023-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "src/eval_lab/lint_prerequisites.py:229 treats a null derivative as inactive without checking whether PilotSubmission.frame_indices makes that dependency required.",
+        "An isolated execution of the preparation implementation returned context != null and diagnostics=[] for E3 with frame_indices=[0] and derivative=null.",
+        "tests/test_lint_prerequisites.py:102 provides meaningful direct/retained dimension, coverage and duration controls, but does not establish the complete acceptance criterion."
+      ],
+      "id": "F0023-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "tests/test_lint_prerequisites.py:315 and :388 do not test several newly introduced registration, chronology and origin rejection guards.",
+        "tests/test_lint_prerequisites.py:84 checks a partial literal inventory; its uniqueness assertion is tautological because inventory() already constructs a set.",
+        "Parsed both changed Python modules and the new test file successfully. Full pytest execution was unavailable because the accessible Python lacks project dependencies."
+      ],
+      "id": "F0023-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "src/eval_lab/lint_prerequisites.py:327 checks BindingContext.view chronology without checking its content identity against the binding.",
+        "src/eval_lab/lint_prerequisites.py:315 compares timestamp strings rather than represented instants.",
+        "Checked new dataclasses: they are internal preparation values, not registered domain artifacts requiring new persistence or snapshot schemas."
+      ],
+      "id": "F0023-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read all of diff.patch and all five changed files under tree; product changes concern shared evidence access and lint prerequisite preparation.",
+        "Compared the implementation with the accepted STEP-0021 split: rule evaluation, persisted audits and readiness remain assigned to later children."
+      ],
+      "id": "F0023-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared all changed paths with the sealed plan and DEFERRED backlog entries; found no deferred implementation, dependency change, public surface or domain-schema migration.",
+        "Inspected the additional proposal: it requests future decomposition without changing the approved acceptance or implementing another item.",
+        "Checked the patch for existing-test changes and protected/harness edits; none are present. Supplied G7 reports 869 counted changed lines against 900."
+      ],
+      "id": "F0023-R1-D-scope"
+    }
+  ]
+}
