@@ -1,0 +1,91 @@
+{
+  "findings": [
+    {
+      "description": "Actual temporal/warrant consumption is still disconnected from observed accounting. Both ledgers run Expansion, while the real preparer contributes only diagnostics. In fresh direct and in-memory SQLite probes, bypassing the temporal Evidence.coverage read with the valid literal full_clip preserved successful support and an identical observed ledger. Existing mutation controls target role.Access and cannot detect this bypass.",
+      "dimension": "intention",
+      "id": "F0033-R2-001"
+    },
+    {
+      "description": "Exact-history access still discards the resolved target without expanding its required operands. Fresh full role-profile probes accepted missing, null and string-valued predecessor confidence with empty diagnostics and successful support on both isolated adapters. No predecessor field appeared in expected obligations. Original PilotClip access has the same structural omission. This is prerequisite accounting, not deferred history-head selection.",
+      "dimension": "relation",
+      "id": "F0033-R2-002"
+    },
+    {
+      "description": "Checked applicability still lacks derivative activation based on frame_indices. In fresh probes on both adapters, a submission with checked empty frame_indices and explicitly null derivative passed the existing temporal preparer but received UNKNOWN/null required field from the new audit. The preserved-root tests use only the attachment-present fixture.",
+      "dimension": "intention",
+      "id": "F0033-R2-003"
+    },
+    {
+      "description": "EvidenceArm and InstrumentRun membership checks only evidence.media and omits plan.competing_set.intent. Fresh direct and SQLite probes classified both root kinds as active despite null plans, with only media identity as justification. Consequently unavailable or mismatched intent membership cannot affect classification.",
+      "dimension": "relation",
+      "id": "F0033-R2-004"
+    },
+    {
+      "description": "Scoped preparation retains only each root audit's diagnostics. It drops expected, observed and checked_inactive. Fresh probes produced 8 expected, 8 observed and 4 inactive entries for an individual Evidence audit, then zero entries in all three fields after scoped preparation marked E3 ACTIVE. The semantic UNKNOWN prevents completion but does not supply the required auditable receipt.",
+      "dimension": "intention",
+      "id": "F0033-R2-005"
+    },
+    {
+      "description": "Computed-output execution still lacks deletion-sensitive acceptance coverage. Tests assert operand rejection and generic support without requiring Evidence.digest or TestPlan.authored output obligations. Independently deleting the entire computed loop in memory left all 83 computed operand/nested controls passing per isolated adapter. Both ledgers lose the same obligation because they share the implementation.",
+      "dimension": "production_quality",
+      "id": "F0033-R2-006"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Read builder/enhancer comments, docstrings, Plan and Probes; independently reproduced the six disclosed defects without relying on their claimed acceptance.",
+        "Compared the Plan's Prior attempts mapping with every blocking finding in supplied STEP-0023, STEP-0030 and STEP-0032 evaluations; ownership boundaries and prior failures are preserved.",
+        "Excluded harness bookkeeping and researcher-owned research.json from builder accuracy scoring. Found no external factual claim requiring research."
+      ],
+      "id": "F0033-R2-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "src/eval_lab/lint_context.py:73-77 computes both ledgers through Expansion and consumes only diagnostics from actual temporal/warrant preparation.",
+        "src/eval_lab/lint_rule_expansion.py:93-127 rejects the valid empty-frame/null-derivative branch.",
+        "src/eval_lab/lint_context.py:137-146 discards active-root accounting from scoped receipts.",
+        "Several binding acceptance obligations remain unmet after enhancement; isolated probes reproduced these defects."
+      ],
+      "id": "F0033-R2-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "test_computed_evidence_operands, test_computed_nested_operand and test_authored_plan_operands do not require computed-output obligations or independently expected outputs.",
+        "Independently deleted the computed-output loop in memory: all 83 focused computed controls still passed per isolated adapter, 166 total.",
+        "test_exact_history_accounting checks target existence/substitution but not required historical fields; test_scope_membership exercises only Hypothesis membership.",
+        "test_multiple_ingestion_evidence_accounting mutates role.Access rather than the actual temporal consumer."
+      ],
+      "id": "F0033-R2-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "src/eval_lab/lint_rule_expansion.py:154 discards exact historical targets without expanding their required operands.",
+        "src/eval_lab/lint_rule_manifest.py:43-44 omits plan/competing-set/intent membership for EvidenceArm and InstrumentRun.",
+        "Inspected Receipt and Obligation: these are transient private accounting values, not new authored artifacts requiring persistence or snapshot integration in this child."
+      ],
+      "id": "F0033-R2-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read the complete patch and opened all six changed files; independently verified each file matches its patch contents.",
+        "Compared the implementation with the sealed Plan and STEP-0031 split: changed product code addresses the assigned d1 prerequisite foundation."
+      ],
+      "id": "F0033-R2-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Independently counted 900 added source/test lines and verified that all changed paths fall within the planned files.",
+        "Compared the changed functionality against DEFERRED backlog entries; found no deferred implementation, dependency addition or existing-test modification.",
+        "Verified prepare always appends the incomplete role-semantics diagnostic and introduces no readiness, verdict, decision, CLI or snapshot integration."
+      ],
+      "id": "F0033-R2-D-scope"
+    }
+  ]
+}

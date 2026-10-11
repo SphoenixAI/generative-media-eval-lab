@@ -1,0 +1,35 @@
+{
+  "resolutions": [
+    {
+      "ref": "F0033-R1-001",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Repair not applied under the sealed size stopping condition; the finding remains valid and unresolved. Actual temporal/warrant read omission, substitution and duplication preserved support on both readers. The candidate is at 900/900 lines; no complete compliant repair was established. Reproductions and outstanding obligations are recorded in loop/reports/STEP-0033-L12-A2d1.md."
+    },
+    {
+      "ref": "F0033-R1-002",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Repair not applied under the same bounded stop. Both readers accepted missing, null and malformed predecessor confidence without an expected historical operand. Historical operand expansion and focused controls remain unresolved."
+    },
+    {
+      "ref": "F0033-R1-003",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Repair not applied under the same bounded stop. Both readers reproduced UNKNOWN for a null derivative despite checked empty frame indices and successful existing temporal preparation. Optional applicability and its controls remain unresolved."
+    },
+    {
+      "ref": "F0033-R1-004",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Repair not applied under the same bounded stop. EvidenceArm and InstrumentRun membership ignored different intent revisions and missing/null/malformed plans on both readers. Complete scope dependencies remain unresolved."
+    },
+    {
+      "ref": "F0033-R1-005",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Repair not applied under the same bounded stop. Both readers produced individual ledgers containing 8 expected, 8 observed and 4 inactive entries, then discarded all entries during scoped preparation. Receipt aggregation remains unresolved."
+    },
+    {
+      "ref": "F0033-R1-006",
+      "action": "REJECTED_WITH_REASON",
+      "evidence": "Repair not applied under the same bounded stop. All 166 existing computed-operand controls survived deleting the computed-output loop in memory. Output-specific controls remain unresolved. Advisory verification passed 5485 tests at 900/900 lines; it does not resolve these blockers. Product source, tests and sealed Plan remain unchanged.\n"
+    }
+  ],
+  "amendments": []
+}
