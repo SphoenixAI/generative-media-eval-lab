@@ -179,8 +179,20 @@
       "status": "SPLIT"
     },
     "L12-A2d1": {
+      "children": [
+        "L12-A2d1a",
+        "L12-A2d1b"
+      ],
       "retries": 2,
-      "status": "BLOCKED"
+      "status": "SPLIT"
+    },
+    "L12-A2d1a": {
+      "retries": 0,
+      "status": "PENDING"
+    },
+    "L12-A2d1b": {
+      "retries": 0,
+      "status": "PENDING"
     },
     "P-HARNESS-IDS-01": {
       "note": "implemented as operator work, amendment A2",

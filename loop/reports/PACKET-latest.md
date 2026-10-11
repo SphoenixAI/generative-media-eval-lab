@@ -12,7 +12,7 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 
 - Consecutive non-integrations since RESUME: 1; trailing RF: 0.
 - Product retries: L02: 1, L04: 1, L10: 1, L12: 1, L12-A2: 1, L12-A2d: 1, L12-A2d1: 2.
-- BLOCKED: L12-A2d1.
+- BLOCKED: none.
 - Last stop reason: once complete.
 
 ## New this step
