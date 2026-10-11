@@ -1,0 +1,85 @@
+{
+  "findings": [
+    {
+      "description": "Independent expansion is implemented only for temporal Evidence backed by image media and an empty PilotSubmission collection. Video Evidence explicitly becomes unavailable, any submission collection becomes unavailable, and every other temporal or warrant root immediately receives 'root obligation expansion unavailable'. Consequently the assigned nine-rule foundation is absent for most valid inputs. The supplied gate's 24 root-profile failures directly expose this omission; unconditional incompleteness does not satisfy prerequisite-accounting acceptance.",
+      "dimension": "intention",
+      "id": "F0034-R1-001"
+    },
+    {
+      "description": "Even the supported image branch does not expand all applicable dependency declarations. Evidence fields are iterated, but MediaAsset is handled by a hard-coded type read. In isolated executions of the actual accounting, preparer and reader code on direct and in-memory SQLite paths, adding 'revision=count' to the live MediaAsset declarations produced diagnostics=(), successful support and no revision obligation. Adding a missing required text field likewise passed. The unread-declaration test mutates only Evidence, so it misses this surviving form of the Step 0032 defect.",
+      "dimension": "intention",
+      "id": "F0034-R1-002"
+    },
+    {
+      "description": "The binding checked-optionality remedy remains absent. A PilotSubmission with checked empty frame_indices and explicit null derivative is accepted by the integrated temporal preparer, but the new audit rejects it as an unsupported root and records no checked-inactive derivative obligation. Independent direct and in-memory SQLite probes reproduced this difference. Only Evidence timestamp inactivity is implemented; there is no attachment activation rule or accounting oracle for the required valid empty/null branch.",
+      "dimension": "intention",
+      "id": "F0034-R1-003"
+    },
+    {
+      "description": "Media-scoped preparation and root classification do not exist. audit accepts only a root reference and profile; classified is always left empty. There is no exact media-scope pin, membership chain, ACTIVE/excluded-root accounting or scoped aggregation caller. Receipt.merge merely concatenates manually supplied receipts. The merge test combines two unrelated image roots and checks selected fields, so it cannot establish that every classified root contributes its expected, observed and checked-inactive obligations. The planned lint_context implementation and tests are absent.",
+      "dimension": "relation",
+      "id": "F0034-R1-004"
+    },
+    {
+      "description": "The acceptance suite is both failing and materially incomplete. All 24 broad root-profile controls fail in the supplied gate. The passing focused tests establish an image coverage VALUE omission, selected consumption faults, root declaration changes and timestamp inactivity, but do not establish warrant-consumer omission sensitivity, independent activation/use/association inventories, the other boundary-mode deletion controls, media scope or dropped aggregation. The broad controls assert only nonempty ledgers and generic support, so they cannot replace literal whole-profile expectations. The single reconciliation deletion witness removes the entire reconciliation function rather than covering each new guard.",
+      "dimension": "production_quality",
+      "id": "F0034-R1-005"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Checked builder-authored code comments, docstrings, Plan and Probes against local evidence; the module explicitly describes itself as under construction and does not claim complete lint or readiness.",
+        "Compared the Plan's Prior attempts mapping with every blocking finding in both rounds of Steps 0023, 0030, 0032 and 0033; all are mapped, with sibling obligations preserved.",
+        "Found no new external factual claim requiring research. Harness bookkeeping was excluded from builder accuracy scoring."
+      ],
+      "id": "F0034-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "src/eval_lab/lint_accounting.py:248-252 rejects every root profile except temporal Evidence.",
+        "src/eval_lab/lint_accounting.py:210 ignores dependency declarations beyond its manually requested media type.",
+        "Independent isolated direct and SQLite-reader probes accepted an unread required MediaAsset.revision declaration with diagnostics=() and successful support.",
+        "tests/test_lint_accounting.py::test_all_owned_root_profiles fails in all 24 supplied gate instances."
+      ],
+      "id": "F0034-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "gate.json records 5125 passed and 24 failed tests; all failures are test_all_owned_root_profiles instances.",
+        "tests/test_lint_accounting.py:53-58 inventories field strings and mode names, but not activation dependencies, declared uses or association identities.",
+        "tests/test_lint_accounting.py:161-182 checks selected merged observations and inactive paths, without expected-ledger assertions or dropped-aggregation deletion controls.",
+        "No warrant-consumer deletion oracle, media-scope test or false-active/false-inactive classification control is supplied."
+      ],
+      "id": "F0034-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "src/eval_lab/lint_accounting.py:75 defines classified accounting, but no production path populates it or establishes membership against an exact media scope.",
+        "src/eval_lab/lint_accounting.py:83-88 concatenates receipts without a scoped preparation caller that establishes and retains the required root contributions.",
+        "Checked new types: BoundaryEvent, Obligation, Inactive and Receipt are private transient structures; domain persistence and snapshot integration remain outside this child."
+      ],
+      "id": "F0034-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read the complete diff and all six changed files; changes address the approved temporal/warrant accounting foundation without unrelated product work."
+      ],
+      "id": "F0034-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Independently counted 587 non-report changed lines, below the 900-line cap.",
+        "Compared changed paths and behavior with the approved partition and DEFERRED inventory: no role/history/computed implementation, intent-scope selector, final semantics, frontend, runtime dependency or protected-file change.",
+        "Existing tests are unchanged; no canonical_json.py, main, pilot-local, public serializer or authored-history mutation appears in the diff."
+      ],
+      "id": "F0034-R1-D-scope"
+    }
+  ]
+}

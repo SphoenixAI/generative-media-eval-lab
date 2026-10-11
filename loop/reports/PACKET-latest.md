@@ -2,26 +2,26 @@
 
 step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/O/U | flags
 --- | --- | --- | --- | --- | --- | --- | ---
-0029 | L12-A2c | INTEGRATE | 4 4 4 4 4 4 | 5100 | True | 2/0/0/0 | flags: 1
 0030 | L12-A2d | REVERT | 4 1 4 1 4 4 | 6179 | False | 2/0/0/0 | flags: 4
 0031 | L12-A2d | SPLIT | ? ? ? ? ? ? | 0 | False | 0/0/0/0 | flags: 0
 0032 | L12-A2d1 | REVERT | 4 1 2 1 4 4 | 5252 | False | 0/0/0/0 | flags: 3
 0033 | L12-A2d1 | REVERT | 4 1 2 2 4 4 | 5485 | True | 0/0/0/0 | flags: 5
+0034 | L12-A2d1a | REVERT | 4 1 2 1 4 4 | 5125 | False | 0/0/0/10 | flags: 5
 
 ## Loop health
 
-- Consecutive non-integrations since RESUME: 1; trailing RF: 0.
-- Product retries: L02: 1, L04: 1, L10: 1, L12: 1, L12-A2: 1, L12-A2d: 1, L12-A2d1: 2.
+- Consecutive non-integrations since RESUME: 2; trailing RF: 0.
+- Product retries: L02: 1, L04: 1, L10: 1, L12: 1, L12-A2: 1, L12-A2d: 1, L12-A2d1: 2, L12-A2d1a: 1.
 - BLOCKED: none.
 - Last stop reason: once complete.
 
 ## New this step
 
-- Independent probes executed actual boundary, reader and accounting source with unavailable registration/model imports substituted. SQLite probes used in-memory databases and actual RawReader methods; they do not verify the on-disk read-only session lifecycle.
-- Independently verified the patch SHA-256 and exact contents of all changed files.
-- Reviewed I1-I16 against the changed paths and behavior. Found no real judgment creation, authored-history mutation, protected/harness edit, existing-test weakening, network dependency, public serializer change, deferred implementation or Git action. Complete semantic support remains denied; no score
-- The enhancer's REJECTED_WITH_REASON entries acknowledge valid unresolved findings and an unapplied repair. They do not justify REJECTION_ACCEPTED or DEFERRAL_ACCEPTED.
-- The supplied gate reports 5485 passing tests. Full pytest was not independently runnable because the available Python lacks pytest and project dependencies.
+- Independent probes executed actual accounting, preparer and raw-reader source with unrelated domain imports isolated, using DirectRecords and an in-memory SQLite RawReader. They establish the reported targeted behavior, not complete domain-suite validity.
+- Pytest and pydantic are unavailable in the accessible interpreter. Suite counts are supplied gate evidence, not an independent full-suite rerun.
+- Reviewed I1-I16 against the patch and available gate evidence. No catastrophic invariant violation is established: semantics remain incomplete, diagnostic paths deny support, existing tests are preserved, and no authored-history, public-surface, dependency, protected-harness or deferred-scope modifi
+- The architecture/size stop explains why enhancement declined further implementation; it does not resolve or waive any acceptance defect.
+- The final patch has 587 counted lines. The supplied folder does not independently establish the timing and size of the historical mandatory early checkpoint.
 
 ## Open issues
 
@@ -37,17 +37,23 @@ step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/
 - src/eval_lab/lint_rule_manifest.py:42-47; src/eval_lab/lint_context.py:102-114 (steps 0033): EvidenceArm and InstrumentRun membership checks only evidence.media and omits plan.competing_set.intent. Fresh direct and SQLite probes classified both root kinds as active despite null plans, with only media identity as justification. Consequently unavailable or mismatched inten
 - src/eval_lab/lint_context.py:134-146 (steps 0033): Scoped preparation retains only each root audit's diagnostics. It drops expected, observed and checked_inactive. Fresh probes produced 8 expected, 8 observed and 4 inactive entries for an individual Evidence audit, then zero entries in all three fields after scoped preparation ma
 - tests/test_lint_rule_manifest.py:231-255,372-387; src/eval_lab/lint_rule_expansion.py:176-190 (steps 0033): Computed-output execution still lacks deletion-sensitive acceptance coverage. Tests assert operand rejection and generic support without requiring Evidence.digest or TestPlan.authored output obligations. Independently deleting the entire computed loop in memory left all 83 comput
+- src/eval_lab/lint_accounting.py:198-226,245-252; tests/test_lint_accounting.py:185-207 (steps 0034): The assigned nine-rule accounting foundation remains largely unimplemented. Expansion supports only temporal image Evidence with an empty PilotSubmission collection. Video Evidence, nonempty submission collections and all other temporal/warrant roots receive explicit unavailable 
+- src/eval_lab/lint_accounting.py:200-210; tests/test_lint_accounting.py:132-147 (steps 0034): Dependency declarations are still not independently expanded. Evidence fields are enumerated, but MediaAsset is reduced to a hard-coded type read. Fresh direct and in-memory SQLite probes added revision=count and then an absent required_unread=text declaration to MediaAsset. Both
+- src/eval_lab/lint_accounting.py:214-226,248-252; src/eval_lab/lint_temporal_prerequisites.py:184-189 (steps 0034): Checked optional applicability remains incomplete. Fresh probes on both reader paths confirmed that a submission with frame_indices=[] and derivative=null passes the integrated temporal preparer, while audit rejects the root and records zero checked-inactive obligations. Only Evi
+- src/eval_lab/lint_accounting.py:70-88,175-196,229-270; tests/test_lint_accounting.py:161-182 (steps 0034): Media-scoped preparation and root classification remain absent. Receipt.classified is never populated; no scope pin or exact membership chain establishes ACTIVE or excluded roots. Receipt.merge concatenates manually supplied receipts, and its test checks selected fields from two 
+- tests/test_lint_accounting.py:53-58,61-158,161-228; gate.json (steps 0034): Acceptance tests remain failing and incomplete. The focused controls establish an image VALUE omission and selected reconciliation faults, but do not establish warrant-consumer omission sensitivity, complete activation/use/association inventories, the other boundary-mode deletion
+- tests/test_lint_accounting.py:53-58,61-158,161-228 (steps 0034): The acceptance suite is both failing and materially incomplete. All 24 broad root-profile controls fail in the supplied gate. The passing focused tests establish an image coverage VALUE omission, selected consumption faults, root declaration changes and timestamp inactivity, but 
 
 ## Standing limitations
 
-- VALIDATION_LIMITATION: 39 recorded flags.
+- VALIDATION_LIMITATION: 42 recorded flags.
 - RESEARCH_PENDING: 9 recorded flags.
 - PUBLIC_PROSE: 23 recorded flags.
 - HOME_PATH: 4 recorded flags.
 
 Proposals awaiting approval: P0008-1: Normalize unpacked arrays before JsonValue validation; P0009-1: Include applicable RelationClaimV2 history in private dataset snapshots; WP07: Model-based instrument adapters; A3-01: Evidence partitions and withheld-context challenges; A3-02: Decision-relevance router; A3-03: Shared perception cache with evidence lineage; A3-04: Counterfactual tests of stated reasons; A3-05: Backed spans and evidence-carrying judgments; A3-06: Instrument validation ladder; A3-07: Labeling import adapter (Ultralytics, Roboflow, others); P0023-1: Decompose L12-A2 acceptance so focused validator controls fit bounded steps; P0030-1: Replan the remaining role controls and independent all-rule conjunction without reducing acceptance; P0030-2: Preserve blocking F0030-R1-001 and authorize an acceptance-preserving replan
 
-Calibration self-minus-independent mean: 0.041666666666666664. Reverts: 13/33.
+Calibration self-minus-independent mean: 0.041666666666666664. Reverts: 14/34.
 
 Rubric A2: accuracy covers builder/enhancer content only; scores before and after A2 are not directly comparable.
 

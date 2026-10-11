@@ -1,0 +1,36 @@
+{
+  "auto_approved": [],
+  "calibration": {
+    "accuracy": 0,
+    "intention": 0,
+    "production_quality": 0,
+    "relation": 0,
+    "relevance": 0,
+    "scope": 0
+  },
+  "decision": "REVERT",
+  "flags": [
+    "Independent probes executed actual accounting, preparer and raw-reader source with unrelated domain imports isolated, using DirectRecords and an in-memory SQLite RawReader. They establish the reported targeted behavior, not complete domain-suite validity.",
+    "Pytest and pydantic are unavailable in the accessible interpreter. Suite counts are supplied gate evidence, not an independent full-suite rerun.",
+    "Reviewed I1-I16 against the patch and available gate evidence. No catastrophic invariant violation is established: semantics remain incomplete, diagnostic paths deny support, existing tests are preserved, and no authored-history, public-surface, dependency, protected-harness or deferred-scope modification appears. Machine-wide side effects were not independently verified.",
+    "The architecture/size stop explains why enhancement declined further implementation; it does not resolve or waive any acceptance defect.",
+    "The final patch has 587 counted lines. The supplied folder does not independently establish the timing and size of the historical mandatory early checkpoint."
+  ],
+  "gate": false,
+  "item": "L12-A2d1a",
+  "passed": 5125,
+  "research": {
+    "UNVERIFIABLE": 10
+  },
+  "rounds": 2,
+  "rule": "R1",
+  "scores": {
+    "accuracy": 4,
+    "intention": 1,
+    "production_quality": 1,
+    "relation": 2,
+    "relevance": 4,
+    "scope": 4
+  },
+  "step": 34
+}

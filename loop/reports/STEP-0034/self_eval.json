@@ -1,0 +1,129 @@
+{
+  "step": 34,
+  "item": "L12-A2d1a",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Incomplete; not suitable for integration. Stopped for architecture/size review at 587 changed lines. Advisory attempt 1 failed G1/G12: 5,125 tests passed and 24 failed. The early checkpoint was 458 lines and did not trigger the 500-line stop.\n",
+  "scores": {
+    "relevance": {
+      "score": 4,
+      "evidence": [
+        "Changes address prerequisite witnesses, reconciliation and receipts within L12-A2d1a; loop/reports/STEP-0034-L12-A2d1a.md:184."
+      ]
+    },
+    "intention": {
+      "score": 1,
+      "evidence": [
+        "Only the initial image-Evidence expansion is supported; other profiles remain unavailable at src/eval_lab/lint_accounting.py:248.",
+        "All 24 test_all_owned_root_profiles cases fail; tests/test_lint_accounting.py:191."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "Operation keys retain current reference-chain associations, but complete declaration-use identities and scoped classification are unfinished; src/eval_lab/lint_accounting.py:54.",
+        "Receipt.merge has a limited two-root control; media-scope preparation and mixed-scope aggregation are absent."
+      ]
+    },
+    "production_quality": {
+      "score": 1,
+      "evidence": [
+        "Advisory reports 5,125 passed, 24 failed and blocking G1/G12 failures; loop/reports/STEP-0034-L12-A2d1a.md:212.",
+        "test_step_0033_001_deleted_real_temporal_read and test_reconciliation_deletion_witness pass on direct and retained adapters.",
+        "Complete new-validator coverage, warrant omission controls and scoped receipt controls remain missing."
+      ]
+    },
+    "accuracy": {
+      "score": 4,
+      "evidence": [
+        "Probes preceded implementation; G11 confirms the sealed Plan is unchanged.",
+        "The report explicitly distinguishes passing initial controls, unsupported profiles, failed acceptance and advisory limitations; loop/reports/STEP-0034-L12-A2d1a.md:388."
+      ]
+    },
+    "scope": {
+      "score": 4,
+      "evidence": [
+        "G5/G6/G7/G10/G11 passed; counted changes are 587 against 900.",
+        "Existing tests were preserved. No protected-file, dependency, controller, Git-history or DEFERRED-work changes were made."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "B0034-001",
+      "dimension": "intention",
+      "severity": "SEVERE",
+      "invariant": null,
+      "location": "src/eval_lab/lint_accounting.py:198",
+      "description": "Complete nine-rule declaration and activation expansion is missing. Video, attachment and other root profiles deny support; 24 acceptance controls fail.",
+      "required_fix": "Complete the assigned conjunction within the authorized budget, or obtain an acceptance-preserving operator decision. Do not integrate the subset."
+    },
+    {
+      "id": "B0034-002",
+      "dimension": "relation",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_accounting.py:54",
+      "description": "Per-use association identities, media-scope classification and scoped receipt aggregation are unfinished. Generic receipt merging does not satisfy scoped accounting.",
+      "required_fix": "Implement exact use identities, checked active/excluded roots and association-preserving scoped receipts with independent literal controls."
+    },
+    {
+      "id": "B0034-003",
+      "dimension": "production_quality",
+      "severity": "SEVERE",
+      "invariant": null,
+      "location": "tests/test_lint_accounting.py:191",
+      "description": "G1/G12 fail and isolated coverage for every new validator is incomplete. Approval exited 1; advisory evidence does not retain its detailed subprocess output.",
+      "required_fix": "Complete the required direct/retained contract and deletion controls, preserve existing tests, and run fresh frozen-harness verification after an authorized complete candidate exists."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Actual consumption comes from integrated preparers",
+      "lazy_pass": "Replay expected expansion to manufacture actual observations.",
+      "present_in_diff": false,
+      "evidence": "audit invokes the integrated preparer with a boundary witness; the deleted real coverage read is detected on both adapters."
+    },
+    {
+      "criterion": "Complete independent declaration inventory",
+      "lazy_pass": "Treat field-inventory equality as complete use and activation accounting.",
+      "present_in_diff": true,
+      "evidence": "Raw-field inventories are checked, but per-use activation and association declarations remain incomplete."
+    },
+    {
+      "criterion": "Full assigned conjunction",
+      "lazy_pass": "Substitute an incomplete status and a passing subset for acceptance.",
+      "present_in_diff": true,
+      "evidence": "The implementation remains a subset; 24 failing controls are preserved and integration is explicitly rejected."
+    },
+    {
+      "criterion": "Tests remain intact",
+      "lazy_pass": "Remove or weaken failing controls to obtain a green gate.",
+      "present_in_diff": false,
+      "evidence": "All 5,100 baseline tests passed; G3/G3b/G4 confirm preservation. New acceptance failures remain."
+    }
+  ],
+  "prior_findings": [
+    {"ref": "F0033-R1-001", "status": "UNRESOLVED"},
+    {"ref": "F0033-R2-001", "status": "UNRESOLVED"},
+    {"ref": "F0033-R1-002", "status": "DEFERRAL_ACCEPTED"},
+    {"ref": "F0033-R2-002", "status": "DEFERRAL_ACCEPTED"},
+    {"ref": "F0033-R1-003", "status": "UNRESOLVED"},
+    {"ref": "F0033-R2-003", "status": "UNRESOLVED"},
+    {"ref": "F0033-R1-004", "status": "DEFERRAL_ACCEPTED"},
+    {"ref": "F0033-R2-004", "status": "DEFERRAL_ACCEPTED"},
+    {"ref": "F0033-R1-005", "status": "UNRESOLVED"},
+    {"ref": "F0033-R2-005", "status": "UNRESOLVED"},
+    {"ref": "F0033-R1-006", "status": "DEFERRAL_ACCEPTED"},
+    {"ref": "F0033-R2-006", "status": "DEFERRAL_ACCEPTED"}
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "BUILD_INCOMPLETE",
+    "SIZE_FEASIBILITY_REQUIRES_REVIEW",
+    "ADVISORY_G1_G12_FAILED",
+    "G14_SKIPPED_BY_ADVISORY",
+    "NO_INTEGRATION_RECOMMENDATION"
+  ]
+}
