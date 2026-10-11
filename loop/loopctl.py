@@ -2,6 +2,7 @@
 """Deterministic build-loop control. Git queries/export only; run.py owns history."""
 from __future__ import annotations
 import argparse
+import copy
 import difflib
 from collections import Counter, defaultdict, deque
 from datetime import datetime, timezone
@@ -14,6 +15,7 @@ import shutil
 import socket
 import subprocess
 import sys
+import tempfile
 import tomllib
 from prompt_evidence import advisory_result
 
@@ -262,7 +264,269 @@ class Control:
         state.setdefault('events',[]).append(event); write(self.root/'loop/state.json',state); self.packet()
         return event
 
+    def registration_idle(self):
+        """One-time operator transition: any ownership ambiguity denies entry."""
+        if 'LOOP_RUNNER_PID' in os.environ:
+            raise ValueError('operator-only registration is unavailable to autonomous roles')
+        configured_runs = (self.root / self.config['paths']['runs_dir']).resolve()
+        locations = {self.runs, configured_runs}
+        for runs in locations:
+            if (runs / 'lock.json').exists() or (runs / 'lock.json').is_symlink():
+                raise ValueError('registration requires no runner/owned step lock')
+        steps = self.state().get('steps')
+        if (not isinstance(steps, list) or not steps or
+                any(not isinstance(row, dict) or type(row.get('step')) is not int or row['step'] < 1 for row in steps)):
+            raise ValueError('invalid canonical step history')
+        latest = max(row['step'] for row in steps)
+        latest_row = next(row for row in reversed(steps) if row['step'] == latest)
+        for runs in locations:
+            path = runs / 'current.json'
+            try:
+                current = json.loads(path.read_bytes())
+            except (OSError, ValueError) as exc:
+                raise ValueError('current.json is required and must be valid JSON') from exc
+            if (not isinstance(current, dict) or not {'finished','step'} <= current.keys() or
+                    set(current) - {'finished','step','item','decision'} or current['finished'] is not True or
+                    type(current['step']) is not int or current['step'] != latest or
+                    any(not isinstance(current[k], str) or not current[k] or current[k] != latest_row.get(k)
+                        for k in ('item','decision') if k in current)):
+                raise ValueError('current.json must identify the latest finished step with valid fields')
+        try:
+            processes = subprocess.check_output(['ps', '-axww', '-o', 'pid=,command='], text=True)
+        except (OSError, subprocess.CalledProcessError) as exc:
+            raise ValueError('cannot reliably read process table') from exc
+        matches, seen = [], set()
+        if not isinstance(processes, str) or not processes.strip():
+            raise ValueError('cannot reliably read process table')
+        for line in processes.splitlines():
+            match = re.fullmatch(r'\s*([0-9]+)\s+(\S.*)', line)
+            if not match or int(match[1]) < 1 or match[1] in seen:
+                raise ValueError('cannot reliably read process table')
+            seen.add(match[1])
+            if 'loop/run.py' in match[2]:
+                matches.append(int(match[1]))
+        if matches:
+            raise ValueError('live loop/run.py process PID(s): ' + ', '.join(map(str, sorted(matches))))
+
+    def registration_transaction(self, payloads, lock_path, lock_bytes):
+        """Stage new and rollback bytes before replacing any of the three files.
+
+        This is an exception-atomic transaction, not a claim about power loss or
+        an unrecoverably failing filesystem. If restoration itself fails, retain
+        ownership and recovery files; never declare that boundary clean.
+        """
+        staged, backups, installed, directories = {}, {}, [], []
+        owned = False
+        recovery_needed = False
+        def mkdir(path):
+            missing = []
+            while not path.exists():
+                missing.append(path); path = path.parent
+            for directory in reversed(missing):
+                directory.mkdir(); directories.append(directory)
+        def stage(path, data, suffix):
+            fd, name = tempfile.mkstemp(prefix='.' + path.name + '.', suffix=suffix, dir=path.parent)
+            temporary = Path(name)
+            try:
+                with os.fdopen(fd, 'wb') as stream:
+                    stream.write(data); stream.flush(); os.fsync(stream.fileno())
+            except BaseException:
+                temporary.unlink(missing_ok=True)
+                raise
+            return temporary
+        try:
+            mkdir(lock_path.parent)
+            with lock_path.open('xb') as stream:
+                owned = True
+                stream.write(lock_bytes); stream.flush(); os.fsync(stream.fileno())
+            for path, data in payloads:
+                mkdir(path.parent)
+                backups[path] = stage(path, path.read_bytes(), '.old') if path.exists() else None
+                staged[path] = stage(path, data, '.new')
+            for path, _ in payloads:
+                # Track the attempted boundary too, including replace-then-raise faults.
+                installed.append(path)
+                os.replace(staged[path], path)
+        except BaseException as failure:
+            errors = []
+            for path in reversed(installed):
+                try:
+                    if backups[path] is None:
+                        path.unlink(missing_ok=True)
+                    else:
+                        os.replace(backups[path], path)
+                except BaseException as error:
+                    errors.append(f'{path}: {error}')
+            if errors:
+                recovery_needed = True
+                raise RuntimeError('registration rollback failed; ownership and recovery files retained: ' + '; '.join(errors)) from failure
+            raise
+        finally:
+            if not recovery_needed:
+                for temporary in [*staged.values(), *backups.values()]:
+                    if temporary is not None:
+                        temporary.unlink(missing_ok=True)
+                if owned:
+                    lock_path.unlink()
+                for directory in reversed(directories):
+                    try: directory.rmdir()
+                    except OSError: pass
+
+    def register_approved_split(self, parent, proposal, authorized_by, reason):
+        """Register the sealed d1 decomposition; no product attempt or RESUME."""
+        if (parent != 'L12-A2d1' or authorized_by != 'Sphoenix, 2026-10-10' or
+                not isinstance(reason, str) or not reason.strip()):
+            raise ValueError('registration requires the exact d1 parent, authorization and reason')
+        self.registration_idle()
+        if git(self.root, 'status', '--porcelain', '--untracked-files=all'):
+            raise ValueError('registration requires a clean tree, including untracked files')
+        relative = 'loop/proposals/APPROVED-L12-A2d1-split.toml'
+        supplied = Path(proposal)
+        supplied = supplied if supplied.is_absolute() else self.root / supplied
+        proposal_path = self.root / relative
+        record_path = self.root / f'loop/operator/registrations/{parent}.json'
+        state_path, backlog_path = self.root / 'loop/state.json', self.root / 'loop/backlog.toml'
+        if supplied.absolute() != proposal_path or supplied.resolve() != proposal_path:
+            raise ValueError('proposal must be the approved file inside loop/proposals')
+        for path in (proposal_path, record_path, state_path, backlog_path):
+            if any(p.is_symlink() for p in (path, *path.parents) if p != self.root and self.root in p.parents):
+                raise ValueError('registration paths must not contain symlinks')
+        head = git(self.root, 'rev-parse', 'HEAD')
+        def blob(commit, path):
+            return subprocess.check_output(['git', '-C', str(self.root), 'show', f'{commit}:{path}'])
+        proposal_bytes = proposal_path.read_bytes()
+        if proposal_bytes != blob(head, relative):
+            raise ValueError('proposal differs from committed HEAD')
+        existing = read(record_path)
+        base = existing.get('base_commit') if isinstance(existing, dict) else head
+        if not isinstance(base, str) or not re.fullmatch(r'[a-f0-9]{40,64}', base):
+            raise ValueError('invalid registration base')
+        git(self.root, 'merge-base', '--is-ancestor', base, head)
+        if blob(base, relative) != proposal_bytes:
+            raise ValueError('proposal changed since registration')
+        before_state_bytes = blob(base, 'loop/state.json')
+        before_backlog = blob(base, 'loop/backlog.toml')
+        before = json.loads(before_state_bytes)
+        backlog = tomllib.loads(before_backlog.decode())['item']
+        by_id = {item['id']: item for item in backlog}
+        if len(by_id) != len(backlog) or parent not in by_id:
+            raise ValueError('parent missing or duplicate backlog IDs')
+        original = by_id[parent]
+        row = before['items'].get(parent, {})
+        if (not isinstance(row, dict) or set(row) != {'status','retries'} or
+                row['status'] != 'BLOCKED' or type(row['retries']) is not int or row['retries'] != 2):
+            raise ValueError('parent must be exactly BLOCKED with retries=2 and no children')
+        lineage = ('L12', 'L12-A', 'L12-A2', 'L12-A2d', parent)
+        for index, key in enumerate(lineage):
+            if by_id.get(key, {}).get('approval') != 'APPROVED':
+                raise ValueError('blocked critical-path approval mismatch')
+            if index and (by_id[key].get('parent') != lineage[index-1] or
+                          before['items'].get(lineage[index-1], {}).get('status') != 'SPLIT' or
+                          key not in before['items'][lineage[index-1]].get('children', [])):
+                raise ValueError('blocked critical-path lineage mismatch')
+        selectable = copy.deepcopy(before)
+        selectable['items'][parent]['status'] = 'PENDING'
+        chosen = critical_item(backlog, selectable, ['L12'])
+        if chosen is None or chosen['id'] != parent:
+            raise ValueError('blocked critical-path selection mismatch')
+        latest = before.get('steps', [])[-1:]
+        historical = json.loads(blob(base, 'loop/reports/STEP-0033/decision.json'))
+        if (not latest or any(latest[0].get(k) != v for k, v in
+                              {'step':33, 'item':parent, 'decision':'REVERT', 'rule':'R2'}.items()) or
+                historical.get('decision') != 'REVERT' or historical.get('rule') != 'R2'):
+            raise ValueError('Step 0033 must remain the latest REVERT / R2')
+        data = tomllib.loads(proposal_bytes.decode())
+        if set(data) != {'authorization','item'}:
+            raise ValueError('invalid approved proposal keys')
+        approval = data.get('authorization', {})
+        if (not isinstance(approval, dict) or
+                set(approval) != {'parent','approval','authorized_by','activation','execution_authorized'} or
+                approval.get('execution_authorized') is not False or
+                any(not isinstance(approval.get(k), str) or not approval[k].strip()
+                    for k in ('parent','approval','authorized_by','activation'))):
+            raise ValueError('invalid approval keys/types; execution_authorized must be boolean false')
+        if any(approval.get(k) != v for k, v in
+               {'parent':parent, 'approval':'APPROVED', 'authorized_by':authorized_by}.items()):
+            raise ValueError('proposal approval/parent/authorization mismatch')
+        children = data.get('item', [])
+        if not isinstance(children, list) or any(not isinstance(child, dict) for child in children):
+            raise ValueError('invalid approved child structure')
+        ids = [child.get('id') for child in children]
+        if any(not isinstance(key, str) or not re.fullmatch(r'[A-Za-z0-9_-]+', key) for key in ids) or len(ids) != len(set(ids)):
+            raise ValueError('child IDs must be valid and unique')
+        if ids != ['L12-A2d1a', 'L12-A2d1b']:
+            raise ValueError('approved child order must be d1a then d1b')
+        if any(key in by_id or key in before['items'] for key in ids):
+            raise ValueError('child IDs must be new in backlog and state')
+        for child in children:
+            if (set(child) != {'id','title','size','acceptance'} or child.get('size') != 'S' or
+                    not isinstance(child.get('title'), str) or not child['title'].strip()):
+                raise ValueError('invalid approved child structure')
+        criteria = [original.get('acceptance')] + [child.get('acceptance') for child in children]
+        if any(not isinstance(values, list) or not values or
+               any(not isinstance(value, str) or not value.strip() for value in values) for values in criteria):
+            raise ValueError('acceptance must be nonempty literal criteria')
+        partition = Counter(value for child in children for value in child['acceptance'])
+        if partition != Counter(original['acceptance']) or any(count != 1 for count in partition.values()):
+            raise ValueError('children must exactly partition original and subordinate acceptance once')
+        normalized = []
+        for child in children:
+            item = copy.deepcopy(original)
+            item.update(child, parent=parent)
+            normalized.append(item)
+        after = copy.deepcopy(before)
+        after['items'][parent].update(status='SPLIT', children=ids)
+        after['items'].update({key: {'status':'PENDING', 'retries':0} for key in ids})
+        after_backlog = before_backlog + ''.join('\n' + toml_item(child) for child in normalized).encode()
+        after_state_bytes = (json.dumps(after, indent=2, sort_keys=True, allow_nan=False) + '\n').encode()
+        excluded = {'loop/state.json', 'loop/backlog.toml', 'loop/reports/INDEX.md',
+                    'loop/reports/PACKET-latest.md', record_path.relative_to(self.root).as_posix()}
+        def preserved_tree(commit):
+            tree = subprocess.check_output(['git', '-C', str(self.root), 'ls-tree', '-rz', commit])
+            return digest(b'\0'.join(entry for entry in tree.split(b'\0') if entry and
+                                    entry.split(b'\t', 1)[1].decode() not in excluded))
+        record = {'operation':'REGISTER_APPROVED_SPLIT', 'parent':parent, 'base_commit':base,
+                  'proposal':{'path':relative, 'sha256':digest(proposal_bytes)},
+                  'authorization':{'authorized_by':authorized_by, 'reason':reason},
+                  'before_state':before, 'after_state':after, 'child_order':ids, 'children':normalized,
+                  'execution':{'authorized':False, 'required_critical_path':['L12'], 'ordering':'critical-path child order; no dependency added'},
+                  'retry_preservation':{'before':row['retries'], 'after':after['items'][parent]['retries'],
+                                        'all_existing_retry_counts_unchanged':True, 'product_retry_charged':False},
+                  'backlog_before_sha256':digest(before_backlog), 'backlog_after_sha256':digest(after_backlog),
+                  'preserved_tree_sha256':preserved_tree(base),
+                  'historical_preservation':'All prior steps, events, report/evidence and product/source/test bytes preserved; Step 0033 remains REVERT / R2. No product step or RESUME added.',
+                  'tools':{'python':sys.version, 'git':git(self.root, '--version')}}
+        record_bytes = (json.dumps(record, indent=2, sort_keys=True, allow_nan=False) + '\n').encode()
+        if existing is not None:
+            if (existing != record or record_path.read_bytes() != record_bytes or state_path.read_bytes() != after_state_bytes or
+                    backlog_path.read_bytes() != after_backlog or preserved_tree(head) != record['preserved_tree_sha256']):
+                raise ValueError('existing operator record or registered structure does not match exact replay')
+            return record
+        if record_path.exists():
+            raise ValueError('invalid existing operator record')
+        if state_path.read_bytes() != before_state_bytes or backlog_path.read_bytes() != before_backlog:
+            raise ValueError('registration inputs differ from HEAD')
+        # Every validation precedes mutation. Reserve the same exclusive ownership
+        # file used by start; no step number is consumed. Never replace a record.
+        self.registration_idle()
+        configured_runs = (self.root / self.config['paths']['runs_dir']).resolve()
+        lock_path = configured_runs / 'lock.json'
+        lock_bytes = (json.dumps({'pid':os.getpid(), 'host':socket.gethostname(),
+                                 'operation':record['operation']}) + '\n').encode()
+        payloads = [(state_path, after_state_bytes), (backlog_path, after_backlog), (record_path, record_bytes)]
+        if git(self.root, 'rev-parse', 'HEAD') != head or git(self.root, 'status', '--porcelain', '--untracked-files=all'):
+            raise ValueError('repository changed during registration')
+        self.registration_transaction(payloads, lock_path, lock_bytes)
+        # Derived publication happens only after the complete registration transaction.
+        try:
+            self.packet()
+        except BaseException as exc:
+            raise RuntimeError('registration committed; PACKET regeneration failed; do not execute children') from exc
+        return record
+
     def start(self, item_id, prefer=None, critical_path=()):
+        if item_id in ('L12-A2d1a','L12-A2d1b') and list(critical_path) != ['L12']:
+            raise ValueError('registered d1 children require --critical-path L12')
         self.runs.mkdir(parents=True, exist_ok=True)
         n = max([int(p.name) for p in self.runs.iterdir() if p.is_dir() and p.name.isdigit()] + [s['step'] for s in self.state().get('steps',[])] + [0]) + 1
         state = self.state(); backlog = items(self.root)
@@ -773,14 +1037,16 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root',default=str(Path.cwd())); parser.add_argument('--runs')
     sub=parser.add_subparsers(dest='command',required=True)
-    for name in ('bootstrap','status','next','start','split','seal-plan','gate','export','research-view','canonicalize-research','canonicalize-evaluation','report','decide','prepare-revert','post-revert','finish','abort-step','packet','classify-policy-false-revert','resume'):
+    for name in ('bootstrap','status','next','start','split','register-approved-split','seal-plan','gate','export','research-view','canonicalize-research','canonicalize-evaluation','report','decide','prepare-revert','post-revert','finish','abort-step','packet','classify-policy-false-revert','resume'):
         p=sub.add_parser(name)
         if name=='bootstrap': p.add_argument('--rebaseline',action='store_true')
         if name=='start': p.add_argument('--item',required=True)
         if name in ('start','next'):
             p.add_argument('--prefer'); p.add_argument('--critical-path', type=lambda v: v.split(','), default=[])
-        if name in ('classify-policy-false-revert','resume'):
+        if name in ('classify-policy-false-revert','resume','register-approved-split'):
             p.add_argument('--authorized-by',required=True); p.add_argument('--reason',required=True)
+        if name=='register-approved-split':
+            p.add_argument('--parent',required=True); p.add_argument('--proposal',required=True)
         if name=='classify-policy-false-revert':
             p.add_argument('--step',type=int,required=True); p.add_argument('--rule',required=True)
         if name=='resume': p.add_argument('--after-step',type=int,required=True)
@@ -801,6 +1067,7 @@ def main(argv=None):
         elif cmd=='start': result=ctl.start(args.item,args.prefer,args.critical_path)
         elif cmd=='seal-plan': result=ctl.seal(args.step)
         elif cmd=='split': result=ctl.split(args.step)
+        elif cmd=='register-approved-split': result=ctl.register_approved_split(args.parent,args.proposal,args.authorized_by,args.reason)
         elif cmd=='gate':
             import gates
             n=args.step or read(ctl.runs/'current.json',{}).get('step')
