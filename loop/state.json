@@ -65,6 +65,15 @@
       "product_retry_charged": false,
       "reason": "Steps 0027\u20130028 RF caused by the enhancer prompt-size harness defect, fixed in fa775547f6c1a0e8e42eeed8db4eb4831c244bd1; not Codex or product failures.",
       "step": 28
+    },
+    {
+      "after_step": 32,
+      "authorized_by": "Sphoenix, 2026-10-10",
+      "decision": "RESUME",
+      "event": "RESUME",
+      "product_retry_charged": false,
+      "reason": "Human reviewed Step 0032. Authorize one bounded L12-A2d1 retry targeting the five unresolved evaluator findings. Prior R1 decisions and retry accounting remain unchanged.",
+      "step": 32
     }
   ],
   "items": {
