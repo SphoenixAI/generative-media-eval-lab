@@ -1,0 +1,124 @@
+{
+  "step": 32,
+  "item": "L12-A2d1",
+  "role": "builder",
+  "round": 1,
+  "diff_sha256": "self",
+  "summary": "Incomplete; do not integrate. Added partial declarations and temporal/warrant boundary accounting. Advisory attempt 1: 5,228 passed, 5 failed; G1 and G12 failed. Candidate uses 869/900 lines. Remaining acceptance requires authorized replanning.",
+  "scores": {
+    "relevance": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/lint_rule_manifest.py:10 declares all thirteen rule owners.",
+        "src/eval_lab/lint_rule_expansion.py:12 provides separate temporal/warrant expected-read recipes, but all-rule accounting remains incomplete."
+      ]
+    },
+    "intention": {
+      "score": 1,
+      "evidence": [
+        "tests/test_lint_rule_manifest.py:269 exposes missing computed-input declarations.",
+        "tests/test_lint_rule_manifest.py:280 and tests/test_lint_rule_manifest.py:290 expose missing role expansion and checked inactivity."
+      ]
+    },
+    "relation": {
+      "score": 2,
+      "evidence": [
+        "src/eval_lab/lint_context.py:73 accounts for exact reference requests and collection reads.",
+        "src/eval_lab/lint_context.py:120 validates scope pins and inventories, but does not establish root membership or complete association accounting."
+      ]
+    },
+    "production_quality": {
+      "score": 1,
+      "evidence": [
+        "../Content Evaluator - loop-runs/0032/advisory/gate_r1-attempt-001.json records 5228 passing tests and 5 failures; G1 and G12 failed.",
+        "Deletion witnesses include test_boundary_accounting_guard_deletion, test_manifest_contract_guard_deletion, test_manifest_declaration_guard_deletion, test_role_value_guard_deletion and test_receipt_guard_deletion.",
+        "Every new validator does not yet have the required complete direct/retained contract and deletion coverage."
+      ]
+    },
+    "accuracy": {
+      "score": 3,
+      "evidence": [
+        "loop/reports/STEP-0032-L12-A2d1.md:176 records advisory results, failure IDs, versions and hashes without claiming authoritative verification.",
+        "src/eval_lab/lint_context.py:120 explicitly denies complete semantic support."
+      ]
+    },
+    "scope": {
+      "score": 3,
+      "evidence": [
+        "Advisory G7 measured 869 changed lines against 900; G11 confirmed the sealed Plan matches.",
+        "Advisory G4/G5/G6/G10 reported no existing-test weakening, protected-file changes, forbidden changes or dependency changes.",
+        "No network, real-clip judgments or Git history/branch/remote mutations were performed."
+      ]
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "B0032-001",
+      "dimension": "intention",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "src/eval_lab/lint_context.py:120",
+      "description": "The assigned all-rule prerequisite contract is incomplete. Computed role inputs, independent role access expansion, checked applicability and complete rule/dependency/scope/association accounting remain missing.",
+      "required_fix": "Obtain authorized replanning for the size obstacle, then implement every remaining d1 obligation without changing acceptance, raising the cap or substituting placeholder support."
+    },
+    {
+      "id": "B0032-002",
+      "dimension": "production_quality",
+      "severity": "MATERIAL",
+      "invariant": null,
+      "location": "tests/test_lint_rule_manifest.py:269",
+      "description": "Five acceptance tests fail, and the complete per-validator missing/null/malformed/valid and deletion-sensitive controls are not delivered. The advisory gate is not green.",
+      "required_fix": "Preserve the failing tests, add the remaining isolated controls on both adapters, complete implementation and rerun fresh advisory and authoritative verification."
+    }
+  ],
+  "loophole_audit": [
+    {
+      "criterion": "Every rule declares and checks every prerequisite",
+      "lazy_pass": "Treat a thirteen-rule inventory as complete all-rule accounting.",
+      "present_in_diff": true,
+      "evidence": "The inventory exists, but computed role inputs and applicability accounting are absent. These gaps are explicitly reported as blocking."
+    },
+    {
+      "criterion": "Expected obligations are independent",
+      "lazy_pass": "Derive expectations from the preparer's performed-read log.",
+      "present_in_diff": false,
+      "evidence": "src/eval_lab/lint_rule_expansion.py:12 contains separate recipes; substitution controls test omitted, extra, wrong-contract and bypassed reads. Coverage remains partial."
+    },
+    {
+      "criterion": "Incomplete evidence cannot supply complete support",
+      "lazy_pass": "Return a clean complete context despite unfinished role semantics.",
+      "present_in_diff": false,
+      "evidence": "test_incomplete_context_never_supplies_support and test_fabricated_receipt_cannot_support pass."
+    },
+    {
+      "criterion": "Respect the line cap without weakening tests",
+      "lazy_pass": "Remove failing acceptance controls to obtain a green gate.",
+      "present_in_diff": false,
+      "evidence": "All five failures remain; G4 reports no removed existing-test lines and G7 measures 869/900 lines."
+    }
+  ],
+  "prior_findings": [
+    {"ref": "F0023-R1-001", "status": "RESOLVED"},
+    {"ref": "F0023-R2-001", "status": "RESOLVED"},
+    {"ref": "F0023-R1-002", "status": "RESOLVED"},
+    {"ref": "F0023-R2-002", "status": "RESOLVED"},
+    {"ref": "F0023-R1-003", "status": "RESOLVED"},
+    {"ref": "F0023-R1-004", "status": "UNRESOLVED"},
+    {"ref": "F0023-R2-003", "status": "UNRESOLVED"},
+    {"ref": "F0027-R1-001", "status": "RESOLVED"},
+    {"ref": "F0030-R1-001", "status": "UNRESOLVED"},
+    {"ref": "F0030-R2-001", "status": "UNRESOLVED"},
+    {"ref": "F0030-R1-002", "status": "DEFERRAL_ACCEPTED"},
+    {"ref": "F0030-R1-003", "status": "DEFERRAL_ACCEPTED"},
+    {"ref": "F0030-R1-004", "status": "DEFERRAL_ACCEPTED"},
+    {"ref": "F0030-R2-002", "status": "DEFERRAL_ACCEPTED"}
+  ],
+  "claims_for_research": [],
+  "flags": [
+    "INCOMPLETE_DO_NOT_INTEGRATE",
+    "One advisory attempt used; no authoritative gate substituted. Advisory G14 was skipped.",
+    "Prior RESOLVED statuses refer to preserved integrated guards and their fresh passing tests, not new fixes in this candidate. Deferred Step 30 semantic obligations remain assigned to d2.",
+    "Size obstacle and remaining obligations are recorded in loop/reports/STEP-0032-L12-A2d1.md:337.",
+    ""
+  ]
+}

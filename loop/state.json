@@ -169,6 +169,10 @@
       "retries": 1,
       "status": "SPLIT"
     },
+    "L12-A2d1": {
+      "retries": 1,
+      "status": "PENDING"
+    },
     "P-HARNESS-IDS-01": {
       "note": "implemented as operator work, amendment A2",
       "retries": 0,
@@ -1177,6 +1181,38 @@
       "rule": "SPLIT",
       "scores": {},
       "step": 31
+    },
+    {
+      "auto_approved": [],
+      "calibration": {
+        "accuracy": -1,
+        "intention": 0,
+        "production_quality": 0,
+        "relation": 0,
+        "relevance": -2,
+        "scope": -1
+      },
+      "decision": "REVERT",
+      "flags": [
+        "Full pytest execution was unavailable: the accessible interpreter lacks pytest, pydantic and sqlalchemy. Independent probes executed actual boundary, reader, preparation and accounting code with unavailable imports stubbed; SQLite probes were in-memory, not on-disk retained tests.",
+        "Recomputed diff.patch SHA-256 and confirmed it matches diff_sha256.txt.",
+        "Reviewed I1-I16 against the diff and supplied evidence. No demonstrated invariant violation warrants a zero score. External main/pilot-local state was not independently inspected."
+      ],
+      "gate": false,
+      "item": "L12-A2d1",
+      "passed": 5252,
+      "research": {},
+      "rounds": 2,
+      "rule": "R1",
+      "scores": {
+        "accuracy": 4,
+        "intention": 1,
+        "production_quality": 1,
+        "relation": 2,
+        "relevance": 4,
+        "scope": 4
+      },
+      "step": 32
     }
   ]
 }

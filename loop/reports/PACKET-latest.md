@@ -2,22 +2,24 @@
 
 step | item | decision | Rv In Rl PQ Ac Sc | passed tests | gate | research C/X/O/U | flags
 --- | --- | --- | --- | --- | --- | --- | ---
-0027 | L12-A2c | REVERT | 4 2 4 2 4 4 | 5088 | True | 2/0/0/0 | flags: 3
 0028 | L12-A2c | REVERT | 4 4 4 4 4 4 | 5100 | True | 2/0/0/9 | flags: 1
 0029 | L12-A2c | INTEGRATE | 4 4 4 4 4 4 | 5100 | True | 2/0/0/0 | flags: 1
 0030 | L12-A2d | REVERT | 4 1 4 1 4 4 | 6179 | False | 2/0/0/0 | flags: 4
 0031 | L12-A2d | SPLIT | ? ? ? ? ? ? | 0 | False | 0/0/0/0 | flags: 0
+0032 | L12-A2d1 | REVERT | 4 1 2 1 4 4 | 5252 | False | 0/0/0/0 | flags: 3
 
 ## Loop health
 
-- Consecutive non-integrations since RESUME: 2; trailing RF: 0.
-- Product retries: L02: 1, L04: 1, L10: 1, L12: 1, L12-A2: 1, L12-A2d: 1.
+- Consecutive non-integrations since RESUME: 3; trailing RF: 0.
+- Product retries: L02: 1, L04: 1, L10: 1, L12: 1, L12-A2: 1, L12-A2d: 1, L12-A2d1: 1.
 - BLOCKED: none.
 - Last stop reason: STOP_AFTER_STEP file exists.
 
 ## New this step
 
-None.
+- Full pytest execution was unavailable: the accessible interpreter lacks pytest, pydantic and sqlalchemy. Independent probes executed actual boundary, reader, preparation and accounting code with unavailable imports stubbed; SQLite probes were in-memory, not on-disk retained tests.
+- Recomputed diff.patch SHA-256 and confirmed it matches diff_sha256.txt.
+- Reviewed I1-I16 against the diff and supplied evidence. No demonstrated invariant violation warrants a zero score. External main/pilot-local state was not independently inspected.
 
 ## Open issues
 
@@ -27,17 +29,27 @@ None.
 - production_quality (steps 0011): MINOR production_quality: test_lifecycle_contract_constructor_and_copied_admission now provides 22 targeted cases with fresh IDs, valid referenced artifacts, specific ValidationError messages, nonadmission assertions and valid controls.
 - tree/tests/test_relation_v2_snapshots.py:44 (steps 0017): MINOR production_quality: tree/tests/test_relation_v2_snapshots.py:44 does not independently prove direct-reference discovery: its declared intent is already in the original closure and its evidence media is in the dataset.
 - tests/test_resolution_workflow.py:164-169 (steps 0018): MINOR production_quality: tests/test_resolution_workflow.py:164-169 does not independently prove revision-invariant instrument units: the repeated Evidence identity guard also satisfies its broad 'duplicate sample unit' assertion. An implementation that changes unit identity only
+- src/eval_lab/lint_context.py:97-98; tests/test_lint_rule_manifest.py:280-287 (steps 0032): Independent role primitive-access accounting remains absent. audit rejects owner='role', and audit_role_access does not exist. E5/E6/W2/W3 therefore have declaration strings and access primitives without accounting that establishes their required reads. Both adapter instances of 
+- src/eval_lab/lint_rule_manifest.py:47-67; tests/test_lint_rule_manifest.py:269-277 (steps 0032): The required inventory remains incomplete. COMPUTED is absent, leaving Evidence digest inputs and TestPlan authored-content operands undeclared. CompetingSet members declare mapping shape, kind and residual description but no conditional exact Hypothesis reference. The literal te
+- src/eval_lab/lint_context.py:120-152; tests/test_lint_rule_manifest.py:290-295 (steps 0032): prepare checks scope pins and enumerates kinds but discards collection results. It never establishes root membership relative to scope or records active/inactive rule obligations. Receipt has no inactive accounting, and both checked-inactivity sentinel instances fail. The uncondi
+- src/eval_lab/lint_rule_manifest.py:111-144; src/eval_lab/lint_rule_expansion.py:9-19; src/eval_lab/lint_context.py:90-116 (steps 0032): Expected obligations remain a manually executed recipe rather than a complete expansion of active declarations. The manifest supplies contracts only for paths requested by that recipe; nothing reconciles required declarations against requested paths. Fresh direct and in-memory SQ
+- tests/test_lint_rule_manifest.py:47-102,138-163,220-249; src/eval_lab/lint_role_prerequisites.py:18-48 (steps 0032): New-validator coverage remains incomplete. The role field matrix tests only Hypothesis.confidence; role edge resolution, exact-history access and prediction-key handling lack isolated valid/negative controls. Accounting controls still lack unread-declaration and per-association s
+- src/eval_lab/lint_context.py:97-98; tests/test_lint_rule_manifest.py:272-279 (steps 0032): There is no independent role-access expansion. audit rejects owner='role' immediately, and audit_role_access does not exist. Consequently E5/E6/W2/W3 have declaration strings and callable primitives but no accounting that establishes their required primitive accesses. Both adapte
+- src/eval_lab/lint_rule_manifest.py:47-67; tests/test_lint_rule_manifest.py:261-269 (steps 0032): The claimed all-rule inventory is incomplete. COMPUTED is absent, so Evidence digest inputs and TestPlan authored-content operands are not declared as required by the sealed plan and the failing computed-input sentinel. CompetingSet.members also declares only mapping shape, kind 
+- src/eval_lab/lint_context.py:120-152; tests/test_lint_rule_manifest.py:282-287 (steps 0032): prepare validates scope pins and enumerates kinds, then discards the collection results. It neither establishes root membership relative to the checked scope nor records checked active/inactive rule obligations. Receipt has no inactive accounting, and both checked-inactivity sent
+- src/eval_lab/lint_rule_manifest.py:111-144; src/eval_lab/lint_rule_expansion.py:12-19; src/eval_lab/lint_context.py:99-116 (steps 0032): Expected obligations are a second manually executed recipe, not an exhaustive expansion of declarations. The manifest supplies a contract only after a recipe requests a path; nothing reconciles declared active fields with requested paths. In isolated direct and SQLite-reader prob
+- tests/test_lint_rule_manifest.py:47-102,136-162,216-241; src/eval_lab/lint_role_prerequisites.py:18-48 (steps 0032): Focused controls do not cover every newly introduced validator and access branch as sealed. The new role field matrix exercises only Hypothesis.confidence; role edge resolution, exact-history access and prediction-key path handling have no isolated valid/negative controls. Accoun
 
 ## Standing limitations
 
-- VALIDATION_LIMITATION: 35 recorded flags.
+- VALIDATION_LIMITATION: 37 recorded flags.
 - RESEARCH_PENDING: 9 recorded flags.
 - PUBLIC_PROSE: 23 recorded flags.
 - HOME_PATH: 4 recorded flags.
 
 Proposals awaiting approval: P0008-1: Normalize unpacked arrays before JsonValue validation; P0009-1: Include applicable RelationClaimV2 history in private dataset snapshots; WP07: Model-based instrument adapters; A3-01: Evidence partitions and withheld-context challenges; A3-02: Decision-relevance router; A3-03: Shared perception cache with evidence lineage; A3-04: Counterfactual tests of stated reasons; A3-05: Backed spans and evidence-carrying judgments; A3-06: Instrument validation ladder; A3-07: Labeling import adapter (Ultralytics, Roboflow, others); P0023-1: Decompose L12-A2 acceptance so focused validator controls fit bounded steps; P0030-1: Replan the remaining role controls and independent all-rule conjunction without reducing acceptance; P0030-2: Preserve blocking F0030-R1-001 and authorize an acceptance-preserving replan
 
-Calibration self-minus-independent mean: 0.25. Reverts: 11/31.
+Calibration self-minus-independent mean: -0.08333333333333333. Reverts: 12/32.
 
 Rubric A2: accuracy covers builder/enhancer content only; scores before and after A2 are not directly comparable.
 

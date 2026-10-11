@@ -1,0 +1,87 @@
+{
+  "findings": [
+    {
+      "description": "There is no independent role-access expansion. audit rejects owner='role' immediately, and audit_role_access does not exist. Consequently E5/E6/W2/W3 have declaration strings and callable primitives but no accounting that establishes their required primitive accesses. Both adapter instances of the dedicated acceptance sentinel fail. Deferring role domain semantics to d2 does not defer this child's explicitly assigned declaration/access foundation.",
+      "dimension": "intention",
+      "id": "F0032-R1-001"
+    },
+    {
+      "description": "The claimed all-rule inventory is incomplete. COMPUTED is absent, so Evidence digest inputs and TestPlan authored-content operands are not declared as required by the sealed plan and the failing computed-input sentinel. CompetingSet.members also declares only mapping shape, kind and residual description; it does not declare the conditional exact Hypothesis reference for named members. The literal test inventory repeats that omission, so dictionary equality cannot establish complete dependency coverage.",
+      "dimension": "relation",
+      "id": "F0032-R1-002"
+    },
+    {
+      "description": "prepare validates scope pins and enumerates kinds, then discards the collection results. It neither establishes root membership relative to the checked scope nor records checked active/inactive rule obligations. Receipt has no inactive accounting, and both checked-inactivity sentinel instances fail. The unconditional role-semantics diagnostic prevents a complete clean result, but does not fulfill the planned scope and applicability foundation.",
+      "dimension": "intention",
+      "id": "F0032-R1-003"
+    },
+    {
+      "description": "Expected obligations are a second manually executed recipe, not an exhaustive expansion of declarations. The manifest supplies a contract only after a recipe requests a path; nothing reconciles declared active fields with requested paths. In isolated direct and SQLite-reader probes, adding the same required text field to the manifest and live Evidence declarations, leaving it absent and unread, still produced no diagnostics and successful support. Removing every entry from lint_context.RULES likewise left successful auditing unchanged. Comparing the two execution traces therefore cannot detect all omitted rules or unconsumed declarations.",
+      "dimension": "intention",
+      "id": "F0032-R1-004"
+    },
+    {
+      "description": "Exact event-list equality rejects valid graphs because expansion and preparation traverse collections in different orders. Expansion.media validates each ingestion immediately, whereas the temporal preparer first resolves all candidate media edges. Expansion.observation resolves all evidence edges before preparing evidence, whereas the preparer resolves and prepares each in turn. Independent probes found no baseline diagnostics but an accounting mismatch for two valid ingestions on direct and in-memory SQLite paths, and for two valid observation evidence references on the direct path. Single-member fixtures conceal this defect.",
+      "dimension": "production_quality",
+      "id": "F0032-R1-005"
+    },
+    {
+      "description": "Focused controls do not cover every newly introduced validator and access branch as sealed. The new role field matrix exercises only Hypothesis.confidence; role edge resolution, exact-history access and prediction-key path handling have no isolated valid/negative controls. Accounting substitution tests target only temporal Evidence.coverage, and there are no controls for unread declarations or per-association occurrence substitution. Existing generic boundary tests cannot prove that this new wiring invokes the correct boundary and dependency checks.",
+      "dimension": "production_quality",
+      "id": "F0032-R1-006"
+    }
+  ],
+  "score_notes": [
+    {
+      "dimension": "accuracy",
+      "evidence": [
+        "Read builder-authored Plan, Probes, comments, docstrings and tests; distinguished planned behavior from implemented behavior and excluded harness bookkeeping from accuracy scoring.",
+        "Compared the Prior attempts mapping with every blocking finding in supplied Step 23, Step 27 and Step 30 reports; mappings preserve outstanding sibling obligations and historical rejection status.",
+        "Found no new external factual claim requiring research."
+      ],
+      "id": "F0032-R1-D-accuracy"
+    },
+    {
+      "dimension": "intention",
+      "evidence": [
+        "src/eval_lab/lint_context.py:97 rejects all role auditing without providing the planned independent primitive-access audit.",
+        "tests/test_lint_rule_manifest.py:261,272,282 expose missing computed declarations, role-access expansion and checked inactivity.",
+        "Independent mutation probes returned successful receipts despite an additional required declaration remaining unread."
+      ],
+      "id": "F0032-R1-D-intention"
+    },
+    {
+      "dimension": "production_quality",
+      "evidence": [
+        "gate.json reports five failed tests and failing G1/G12.",
+        "Independent direct-record and in-memory SQLite probes rejected two valid ingestions with 'prerequisite accounting mismatch' while the existing temporal preparer accepted them.",
+        "tests/test_lint_rule_manifest.py:88 tests only confidence among the newly introduced role field contracts; role edge and exact-history primitives lack isolated controls."
+      ],
+      "id": "F0032-R1-D-production_quality"
+    },
+    {
+      "dimension": "relation",
+      "evidence": [
+        "src/eval_lab/lint_rule_manifest.py:50 declares CompetingSet members as mappings but lacks their conditional Hypothesis reference dependency.",
+        "src/eval_lab/lint_rule_manifest.py:55 omits the computed Evidence digest input declaration required by tests/test_lint_rule_manifest.py:261.",
+        "Checked that Receipt is transient infrastructure; persisted artifact and snapshot integration are outside this approved child."
+      ],
+      "id": "F0032-R1-D-relation"
+    },
+    {
+      "dimension": "relevance",
+      "evidence": [
+        "Read all of diff.patch and all six changed files; changes concern the assigned declaration and evidence-accounting foundation."
+      ],
+      "id": "F0032-R1-D-relevance"
+    },
+    {
+      "dimension": "scope",
+      "evidence": [
+        "Compared changed paths and behavior with the sealed plan, Step 31 partition and all DEFERRED backlog entries; no deferred functionality or unrelated product work was added.",
+        "Confirmed 869 product/test additions, below the 900-line limit; existing tests, protected artifacts, dependencies and harness implementation are unchanged."
+      ],
+      "id": "F0032-R1-D-scope"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "blocking_findings": [
+    {
+      "description": "Independent role primitive-access accounting remains absent. audit rejects owner='role', and audit_role_access does not exist. E5/E6/W2/W3 therefore have declaration strings and access primitives without accounting that establishes their required reads. Both adapter instances of the acceptance sentinel still fail. Deferring domain semantics to d2 does not defer this child's access foundation.",
+      "dimension": "intention",
+      "id": "F0032-R2-001",
+      "invariant": null,
+      "location": "src/eval_lab/lint_context.py:97-98; tests/test_lint_rule_manifest.py:280-287",
+      "required_fix": "Implement independent role-access obligation expansion and accounting while continuing to deny complete semantic support. Add isolated missing, substituted and unconsumed access controls on direct and retained readers.",
+      "severity": "SEVERE"
+    },
+    {
+      "description": "The required inventory remains incomplete. COMPUTED is absent, leaving Evidence digest inputs and TestPlan authored-content operands undeclared. CompetingSet members declare mapping shape, kind and residual description but no conditional exact Hypothesis reference. The literal test inventory repeats that reference omission, so dictionary equality cannot establish completeness against the existing domain contract.",
+      "dimension": "relation",
+      "id": "F0032-R2-002",
+      "invariant": null,
+      "location": "src/eval_lab/lint_rule_manifest.py:47-67; tests/test_lint_rule_manifest.py:269-277",
+      "required_fix": "Complete the raw, computed and conditional reference declarations against the existing contracts. Route their inputs and computed outputs through the shared boundary and add literal valid and damaged-dependency controls.",
+      "severity": "MATERIAL"
+    },
+    {
+      "description": "prepare checks scope pins and enumerates kinds but discards collection results. It never establishes root membership relative to scope or records active/inactive rule obligations. Receipt has no inactive accounting, and both checked-inactivity sentinel instances fail. The unconditional incomplete-semantics diagnostic prevents readiness but does not fulfill the assigned applicability foundation.",
+      "dimension": "intention",
+      "id": "F0032-R2-003",
+      "invariant": null,
+      "location": "src/eval_lab/lint_context.py:120-152; tests/test_lint_rule_manifest.py:290-295",
+      "required_fix": "Establish checked root membership and explicit applicability from validated scope, collections and discriminants. Cover empty and active scopes, damaged membership and false inactivity on both adapters while preserving incomplete semantic status.",
+      "severity": "MATERIAL"
+    },
+    {
+      "description": "Expected obligations remain a manually executed recipe rather than a complete expansion of active declarations. The manifest supplies contracts only for paths requested by that recipe; nothing reconciles required declarations against requested paths. Fresh direct and in-memory SQLite probes added the same required text declaration to the manifest and live Evidence inventory, left the field absent and unread, and obtained empty diagnostics with successful support. Emptying lint_context.RULES also left auditing successful.",
+      "dimension": "intention",
+      "id": "F0032-R2-004",
+      "invariant": null,
+      "location": "src/eval_lab/lint_rule_manifest.py:111-144; src/eval_lab/lint_rule_expansion.py:9-19; src/eval_lab/lint_context.py:90-116",
+      "required_fix": "Expand and reconcile all active declarations independently of performed reads, including rule ownership and dependency identity. Add deletion-sensitive controls for unread declarations, missing rules and substituted dependency/occurrence identities.",
+      "severity": "MATERIAL"
+    },
+    {
+      "description": "New-validator coverage remains incomplete. The role field matrix tests only Hypothesis.confidence; role edge resolution, exact-history access and prediction-key handling lack isolated valid/negative controls. Accounting controls still lack unread-declaration and per-association substitution cases. The new multi-record controls address traversal order and missing/extra reads but do not prove the remaining wiring. Several scope rejection assertions also omit the exact subject required by the sealed oracle.",
+      "dimension": "production_quality",
+      "id": "F0032-R2-005",
+      "invariant": null,
+      "location": "tests/test_lint_rule_manifest.py:47-102,138-163,220-249; src/eval_lab/lint_role_prerequisites.py:18-48",
+      "required_fix": "Add missing/null/malformed/valid controls for the new role plumbing and isolated declaration, dependency, applicability and association guards. Assert literal subject, state, path and reason plus denied support, with deletion witnesses on direct and retained paths.",
+      "severity": "MATERIAL"
+    }
+  ],
+  "claims_for_research": [],
+  "diff_sha256": "c5747f9fbd7298ccc37bbc248544f64f67b5a09a68b0bdff6a3e337da82b603a",
+  "flags": [
+    "Full pytest execution was unavailable: the accessible interpreter lacks pytest, pydantic and sqlalchemy. Independent probes executed actual boundary, reader, preparation and accounting code with unavailable imports stubbed; SQLite probes were in-memory, not on-disk retained tests.",
+    "Reviewed I1-I16 against the diff and supplied evidence. No demonstrated invariant violation warrants a zero score. External main/pilot-local state was not independently inspected.",
+    "Recomputed diff.patch SHA-256 and confirmed it matches diff_sha256.txt."
+  ],
+  "item": "L12-A2d1",
+  "loophole_audit": [
+    {
+      "criterion": "Assigned acceptance and sharper criterion 1: every rule declares all required evidence.",
+      "evidence": "RULES lists thirteen names, but COMPUTED and named CompetingSet member-reference declarations remain absent; the computed-input sentinel fails.",
+      "lazy_pass": "List all rule names and copy field tables while omitting computed operands and conditional reference dependencies.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Sharper criterion 2: independently expand and reconcile expected obligations.",
+      "evidence": "Fresh direct and SQLite-reader probes returned successful support after adding an absent, unread required declaration to both tables; an empty live rule map also remained undetected.",
+      "lazy_pass": "Compare two manually written read traces that omit the same required field.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Sharper criterion 3: only AVAILABLE discharges prerequisites and diagnostics survive.",
+      "evidence": "_Audit.record retains reached boundary failures, but the unread-declaration probe produced no diagnostic because the required field never reached the boundary.",
+      "lazy_pass": "Preserve failures for reached fields while never creating obligations for unread required fields.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Sharper criterion 4: checked scope and explicit inactivity.",
+      "evidence": "prepare discards p.collection results at lint_context.py:147; Receipt has no inactive accounting, and both inactivity sentinels fail.",
+      "lazy_pass": "Enumerate collections and return a generic incomplete diagnostic without establishing applicability.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Sharper criterion 5: isolated controls and deletion witnesses for every new guard.",
+      "evidence": "Role boundary coverage exercises confidence only. New multi-record tests improve multiplicity coverage but leave role edge/history/prediction and declaration-completeness controls absent.",
+      "lazy_pass": "Test one scalar and a few read substitutions, treating generic boundary tests as proof of all new wiring.",
+      "present_in_diff": true
+    },
+    {
+      "criterion": "Sharper criterion 6: partial accounting cannot imply complete lint or readiness.",
+      "evidence": "prepare always emits the role-semantics UNKNOWN diagnostic, support is denied, and no ready, verdict, decision or status field is introduced.",
+      "lazy_pass": "Expose successful partial accounting as ready or complete despite missing role semantics.",
+      "present_in_diff": false
+    }
+  ],
+  "prior_findings": [
+    {
+      "ref": "F0032-R1-001",
+      "status": "UNRESOLVED"
+    },
+    {
+      "ref": "F0032-R1-002",
+      "status": "UNRESOLVED"
+    },
+    {
+      "ref": "F0032-R1-003",
+      "status": "UNRESOLVED"
+    },
+    {
+      "ref": "F0032-R1-004",
+      "status": "UNRESOLVED"
+    },
+    {
+      "ref": "F0032-R1-005",
+      "status": "RESOLVED"
+    },
+    {
+      "ref": "F0032-R1-006",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "role": "evaluator",
+  "round": 2,
+  "scores": {
+    "accuracy": {
+      "evidence": [
+        "Reviewed builder-authored code, tests, comments, docstrings, Plan and Probes, separating planning commitments from claims of implemented behavior and excluding harness bookkeeping.",
+        "Compared the Plan's Prior attempts mapping against every supplied blocking finding in Step 23, Step 27 and Step 30 reports; it preserves historical rejection status and remaining sibling obligations.",
+        "Found no new external factual claim requiring research; research.json contains no claims."
+      ],
+      "score": 4
+    },
+    "intention": {
+      "evidence": [
+        "src/eval_lab/lint_context.py:97 rejects role auditing; the required independent role-access expansion remains absent.",
+        "src/eval_lab/lint_context.py:145 discards enumerated roots without establishing scope membership or checked applicability.",
+        "Independent direct and in-memory SQLite probes produced successful support with an absent, unread required declaration and with lint_context.RULES emptied."
+      ],
+      "score": 1
+    },
+    "production_quality": {
+      "evidence": [
+        "gate.json reports failing G1/G12 and five failing instances across test_all_declared_role_operands_include_computed_inputs, test_role_access_has_independent_expansion and test_checked_inactivity_is_explicit.",
+        "tests/test_lint_rule_manifest.py:88 covers only confidence among the new role field contracts; edge, exact-history and prediction-path plumbing lack isolated controls.",
+        "test_multi_record_accounting adds 24 passing supplied-gate controls; independent direct and in-memory SQLite probes confirmed valid multi-ingestion and multi-evidence support."
+      ],
+      "score": 1
+    },
+    "relation": {
+      "evidence": [
+        "src/eval_lab/lint_rule_manifest.py:50 omits the conditional exact Hypothesis reference for named CompetingSet members.",
+        "tests/test_lint_rule_manifest.py:269 requires computed Evidence digest and TestPlan authored-input declarations; COMPUTED remains absent.",
+        "Checked that Receipt is transient infrastructure; persisted artifact, ruleset-version and snapshot integration remain outside this approved child."
+      ],
+      "score": 2
+    },
+    "relevance": {
+      "evidence": [
+        "Read all of diff.patch and opened all six changed files under tree; changes concern the assigned declaration and evidence-accounting foundation."
+      ],
+      "score": 4
+    },
+    "scope": {
+      "evidence": [
+        "Compared the implementation with the sealed plan, Step 31 partition and all fourteen DEFERRED backlog entries; found no unrelated or deferred functionality.",
+        "Independently counted 899 product/test additions and zero deletions, within the 900-line cap.",
+        "Verified every added file under tree exactly matches its diff content; no existing tests, dependencies, protected artifacts or harness implementation are changed."
+      ],
+      "score": 4
+    }
+  },
+  "step": 32,
+  "summary": "The traversal-order defect is resolved, but five round-1 findings remain unresolved. Required declarations can remain unread while accounting succeeds. The supplied gate still reports five failing acceptance-test instances."
+}
